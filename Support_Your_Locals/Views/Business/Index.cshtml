@@ -1,0 +1,59 @@
+﻿@model UserBusinessTimeSheets
+
+@{
+    Layout = "_BusinessPageLayout";
+}
+
+<h2 class="text-center">@Model.Business.Header</h2>
+<div class="col-sm-3"><img src="https://g3.dcdn.lt/images/pix/braskes-71413768.jpg" style="width:100%"></div>
+<div class="container">
+    <div class="col-sm-8">
+        <div class="panel panel-primary">
+            <div class="panel-heading">@Model.Business.Product</div>
+            <div class="panel-body">@Model.Business.Description<br></div>
+        </div>
+    </div>
+    <div class="col-sm-1">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>From</th>
+                    <th>To</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 1; i <= 7; i++)
+                {
+                    @if (@Model.TimeSheets.FirstOrDefault(t => t.Weekday == i)?.From == null)
+                    {
+                <tr>
+                    <td>@Model.days[i]</td>
+                    <td><div style="color: rgb(255, 0, 0)">Closed</div></td>
+                    <td><div style="color: rgb(255, 0, 0)">Closed</div></td>
+                </tr>
+                     }else{
+                        <tr>
+                            <td>@Model.days[i]</td>
+                            <td>@Model.TimeSheets.FirstOrDefault(t => t.Weekday == i)?.From </td>
+                            <td>@Model.TimeSheets.FirstOrDefault(t => t.Weekday == i)?.To </td>
+                        </tr>
+                        }
+
+                        }
+
+
+
+                    </tbody>
+
+            </table>
+    </div>
+</div>
+<div class="col-sm-4">
+    <h3>Contacts</h3>
+    <ul>
+        <li>@Model.User.Name</li>
+        <li>@Model.User.Surname</li>
+        <li>@Model.Business.PhoneNumber</li>
+    </ul>
+</div>

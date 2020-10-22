@@ -1,0 +1,32 @@
+﻿@model BusinessRegisterModel
+
+@{
+    Layout = "_NoNavLayout";
+}
+
+<div class="auth-container">
+    <div class="container box">
+        <h1>Add business advertisement</h1>
+        <form asp-action="AddAdvertisement" method="post">
+            <div class="form-group">
+                <label asp-for="Product">Product</label>
+                <input asp-for="Product" class="form-control">
+            </div>
+            <div class="form-group">
+                <label asp-for="Header">Header</label>
+                <input asp-for="Header" class="form-control">
+            </div>
+            <div class="form-group">
+                <label asp-for="Description">Description</label>
+                <textarea asp-for="Description" class="form-control"> </textarea>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber">Phone number</label>
+                <input asp-for="PhoneNumber" class="form-control">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Advertise business</button>
+
+        </form>
+    </div>
+</div>

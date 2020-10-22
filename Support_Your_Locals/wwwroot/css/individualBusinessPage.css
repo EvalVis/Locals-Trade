@@ -1,0 +1,9 @@
+﻿#frame {
+    margin: auto;
+    width: 70%;
+    height: 1000px;
+    border: 20px;
+    border-style: groove;
+    padding: 10px;
+    border-color: aquamarine;
+}

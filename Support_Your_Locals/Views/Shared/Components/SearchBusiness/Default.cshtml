@@ -1,0 +1,26 @@
+﻿@model BusinessListViewModel
+
+<form asp-action="Index" asp-controller="Home">
+    <h4 class="text-center">Search for a business</h4>
+    <div class="form-group">
+        <label asp-for="SearchResponse.OwnersSurname">By Owner's Surname</label>
+        <input asp-for="SearchResponse.OwnersSurname" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="SearchResponse.Header">By business header</label>
+        <input asp-for="SearchResponse.Header" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label><input type="checkbox" asp-for="SearchResponse.SearchInDescription" />Search in description instead</label>
+</div>
+    <div class="form-group">
+        <label><input type="checkbox" asp-for="SearchResponse.WeekdaySelected[0]" />Monday</label>
+        <label><input type="checkbox" asp-for="SearchResponse.WeekdaySelected[1]" />Tuesday</label>
+        <label><input type="checkbox" asp-for="SearchResponse.WeekdaySelected[2]" />Wednesday</label>
+        <label><input type="checkbox" asp-for="SearchResponse.WeekdaySelected[3]" />Thursday</label>
+        <label><input type="checkbox" asp-for="SearchResponse.WeekdaySelected[4]" />Friday</label>
+        <label><input type="checkbox" asp-for="SearchResponse.WeekdaySelected[5]" />Saturday</label>
+        <label><input type="checkbox" asp-for="SearchResponse.WeekdaySelected[6]" />Sunday</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
