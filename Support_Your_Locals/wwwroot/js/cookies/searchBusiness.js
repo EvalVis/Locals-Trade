@@ -9,10 +9,10 @@ function setCookie(name, value)
     document.cookie = name + "=" + escape(value) + "; path=/; expires=" + expiry.toGMTString();
 }
 
-function storeValues(form) {
-    setCookie("OwnersSurname", form.getElementById("OwnersSurname").value);
-    setCookie("Header", form.getElementById("Header").value);
-    setCookie("SearchInDescription", form.getElementById("SearchInDescription").value);
+function storeValues() {
+    setCookie("OwnersSurname", document.getElementById("OwnersSurname").value);
+    setCookie("Header", document.getElementById("Header").value);
+    setCookie("SearchInDescription", document.getElementById("SearchInDescription").value);
     //setCookie("WeekdaySelected", form.WeekdaySelected.value);
     return true;
 }
