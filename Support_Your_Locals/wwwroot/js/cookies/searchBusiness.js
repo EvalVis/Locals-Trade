@@ -4,6 +4,10 @@
 var today = new Date();
 var expiry = new Date(today.getTime() + 1200 * 1000); // 20 minutes.
 
+window.onload = function() {
+    loadCookies();
+}
+
 function setCookie(name, value)
 {
     document.cookie = name + "=" + escape(value) + "; path=/; expires=" + expiry.toGMTString();
@@ -15,6 +19,12 @@ function storeValues() {
     setCookie("SearchInDescription", document.getElementById("SearchInDescription").value);
     //setCookie("WeekdaySelected", form.WeekdaySelected.value);
     return true;
+}
+
+function loadCookies() {
+    document.getElementById("OwnersSurname").value = getCookie("OwnersSurname");
+    document.getElementById("Header").value = getCookie("Header");
+    document.getElementById("SearchInDescription").value = getCookie("SearchInDescription");
 }
 
 function getCookie(name) {
