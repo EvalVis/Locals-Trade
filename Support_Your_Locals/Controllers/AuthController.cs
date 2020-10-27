@@ -57,10 +57,15 @@ namespace Support_Your_Locals.Controllers
                 User user = userRepository.Users.FirstOrDefault(b => b.Email == login.Email);
                 if (user != null)
                 {
+                    login.NotFound = false;
                     HttpContext.Session.SetJson("user", user);
                     return Redirect("/");
                 }
-                else return View();
+                else
+                {
+                    login.NotFound = true;
+                    return View(login);
+                }
             }
             else return View();
         }

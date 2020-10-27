@@ -7,5 +7,6 @@ namespace Support_Your_Locals.Models.ViewModels
 
         [Required(ErrorMessage = "Please enter your email address")]
         public string Email { get; set; }
+        public bool NotFound { get; set; } = false;
     }
 }
