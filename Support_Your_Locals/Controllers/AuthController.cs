@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Support_Your_Locals.Infrastructure.Extensions;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
+using Support_Your_Locals.Models.ViewModels;
 
 namespace Support_Your_Locals.Controllers
 {
@@ -48,21 +50,19 @@ namespace Support_Your_Locals.Controllers
         }
 
         [HttpPost]
-        public ActionResult SignIn(string email)
+        public ActionResult SignIn(UserLoginModel login)
         {
-            int count = userRepository.Users.Count(b => b.Email == email);
-            User user = userRepository.Users.FirstOrDefault(b => b.Email == email);
-                if (count == 1)
+            if (ModelState.IsValid)
+            {
+                User user = userRepository.Users.FirstOrDefault(b => b.Email == login.Email);
+                if (user != null)
                 {
-                    ViewBag.email = "true";
                     HttpContext.Session.SetJson("user", user);
-                    return View();
+                    return Redirect("/");
                 }
-                else
-                {
-                    ViewBag.email = "false";
-                    return View();
-                }
+                else return View();
+            }
+            else return View();
         }
     }
 }

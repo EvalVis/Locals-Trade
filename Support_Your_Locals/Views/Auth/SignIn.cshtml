@@ -1,4 +1,4 @@
-﻿@model Support_Your_Locals.Models.ViewModels.UserLoginModel
+﻿@model UserLoginModel
 
 @{
     Layout = "_NoNavLayout";
@@ -7,6 +7,8 @@
 <div class="auth-container">
     <div class="container box">
         <h1>Sign In</h1>
+        <div asp-validation-summary="All">
+        </div>
         <form asp-action="SignIn" method="post">
             <div class="form-group">
                 <label asp-for="Email">Email</label>
@@ -16,19 +18,6 @@
             <div class="form-group">
                 <a asp-controller="Auth" asp-action="SignUp">Not a member yet? Sign up</a>
             </div>
-            @if (ViewBag.email == "true")
-            {
-                <div>
-                    <b><label style="color: rgb(0, 255, 0)">Successfully logged in</label></b>
-                </div>
-            }
-            else if (ViewBag.email == "false")
-            {
-                <div>
-                    <b><label style="color: rgb(255, 0, 0)">This email does not exist</label></b>
-                </div>
-            }
-            else { }
             <button type="submit" class="btn btn-primary">Sign In</button>
         </form>
     </div>
