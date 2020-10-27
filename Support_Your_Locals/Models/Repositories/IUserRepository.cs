@@ -5,5 +5,6 @@ namespace Support_Your_Locals.Models.Repositories
     public interface IUserRepository
     {
         public IQueryable<User> Users { get; }
+        public void Add(User user);
     }
 }

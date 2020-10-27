@@ -16,18 +16,20 @@ namespace Support_Your_Locals.Controllers
     {
 
         private IServiceRepository repository;
+        private IUserRepository userRepository;
         public int PageSize = 4;
 
-        public HomeController(IServiceRepository repo)
+        public HomeController(IServiceRepository repo, IUserRepository userRepo)
         {
             repository = repo;
+            userRepository = userRepo;
         }
 
         public ViewResult Index(SearchResponse searchResponse, string category, int productPage = 1)
         {
             IEnumerable<Business> businesses = repository.Business
                 .Where(b => category == null || b.Product == category);
-            IEnumerable<UserBusinessTimeSheets> userBusinessTimeSheets = searchResponse.FilterBusinesses(businesses, repository).
+            IEnumerable<UserBusinessTimeSheets> userBusinessTimeSheets = searchResponse.FilterBusinesses(businesses, repository, userRepository).
                 OrderBy(ubts => ubts.Business.BusinessID).
                 Skip((productPage - 1) * PageSize).
                 Take(PageSize);
@@ -44,7 +46,7 @@ namespace Support_Your_Locals.Controllers
                 {
                     CurrentPage = productPage,
                     ItemsPerPage = PageSize,
-                    TotalItems = searchResponse.FilterBusinesses(businesses, repository).Count()
+                    TotalItems = searchResponse.FilterBusinesses(businesses, repository, userRepository).Count()
                 },
                 CurrentCategory = category,
                 SearchResponse = searchResponse

@@ -14,13 +14,13 @@ namespace Support_Your_Locals.Models
         public bool SearchInDescription { get; set; }
         public bool[] WeekdaySelected { get; set; } = {true, true, true, true, true, true, true};
 
-        public IEnumerable<UserBusinessTimeSheets> FilterBusinesses(IEnumerable<Business> businesses, IServiceRepository repository)
+        public IEnumerable<UserBusinessTimeSheets> FilterBusinesses(IEnumerable<Business> businesses, IServiceRepository repository, IUserRepository userRepository)
         {
             foreach (var b in businesses)
             {
                 if (BusinessConditionsMet(b))
                 {
-                    User user = repository.Users.FirstOrDefault(u => u.UserID == b.UserID);
+                    User user = userRepository.Users.FirstOrDefault(u => u.UserID == b.UserID);
                     if (UserConditionsMet(user))
                     {
                         IEnumerable<TimeSheet> timeSheets =

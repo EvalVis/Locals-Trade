@@ -24,6 +24,7 @@ namespace Support_Your_Locals
         {
             services.AddDbContext<ServiceDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IServiceRepository, ServiceRepositoryDb>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddDistributedMemoryCache();
             services.AddSession();

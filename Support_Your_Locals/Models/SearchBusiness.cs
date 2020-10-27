@@ -9,10 +9,12 @@ namespace Support_Your_Locals.Models
     {
 
         private IServiceRepository repository;
+        private IUserRepository userRepository;
 
-        public SearchBusiness(IServiceRepository repo)
+        public SearchBusiness(IServiceRepository repo, IUserRepository userRepo)
         {
             repository = repo;
+            userRepository = userRepo;
         }
 
         public IEnumerable<Business> SearchByHeaderIgnoreCase(String header)
@@ -38,7 +40,7 @@ namespace Support_Your_Locals.Models
 
         public IEnumerable<Business> SearchByOwnersSurname(string surname)
         {
-            IEnumerable<User> users = repository.Users.Where(u => u.Surname == surname);
+            IEnumerable<User> users = userRepository.Users.Where(u => u.Surname == surname);
             foreach (var u in users)
             {
                 yield return repository.Business.FirstOrDefault(b => b.UserID == u.UserID);
