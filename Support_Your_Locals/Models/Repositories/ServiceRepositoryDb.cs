@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace Support_Your_Locals.Models.Repositories
 {
@@ -15,7 +12,6 @@ namespace Support_Your_Locals.Models.Repositories
             context = ctx;
         }
 
-        public IQueryable<User> Users => context.Users;
         public IQueryable<Business> Business => context.Business;
         public IQueryable<TimeSheet> TimeSheets => context.TimeSheets;
     }
