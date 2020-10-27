@@ -1,8 +1,6 @@
 ﻿@model BusinessListViewModel
 
-<script src="/js/cookies/searchBusiness.js">
-</script>
-<form id="searchForm" asp-action="Index" asp-controller="Home" onchange="storeValues()">
+<form id="searchForm" asp-action="Index" asp-controller="Home">
     <h4 class="text-center">Search for a business</h4>
     <div class="form-group">
         <label asp-for="SearchResponse.OwnersSurname">By Owner's Surname</label>
