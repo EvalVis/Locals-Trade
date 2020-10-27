@@ -9,7 +9,7 @@
         <h1>Sign In</h1>
         <div asp-validation-summary="All">
         </div>
-        @if (Model != null && Model.NotFound)
+        @if (Model?.NotFound == true)
         {
             <h5 class="bg-warning text-danger text-center">User not found.</h5>
         }

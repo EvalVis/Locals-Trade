@@ -26,21 +26,26 @@ namespace Support_Your_Locals.Controllers
         }
 
         [HttpPost]
-        public ActionResult SignUp(string name, string surname, DateTime birthDate, string email)
+        public ActionResult SignUp(UserRegisterModel register)
         {
-            int count = userRepository.Users.Count(b => b.Email == email);
-                if (count == 0)
+            if (ModelState.IsValid)
+            {
+                bool exists = userRepository.Users.Any(b => b.Email == register.Email);
+                register.AlreadyExists = exists;
+                if (!exists)
                 {
-                    userRepository.Add(new User {Name = name, Surname = surname, BirthDate = birthDate, Email = email});
-                    ViewBag.email = "true";
-                    return View();
+                    userRepository.Add(new User
+                    {
+                        Name = register.Name,
+                        Surname = register.Surname,
+                        BirthDate = register.BirthDate,
+                        Email = register.Email
+                    });
+                    return Redirect("/");
                 }
-                else
-                {
-                    ViewBag.email = "false";
-                    return View();
-                }
-
+                return View(register);
+            }
+            return View();
         }
 
         [HttpGet]
@@ -61,13 +66,10 @@ namespace Support_Your_Locals.Controllers
                     HttpContext.Session.SetJson("user", user);
                     return Redirect("/");
                 }
-                else
-                {
-                    login.NotFound = true;
-                    return View(login);
-                }
+                login.NotFound = true;
+                return View(login);
             }
-            else return View();
+            return View();
         }
     }
 }
