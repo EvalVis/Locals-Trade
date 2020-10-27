@@ -3,10 +3,10 @@
     public class WorkDate
     {
 
-        public string Hours { get; set; }
-        public string Minutes { get; set; }
+        public int Hours { get; set; }
+        public int Minutes { get; set; }
 
-        public WorkDate(string hours, string minutes)
+        public WorkDate(int hours, int minutes)
         {
             Hours = hours;
             Minutes = minutes;

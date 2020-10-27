@@ -2,11 +2,11 @@
 {
     public class BirthDate
     {
-        public string Year { get; set; }
-        public string Month { get; set; }
-        public string Day { get; set; }
+        public int Year { get; set; }
+        public int Month { get; set; }
+        public int Day { get; set; }
 
-        public BirthDate(string year, string month, string day)
+        public BirthDate(int year, int month, int day)
         {
             Year = year;
             Month = month;
