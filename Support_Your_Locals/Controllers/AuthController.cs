@@ -12,9 +12,9 @@ namespace Support_Your_Locals.Controllers
     public class AuthController : Controller
     {
 
-        private IUserRepository userRepository;
+        private IServiceRepository userRepository;
 
-        public AuthController(IUserRepository repo)
+        public AuthController(IServiceRepository repo)
         {
             userRepository = repo;
         }
@@ -34,7 +34,7 @@ namespace Support_Your_Locals.Controllers
                 register.AlreadyExists = exists;
                 if (!exists)
                 {
-                    userRepository.Add(new User
+                    userRepository.AddUser(new User
                     {
                         Name = register.Name,
                         Surname = register.Surname,
