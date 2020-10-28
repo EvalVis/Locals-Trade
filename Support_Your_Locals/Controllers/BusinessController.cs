@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Support_Your_Locals.Infrastructure.Extensions;
@@ -13,12 +12,10 @@ namespace Support_Your_Locals.Controllers
     {
 
         private IServiceRepository repository;
-        private ServiceDbContext context;
 
-        public BusinessController(IServiceRepository repo, ServiceDbContext ctx)
+        public BusinessController(IServiceRepository repo)
         {
             repository = repo;
-            context = ctx;
         }
 
         [HttpPost]
@@ -54,14 +51,10 @@ namespace Support_Your_Locals.Controllers
                     Product = businessRegisterModel.Product,
                     PhoneNumber = businessRegisterModel.PhoneNumber
                 };
-                context.Add(business);
-                context.SaveChanges();
+                repository.AddBusiness(business);
                 return View();
             }
-            else
-            {
-                return View();
-            }
+            return View();
         }
     }
 }

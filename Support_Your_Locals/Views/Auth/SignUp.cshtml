@@ -3,9 +3,16 @@
 @{
     Layout = "_NoNavLayout";
 }
+
 <div class="auth-container">
     <div class="container box">
         <h1>Sign Up</h1>
+        <div asp-validation-summary="All">
+        </div>
+        @if (Model?.AlreadyExists == true)
+        {
+            <h5 class="bg-warning text-danger text-center">User already exists.</h5>
+        }
         <form asp-action="SignUp" method="post">
             <div class="form-group">
                 <label asp-for="Email">Email</label>
