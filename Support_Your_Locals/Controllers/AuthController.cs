@@ -69,8 +69,7 @@ namespace Support_Your_Locals.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = userRepository.Users.FirstOrDefault(b => b.Email == login.Email);
-                
+                User user = userRepository.Users.FirstOrDefault(b => b.Email == login.Email);                
                 if (user != null)
                 {
                     bool goodpass = false;
