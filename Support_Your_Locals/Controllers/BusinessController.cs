@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Support_Your_Locals.Infrastructure.Extensions;
@@ -22,13 +21,15 @@ namespace Support_Your_Locals.Controllers
         }
 
         [HttpPost]
-        public ViewResult Index(UserBusiness userBusiness)
+        public ViewResult Index(long businessId)
         {
-            IEnumerable<TimeSheet> timeSheets = repository.TimeSheets.Where(t => t.BusinessID == userBusiness.Business.BusinessID);
+            Business business = repository.Business.FirstOrDefault(b => b.BusinessID == businessId);
+            User user = repository.Users.FirstOrDefault(u => u.UserID == business.UserID);
+            IEnumerable<TimeSheet> timeSheets = repository.TimeSheets.Where(t => t.BusinessID == business.BusinessID);
             UserBusinessTimeSheets userBusinessTimeSheets = new UserBusinessTimeSheets
             {
-                User = userBusiness.User,
-                Business = userBusiness.Business,
+                User = user,
+                Business = business,
                 TimeSheets = timeSheets
             };
             return View(userBusinessTimeSheets);

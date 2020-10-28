@@ -12,6 +12,23 @@
                 <label asp-for="Email">Email</label>
                 <input asp-for="Email" class="form-control">
             </div>
+            @if (ViewBag.mail == "true")
+            {
+                <div>
+                    <b><label style="color: rgb(255, 0, 0)">No email address</label></b>
+                </div>
+            }
+
+            <div class="form-group">
+                <label asp-for="Passhash">Password</label>
+                <input type="password" asp-for="Passhash" class="form-control">
+            </div>
+            @if (ViewBag.pass == "true")
+            {
+                <div>
+                    <b><label style="color: rgb(255, 0, 0)">No password</label></b>
+                </div>
+            }
 
             <div class="form-group">
                 <a asp-controller="Auth" asp-action="SignUp">Not a member yet? Sign up</a>
@@ -25,7 +42,7 @@
             else if (ViewBag.email == "false")
             {
                 <div>
-                    <b><label style="color: rgb(255, 0, 0)">This email does not exist</label></b>
+                    <b><label style="color: rgb(255, 0, 0)">Bad email or password</label></b>
                 </div>
             }
             else { }
