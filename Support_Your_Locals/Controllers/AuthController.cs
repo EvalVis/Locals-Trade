@@ -81,6 +81,11 @@ namespace Support_Your_Locals.Controllers
                     for (int i = 0; i < 20; i++)
                     {
                         if (hashBytes[i + 16] == hash[i]) goodpass = true;
+                        else
+                        {
+                            goodpass = false;
+                            break;
+                        }
                     }
                     if (goodpass)
                     {
