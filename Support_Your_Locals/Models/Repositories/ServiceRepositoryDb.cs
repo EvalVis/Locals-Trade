@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Support_Your_Locals.Models.Repositories
 {
@@ -10,13 +8,31 @@ namespace Support_Your_Locals.Models.Repositories
 
         private ServiceDbContext context;
 
+        public IQueryable<User> Users => context.Users;
+        public IQueryable<Business> Business => context.Business;
+        public IQueryable<TimeSheet> TimeSheets => context.TimeSheets;
+
         public ServiceRepositoryDb(ServiceDbContext ctx)
         {
             context = ctx;
         }
 
-        public IQueryable<User> Users => context.Users;
-        public IQueryable<Business> Business => context.Business;
-        public IQueryable<TimeSheet> TimeSheets => context.TimeSheets;
+        public void AddUser(User user)
+        {
+            context.Add(user);
+            context.SaveChanges();
+        }
+
+        public void AddBusiness(Business business)
+        {
+            context.Add(business);
+            context.SaveChanges();
+        }
+
+        public void AddTimeSheets(IEnumerable<TimeSheet> timeSheets)
+        {
+            context.AddRange(timeSheets);
+            context.SaveChanges();
+        }
     }
 }

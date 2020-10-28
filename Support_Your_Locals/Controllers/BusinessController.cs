@@ -14,12 +14,10 @@ namespace Support_Your_Locals.Controllers
     {
 
         private IServiceRepository repository;
-        private ServiceDbContext context;
 
-        public BusinessController(IServiceRepository repo, ServiceDbContext ctx)
+        public BusinessController(IServiceRepository repo)
         {
             repository = repo;
-            context = ctx;
         }
 
         [HttpGet]
@@ -59,14 +57,10 @@ namespace Support_Your_Locals.Controllers
                     Latitude = businessRegisterModel.Latitude,
                     Longitude = businessRegisterModel.Longitude,
                 };
-                context.Add(business);
-                context.SaveChanges();
+                repository.AddBusiness(business);
                 return View();
             }
-            else
-            {
-                return View();
-            }
+            return View();
         }
     }
 }

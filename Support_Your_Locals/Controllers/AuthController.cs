@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Support_Your_Locals.Infrastructure.Extensions;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
@@ -14,13 +12,11 @@ namespace Support_Your_Locals.Controllers
     public class AuthController : Controller
     {
 
-        private IServiceRepository repository;
-        private ServiceDbContext context;
-        public AuthController(IServiceRepository repo, ServiceDbContext serviceDbContext)
-        {
-            repository = repo;
-            context = serviceDbContext;
+        private IServiceRepository userRepository;
 
+        public AuthController(IServiceRepository repo)
+        {
+            userRepository = repo;
         }
 
         [HttpGet]
@@ -30,22 +26,26 @@ namespace Support_Your_Locals.Controllers
         }
 
         [HttpPost]
-        public ActionResult SignUp(string name, string surname, DateTime birthDate, string email)
+        public ActionResult SignUp(UserRegisterModel register)
         {
-            int count = repository.Users.Count(b => b.Email == email);
-                if (count == 0)
+            if (ModelState.IsValid)
+            {
+                bool exists = userRepository.Users.Any(b => b.Email == register.Email);
+                register.AlreadyExists = exists;
+                if (!exists)
                 {
-                    context.Users.Add(new User {Name = name, Surname = surname, BirthDate = birthDate, Email = email});
-                    context.SaveChanges();
-                    ViewBag.email = "true";
-                    return View();
+                    userRepository.AddUser(new User
+                    {
+                        Name = register.Name,
+                        Surname = register.Surname,
+                        BirthDate = register.BirthDate,
+                        Email = register.Email
+                    });
+                    return Redirect("/");
                 }
-                else
-                {
-                    ViewBag.email = "false";
-                    return View();
-                }
-
+                return View(register);
+            }
+            return View();
         }
 
         [HttpGet]
@@ -55,21 +55,21 @@ namespace Support_Your_Locals.Controllers
         }
 
         [HttpPost]
-        public ActionResult SignIn(string email)
+        public ActionResult SignIn(UserLoginModel login)
         {
-            int count = repository.Users.Count(b => b.Email == email);
-            User user = repository.Users.FirstOrDefault(b => b.Email == email);
-                if (count == 1)
+            if (ModelState.IsValid)
+            {
+                User user = userRepository.Users.FirstOrDefault(b => b.Email == login.Email);
+                if (user != null)
                 {
-                    ViewBag.email = "true";
+                    login.NotFound = false;
                     HttpContext.Session.SetJson("user", user);
-                    return View();
+                    return Redirect("/");
                 }
-                else
-                {
-                    ViewBag.email = "false";
-                    return View();
-                }
+                login.NotFound = true;
+                return View(login);
+            }
+            return View();
         }
     }
 }
