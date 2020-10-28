@@ -1,6 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
 using Support_Your_Locals.Models.ViewModels.BusinessBoard;
@@ -18,22 +20,31 @@ namespace Support_Your_Locals.Controllers
             repository = repo;
         }
 
-        public ViewResult Index(string category, int productPage = 1)
+        public ViewResult Index(SearchResponse searchResponse, string category, int productPage = 1)
         {
+            IEnumerable<Business> businesses = repository.Business
+                .Where(b => category == null || b.Product == category);
+            IEnumerable<UserBusinessTimeSheets> userBusinessTimeSheets = searchResponse.FilterBusinesses(businesses, repository).
+                OrderBy(ubts => ubts.Business.BusinessID).
+                Skip((productPage - 1) * PageSize).
+                Take(PageSize);
+            /*Join(repository.Users, business => business.UserID, user => user.UserID,
+            (business, user) => new UserBusiness
+            {
+                User = user,
+                Business = business
+            });*/
             return View(new BusinessListViewModel
             {
-                Businesses =
-                    repository.Business.Where(b => category == null || b.Product == category)
-                        .OrderBy(b => b.BusinessID).Skip((productPage - 1) * PageSize).Take(PageSize),
+                UserBusinessTimeSheets = userBusinessTimeSheets,
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = productPage,
                     ItemsPerPage = PageSize,
-                    TotalItems = category == null
-                        ? repository.Business.Count()
-                        : repository.Business.Count(b => b.Product == category)
+                    TotalItems = searchResponse.FilterBusinesses(businesses, repository).Count()
                 },
-                CurrentCategory = category
+                CurrentCategory = category,
+                SearchResponse = searchResponse
             });
         }
 

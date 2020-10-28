@@ -1,7 +1,7 @@
 ﻿@model BusinessListViewModel
 
-@foreach (var b in Model.Businesses) {
-    <partial name="BusinessSummary" model="b" />
+@foreach (var ubts in Model.UserBusinessTimeSheets) {
+    <partial name="BusinessSummary" model="ubts" />
 }
 
 <div page-model="@Model.PagingInfo" page-action="Index" page-classes-enabled="true" page-class="btn"

@@ -44,7 +44,7 @@ namespace Support_Your_Locals.Infrastructure
                     new Business {UserID = 1, Product = "Traktoriai", Description = "Traktorių parduotuvė", Header = "10% nuolaida žieminėms padangoms"},
                     new Business {UserID = 1, Product = "Automobiliai", Description = "Daužti automobiliai už prieinamą kainą", Header = "Įsigykite automobilius be rėmo, greit neliks"},
                     new Business {UserID = 1, Product = "Saldainiai", Description = "Įvairūs", Header = "Saldainių parduotuvė"},
-                    new Business {UserID = 4, Product = "Išdaigos", Header = "Išpardavimas išdaigininkams"},
+                    new Business {UserID = 4, Product = "Išdaigos", Description="Smagūs niekučiai", Header = "Išpardavimas išdaigininkams"},
                     new Business {UserID = 8, Product = "Automobilių remontas", Description = "Nuo 7:00 iki 8:00 ryto remontuoju už dyką", Header = "Automobilių remontas"},
                     new Business {UserID = 10, Product = "Nusirašinėjimas", Description = "Rašau referatus, rašinius ir t.t.", Header = "Nenorit daryt mokyklinio projekto?" +
                         "Susisiekit, padarysiu už jus!", PhoneNumber = "+37064752660"},

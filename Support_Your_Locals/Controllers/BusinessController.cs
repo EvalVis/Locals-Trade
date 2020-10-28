@@ -12,24 +12,20 @@ namespace Support_Your_Locals.Controllers
     {
 
         private IServiceRepository repository;
-        private ServiceDbContext context;
 
-        public BusinessController(IServiceRepository repo, ServiceDbContext ctx)
+        public BusinessController(IServiceRepository repo)
         {
             repository = repo;
-            context = ctx;
         }
 
         [HttpPost]
-        public ViewResult Index(long businessId)
+        public ViewResult Index(UserBusiness userBusiness)
         {
-            Business business = repository.Business.FirstOrDefault(b => b.BusinessID == businessId);
-            User user = repository.Users.FirstOrDefault(u => u.UserID == business.UserID);
-            IEnumerable<TimeSheet> timeSheets = repository.TimeSheets.Where(t => t.BusinessID == business.BusinessID);
+            IEnumerable<TimeSheet> timeSheets = repository.TimeSheets.Where(t => t.BusinessID == userBusiness.Business.BusinessID);
             UserBusinessTimeSheets userBusinessTimeSheets = new UserBusinessTimeSheets
             {
-                User = user,
-                Business = business,
+                User = userBusiness.User,
+                Business = userBusiness.Business,
                 TimeSheets = timeSheets
             };
             return View(userBusinessTimeSheets);
@@ -55,14 +51,10 @@ namespace Support_Your_Locals.Controllers
                     Product = businessRegisterModel.Product,
                     PhoneNumber = businessRegisterModel.PhoneNumber
                 };
-                context.Add(business);
-                context.SaveChanges();
+                repository.AddBusiness(business);
                 return View();
             }
-            else
-            {
-                return View();
-            }
+            return View();
         }
     }
 }
