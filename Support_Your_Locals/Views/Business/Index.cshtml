@@ -37,8 +37,8 @@
                     {
                         <tr>
                             <td>@Model.days[i]</td>
-                            <td>@Model.TimeSheets.FirstOrDefault(t => t.Weekday == i)?.From </td>
-                            <td>@Model.TimeSheets.FirstOrDefault(t => t.Weekday == i)?.To </td>
+                            <td>@Model.TimeSheets.FirstOrDefault(t => t.Weekday == i)?.From.TimeOfDay </td>
+                            <td>@Model.TimeSheets.FirstOrDefault(t => t.Weekday == i)?.To.TimeOfDay </td>
                         </tr>
                     }
 

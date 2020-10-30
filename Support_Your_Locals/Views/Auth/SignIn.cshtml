@@ -1,4 +1,4 @@
-﻿@model UserLoginModel
+@model UserLoginModel
 
 @{
     Layout = "_NoNavLayout";
@@ -13,15 +13,19 @@
         {
             <h5 class="bg-warning text-danger text-center">User not found.</h5>
         }
-        <form asp-action="SignIn" method="post">
-            <div class="form-group">
-                <label asp-for="Email">Email</label>
-                <input asp-for="Email" class="form-control">
-            </div>
-            <div class="form-group">
-                <a asp-controller="Auth" asp-action="SignUp">Not a member yet? Sign up</a>
-            </div>
-            <button type="submit" class="btn btn-primary">Sign In</button>
-        </form>
+    <form asp-action="SignIn" method="post">
+        <div class="form-group">
+            <label asp-for="Email">Email</label>
+            <input asp-for="Email" class="form-control">
+        </div>
+        <div class="form-group">
+            <label asp-for="Passhash">Password</label>
+            <input type="password" asp-for="Passhash" class="form-control">
+        </div>
+        <div class="form-group">
+            <a asp-controller="Auth" asp-action="SignUp">Not a member yet? Sign up</a>
+        </div>
+        <button type="submit" class="btn btn-primary">Sign In</button>
+    </form>
     </div>
 </div>

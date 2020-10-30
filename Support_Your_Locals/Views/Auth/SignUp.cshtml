@@ -13,42 +13,47 @@
         {
             <h5 class="bg-warning text-danger text-center">User already exists.</h5>
         }
-        <form asp-action="SignUp" method="post">
-            <div class="form-group">
-                <label asp-for="Email">Email</label>
-                <input asp-for="Email" class="form-control">
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-            </div>
-            <div class="form-group">
-                <label asp-for="Name">Name</label>
-                <input asp-for="Name" class="form-control">
-            </div>
-            <div class="form-group">
-                <label asp-for="Surname">Surname</label>
-                <input asp-for="Surname" class="form-control">
-            </div>
-            <div class="form-group">
-                <label asp-for="BirthDate">Birth date</label>
-                <input asp-for="BirthDate" class="form-control">
-            </div>
-            @if (ViewBag.email == "true")
-            {
-                <div>
-                    <b><label style="color: rgb(0, 255, 0)">Successfully registered</label></b>
-                </div>
-            }
-            else if (ViewBag.email == "false")
-            {
-                <div>
-                    <b><label style="color: rgb(255, 0, 0)">This email already exists</label></b>
-                </div>
-            }
-<div class="form-group">
-                <a asp-action="SignIn">Already a member? Sign in</a>
-            </div>
+    <form asp-action="SignUp" method="post">
+        <div class="form-group">
+            <label asp-for="Email">Email</label>
+            <input asp-for="Email" class="form-control">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label asp-for="Name">Name</label>
+            <input asp-for="Name" class="form-control">
+        </div>
+        <div class="form-group">
+            <label asp-for="Surname">Surname</label>
+            <input asp-for="Surname" class="form-control">
+        </div>
+        <div class="form-group">
+            <label asp-for="BirthDate">BirthDate</label>
+            @Html.TextBox("BirthDate", Model, new { @class = "datepicker", @type = "date" })
+        </div>
+        <div class="form-group">
+            <label asp-for="Passhash">Password</label>
+            <input type="password" asp-for="Passhash" class="form-control">
+        </div>
+        @if (ViewBag.email == "true")
+        {
+            <div>
+                <b><label style="color: rgb(0, 255, 0)">Successfully registered</label></b>
 
-            <button type="submit" class="btn btn-primary">Sign Up</button>
+            </div>
+        }
+        else if (ViewBag.email == "false")
+        {
+            <div>
+                <b><label style="color: rgb(255, 0, 0)">This email already exists</label></b>
+            </div>
+        }
+        <div class="form-group">
+            <a asp-action="SignIn">Already a member? Sign in</a>
+        </div>
 
-        </form>
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+
+    </form>
     </div>
 </div>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
 using Microsoft.AspNetCore.Mvc;
 using Support_Your_Locals.Infrastructure.Extensions;
 using Support_Your_Locals.Models;
@@ -11,6 +12,7 @@ namespace Support_Your_Locals.Controllers
 {
     public class AuthController : Controller
     {
+        public byte[] salt = new byte[16];
 
         private IServiceRepository userRepository;
 
@@ -34,12 +36,20 @@ namespace Support_Your_Locals.Controllers
                 register.AlreadyExists = exists;
                 if (!exists)
                 {
+                    new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
+                    var pbkdf2 = new Rfc2898DeriveBytes(register.Passhash, salt, 100000);
+                    byte[] hash = pbkdf2.GetBytes(20);
+                    byte[] hashBytes = new byte[36];
+                    Array.Copy(salt, 0, hashBytes, 0, 16);
+                    Array.Copy(hash, 0, hashBytes, 16, 20);
+                    string savedPasswordHash = Convert.ToBase64String(hashBytes);
                     userRepository.AddUser(new User
                     {
                         Name = register.Name,
                         Surname = register.Surname,
                         BirthDate = register.BirthDate,
-                        Email = register.Email
+                        Email = register.Email,
+                        Passhash = savedPasswordHash
                     });
                     return Redirect("/");
                 }
@@ -59,12 +69,31 @@ namespace Support_Your_Locals.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = userRepository.Users.FirstOrDefault(b => b.Email == login.Email);
+                User user = userRepository.Users.FirstOrDefault(b => b.Email == login.Email);                
                 if (user != null)
                 {
-                    login.NotFound = false;
-                    HttpContext.Session.SetJson("user", user);
-                    return Redirect("/");
+                    bool goodpass = false;
+                    string savedPasswordHash = user.Passhash;
+                    byte[] hashBytes = Convert.FromBase64String(savedPasswordHash);
+                    Array.Copy(hashBytes, 0, salt, 0, 16);
+                    var pbkdf2 = new Rfc2898DeriveBytes(login.Passhash, salt, 100000);
+                    byte[] hash = pbkdf2.GetBytes(20);
+                    for (int i = 0; i < 20; i++)
+                    {
+                        if (hashBytes[i + 16] == hash[i]) goodpass = true;
+                        else
+                        {
+                            goodpass = false;
+                            break;
+                        }
+                    }
+                    if (goodpass)
+                    {
+                        login.NotFound = false;
+                        HttpContext.Session.SetJson("user", user);
+                        return Redirect("/");
+                    }
+                    
                 }
                 login.NotFound = true;
                 return View(login);
