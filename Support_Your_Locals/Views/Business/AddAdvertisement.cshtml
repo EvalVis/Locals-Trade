@@ -4,10 +4,28 @@
     Layout = "_NoNavLayout";
 }
 
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet-src.js"></script>
+
+<!-- Load Esri Leaflet from CDN -->
+<script src="https://unpkg.com/esri-leaflet"></script>
+
+<!-- Esri Leaflet Geocoder -->
+<link rel="stylesheet"
+      href="https://unpkg.com/esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css" />
+<script src="https://unpkg.com/esri-leaflet-geocoder"></script>
+
+<style type="text/css">
+    #mapid {
+        height: 500px;
+        width: 50%;
+    }
+</style>
+
 <div class="auth-container">
     <div class="container box">
         <h1>Add business advertisement</h1>
-        <form asp-action="AddAdvertisement" method="post">
+        <form id="addAdvertisement" asp-action="AddAdvertisement" method="post">
             <div class="form-group">
                 <label asp-for="Product">Product</label>
                 <input asp-for="Product" class="form-control">
@@ -24,9 +42,52 @@
                 <label asp-for="PhoneNumber">Phone number</label>
                 <input asp-for="PhoneNumber" class="form-control">
             </div>
+            <input type="hidden" id="longitude" asp-for="Longitude" />
+            <input type="hidden" id="latitude" asp-for="Latitude" />
+
+            <div id="mapid"></div>
 
             <button type="submit" class="btn btn-primary">Advertise business</button>
 
         </form>
     </div>
 </div>
+
+<script>
+    const mymap = L.map('mapid').setView([54.687, 25.279], 14);
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+       tileSize: 512,
+        zoomOffset: -1,
+        accessToken: 'pk.eyJ1IjoibW1hcmdlIiwiYSI6ImNrZ3NmOTVrOTAwdmIzMHBlbm54MW8xYXAifQ.4Y4ElvNj24N3eMn28RhKNA'
+    }).addTo(mymap);
+    
+
+    let searchControl = L.esri.Geocoding.geosearch({ useMapBounds: false }).addTo(mymap);
+
+
+    let layerGroup = L.layerGroup().addTo(mymap);
+
+    searchControl.on("results", function (data) {
+        layerGroup.clearLayers();
+        for (var i = data.results.length - 1; i >= 0; i--) {
+            setCoordinates(data.results[i].latlng)
+        }
+    });
+
+    function onMapClick(e) {
+        setCoordinates(e.latlng)
+    }
+
+    function setCoordinates(latlng) {
+        layerGroup.clearLayers();
+        L.marker(latlng).addTo(layerGroup);
+        const { lat, lng } = latlng
+        document.getElementById("longitude").value = lng;
+        document.getElementById("latitude").value = lat;
+    }
+
+    mymap.on('click', onMapClick);
+</script>
