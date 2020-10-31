@@ -18,9 +18,9 @@ namespace Support_Your_Locals.Components
 
         public IViewComponentResult Invoke()
         {
-            string category = RouteData?.Values["category"] as string;
-            IEnumerable<string> categories = repository.Business.Select(x => x.Product).Distinct().OrderBy(x => x);
-            Tuple<string, IEnumerable<string>> data = Tuple.Create(category, categories);
+            string product = RouteData?.Values["product"] as string;
+            IEnumerable<string> products = repository.Business.Select(x => x.Product).Distinct().OrderBy(x => x);
+            Tuple<string, IEnumerable<string>> data = Tuple.Create(product, products);
             return View(data);
         }
     }

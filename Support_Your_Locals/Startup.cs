@@ -54,12 +54,12 @@ namespace Support_Your_Locals
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute("catpage", "{category}/Page{productPage:int}", new { Controller = "Home", action = "Index" });
-                endpoints.MapControllerRoute("page", "Page{productPage:int}", new { Controller = "Home", action = "Index", productPage = 1 });
-                endpoints.MapControllerRoute("category", "{category}",
-                    new { Controller = "Home", action = "Index", productPage = 1 });
-                endpoints.MapControllerRoute("pagination", "Products/Page{productPage}",
-                    new { Controller = "Home", action = "Index", productPage = 1 });
+                endpoints.MapControllerRoute("productPage", "{product}/page{page:int}", new { Controller = "Home", action = "Index" });
+                endpoints.MapControllerRoute("page", "page{page:int}", new { Controller = "Home", action = "Index", page = 1 });
+                endpoints.MapControllerRoute("product", "{product}",
+                    new { Controller = "Home", action = "Index", page = 1 });
+                endpoints.MapControllerRoute("pagination", "Businesses/page{page}",
+                    new { Controller = "Home", action = "Index", page = 1 });
                 endpoints.MapDefaultControllerRoute();
             });
             SeedData.EnsurePopulated(app);

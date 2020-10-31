@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -45,7 +42,7 @@ namespace Support_Your_Locals.Infrastructure
                 for (int i = 1; i <= PageModel.TotalPages; i++)
                 {
                     TagBuilder tag = new TagBuilder("a");
-                    PageUrlValues["productPage"] = i;
+                    PageUrlValues["page"] = i;
                     foreach(var v in PageUrlValues) System.Diagnostics.Debug.WriteLine(v);
                     tag.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
                     //System.Diagnostics.Debug.WriteLine(tag.Attributes["href"]);

@@ -20,25 +20,25 @@ namespace Support_Your_Locals.Controllers
             repository = repo;
         }
 
-        public ViewResult Index(SearchResponse searchResponse, string category, int productPage = 1)
+        public ViewResult Index(SearchResponse searchResponse, string product, int page = 1)
         {
             IEnumerable<Business> businesses = repository.Business
-                .Where(b => category == null || b.Product == category);
+                .Where(b => product == null || b.Product == product);
             List<UserBusinessTimeSheets> filterBusiness = searchResponse.FilterBusinesses(businesses, repository).ToList();
             IEnumerable<UserBusinessTimeSheets> userBusinessTimeSheets = filterBusiness.
                 OrderBy(ubts => ubts.Business.BusinessID).
-                Skip((productPage - 1) * PageSize).
+                Skip((page - 1) * PageSize).
                 Take(PageSize);
             return View(new BusinessListViewModel
             {
                 UserBusinessTimeSheets = userBusinessTimeSheets,
                 PagingInfo = new PagingInfo
                 {
-                    CurrentPage = productPage,
+                    CurrentPage = page,
                     ItemsPerPage = PageSize,
                     TotalItems = filterBusiness.Count
                 },
-                CurrentCategory = category,
+                CurrentProduct = product,
                 SearchResponse = searchResponse
             });
         }
