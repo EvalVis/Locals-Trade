@@ -20,7 +20,7 @@ namespace Support_Your_Locals.Models
 
         public string ToQuery()
         {
-            return $"/?os={OwnersSurname}&bi={Header}&si={SearchInDescription}&w={WeekSelected}";
+            return $"os={OwnersSurname}&bi={Header}&si={SearchInDescription}&w={WeekSelected}";
         }
 
         private void SetWeekdaySelected()

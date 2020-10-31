@@ -48,7 +48,7 @@ namespace Support_Your_Locals.Infrastructure
                     PageUrlValues["productPage"] = i;
                     foreach(var v in PageUrlValues) System.Diagnostics.Debug.WriteLine(v);
                     tag.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
-                    System.Diagnostics.Debug.WriteLine(tag.Attributes["href"]);
+                    //System.Diagnostics.Debug.WriteLine(tag.Attributes["href"]);
                     if (PageClassesEnabled)
                     {
                         tag.AddCssClass(PageClass);

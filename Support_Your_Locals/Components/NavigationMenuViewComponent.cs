@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
 using Support_Your_Locals.Models.Repositories;
 
@@ -18,8 +18,10 @@ namespace Support_Your_Locals.Components
 
         public IViewComponentResult Invoke()
         {
-            ViewBag.SelectedCategory = RouteData?.Values["category"];
-            return View(repository.Business.Select(x => x.Product).Distinct().OrderBy(x => x));
+            string category = RouteData?.Values["category"] as string;
+            IEnumerable<string> categories = repository.Business.Select(x => x.Product).Distinct().OrderBy(x => x);
+            Tuple<string, IEnumerable<string>> data = Tuple.Create(category, categories);
+            return View(data);
         }
     }
 }
