@@ -23,7 +23,7 @@ namespace Support_Your_Locals
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ServiceDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddScoped<IServiceRepository, ServiceRepositoryDb>();
+            services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 

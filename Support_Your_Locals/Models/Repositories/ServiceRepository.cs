@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Support_Your_Locals.Models.Repositories
 {
-    public class ServiceRepositoryDb : IServiceRepository
+    public class ServiceRepository : IServiceRepository
     {
 
         private ServiceDbContext context;
@@ -12,7 +12,7 @@ namespace Support_Your_Locals.Models.Repositories
         public IQueryable<Business> Business => context.Business;
         public IQueryable<TimeSheet> TimeSheets => context.TimeSheets;
 
-        public ServiceRepositoryDb(ServiceDbContext ctx)
+        public ServiceRepository(ServiceDbContext ctx)
         {
             context = ctx;
         }
