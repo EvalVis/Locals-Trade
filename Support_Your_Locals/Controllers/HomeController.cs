@@ -24,7 +24,8 @@ namespace Support_Your_Locals.Controllers
         {
             IEnumerable<Business> businesses = repository.Business
                 .Where(b => category == null || b.Product == category);
-            IEnumerable<UserBusinessTimeSheets> userBusinessTimeSheets = searchResponse.FilterBusinesses(businesses, repository).
+            List<UserBusinessTimeSheets> filterBusiness = searchResponse.FilterBusinesses(businesses, repository).ToList();
+            IEnumerable<UserBusinessTimeSheets> userBusinessTimeSheets = filterBusiness.
                 OrderBy(ubts => ubts.Business.BusinessID).
                 Skip((productPage - 1) * PageSize).
                 Take(PageSize);
@@ -41,7 +42,7 @@ namespace Support_Your_Locals.Controllers
                 {
                     CurrentPage = productPage,
                     ItemsPerPage = PageSize,
-                    TotalItems = searchResponse.FilterBusinesses(businesses, repository).Count()
+                    TotalItems = filterBusiness.Count()
                 },
                 CurrentCategory = category,
                 SearchResponse = searchResponse
