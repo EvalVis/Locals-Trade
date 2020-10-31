@@ -25,9 +25,6 @@ namespace Support_Your_Locals
             services.AddDbContext<ServiceDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IServiceRepository, ServiceRepositoryDb>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
-            services.AddDistributedMemoryCache();
-            services.AddSession();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,17 +34,11 @@ namespace Support_Your_Locals
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+            //TODO: Create our user-friendly error handler.
 
             app.UseStatusCodePages();
-            app.UseHttpsRedirection();
+            //TODO: Create correct HTTPS redirections.
             app.UseStaticFiles();
-            app.UseSession();
             app.UseRouting();
 
             app.UseAuthorization();
