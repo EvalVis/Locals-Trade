@@ -43,9 +43,7 @@ namespace Support_Your_Locals.Infrastructure.TagHelpers
                 {
                     TagBuilder tag = new TagBuilder("a");
                     PageUrlValues["page"] = i;
-                    foreach(var v in PageUrlValues) System.Diagnostics.Debug.WriteLine(v);
                     tag.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
-                    //System.Diagnostics.Debug.WriteLine(tag.Attributes["href"]);
                     if (PageClassesEnabled)
                     {
                         tag.AddCssClass(PageClass);

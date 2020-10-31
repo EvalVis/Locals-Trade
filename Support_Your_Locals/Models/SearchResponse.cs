@@ -8,12 +8,9 @@ namespace Support_Your_Locals.Models
 {
     public class SearchResponse
     { // TODO: nameof.
-        [FromQuery(Name="os")]
-        public string OwnersSurname { get; set; }
-        [FromQuery(Name = "bi")]
-        public string BusinessInfo { get; set; }
-        [FromQuery(Name = "si")]
-        public int SearchIn { get; set; }
+        [FromQuery(Name = "os")] public string OwnersSurname { get; set; } = "";
+        [FromQuery(Name = "bi")] public string BusinessInfo { get; set; } = "";
+        [FromQuery(Name = "si")] public int SearchIn { get; set; } = 0;
         [FromQuery(Name = "w")]
         public string WeekSelected { get; set; } = "1111111";
         public bool[] WeekdaySelected { get; set; } = {true, true, true, true, true, true, true};
@@ -25,6 +22,7 @@ namespace Support_Your_Locals.Models
 
         private void SetWeekdaySelected()
         {//TODO: Handle exceptions.
+            if (WeekSelected.Length < 7) return; // kind of solves this.
             for (int i = 0; i < 7; i++)
             {
                 if (WeekSelected[i] == '1') WeekdaySelected[i] = true;
