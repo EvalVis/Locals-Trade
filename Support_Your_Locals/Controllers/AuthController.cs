@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Mvc;
-using Support_Your_Locals.Infrastructure.Extensions;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
@@ -90,7 +88,6 @@ namespace Support_Your_Locals.Controllers
                     if (goodpass)
                     {
                         login.NotFound = false;
-                        HttpContext.Session.SetJson("user", user);
                         return Redirect("/");
                     }
                     

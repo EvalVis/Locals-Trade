@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Support_Your_Locals.Infrastructure.Extensions;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
-using System;
-using System.Runtime.InteropServices.ComTypes;
 
 namespace Support_Your_Locals.Controllers
 {
@@ -51,7 +48,8 @@ namespace Support_Your_Locals.Controllers
                     // Exception here
                     Header = businessRegisterModel.Header,
                     Description = businessRegisterModel.Description,
-                    UserID = HttpContext.Session.GetJson<User>("user").UserID,
+                    //TODO: Identify user.
+                    UserID = 1,
                     Product = businessRegisterModel.Product,
                     PhoneNumber = businessRegisterModel.PhoneNumber,
                     Latitude = businessRegisterModel.Latitude,

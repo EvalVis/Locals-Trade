@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Infrastructure\Extensions\" />
     <Folder Include="Views\Auth\" />
     <Folder Include="wwwroot\js\" />
   </ItemGroup>
