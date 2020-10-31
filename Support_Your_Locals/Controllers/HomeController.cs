@@ -29,12 +29,6 @@ namespace Support_Your_Locals.Controllers
                 OrderBy(ubts => ubts.Business.BusinessID).
                 Skip((productPage - 1) * PageSize).
                 Take(PageSize);
-            /*Join(repository.Users, business => business.UserID, user => user.UserID,
-            (business, user) => new UserBusiness
-            {
-                User = user,
-                Business = business
-            });*/
             return View(new BusinessListViewModel
             {
                 UserBusinessTimeSheets = userBusinessTimeSheets,

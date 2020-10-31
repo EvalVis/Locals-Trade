@@ -18,7 +18,7 @@ namespace Support_Your_Locals.Models
         public string WeekSelected { get; set; } = "1111111";
         public bool[] WeekdaySelected { get; set; } = {true, true, true, true, true, true, true};
 
-        public void SetWeekdaySelected()
+        private void SetWeekdaySelected()
         {
             for (int i = 0; i < 7; i++)
             {
@@ -29,6 +29,7 @@ namespace Support_Your_Locals.Models
 
         public IEnumerable<UserBusinessTimeSheets> FilterBusinesses(IEnumerable<Business> businesses, IServiceRepository repository)
         {
+            SetWeekdaySelected();
             foreach (var b in businesses)
             {
                 if (BusinessConditionsMet(b))
