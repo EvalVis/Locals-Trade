@@ -29,7 +29,7 @@ namespace Support_Your_Locals.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Header")
+                    b.Property<string>("BusinessInfo")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Latitude")

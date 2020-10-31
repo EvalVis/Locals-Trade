@@ -3,17 +3,17 @@
 <form asp-action="Index" asp-controller="Home">
     <h4 class="text-center">Search for a business</h4>
     <div class="form-group">
-        <label asp-for="SearchResponse.OwnersSurname">By Owner's Surname</label>
+        <label asp-for="SearchResponse.OwnersSurname">By owner's surname</label>
         <input asp-for="SearchResponse.OwnersSurname" class="form-control"/>
     </div>
     <div class="form-group">
-        <label asp-for="SearchResponse.Header">By business header</label>
-        <input asp-for="SearchResponse.Header" class="form-control"/>
+        <label asp-for="SearchResponse.BusinessInfo">By business's info</label>
+        <input asp-for="SearchResponse.BusinessInfo" class="form-control"/>
     </div>
     <div class="form-group">
-        <label><input type="radio" asp-for="SearchResponse.SearchInDescription" name="SearchIn" value="0"/>Search in header</label>
-        <label><input type="radio" asp-for="SearchResponse.SearchInDescription" name="SearchIn" value="1"/>Search in description</label>
-        <label><input type="radio" asp-for="SearchResponse.SearchInDescription" name="SearchIn" value="2"/>Search in description and header</label>
+        <label><input type="radio" asp-for="SearchResponse.SearchIn" name="SearchIn" value="0"/>Search in header</label>
+        <label><input type="radio" asp-for="SearchResponse.SearchIn" name="SearchIn" value="1"/>Search in description</label>
+        <label><input type="radio" asp-for="SearchResponse.SearchIn" name="SearchIn" value="2"/>Search in description and header</label>
 </div>
     <div class="form-group">
         <label><input type="checkbox" asp-for="SearchResponse.WeekdaySelected[0]" />Monday</label>

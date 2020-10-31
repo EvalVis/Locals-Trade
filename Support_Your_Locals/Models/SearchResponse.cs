@@ -11,16 +11,16 @@ namespace Support_Your_Locals.Models
         [FromQuery(Name="os")]
         public string OwnersSurname { get; set; }
         [FromQuery(Name = "bi")]
-        public string Header { get; set; }
+        public string BusinessInfo { get; set; }
         [FromQuery(Name = "si")]
-        public int SearchInDescription { get; set; }
+        public int SearchIn { get; set; }
         [FromQuery(Name = "w")]
         public string WeekSelected { get; set; } = "1111111";
         public bool[] WeekdaySelected { get; set; } = {true, true, true, true, true, true, true};
 
         public string ToQuery()
         {
-            return $"os={OwnersSurname}&bi={Header}&si={SearchInDescription}&w={WeekSelected}";
+            return $"os={OwnersSurname}&bi={BusinessInfo}&si={SearchIn}&w={WeekSelected}";
         }
 
         private void SetWeekdaySelected()
@@ -61,13 +61,13 @@ namespace Support_Your_Locals.Models
 
         private bool BusinessConditionsMet(Business business)
         {
-            if (!String.IsNullOrEmpty(Header))
+            if (!String.IsNullOrEmpty(BusinessInfo))
             {
-                if (SearchInDescription == 0)
+                if (SearchIn == 0)
                 {
                     if (!ChosenHeader(business)) return false;
                 }
-                else if (SearchInDescription == 1)
+                else if (SearchIn == 1)
                 {
                     if (!ChosenDescription(business)) return false;
                 }
@@ -79,12 +79,12 @@ namespace Support_Your_Locals.Models
 
         private bool ChosenHeader(Business business)
         {
-            return business.Header.ToLower().Contains(Header.ToLower());
+            return business.Header.ToLower().Contains(BusinessInfo.ToLower());
         }
 
         private bool ChosenDescription(Business business)
         {
-            return business.Description.ToLower().Contains(Header.ToLower()); // OK, Header is Description if search in description is ticked.
+            return business.Description.ToLower().Contains(BusinessInfo.ToLower()); // OK, BusinessInfo is Description if search in description is ticked.
         }
 
         //TODO: Search by working hours.
