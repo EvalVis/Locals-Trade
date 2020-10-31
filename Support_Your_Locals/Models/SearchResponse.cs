@@ -7,19 +7,24 @@ using Support_Your_Locals.Models.Repositories;
 namespace Support_Your_Locals.Models
 {
     public class SearchResponse
-    {
+    { // TODO: nameof.
         [FromQuery(Name="os")]
         public string OwnersSurname { get; set; }
         [FromQuery(Name = "bi")]
         public string Header { get; set; }
         [FromQuery(Name = "si")]
-        public bool SearchInDescription { get; set; }
+        public int SearchInDescription { get; set; }
         [FromQuery(Name = "w")]
         public string WeekSelected { get; set; } = "1111111";
         public bool[] WeekdaySelected { get; set; } = {true, true, true, true, true, true, true};
 
-        private void SetWeekdaySelected()
+        public string ToQuery()
         {
+            return $"/?os={OwnersSurname}&bi={Header}&si={SearchInDescription}&w={WeekSelected}";
+        }
+
+        private void SetWeekdaySelected()
+        {//TODO: Handle exceptions.
             for (int i = 0; i < 7; i++)
             {
                 if (WeekSelected[i] == '1') WeekdaySelected[i] = true;
@@ -58,11 +63,15 @@ namespace Support_Your_Locals.Models
         {
             if (!String.IsNullOrEmpty(Header))
             {
-                if (SearchInDescription)
+                if (SearchInDescription == 0)
+                {
+                    if (!ChosenHeader(business)) return false;
+                }
+                else if (SearchInDescription == 1)
                 {
                     if (!ChosenDescription(business)) return false;
                 }
-                else if (!ChosenHeader(business)) return false;
+                else if (!ChosenDescription(business) || ChosenHeader(business)) return false;
             }
             return true;
         }

@@ -30,7 +30,7 @@ namespace Support_Your_Locals.Infrastructure
 
             public string PageAction { get; set; }
 
-            [HtmlAttributeName(DictionaryAttributePrefix = "page-url")]
+            [HtmlAttributeName(DictionaryAttributePrefix = "page-url-")]
             public Dictionary<string, object> PageUrlValues { get; set; }
                 = new Dictionary<string, object>();
             public bool PageClassesEnabled { get; set; } = false;
@@ -46,8 +46,9 @@ namespace Support_Your_Locals.Infrastructure
                 {
                     TagBuilder tag = new TagBuilder("a");
                     PageUrlValues["productPage"] = i;
+                    foreach(var v in PageUrlValues) System.Diagnostics.Debug.WriteLine(v);
                     tag.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
-                    tag.Attributes["href"] = urlHelper.Action(PageAction, new { productPage = i });
+                    System.Diagnostics.Debug.WriteLine(tag.Attributes["href"]);
                     if (PageClassesEnabled)
                     {
                         tag.AddCssClass(PageClass);

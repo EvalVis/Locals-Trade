@@ -11,7 +11,9 @@
         <input asp-for="SearchResponse.Header" class="form-control"/>
     </div>
     <div class="form-group">
-        <label><input type="checkbox" asp-for="SearchResponse.SearchInDescription" />Search in description instead</label>
+        <label><input type="radio" asp-for="SearchResponse.SearchInDescription" name="SearchIn" value="0"/>Search in header</label>
+        <label><input type="radio" asp-for="SearchResponse.SearchInDescription" name="SearchIn" value="1"/>Search in description</label>
+        <label><input type="radio" asp-for="SearchResponse.SearchInDescription" name="SearchIn" value="2"/>Search in description and header</label>
 </div>
     <div class="form-group">
         <label><input type="checkbox" asp-for="SearchResponse.WeekdaySelected[0]" />Monday</label>

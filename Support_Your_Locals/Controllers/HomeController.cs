@@ -36,7 +36,7 @@ namespace Support_Your_Locals.Controllers
                 {
                     CurrentPage = productPage,
                     ItemsPerPage = PageSize,
-                    TotalItems = filterBusiness.Count()
+                    TotalItems = filterBusiness.Count
                 },
                 CurrentCategory = category,
                 SearchResponse = searchResponse
