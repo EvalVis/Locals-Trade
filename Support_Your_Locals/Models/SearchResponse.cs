@@ -1,18 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Support_Your_Locals.Models.Repositories;
 
 namespace Support_Your_Locals.Models
 {
     public class SearchResponse
     {
-
+        [FromQuery(Name="os")]
         public string OwnersSurname { get; set; }
+        [FromQuery(Name = "bi")]
         public string Header { get; set; }
+        [FromQuery(Name = "si")]
         public bool SearchInDescription { get; set; }
+        [FromQuery(Name = "w")]
+        public string WeekSelected { get; set; } = "1111111";
         public bool[] WeekdaySelected { get; set; } = {true, true, true, true, true, true, true};
+
+        public void SetWeekdaySelected()
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                if (WeekSelected[i] == '1') WeekdaySelected[i] = true;
+                else WeekdaySelected[i] = false;
+            }
+        }
 
         public IEnumerable<UserBusinessTimeSheets> FilterBusinesses(IEnumerable<Business> businesses, IServiceRepository repository)
         {
