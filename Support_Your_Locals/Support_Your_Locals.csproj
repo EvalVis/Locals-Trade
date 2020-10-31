@@ -17,5 +17,6 @@
 
   <ItemGroup>
     <Folder Include="Views\Auth\" />
+    <Folder Include="wwwroot\js\" />
   </ItemGroup>
 </Project>
