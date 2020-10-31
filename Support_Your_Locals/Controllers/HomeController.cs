@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
-using Support_Your_Locals.Models.ViewModels;
 using Support_Your_Locals.Models.ViewModels.BusinessBoard;
 
 namespace Support_Your_Locals.Controllers
