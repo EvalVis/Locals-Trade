@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Support_Your_Locals.Models.ViewModels.BusinessBoard;
 
-namespace Support_Your_Locals.Infrastructure
+namespace Support_Your_Locals.Infrastructure.TagHelpers
 {
 
     [HtmlTargetElement("div", Attributes = "page-model")]
