@@ -20,6 +20,8 @@ namespace Support_Your_Locals.Controllers
         [HttpGet]
         public ViewResult Index(long businessId)
         {
+            //TODO: Exception handling (ect. businessId = 0).
+            if (businessId == 0) businessId = 1; //This kind of solves it.
             Business business = repository.Business.FirstOrDefault(b => b.BusinessID == businessId);
             User user = repository.Users.FirstOrDefault(u => u.UserID == business.UserID);
             IEnumerable<TimeSheet> timeSheets = repository.TimeSheets.Where(t => t.BusinessID == business.BusinessID);
