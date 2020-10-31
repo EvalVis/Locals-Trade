@@ -13,7 +13,7 @@
     </div>
 
     <form asp-action="Index" asp-controller="Business" method="get">
-        <input type="hidden" id="businessId" name="businessId" value="@Model.Business.BusinessID" />
+        <input type="hidden" name="businessId" value="@Model.Business.BusinessID" />
         <span class="card-text p-1">
             @Model.User.Name
             @Model.User.Surname
