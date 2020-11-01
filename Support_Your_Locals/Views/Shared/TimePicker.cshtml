@@ -22,14 +22,14 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="/lib/datetimepicker/js/jquery.datetimepicker.full.min.js"></script>
 <script>
-    $('#picker' + dayIndex).datetimepicker({
+    $('#picker' + @dayIndex).datetimepicker({
         timepicker: true,
         datepicker: false,
         format: 'H:i',
         step: 10,
         onShow: function () {
             this.setOptions({
-                maxTime: $('#picker' + day7Index).val() ? $('#picker' + day7Index).val() : false
+                maxTime: $('#picker' + @day7Index).val() ? $('#picker' + @day7Index).val() : false
             })
         }
     })
@@ -40,7 +40,7 @@
         step: 10,
         onShow: function () {
             this.setOptions({
-                minTime: $('#picker' + dayIndex).val() ? $('#picker' + dayIndex).val() : false
+                minTime: $('#picker' + @dayIndex).val() ? $('#picker' + @dayIndex).val() : false
             })
         }
     })
