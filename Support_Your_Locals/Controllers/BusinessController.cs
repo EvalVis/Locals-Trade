@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Support_Your_Locals.Infrastructure.Extensions;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
-using System;
-using System.Runtime.InteropServices.ComTypes;
 
 namespace Support_Your_Locals.Controllers
 {
@@ -36,13 +35,13 @@ namespace Support_Your_Locals.Controllers
         }
 
         [HttpGet]
-        public ViewResult AddAdvertisement()
+        public ActionResult AddAdvertisement()
         {
             return View();
         }
 
         [HttpPost]
-        public ViewResult AddAdvertisement(BusinessRegisterModel businessRegisterModel)
+        public ActionResult AddAdvertisement(BusinessRegisterModel businessRegisterModel)
         {
             if (ModelState.IsValid)
             {
@@ -51,14 +50,29 @@ namespace Support_Your_Locals.Controllers
                     // Exception here
                     Header = businessRegisterModel.Header,
                     Description = businessRegisterModel.Description,
-                    UserID = HttpContext.Session.GetJson<User>("user").UserID,
+                    UserID = 1,
                     Product = businessRegisterModel.Product,
                     PhoneNumber = businessRegisterModel.PhoneNumber,
                     Latitude = businessRegisterModel.Latitude,
                     Longitude = businessRegisterModel.Longitude,
                 };
                 repository.AddBusiness(business);
-                return View();
+                for (int i = 0; i < 7; i++)
+                {
+                    DateTime from = businessRegisterModel.TimeSheets[i].From;
+                    DateTime to = businessRegisterModel.TimeSheets[i].To;
+                    if (TimeSheet.FromEqualsTo(from, to)) continue;
+                    TimeSheet day = new TimeSheet
+                    {
+                        BusinessID = business.BusinessID,
+                        From = from,
+                        To = to,
+                        Weekday = (i+1)
+                    };
+                    repository.AddTimeSheet(day);
+                }
+
+                return Redirect("/");
             }
             return View();
         }
