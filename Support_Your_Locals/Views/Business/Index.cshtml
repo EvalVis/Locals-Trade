@@ -27,26 +27,28 @@
                 {
                     @if (@Model.TimeSheets.FirstOrDefault(t => t.Weekday == i)?.From == null)
                     {
-                <tr>
-                    <td>@Model.days[i]</td>
-                    <td><div style="color: rgb(255, 0, 0)">Closed</div></td>
-                    <td><div style="color: rgb(255, 0, 0)">Closed</div></td>
-                </tr>
-                     }else{
                         <tr>
                             <td>@Model.days[i]</td>
-                            <td>@Model.TimeSheets.FirstOrDefault(t => t.Weekday == i)?.From </td>
-                            <td>@Model.TimeSheets.FirstOrDefault(t => t.Weekday == i)?.To </td>
+                            <td><div style="color: rgb(255, 0, 0)">Closed</div></td>
+                            <td><div style="color: rgb(255, 0, 0)">Closed</div></td>
                         </tr>
-                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>@Model.days[i]</td>
+                            <td>@Model.TimeSheets.FirstOrDefault(t => t.Weekday == i)?.From.TimeOfDay </td>
+                            <td>@Model.TimeSheets.FirstOrDefault(t => t.Weekday == i)?.To.TimeOfDay </td>
+                        </tr>
+                    }
 
-                        }
+                }
 
 
 
-                    </tbody>
+            </tbody>
 
-            </table>
+        </table>
     </div>
 </div>
 <div class="col-sm-4">
@@ -57,3 +59,53 @@
         <li>@Model.Business.PhoneNumber</li>
     </ul>
 </div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+
+<script src="https://unpkg.com/esri-leaflet@2.5.1/dist/esri-leaflet.js"
+        integrity="sha512-q7X96AASUF0hol5Ih7AeZpRF6smJS55lcvy+GLWzJfZN+31/BQ8cgNx2FGF+IQSA4z2jHwB20vml+drmooqzzQ=="
+        crossorigin=""></script>
+
+<link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.css"
+      integrity="sha512-IM3Hs+feyi40yZhDH6kV8vQMg4Fh20s9OzInIIAc4nx7aMYMfo+IenRUekoYsHZqGkREUgx0VvlEsgm7nCDW9g=="
+      crossorigin="">
+<script src="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.js"
+        integrity="sha512-HrFUyCEtIpxZloTgEKKMq4RFYhxjJkCiF5sDxuAokklOeZ68U2NPfh4MFtyIVWlsKtVbK5GD2/JzFyAfvT5ejA=="
+        crossorigin=""></script>
+
+<style type="text/css">
+    #mapid {
+        height: 500px;
+        width: 30%;
+    }
+</style>
+<div id="mapid"></div>
+<script>
+    const latitude = Number("@Model.Business.Latitude");
+    const longitude = Number("@Model.Business.Longitude");
+    if (latitude && longitude) {
+        const mymap = L.map('mapid').setView([latitude, longitude], 13);
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 18,
+            id: 'mapbox/streets-v11',
+            tileSize: 512,
+            zoomOffset: -1,
+            accessToken: 'pk.eyJ1IjoibW1hcmdlIiwiYSI6ImNrZ3NmOTVrOTAwdmIzMHBlbm54MW8xYXAifQ.4Y4ElvNj24N3eMn28RhKNA'
+        }).addTo(mymap);
+
+        var geocodeService = L.esri.Geocoding.geocodeService();
+        geocodeService.reverse().latlng([latitude, longitude]).run(function (error, result) {
+            if (error) {
+                return;
+            }
+
+            L.marker(result.latlng).addTo(mymap).bindPopup("@Model.Business.Product<br/>" + result.address.LongLabel).openPopup();
+        });
+    }
+</script>

@@ -13,5 +13,7 @@ namespace Support_Your_Locals.Models.ViewModels
         public string PhoneNumber {get; set;}
         [Required(ErrorMessage = "Please enter your business header")]
         public string Header {get; set;}
+        public string Longitude { get; set; }
+        public string Latitude { get; set; }
     }
 }

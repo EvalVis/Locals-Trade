@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Support_Your_Locals.Infrastructure.Extensions;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
+using System;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace Support_Your_Locals.Controllers
 {
@@ -13,22 +14,22 @@ namespace Support_Your_Locals.Controllers
     {
 
         private IServiceRepository repository;
-        private ServiceDbContext context;
 
-        public BusinessController(IServiceRepository repo, ServiceDbContext ctx)
+        public BusinessController(IServiceRepository repo)
         {
             repository = repo;
-            context = ctx;
         }
 
-        [HttpPost]
-        public ViewResult Index(UserBusiness userBusiness)
+        [HttpGet]
+        public ViewResult Index(long businessId)
         {
-            IEnumerable<TimeSheet> timeSheets = repository.TimeSheets.Where(t => t.BusinessID == userBusiness.Business.BusinessID);
+            Business business = repository.Business.FirstOrDefault(b => b.BusinessID == businessId);
+            User user = repository.Users.FirstOrDefault(u => u.UserID == business.UserID);
+            IEnumerable<TimeSheet> timeSheets = repository.TimeSheets.Where(t => t.BusinessID == business.BusinessID);
             UserBusinessTimeSheets userBusinessTimeSheets = new UserBusinessTimeSheets
             {
-                User = userBusiness.User,
-                Business = userBusiness.Business,
+                User = user,
+                Business = business,
                 TimeSheets = timeSheets
             };
             return View(userBusinessTimeSheets);
@@ -52,16 +53,14 @@ namespace Support_Your_Locals.Controllers
                     Description = businessRegisterModel.Description,
                     UserID = HttpContext.Session.GetJson<User>("user").UserID,
                     Product = businessRegisterModel.Product,
-                    PhoneNumber = businessRegisterModel.PhoneNumber
+                    PhoneNumber = businessRegisterModel.PhoneNumber,
+                    Latitude = businessRegisterModel.Latitude,
+                    Longitude = businessRegisterModel.Longitude,
                 };
-                context.Add(business);
-                context.SaveChanges();
+                repository.AddBusiness(business);
                 return View();
             }
-            else
-            {
-                return View();
-            }
+            return View();
         }
     }
 }

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Security.Cryptography;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Support_Your_Locals.Infrastructure.Extensions;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
@@ -13,14 +12,13 @@ namespace Support_Your_Locals.Controllers
 {
     public class AuthController : Controller
     {
+        public byte[] salt = new byte[16];
 
-        private IServiceRepository repository;
-        private ServiceDbContext context;
-        public AuthController(IServiceRepository repo, ServiceDbContext serviceDbContext)
+        private IServiceRepository userRepository;
+
+        public AuthController(IServiceRepository repo)
         {
-            repository = repo;
-            context = serviceDbContext;
-
+            userRepository = repo;
         }
 
         [HttpGet]
@@ -30,22 +28,34 @@ namespace Support_Your_Locals.Controllers
         }
 
         [HttpPost]
-        public ActionResult SignUp(string name, string surname, DateTime birthDate, string email)
+        public ActionResult SignUp(UserRegisterModel register)
         {
-            int count = repository.Users.Count(b => b.Email == email);
-                if (count == 0)
+            if (ModelState.IsValid)
+            {
+                bool exists = userRepository.Users.Any(b => b.Email == register.Email);
+                register.AlreadyExists = exists;
+                if (!exists)
                 {
-                    context.Users.Add(new User {Name = name, Surname = surname, BirthDate = birthDate, Email = email});
-                    context.SaveChanges();
-                    ViewBag.email = "true";
-                    return View();
+                    new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
+                    var pbkdf2 = new Rfc2898DeriveBytes(register.Passhash, salt, 100000);
+                    byte[] hash = pbkdf2.GetBytes(20);
+                    byte[] hashBytes = new byte[36];
+                    Array.Copy(salt, 0, hashBytes, 0, 16);
+                    Array.Copy(hash, 0, hashBytes, 16, 20);
+                    string savedPasswordHash = Convert.ToBase64String(hashBytes);
+                    userRepository.AddUser(new User
+                    {
+                        Name = register.Name,
+                        Surname = register.Surname,
+                        BirthDate = register.BirthDate,
+                        Email = register.Email,
+                        Passhash = savedPasswordHash
+                    });
+                    return Redirect("/");
                 }
-                else
-                {
-                    ViewBag.email = "false";
-                    return View();
-                }
-
+                return View(register);
+            }
+            return View();
         }
 
         [HttpGet]
@@ -55,21 +65,40 @@ namespace Support_Your_Locals.Controllers
         }
 
         [HttpPost]
-        public ActionResult SignIn(string email)
+        public ActionResult SignIn(UserLoginModel login)
         {
-            int count = repository.Users.Count(b => b.Email == email);
-            User user = repository.Users.FirstOrDefault(b => b.Email == email);
-                if (count == 1)
+            if (ModelState.IsValid)
+            {
+                User user = userRepository.Users.FirstOrDefault(b => b.Email == login.Email);                
+                if (user != null)
                 {
-                    ViewBag.email = "true";
-                    HttpContext.Session.SetJson("user", user);
-                    return View();
+                    bool goodpass = false;
+                    string savedPasswordHash = user.Passhash;
+                    byte[] hashBytes = Convert.FromBase64String(savedPasswordHash);
+                    Array.Copy(hashBytes, 0, salt, 0, 16);
+                    var pbkdf2 = new Rfc2898DeriveBytes(login.Passhash, salt, 100000);
+                    byte[] hash = pbkdf2.GetBytes(20);
+                    for (int i = 0; i < 20; i++)
+                    {
+                        if (hashBytes[i + 16] == hash[i]) goodpass = true;
+                        else
+                        {
+                            goodpass = false;
+                            break;
+                        }
+                    }
+                    if (goodpass)
+                    {
+                        login.NotFound = false;
+                        HttpContext.Session.SetJson("user", user);
+                        return Redirect("/");
+                    }
+                    
                 }
-                else
-                {
-                    ViewBag.email = "false";
-                    return View();
-                }
+                login.NotFound = true;
+                return View(login);
+            }
+            return View();
         }
     }
 }
