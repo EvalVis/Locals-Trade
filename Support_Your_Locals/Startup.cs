@@ -32,7 +32,6 @@ namespace Support_Your_Locals
                 .AddCookie(options =>
                 {
                     options.LoginPath = "/Auth/SignIn";
-                    options.Cookie.Name = "Auth";
                 });
 
         }

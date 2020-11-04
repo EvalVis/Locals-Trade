@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Support_Your_Locals.Infrastructure.Extensions;
 using Support_Your_Locals.Models;
@@ -97,12 +98,11 @@ namespace Support_Your_Locals.Controllers
                         {
                             new Claim(ClaimTypes.Name, user.Name)
                         };
-                        var identity = new ClaimsIdentity(
-                            claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        var identity = new ClaimsIdentity(claims, "SignIn");
                         var principal = new ClaimsPrincipal(identity);
                         var props = new AuthenticationProperties();
-                        HttpContext.SignInAsync(
-                            CookieAuthenticationDefaults.AuthenticationScheme, principal, props).Wait();
+                        await HttpContext.SignInAsync(
+                            CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
                         login.NotFound = false;
                         return Redirect("/");
@@ -121,5 +121,6 @@ namespace Support_Your_Locals.Controllers
             await HttpContext.SignOutAsync();
             return Redirect("/");
         }
+        
     }
 }
