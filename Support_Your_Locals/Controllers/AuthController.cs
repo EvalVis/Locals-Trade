@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Mvc;
@@ -69,7 +68,7 @@ namespace Support_Your_Locals.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = userRepository.Users.FirstOrDefault(b => b.Email == login.Email);                
+                User user = userRepository.Users.FirstOrDefault(b => b.Email == login.Email);
                 if (user != null)
                 {
                     bool goodpass = false;
@@ -93,7 +92,7 @@ namespace Support_Your_Locals.Controllers
                         HttpContext.Session.SetJson("user", user);
                         return Redirect("/");
                     }
-                    
+
                 }
                 login.NotFound = true;
                 return View(login);

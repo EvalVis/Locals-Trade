@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Support_Your_Locals.Models.Repositories;
 
@@ -12,7 +11,7 @@ namespace Support_Your_Locals.Models
         public string OwnersSurname { get; set; }
         public string Header { get; set; }
         public bool SearchInDescription { get; set; }
-        public bool[] WeekdaySelected { get; set; } = {true, true, true, true, true, true, true};
+        public bool[] WeekdaySelected { get; set; } = { true, true, true, true, true, true, true };
 
         public IEnumerable<UserBusinessTimeSheets> FilterBusinesses(IEnumerable<Business> businesses, IServiceRepository repository)
         {
@@ -27,7 +26,7 @@ namespace Support_Your_Locals.Models
                             repository.TimeSheets.Where(t => t.BusinessID == b.BusinessID);
                         if (ChosenWeekday(timeSheets))
                         {
-                            yield return new UserBusinessTimeSheets {User = user, Business = b, TimeSheets = timeSheets};
+                            yield return new UserBusinessTimeSheets { User = user, Business = b, TimeSheets = timeSheets };
                         }
                     }
                 }
