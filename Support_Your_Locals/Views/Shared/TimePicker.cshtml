@@ -7,42 +7,11 @@
     string pickerTo = "picker" + day7Index;
 }
 
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
-<link href="/lib/datetimepicker/css/jquery.datetimepicker.min.css" rel="stylesheet" />
-
 <div class="container mt-5 mb-5" style="width: 400px">
     <label>@TimeSheetRegisterViewModel.Days[dayIndex]</label>
     <input type="hidden" asp-for="Weekday" value="@(dayIndex + 1)" />
     <label asp-for="From">From</label>
-    <input asp-for="From" id="@pickerFrom" class="form-control"/>
+    <input type="time" asp-for="From" class="form-control" placeholder="Select time">
     <label asp-for="To">To</label>
-    <input asp-for="To" id="@pickerTo" class="form-control"/>
+    <input type="time" asp-for="To" class="form-control" placeholder="Select time">
 </div>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="/lib/datetimepicker/js/jquery.datetimepicker.full.min.js"></script>
-<script>
-    $('#picker' + @dayIndex).datetimepicker({
-        timepicker: true,
-        datepicker: false,
-        format: 'H:i',
-        step: 10,
-        onShow: function () {
-            this.setOptions({
-                maxTime: $('#picker' + @day7Index).val() ? $('#picker' + @day7Index).val() : false
-            })
-        }
-    })
-    $('#picker' + @day7Index).datetimepicker({
-        timepicker: true,
-        datepicker: false,
-        format: 'H:i',
-        step: 10,
-        onShow: function () {
-            this.setOptions({
-                minTime: $('#picker' + @dayIndex).val() ? $('#picker' + @dayIndex).val() : false
-            })
-        }
-    })
-</script>
