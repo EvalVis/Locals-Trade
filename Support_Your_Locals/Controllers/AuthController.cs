@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Support_Your_Locals.Infrastructure.Extensions;
 using Support_Your_Locals.Models;
@@ -64,7 +69,7 @@ namespace Support_Your_Locals.Controllers
         }
 
         [HttpPost]
-        public ActionResult SignIn(UserLoginModel login)
+        public async Task<ActionResult> SignIn(UserLoginModel login)
         {
             if (ModelState.IsValid)
             {
@@ -88,6 +93,17 @@ namespace Support_Your_Locals.Controllers
                     }
                     if (goodpass)
                     {
+                        var claims = new List<Claim>
+                        {
+                            new Claim(ClaimTypes.Name, user.Name)
+                        };
+                        var identity = new ClaimsIdentity(
+                            claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        var principal = new ClaimsPrincipal(identity);
+                        var props = new AuthenticationProperties();
+                        HttpContext.SignInAsync(
+                            CookieAuthenticationDefaults.AuthenticationScheme, principal, props).Wait();
+
                         login.NotFound = false;
                         HttpContext.Session.SetJson("user", user);
                         return Redirect("/");

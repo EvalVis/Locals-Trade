@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
@@ -33,6 +34,7 @@ namespace Support_Your_Locals.Controllers
             return View(userBusinessTimeSheets);
         }
 
+        [Authorize]
         [HttpGet]
         public ActionResult AddAdvertisement()
         {
