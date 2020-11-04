@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Support_Your_Locals.Models.ViewModels
 {
@@ -15,5 +16,6 @@ namespace Support_Your_Locals.Models.ViewModels
         public string Header {get; set;}
         public string Longitude { get; set; }
         public string Latitude { get; set; }
+        public List<string> Pictures { get; set; }
     }
 }

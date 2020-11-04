@@ -56,6 +56,7 @@ namespace Support_Your_Locals.Controllers
                     PhoneNumber = businessRegisterModel.PhoneNumber,
                     Latitude = businessRegisterModel.Latitude,
                     Longitude = businessRegisterModel.Longitude,
+                    Pictures = businessRegisterModel.Pictures.Where(item => item != null).ToList(),
                 };
                 repository.AddBusiness(business);
                 return View();

@@ -85,6 +85,13 @@
     }
 </style>
 <div id="mapid"></div>
+
+<div id="pictures">
+    @foreach (var product in @Model.Business.Pictures)
+    {
+        <img src="@product" />
+    }
+</div>
 <script>
     const latitude = Number("@Model.Business.Latitude");
     const longitude = Number("@Model.Business.Longitude");
