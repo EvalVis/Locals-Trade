@@ -115,5 +115,12 @@ namespace Support_Your_Locals.Controllers
             }
             return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> SignOut()
+        {
+            await HttpContext.SignOutAsync();
+            return Redirect("/");
+        }
     }
 }
