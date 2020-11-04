@@ -105,7 +105,6 @@ namespace Support_Your_Locals.Controllers
                             CookieAuthenticationDefaults.AuthenticationScheme, principal, props).Wait();
 
                         login.NotFound = false;
-                        HttpContext.Session.SetJson("user", user);
                         return Redirect("/");
                     }
 
