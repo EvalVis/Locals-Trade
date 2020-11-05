@@ -9,9 +9,13 @@
 </head>
 <body>
     <div class="bg-dark text-white p-2">
-        <a asp-controller="Home" asp-action="Index" class="navbar-brand ml-2">Support Your Locals</a>
-        <a asp-controller="Auth" asp-action="SignIn" class="navbar-brand ml-2">Sign In</a>
-        <a asp-controller="Auth" asp-action="SignUp" class="navbar-brand ml-2">Sign Up</a>
+        <span class="navbar-brand ml-2">Support Your Locals</span>
+        @if (!User.Identity.IsAuthenticated)
+        {<a asp-controller="Auth" asp-action="SignIn" class="navbar-brand ml-2">Sign In</a>
+            <a asp-controller="Auth" asp-action="SignUp" class="navbar-brand ml-2">Sign Up</a>}
+        else
+        {<a asp-controller="Auth" asp-action="SignIn" class="navbar-brand ml-2">Sign Out</a>}
+
         <a asp-controller="Business" asp-action="AddAdvertisement" class="navbar-brand ml-2">Add advertisement</a>
     </div>
 <div class="col-9">
