@@ -1,2 +1,2 @@
 # Locals Trade
-(diagram.png)
+<img src="diagram.png">
