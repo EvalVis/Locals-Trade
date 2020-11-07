@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
@@ -21,9 +22,9 @@ namespace Support_Your_Locals.Controllers
         [HttpGet]
         public ViewResult Index(long businessId)
         {
-            Business business = repository.Business.FirstOrDefault(b => b.BusinessID == businessId);
+            Business business = repository.Business.Include(b => b.Workdays).FirstOrDefault(b => b.BusinessID == businessId);
             User user = repository.Users.FirstOrDefault(u => u.UserID == business.UserID);
-            IEnumerable<TimeSheet> timeSheets = repository.TimeSheets.Where(t => t.BusinessID == business.BusinessID);
+            IEnumerable<TimeSheet> timeSheets = business.Workdays;
             UserBusinessTimeSheets userBusinessTimeSheets = new UserBusinessTimeSheets
             {
                 User = user,
