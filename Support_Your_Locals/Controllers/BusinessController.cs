@@ -54,16 +54,16 @@ namespace Support_Your_Locals.Controllers
                 Latitude = businessRegisterModel.Latitude,
                 Longitude = businessRegisterModel.Longitude,
             };
-            repository.AddBusiness(business);
             for (int i = 0; i < 7; i++)
             {
                 TimeSheetRegisterViewModel day = businessRegisterModel.Workdays[i];
                 DateTime from = day.From;
                 DateTime to = day.To;
                 if (TimeSheetRegisterViewModel.Invalid(from, to)) continue;
-                TimeSheet timeSheet = new TimeSheet { From = day.From, To = day.To, Weekday = day.Weekday, BusinessID = 1 }; // TODO: fix
-                repository.AddTimeSheet(timeSheet);
+                TimeSheet workday = new TimeSheet { From = day.From, To = day.To, Weekday = day.Weekday, Business = business};
+                business.Workdays.Add(workday);
             }
+            repository.AddBusiness(business);
             return Redirect("/");
         }
     }

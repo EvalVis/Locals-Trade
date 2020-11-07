@@ -1,4 +1,6 @@
-﻿namespace Support_Your_Locals.Models
+﻿using System.Collections.Generic;
+
+namespace Support_Your_Locals.Models
 {
     public class Business
     {
@@ -10,5 +12,6 @@
         public string Latitude { get; set; }
         public string PhoneNumber { get; set; }
         public string Header { get; set; }
+        public List<TimeSheet> Workdays { get; set; } = new List<TimeSheet>();
     }
 }
