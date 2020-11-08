@@ -6,6 +6,7 @@ namespace Support_Your_Locals.Models
     {
         public long BusinessID { get; set; }
         public long UserID { get; set; }
+        public User User { get; set; }
         public string Product { get; set; }
         public string Description { get; set; }
         public string Longitude { get; set; }

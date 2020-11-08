@@ -18,6 +18,8 @@ namespace Support_Your_Locals.Models
         {
             modelBuilder.Entity<TimeSheet>().HasOne(t => t.Business).
                 WithMany(b => b.Workdays).HasForeignKey(t => t.BusinessID).IsRequired().OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Business>().HasOne(b => b.User).WithMany(u => u.Businesses).HasForeignKey(b => b.UserID)
+                .IsRequired().OnDelete(DeleteBehavior.Cascade);
             base.OnModelCreating(modelBuilder);
         }
     }
