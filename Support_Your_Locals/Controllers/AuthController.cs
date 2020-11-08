@@ -12,7 +12,7 @@ using Support_Your_Locals.Infrastructure.Extensions;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
-
+//Test
 namespace Support_Your_Locals.Controllers
 {
     public class AuthController : Controller
@@ -102,7 +102,7 @@ namespace Support_Your_Locals.Controllers
                         var principal = new ClaimsPrincipal(identity);
                         var props = new AuthenticationProperties();
                         await HttpContext.SignInAsync(
-                            CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                            CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
 
                         login.NotFound = false;
                         return Redirect("/");
