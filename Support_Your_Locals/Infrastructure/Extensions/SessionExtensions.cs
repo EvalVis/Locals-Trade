@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Text.Json;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Http;
 
 namespace Support_Your_Locals.Infrastructure.Extensions
 {
