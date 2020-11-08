@@ -25,13 +25,13 @@ namespace Support_Your_Locals.Controllers
         {
             IEnumerable<Business> businesses = repository.Business
                 .Where(b => category == null || b.Product == category).Include(b => b.User).Include(b => b.Workdays);
-            IEnumerable<UserBusinessTimeSheets> userBusinessTimeSheets = searchResponse.FilterBusinesses(businesses).
-                OrderBy(ubts => ubts.Business.BusinessID).
+            IEnumerable<Business> filteredBusinesses = searchResponse.FilterBusinesses(businesses).
+                OrderBy(b => b.BusinessID).
                 Skip((productPage - 1) * PageSize).
                 Take(PageSize);
             return View(new BusinessListViewModel
             {
-                UserBusinessTimeSheets = userBusinessTimeSheets,
+                Businesses = filteredBusinesses,
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = productPage,
