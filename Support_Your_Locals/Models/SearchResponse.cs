@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Support_Your_Locals.Models.Repositories;
 
 namespace Support_Your_Locals.Models
 {
@@ -11,37 +9,28 @@ namespace Support_Your_Locals.Models
         public string OwnersSurname { get; set; }
         public string Header { get; set; }
         public bool SearchInDescription { get; set; }
-        public bool[] WeekdaySelected { get; set; } = { true, true, true, true, true, true, true };
+        public bool[] WeekdaySelected { get; set; }
 
-        public IEnumerable<UserBusinessTimeSheets> FilterBusinesses(IEnumerable<Business> businesses, IServiceRepository repository)
+        public SearchResponse()
         {
-            foreach (var b in businesses)
-            {
-                if (BusinessConditionsMet(b))
-                {
-                    User user = repository.Users.FirstOrDefault(u => u.UserID == b.UserID);
-                    if (UserConditionsMet(user))
-                    {
-                        IEnumerable<TimeSheet> timeSheets =
-                            repository.TimeSheets.Where(t => t.BusinessID == b.BusinessID);
-                        if (ChosenWeekday(timeSheets))
-                        {
-                            yield return new UserBusinessTimeSheets { User = user, Business = b, TimeSheets = timeSheets };
-                        }
-                    }
-                }
-            }
+            WeekdaySelected = new bool[7];
+            for (int i = 0; i < 7; i++) WeekdaySelected[i] = true;
+        }
+
+        public IEnumerable<Business> FilterBusinesses(IEnumerable<Business> businesses)
+        {
+            return businesses.Where(b => BusinessConditionsMet(b) && UserConditionsMet(b.User) && ChosenWeekday(b.Workdays));
         }
 
         private bool UserConditionsMet(User user)
         {
-            if (!String.IsNullOrEmpty(OwnersSurname)) return ChosenOwnersSurname(user);
+            if (!string.IsNullOrEmpty(OwnersSurname)) return ChosenOwnersSurname(user);
             return true;
         }
 
         private bool BusinessConditionsMet(Business business)
         {
-            if (!String.IsNullOrEmpty(Header))
+            if (!string.IsNullOrEmpty(Header))
             {
                 if (SearchInDescription)
                 {

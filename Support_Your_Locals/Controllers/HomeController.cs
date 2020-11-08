@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
@@ -23,17 +24,11 @@ namespace Support_Your_Locals.Controllers
         public ViewResult Index(SearchResponse searchResponse, string category, int productPage = 1)
         {
             IEnumerable<Business> businesses = repository.Business
-                .Where(b => category == null || b.Product == category);
-            IEnumerable<UserBusinessTimeSheets> userBusinessTimeSheets = searchResponse.FilterBusinesses(businesses, repository).
+                .Where(b => category == null || b.Product == category).Include(b => b.User).Include(b => b.Workdays);
+            IEnumerable<UserBusinessTimeSheets> userBusinessTimeSheets = searchResponse.FilterBusinesses(businesses).
                 OrderBy(ubts => ubts.Business.BusinessID).
                 Skip((productPage - 1) * PageSize).
                 Take(PageSize);
-            /*Join(repository.Users, business => business.UserID, user => user.UserID,
-            (business, user) => new UserBusiness
-            {
-                User = user,
-                Business = business
-            });*/
             return View(new BusinessListViewModel
             {
                 UserBusinessTimeSheets = userBusinessTimeSheets,
@@ -41,7 +36,7 @@ namespace Support_Your_Locals.Controllers
                 {
                     CurrentPage = productPage,
                     ItemsPerPage = PageSize,
-                    TotalItems = searchResponse.FilterBusinesses(businesses, repository).Count()
+                    TotalItems = searchResponse.FilterBusinesses(businesses).Count()
                 },
                 CurrentCategory = category,
                 SearchResponse = searchResponse
