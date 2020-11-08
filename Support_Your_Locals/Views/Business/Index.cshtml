@@ -1,16 +1,16 @@
-﻿@model UserBusinessTimeSheets
+﻿@model Business
 
 @{
     Layout = "_BusinessPageLayout";
 }
 
-<h2 class="text-center">@Model.Business.Header</h2>
+<h2 class="text-center">@Model.Header</h2>
 <div class="col-sm-3"><img src="https://g3.dcdn.lt/images/pix/braskes-71413768.jpg" style="width:100%"></div>
 <div class="container">
     <div class="col-sm-8">
         <div class="panel panel-primary">
-            <div class="panel-heading">@Model.Business.Product</div>
-            <div class="panel-body">@Model.Business.Description<br></div>
+            <div class="panel-heading">@Model.Product</div>
+            <div class="panel-body">@Model.Description<br></div>
         </div>
     </div>
     <div class="col-sm-1">
@@ -25,10 +25,11 @@
             <tbody>
                 @for (int i = 1; i <= 7; i++)
                 {
-                    @if (@Model.TimeSheets.FirstOrDefault(t => t.Weekday == i)?.From == null)
+                    TimeSheet workday = Model.Workdays.FirstOrDefault(t => t.Weekday == i);
+                    @if (workday?.From == null)
                     {
                         <tr>
-                            <td>@Model.days[i]</td>
+                            <td>@DayNames.days[i - 1]</td>
                             <td><div style="color: rgb(255, 0, 0)">Closed</div></td>
                             <td><div style="color: rgb(255, 0, 0)">Closed</div></td>
                         </tr>
@@ -36,9 +37,9 @@
                     else
                     {
                         <tr>
-                            <td>@Model.days[i]</td>
-                            <td>@Model.TimeSheets.FirstOrDefault(t => t.Weekday == i)?.From.TimeOfDay </td>
-                            <td>@Model.TimeSheets.FirstOrDefault(t => t.Weekday == i)?.To.TimeOfDay </td>
+                            <td>@DayNames.days[i]</td>
+                            <td>@workday.From.TimeOfDay </td>
+                            <td>@workday.To.TimeOfDay </td>
                         </tr>
                     }
 
@@ -56,7 +57,7 @@
     <ul>
         <li>@Model.User.Name</li>
         <li>@Model.User.Surname</li>
-        <li>@Model.Business.PhoneNumber</li>
+        <li>@Model.PhoneNumber</li>
     </ul>
 </div>
 
@@ -86,8 +87,8 @@
 </style>
 <div id="mapid"></div>
 <script>
-    const latitude = Number("@Model.Business.Latitude");
-    const longitude = Number("@Model.Business.Longitude");
+    const latitude = Number("@Model.Latitude");
+    const longitude = Number("@Model.Longitude");
     if (latitude && longitude) {
         const mymap = L.map('mapid').setView([latitude, longitude], 13);
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -105,7 +106,7 @@
                 return;
             }
 
-            L.marker(result.latlng).addTo(mymap).bindPopup("@Model.Business.Product<br/>" + result.address.LongLabel).openPopup();
+            L.marker(result.latlng).addTo(mymap).bindPopup("@Model.Product<br/>" + result.address.LongLabel).openPopup();
         });
     }
 </script>

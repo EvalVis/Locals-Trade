@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,18 +21,12 @@ namespace Support_Your_Locals.Controllers
         }
 
         [HttpGet]
-        public ViewResult Index(long businessId)
+        public ActionResult Index(long businessId)
         {
-            Business business = repository.Business.Include(b => b.Workdays).FirstOrDefault(b => b.BusinessID == businessId);
-            User user = repository.Users.FirstOrDefault(u => u.UserID == business.UserID);
-            IEnumerable<TimeSheet> timeSheets = business.Workdays;
-            UserBusinessTimeSheets userBusinessTimeSheets = new UserBusinessTimeSheets
-            {
-                User = user,
-                Business = business,
-                TimeSheets = timeSheets
-            };
-            return View(userBusinessTimeSheets);
+            Business business = repository.Business.Include(b => b.User).
+                Include(b => b.Workdays).FirstOrDefault(b => b.BusinessID == businessId);
+            if (business == null) return NotFound();
+            return View(business);
         }
 
         [HttpGet]
