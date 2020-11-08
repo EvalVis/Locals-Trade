@@ -10,7 +10,6 @@ namespace Support_Your_Locals.Models.Repositories
         public IQueryable<TimeSheet> TimeSheets { get; }
         public void AddUser(User user);
         public void AddBusiness(Business business);
-        public void AddTimeSheet(TimeSheet timeSheet);
         public void AddTimeSheets(IEnumerable<TimeSheet> timeSheets);
     }
 }

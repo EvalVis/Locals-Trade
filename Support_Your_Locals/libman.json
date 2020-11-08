@@ -5,10 +5,6 @@
     {
       "library": "twitter-bootstrap@4.3.1",
       "destination": "wwwroot/lib/twitter-bootstrap"
-    },
-    {
-      "library": "bootstrap-timepicker@0.5.2",
-      "destination": "wwwroot/lib/bootstrap-timepicker/"
     }
   ]
 }

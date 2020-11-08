@@ -11,7 +11,6 @@ namespace Support_Your_Locals.Models.ViewModels
         public string Surname { get; set; }
         [Required(ErrorMessage = "Please enter your birth date")]
         public DateTime BirthDate { get; set; }
-        [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "Bad email format")]
         [Required(ErrorMessage = "Please enter your email address")]
         public string Email { get; set; }
         [Required(ErrorMessage = "Please enter your password")]

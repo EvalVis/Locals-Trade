@@ -29,17 +29,10 @@ namespace Support_Your_Locals.Models.Repositories
             context.SaveChanges();
         }
 
-        public void AddTimeSheet(TimeSheet timeSheet)
-        {
-            context.Add(timeSheet);
-            context.SaveChanges();
-        }
-
         public void AddTimeSheets(IEnumerable<TimeSheet> timeSheets)
         {
             context.AddRange(timeSheets);
             context.SaveChanges();
         }
-
     }
 }

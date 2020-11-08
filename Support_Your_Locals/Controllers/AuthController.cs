@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Support_Your_Locals.Infrastructure.Extensions;
 using Support_Your_Locals.Models;
@@ -70,11 +65,11 @@ namespace Support_Your_Locals.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SignIn(UserLoginModel login)
+        public ActionResult SignIn(UserLoginModel login)
         {
             if (ModelState.IsValid)
             {
-                User user = userRepository.Users.FirstOrDefault(b => b.Email == login.Email);
+                User user = userRepository.Users.FirstOrDefault(b => b.Email == login.Email);                
                 if (user != null)
                 {
                     bool goodpass = false;
@@ -94,33 +89,16 @@ namespace Support_Your_Locals.Controllers
                     }
                     if (goodpass)
                     {
-                        var claims = new List<Claim>
-                        {
-                            new Claim(ClaimTypes.Name, user.Name)
-                        };
-                        var identity = new ClaimsIdentity(claims, "SignIn");
-                        var principal = new ClaimsPrincipal(identity);
-                        var props = new AuthenticationProperties();
-                        await HttpContext.SignInAsync(
-                            CookieAuthenticationDefaults.AuthenticationScheme, principal);
-
                         login.NotFound = false;
+                        HttpContext.Session.SetJson("user", user);
                         return Redirect("/");
                     }
-
+                    
                 }
                 login.NotFound = true;
                 return View(login);
             }
             return View();
         }
-
-        [HttpPost]
-        public async Task<IActionResult> SignOut()
-        {
-            await HttpContext.SignOutAsync();
-            return Redirect("/");
-        }
-        
     }
 }
