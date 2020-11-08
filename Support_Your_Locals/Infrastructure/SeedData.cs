@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -53,16 +52,6 @@ namespace Support_Your_Locals.Infrastructure
                 To = new DateTime(1999, 12, 06, th, tm, 00),
                 Weekday = day
             };
-        }
-
-        private static void AddBusinessOwner(User owner, Business business)
-        {
-            owner.Businesses.Add(business);
-        }
-
-        private static void AddBusinessWorkday(Business business, TimeSheet workday)
-        {
-            business.Workdays.Add(workday);
         }
 
         private static User[] CreateTestMaterial(ServiceDbContext context)
