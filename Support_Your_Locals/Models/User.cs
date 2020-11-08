@@ -11,7 +11,7 @@ namespace Support_Your_Locals.Models
         public DateTime BirthDate { get; set; }
         public string Email { get; set; }
         public string Passhash { get; set; }
-        public List<Business> Businesses { get; set; }
+        public List<Business> Businesses { get; set; } = new List<Business>();
 
     }
 }
