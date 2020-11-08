@@ -4,11 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Support_Your_Locals.Controllers
 {
@@ -23,11 +21,12 @@ namespace Support_Your_Locals.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index(string business)
+        public ActionResult Index(long businessId)
         {
-            Business b = JsonSerializer.Deserialize<Business>(business);
-            if (b == null) return NotFound();
-            return View(b);
+            Business business = repository.Business.Include(b => b.User).
+                Include(b => b.Workdays).FirstOrDefault(b => b.BusinessID == businessId);
+            if (business == null) return NotFound();
+            return View(business);
         }
 
         [HttpGet]
