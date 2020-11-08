@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Support_Your_Locals.Models;
@@ -21,10 +19,10 @@ namespace Support_Your_Locals.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index(long businessId)
+        public async Task<ActionResult> Index(long businessId)
         {
-            Business business = repository.Business.Include(b => b.User).
-                Include(b => b.Workdays).FirstOrDefault(b => b.BusinessID == businessId);
+            Business business = await repository.Business.Include(b => b.User).
+                Include(b => b.Workdays).FirstOrDefaultAsync(b => b.BusinessID == businessId);
             if (business == null) return NotFound();
             return View(business);
         }
