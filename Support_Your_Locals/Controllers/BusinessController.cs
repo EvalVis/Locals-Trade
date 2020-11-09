@@ -36,7 +36,7 @@ namespace Support_Your_Locals.Controllers
         }
         [Authorize]
         [HttpPost]
-        public ViewResult AddAdvertisement(BusinessRegisterModel businessRegisterModel)
+        public ActionResult AddAdvertisement(BusinessRegisterModel businessRegisterModel)
         {
             //TODO: validation
             Business business = new Business
