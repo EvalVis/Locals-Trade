@@ -25,7 +25,8 @@
             <tbody>
                 @for (int i = 1; i <= 7; i++)
                 {
-                    @if (@Model.TimeSheets.FirstOrDefault(t => t.Weekday == i)?.From == null)
+                    var weekDay = Model.TimeSheets.FirstOrDefault(t => t.Weekday == i);
+                    if (weekDay == null)
                     {
                         <tr>
                             <td>@Model.days[i]</td>
@@ -37,8 +38,8 @@
                     {
                         <tr>
                             <td>@Model.days[i]</td>
-                            <td>@Model.TimeSheets.FirstOrDefault(t => t.Weekday == i)?.From.TimeOfDay </td>
-                            <td>@Model.TimeSheets.FirstOrDefault(t => t.Weekday == i)?.To.TimeOfDay </td>
+                            <td>@weekDay.From.TimeOfDay </td>
+                            <td>@weekDay.To.TimeOfDay </td>
                         </tr>
                     }
 

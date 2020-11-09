@@ -16,7 +16,7 @@ else {
         </div>
         @if (Model?.NotFound == true)
         {
-            <h5 class="bg-warning text-danger text-center">User not found.</h5>
+            <h5 class="bg-warning text-danger text-center">Incorrect user or password.</h5>
         }
         <form asp-action="SignIn" method="post">
             <div class="form-group">

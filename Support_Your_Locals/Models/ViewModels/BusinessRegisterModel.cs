@@ -6,7 +6,7 @@ namespace Support_Your_Locals.Models.ViewModels
     public class BusinessRegisterModel
     {
 
-        [Required(ErrorMessage = "Please enter your product or activity")]
+        [Required(ErrorMessage = "Please enter your product")]
         public string Product {get; set;}
         [Required(ErrorMessage = "Please add your business description")]
         public string Description {get; set;}

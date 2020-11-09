@@ -3,7 +3,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Support_Your_Locals.Models;
 
 namespace Support_Your_Locals.Migrations
@@ -29,7 +28,7 @@ namespace Support_Your_Locals.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Header")
+                    b.Property<string>("BusinessInfo")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Latitude")
