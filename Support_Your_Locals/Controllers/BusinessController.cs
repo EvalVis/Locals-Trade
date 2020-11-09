@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +50,7 @@ namespace Support_Your_Locals.Controllers
                 PhoneNumber = businessRegisterModel.PhoneNumber,
                 Latitude = businessRegisterModel.Latitude,
                 Longitude = businessRegisterModel.Longitude,
+                Pictures = businessRegisterModel.Pictures.Where(item => item != null).ToList()
             };
             for (int i = 0; i < 7; i++)
             {
