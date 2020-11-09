@@ -17,11 +17,11 @@ namespace Support_Your_Locals.Models
         public DbSet<Business> Business { get; set; }
         public DbSet<TimeSheet> TimeSheets { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var splitStringConverter = new ValueConverter<IList<string>, string>(v => string.Join(";", v), v => v.Split(new[] { ';' }));
-            builder.Entity<Business>().Property(nameof(BusinessEntity.Pictures)).HasConversion(splitStringConverter);
-                        modelBuilder.Entity<TimeSheet>().HasOne(t => t.Business).
+            modelBuilder.Entity<Business>().Property(nameof(BusinessEntity.Pictures)).HasConversion(splitStringConverter);
+            modelBuilder.Entity<TimeSheet>().HasOne(t => t.Business).
                 WithMany(b => b.Workdays).HasForeignKey(t => t.BusinessID).IsRequired().OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Business>().HasOne(b => b.User).WithMany(u => u.Businesses).HasForeignKey(b => b.UserID)
                 .IsRequired().OnDelete(DeleteBehavior.Cascade);
