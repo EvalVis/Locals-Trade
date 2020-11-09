@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Support_Your_Locals.Models;
 
 namespace Support_Your_Locals.Migrations
@@ -28,7 +29,7 @@ namespace Support_Your_Locals.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("BusinessInfo")
+                    b.Property<string>("Header")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Latitude")
@@ -38,6 +39,9 @@ namespace Support_Your_Locals.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Pictures")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Product")
