@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Support_Your_Locals.Migrations
 {
-    public partial class AddUserToDb : Migration
+    public partial class AddUserBusinessTimeSheetToDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,7 +19,8 @@ namespace Support_Your_Locals.Migrations
                     Longitude = table.Column<string>(nullable: true),
                     Latitude = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
-                    Header = table.Column<string>(nullable: true)
+                    Header = table.Column<string>(nullable: true),
+                    Pictures = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -51,7 +52,8 @@ namespace Support_Your_Locals.Migrations
                     Name = table.Column<string>(nullable: true),
                     Surname = table.Column<string>(nullable: true),
                     BirthDate = table.Column<DateTime>(nullable: false),
-                    Email = table.Column<string>(nullable: true)
+                    Email = table.Column<string>(nullable: true),
+                    Passhash = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
