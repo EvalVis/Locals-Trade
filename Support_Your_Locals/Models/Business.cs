@@ -2,6 +2,7 @@
 
 namespace Support_Your_Locals.Models
 {
+
     public class Business
     {
         public long BusinessID { get; set; }
@@ -14,5 +15,6 @@ namespace Support_Your_Locals.Models
         public string PhoneNumber { get; set; }
         public string Header { get; set; }
         public List<TimeSheet> Workdays { get; set; } = new List<TimeSheet>();
+        public IList<string> Pictures { get; set; } = new List<string>();
     }
 }

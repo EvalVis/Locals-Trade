@@ -26,7 +26,7 @@
                 @for (int i = 1; i <= 7; i++)
                 {
                     TimeSheet workday = Model.Workdays.FirstOrDefault(t => t.Weekday == i);
-                    @if (workday?.From == null)
+                    @if (workday == null)
                     {
                         <tr>
                             <td>@DayNames.days[i - 1]</td>
@@ -86,6 +86,13 @@
     }
 </style>
 <div id="mapid"></div>
+
+<div id="pictures">
+    @foreach (var product in @Model.Business.Pictures)
+    {
+        <img src="@product" />
+    }
+</div>
 <script>
     const latitude = Number("@Model.Latitude");
     const longitude = Number("@Model.Longitude");

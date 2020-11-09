@@ -1,8 +1,8 @@
-﻿@model IEnumerable<string>
+﻿@model Tuple<string, IEnumerable<string>>
 
-<a class="btn btn-block btn-outline-secondary" asp-action="Index" asp-controller="Home" asp-route-category="">Home</a>
+<a class="btn btn-block btn-outline-secondary" asp-action="Index" asp-controller="Home" asp-route-product="">Home</a>
 
-@foreach (string category in Model) {
-    <a class="btn btn-block @(category == ViewBag.SelectedCategory ? "btn-primary" : "btn-outline-secondary")"
-       asp-action="Index" asp-controller="Home" asp-route-category="@category" asp-route-productPage="1">@category</a>
+@foreach (string product in Model.Item2) {
+    <a class="btn btn-block @(product == Model.Item1 ? "btn-primary" : "btn-outline-secondary")"
+       asp-action="Index" asp-controller="Home" asp-route-product="@product" asp-route-page="1">@product</a>
 }

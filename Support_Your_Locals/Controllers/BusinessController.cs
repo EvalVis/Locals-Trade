@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Support_Your_Locals.Controllers
 {
@@ -27,14 +28,15 @@ namespace Support_Your_Locals.Controllers
             return View(business);
         }
 
+        [Authorize]
         [HttpGet]
-        public ActionResult AddAdvertisement()
+        public ViewResult AddAdvertisement()
         {
             return View();
         }
-
+        [Authorize]
         [HttpPost]
-        public ActionResult AddAdvertisement(BusinessRegisterModel businessRegisterModel)
+        public ViewResult AddAdvertisement(BusinessRegisterModel businessRegisterModel)
         {
             //TODO: validation
             Business business = new Business

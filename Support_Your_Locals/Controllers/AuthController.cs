@@ -89,8 +89,17 @@ namespace Support_Your_Locals.Controllers
                     }
                     if (goodpass)
                     {
+                        var claims = new List<Claim>
+                        {
+                            new Claim(ClaimTypes.Name, user.Name)
+                        };
+                        var identity = new ClaimsIdentity(claims, "SignIn");
+                        var principal = new ClaimsPrincipal(identity);
+                        var props = new AuthenticationProperties();
+                        await HttpContext.SignInAsync(
+                            CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
+
                         login.NotFound = false;
-                        HttpContext.Session.SetJson("user", user);
                         return Redirect("/");
                     }
 
@@ -100,5 +109,13 @@ namespace Support_Your_Locals.Controllers
             }
             return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> SignOut()
+        {
+            await HttpContext.SignOutAsync();
+            return Redirect("/");
+        }
+        
     }
 }

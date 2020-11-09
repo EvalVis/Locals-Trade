@@ -41,6 +41,9 @@ namespace Support_Your_Locals.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Pictures")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Product")
                         .HasColumnType("nvarchar(max)");
 

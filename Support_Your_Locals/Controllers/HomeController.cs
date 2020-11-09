@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
-using Support_Your_Locals.Models.ViewModels;
 using Support_Your_Locals.Models.ViewModels.BusinessBoard;
 
 namespace Support_Your_Locals.Controllers
@@ -21,7 +19,7 @@ namespace Support_Your_Locals.Controllers
             repository = repo;
         }
 
-        public ViewResult Index(SearchResponse searchResponse, string category, int productPage = 1)
+        public ViewResult Index(SearchResponse searchResponse, string product, int page = 1)
         {
             IEnumerable<Business> businesses = repository.Business
                 .Where(b => category == null || b.Product == category).Include(b => b.User).Include(b => b.Workdays);
@@ -34,19 +32,14 @@ namespace Support_Your_Locals.Controllers
                 Businesses = filteredBusinesses,
                 PagingInfo = new PagingInfo
                 {
-                    CurrentPage = productPage,
+                    CurrentPage = page,
                     ItemsPerPage = PageSize,
                     TotalItems = searchResponse.FilterBusinesses(businesses).Count()
                 },
-                CurrentCategory = category,
+                CurrentProduct = product,
                 SearchResponse = searchResponse
             });
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }

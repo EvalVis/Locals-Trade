@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -9,9 +8,13 @@
 <body>
     <div class="bg-dark text-white p-2">
         <span class="navbar-brand ml-2">Support Your Locals</span>
-        <a asp-controller="Auth" asp-action="SignIn" class="navbar-brand ml-2">Sign In</a>
-        <a asp-controller="Auth" asp-action="SignUp" class="navbar-brand ml-2">Sign Up</a>
+        @if (!User.Identity.IsAuthenticated)
+        {<a asp-controller="Auth" asp-action="SignIn" class="navbar-brand ml-2">Sign In</a>
+         <a asp-controller="Auth" asp-action="SignUp" class="navbar-brand ml-2">Sign Up</a>}
+        else {<a asp-controller="Auth" asp-action="SignIn" class="navbar-brand ml-2">Sign Out</a>}
+        
         <a asp-controller="Business" asp-action="AddAdvertisement" class="navbar-brand ml-2">Add advertisement</a>
+        
     </div>
     <div class="row m-1 p-1">
         <div id="categories" class="col-3">
