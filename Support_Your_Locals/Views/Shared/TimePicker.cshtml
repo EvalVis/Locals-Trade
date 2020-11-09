@@ -1,0 +1,17 @@
+﻿@model TimeSheet
+
+@{
+    int dayIndex = ViewBag.DayInd;
+    int day7Index = dayIndex + 7;
+    string pickerFrom = "picker" + dayIndex;
+    string pickerTo = "picker" + day7Index;
+}
+
+<div class="container mt-5 mb-5" style="width: 400px">
+    <label>@TimeSheetRegisterViewModel.Days[dayIndex]</label>
+    <input type="hidden" asp-for="Weekday" value="@(dayIndex + 1)" />
+    <label asp-for="From">From</label>
+    <input type="time" asp-for="From" class="form-control" placeholder="Select time">
+    <label asp-for="To">To</label>
+    <input type="time" asp-for="To" class="form-control" placeholder="Select time">
+</div>

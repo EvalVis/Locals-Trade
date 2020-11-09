@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using System.Linq;
-using System.Net.Mime;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Support_Your_Locals.Models.Repositories;
 
