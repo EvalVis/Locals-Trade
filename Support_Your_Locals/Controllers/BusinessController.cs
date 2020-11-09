@@ -22,6 +22,8 @@ namespace Support_Your_Locals.Controllers
         [HttpGet]
         public ViewResult Index(long businessId)
         {
+            //TODO: Exception handling (ect. businessId = 0).
+            if (businessId == 0) businessId = 1; //This kind of solves it.
             Business business = repository.Business.FirstOrDefault(b => b.BusinessID == businessId);
             User user = repository.Users.FirstOrDefault(u => u.UserID == business.UserID);
             IEnumerable<TimeSheet> timeSheets = repository.TimeSheets.Where(t => t.BusinessID == business.BusinessID);
@@ -51,7 +53,7 @@ namespace Support_Your_Locals.Controllers
                     // Exception here
                     Header = businessRegisterModel.Header,
                     Description = businessRegisterModel.Description,
-                    UserID = HttpContext.Session.GetJson<User>("user").UserID,
+                    UserID = 1,
                     Product = businessRegisterModel.Product,
                     PhoneNumber = businessRegisterModel.PhoneNumber,
                     Latitude = businessRegisterModel.Latitude,
