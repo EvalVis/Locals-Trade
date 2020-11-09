@@ -100,7 +100,7 @@ namespace Support_Your_Locals.Controllers
                         var principal = new ClaimsPrincipal(identity);
                         var props = new AuthenticationProperties();
                         await HttpContext.SignInAsync(
-                            CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                            CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
 
                         login.NotFound = false;
                         return Redirect("/");
