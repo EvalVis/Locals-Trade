@@ -11,8 +11,7 @@
     <label>@TimeSheetRegisterViewModel.Days[dayIndex]</label>
     <input type="hidden" asp-for="Weekday" value="@(dayIndex + 1)" />
     <label asp-for="From">From</label>
-    <input type="time" asp-for="From" class="form-control" placeholder="Select time" pattern="([01]?[0-9]{1}|2[0-3]{1}):[0-5]{1}[0-9]{1}">
+    <input type="time" asp-for="From" class="form-control" placeholder="Select time">
     <label asp-for="To">To</label>
     <input type="time" asp-for="To" class="form-control" placeholder="Select time">
-
 </div>
