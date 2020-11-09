@@ -41,7 +41,7 @@ namespace Support_Your_Locals.Controllers
         {
             return View();
         }
-
+        [Authorize]
         [HttpPost]
         public ViewResult AddAdvertisement(BusinessRegisterModel businessRegisterModel)
         {
