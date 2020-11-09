@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
@@ -19,20 +20,12 @@ namespace Support_Your_Locals.Controllers
         }
 
         [HttpGet]
-        public ViewResult Index(long businessId)
+        public async Task<ActionResult> Index(long businessId)
         {
-            //TODO: Exception handling (ect. businessId = 0).
-            if (businessId == 0) businessId = 1; //This kind of solves it.
-            Business business = repository.Business.FirstOrDefault(b => b.BusinessID == businessId);
-            User user = repository.Users.FirstOrDefault(u => u.UserID == business.UserID);
-            IEnumerable<TimeSheet> timeSheets = repository.TimeSheets.Where(t => t.BusinessID == business.BusinessID);
-            UserBusinessTimeSheets userBusinessTimeSheets = new UserBusinessTimeSheets
-            {
-                User = user,
-                Business = business,
-                TimeSheets = timeSheets
-            };
-            return View(userBusinessTimeSheets);
+            Business business = await repository.Business.Include(b => b.User).
+                Include(b => b.Workdays).FirstOrDefaultAsync(b => b.BusinessID == businessId);
+            if (business == null) return NotFound();
+            return View(business);
         }
 
         [Authorize]
@@ -45,24 +38,29 @@ namespace Support_Your_Locals.Controllers
         [HttpPost]
         public ViewResult AddAdvertisement(BusinessRegisterModel businessRegisterModel)
         {
-            if (ModelState.IsValid)
+            //TODO: validation
+            Business business = new Business
             {
-                Business business = new Business
-                {
-                    // Exception here
-                    Header = businessRegisterModel.Header,
-                    Description = businessRegisterModel.Description,
-                    UserID = 1,
-                    Product = businessRegisterModel.Product,
-                    PhoneNumber = businessRegisterModel.PhoneNumber,
-                    Latitude = businessRegisterModel.Latitude,
-                    Longitude = businessRegisterModel.Longitude,
-                    Pictures = businessRegisterModel.Pictures.Where(item => item != null).ToList(),
-                };
-                repository.AddBusiness(business);
-                return View();
+                // Exception here
+                Header = businessRegisterModel.Header,
+                Description = businessRegisterModel.Description,
+                UserID = 1, // TODO: fix
+                Product = businessRegisterModel.Product,
+                PhoneNumber = businessRegisterModel.PhoneNumber,
+                Latitude = businessRegisterModel.Latitude,
+                Longitude = businessRegisterModel.Longitude,
+            };
+            for (int i = 0; i < 7; i++)
+            {
+                TimeSheetRegisterViewModel day = businessRegisterModel.Workdays[i];
+                DateTime from = day.From;
+                DateTime to = day.To;
+                if (TimeSheetRegisterViewModel.Invalid(from, to)) continue;
+                TimeSheet workday = new TimeSheet { From = day.From, To = day.To, Weekday = day.Weekday, Business = business};
+                business.Workdays.Add(workday);
             }
-            return View();
+            repository.AddBusiness(business);
+            return Redirect("/");
         }
     }
 }

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Support_Your_Locals.Infrastructure.Extensions;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
@@ -31,11 +28,11 @@ namespace Support_Your_Locals.Controllers
         }
 
         [HttpPost]
-        public ActionResult SignUp(UserRegisterModel register)
+        public async Task<ActionResult> SignUp(UserRegisterModel register)
         {
             if (ModelState.IsValid)
             {
-                bool exists = userRepository.Users.Any(b => b.Email == register.Email);
+                bool exists = await userRepository.Users.AnyAsync(b => b.Email == register.Email);
                 register.AlreadyExists = exists;
                 if (!exists)
                 {
@@ -67,12 +64,12 @@ namespace Support_Your_Locals.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost] // TODO: Include.
         public async Task<ActionResult> SignIn(UserLoginModel login)
         {
             if (ModelState.IsValid)
             {
-                User user = userRepository.Users.FirstOrDefault(b => b.Email == login.Email);
+                User user = await userRepository.Users.FirstOrDefaultAsync(b => b.Email == login.Email);
                 if (user != null)
                 {
                     bool goodpass = false;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Support_Your_Locals.Models.Repositories;
@@ -14,7 +13,7 @@ namespace Support_Your_Locals.Models
         [FromQuery(Name = "w")]
         public string WeekSelected { get; set; } = "1111111";
         public bool[] WeekdaySelected { get; set; } = {true, true, true, true, true, true, true};
-
+      
         public string ToQuery()
         {
             return $"os={OwnersSurname}&bi={BusinessInfo}&si={SearchIn}&w={WeekSelected}";
@@ -30,30 +29,20 @@ namespace Support_Your_Locals.Models
             }
         }
 
-        public IEnumerable<UserBusinessTimeSheets> FilterBusinesses(IEnumerable<Business> businesses, IServiceRepository repository)
+        public SearchResponse()
         {
-            SetWeekdaySelected();
-            foreach (var b in businesses)
-            {
-                if (BusinessConditionsMet(b))
-                {
-                    User user = repository.Users.FirstOrDefault(u => u.UserID == b.UserID);
-                    if (UserConditionsMet(user))
-                    {
-                        IEnumerable<TimeSheet> timeSheets =
-                            repository.TimeSheets.Where(t => t.BusinessID == b.BusinessID);
-                        if (ChosenWeekday(timeSheets))
-                        {
-                            yield return new UserBusinessTimeSheets {User = user, Business = b, TimeSheets = timeSheets};
-                        }
-                    }
-                }
-            }
+            WeekdaySelected = new bool[7];
+            for (int i = 0; i < 7; i++) WeekdaySelected[i] = true;
+        }
+
+        public IEnumerable<Business> FilterBusinesses(IEnumerable<Business> businesses)
+        {
+            return businesses.Where(b => BusinessConditionsMet(b) && UserConditionsMet(b.User) && ChosenWeekday(b.Workdays));
         }
 
         private bool UserConditionsMet(User user)
         {
-            if (!String.IsNullOrEmpty(OwnersSurname)) return ChosenOwnersSurname(user);
+            if (!string.IsNullOrEmpty(OwnersSurname)) return ChosenOwnersSurname(user);
             return true;
         }
 

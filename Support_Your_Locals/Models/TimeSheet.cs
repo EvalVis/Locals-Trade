@@ -9,5 +9,6 @@ namespace Support_Your_Locals.Models
         public DateTime To { get; set; }
         public int Weekday { get; set; }
         public long BusinessID { get; set; }
+        public Business Business { get; set; }
     }
 }
