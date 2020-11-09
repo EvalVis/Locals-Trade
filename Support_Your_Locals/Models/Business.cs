@@ -1,5 +1,9 @@
-﻿namespace Support_Your_Locals.Models
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace Support_Your_Locals.Models
 {
+
     public class Business
     {
         public long BusinessID { get; set; }
@@ -10,5 +14,6 @@
         public string Latitude { get; set; }
         public string PhoneNumber { get; set; }
         public string Header { get; set; }
+        public IList<string> Pictures { get; set; } = new List<string>();
     }
 }
