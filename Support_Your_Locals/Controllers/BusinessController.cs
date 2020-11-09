@@ -5,8 +5,7 @@ using Support_Your_Locals.Infrastructure.Extensions;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
-using System;
-using System.Runtime.InteropServices.ComTypes;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Support_Your_Locals.Controllers
 {
@@ -35,6 +34,7 @@ namespace Support_Your_Locals.Controllers
             return View(userBusinessTimeSheets);
         }
 
+        [Authorize]
         [HttpGet]
         public ViewResult AddAdvertisement()
         {
