@@ -38,6 +38,8 @@
                 <label asp-for="PhoneNumber">Phone number</label>
                 <input asp-for="PhoneNumber" class="form-control">
             </div>
+
+            <partial name="AddProduct" for="Products[0]"/>
           
             @for (int i = 0; i < 7; i++)
             {
