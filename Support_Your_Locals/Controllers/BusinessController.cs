@@ -46,7 +46,6 @@ namespace Support_Your_Locals.Controllers
                 Header = businessRegisterModel.Header,
                 Description = businessRegisterModel.Description,
                 UserID = 1, // TODO: fix
-                Product = businessRegisterModel.Product,
                 PhoneNumber = businessRegisterModel.PhoneNumber,
                 Latitude = businessRegisterModel.Latitude,
                 Longitude = businessRegisterModel.Longitude,

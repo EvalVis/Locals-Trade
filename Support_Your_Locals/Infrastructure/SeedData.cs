@@ -35,7 +35,6 @@ namespace Support_Your_Locals.Infrastructure
         {
             return new Business
             {
-                Product = product,
                 Description = description,
                 Longitude = longitude,
                 Latitude = latitude,

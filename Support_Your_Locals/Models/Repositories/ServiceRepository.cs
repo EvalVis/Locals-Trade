@@ -12,6 +12,8 @@ namespace Support_Your_Locals.Models.Repositories
         public IQueryable<Business> Business => context.Business;
         public IQueryable<TimeSheet> TimeSheets => context.TimeSheets;
 
+        public IQueryable<Product> Products => context.Products;
+
         public ServiceRepository(ServiceDbContext ctx)
         {
             context = ctx;
