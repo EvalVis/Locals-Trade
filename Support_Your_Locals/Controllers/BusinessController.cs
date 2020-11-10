@@ -61,6 +61,12 @@ namespace Support_Your_Locals.Controllers
                 TimeSheet workday = new TimeSheet { From = day.From, To = day.To, Weekday = day.Weekday, Business = business};
                 business.Workdays.Add(workday);
             }
+
+            foreach (var pr in businessRegisterModel.Products)
+            {
+                Product product = new Product {Name = pr.Name, PricePerUnit = pr.PricePerUnit, Unit = pr.Unit, Comment = pr.Comment};
+                business.Products.Add(product);
+            }
             repository.AddBusiness(business);
             return Redirect("/");
         }
