@@ -9,7 +9,6 @@
 <div class="container">
     <div class="col-sm-8">
         <div class="panel panel-primary">
-            <div class="panel-heading">@Model.Product</div>
             <div class="panel-body">@Model.Description<br></div>
         </div>
     </div>
@@ -113,7 +112,7 @@
                 return;
             }
 
-            L.marker(result.latlng).addTo(mymap).bindPopup("@Model.Product<br/>" + result.address.LongLabel).openPopup();
+            L.marker(result.latlng).addTo(mymap).bindPopup(result.address.LongLabel).openPopup();
         });
     }
 </script>
