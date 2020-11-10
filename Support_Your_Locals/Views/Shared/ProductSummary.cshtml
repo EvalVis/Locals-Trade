@@ -1,0 +1,34 @@
+﻿@model List<Product>
+
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+</style>
+
+<table>
+    <tr>
+        <th>Product</th>
+        <th>Unit price</th>
+        <th>Unit</th>
+        <th>Comment</th>
+    </tr>
+    @foreach (var p in Model)
+    {
+        <tr>
+            <td>@p.Name</td>
+            <td>@p.PricePerUnit</td>
+            <td>@p.Unit</td>
+            <td>@p.Comment</td>
+        </tr>
+    }
+</table>

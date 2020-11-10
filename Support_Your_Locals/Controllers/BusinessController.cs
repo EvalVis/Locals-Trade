@@ -24,7 +24,8 @@ namespace Support_Your_Locals.Controllers
         public async Task<ActionResult> Index(long businessId)
         {
             Business business = await repository.Business.Include(b => b.User).
-                Include(b => b.Workdays).FirstOrDefaultAsync(b => b.BusinessID == businessId);
+                Include(b => b.Workdays).Include(b => b.Products)
+                .FirstOrDefaultAsync(b => b.BusinessID == businessId);
             if (business == null) return NotFound();
             return View(business);
         }
