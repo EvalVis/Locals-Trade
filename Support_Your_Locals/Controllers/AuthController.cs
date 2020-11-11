@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
@@ -75,6 +77,7 @@ namespace Support_Your_Locals.Controllers
                 User user = await userRepository.Users.FirstOrDefaultAsync(b => b.Email == login.Email);
                 if (user != null)
                 {
+
                     bool goodpass = false;
                     string savedPasswordHash = user.Passhash;
                     byte[] hashBytes = Convert.FromBase64String(savedPasswordHash);
@@ -94,7 +97,7 @@ namespace Support_Your_Locals.Controllers
                     {
                         var claims = new List<Claim>
                         {
-                            new Claim(ClaimTypes.Name, user.Name)
+                            new Claim(ClaimTypes.Name, user.UserID.ToString())
                         };
                         var identity = new ClaimsIdentity(claims, "SignIn");
                         var principal = new ClaimsPrincipal(identity);
@@ -116,6 +119,7 @@ namespace Support_Your_Locals.Controllers
         [HttpPost]
         public async Task<IActionResult> SignOut()
         {
+            //string userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name).Value;
             await HttpContext.SignOutAsync();
             return Redirect("/");
         }

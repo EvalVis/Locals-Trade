@@ -7,6 +7,7 @@ using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Support_Your_Locals.Controllers
 {
@@ -45,7 +46,7 @@ namespace Support_Your_Locals.Controllers
                 // Exception here
                 Header = businessRegisterModel.Header,
                 Description = businessRegisterModel.Description,
-                UserID = 1, // TODO: fix
+                UserID = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name).Value),
                 Product = businessRegisterModel.Product,
                 PhoneNumber = businessRegisterModel.PhoneNumber,
                 Latitude = businessRegisterModel.Latitude,
