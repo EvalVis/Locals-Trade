@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels.BusinessBoard;
@@ -12,11 +13,12 @@ namespace Support_Your_Locals.Controllers
     {
 
         private IServiceRepository repository;
-        public int PageSize = 4;
+        public int PageSize;
 
-        public HomeController(IServiceRepository repo)
+        public HomeController(IServiceRepository repo, IConfiguration configuration)
         {
             repository = repo;
+            PageSize = int.Parse(configuration["Pages:pagesSize"]);
         }
 
         public ViewResult Index(SearchResponse searchResponse, string product, int page = 1)
@@ -41,5 +43,16 @@ namespace Support_Your_Locals.Controllers
             });
         }
 
+        public ViewResult Error(string code)
+        {
+            switch (code)
+            {
+                case "403":
+                    return View("Errors/Forbidden");
+                case "404":
+                    return View("Errors/NotFound");
+            }
+            return View("Errors/InternalError");
+        }
     }
 }
