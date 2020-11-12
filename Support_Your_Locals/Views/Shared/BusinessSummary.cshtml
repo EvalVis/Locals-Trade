@@ -6,7 +6,11 @@
             @Model.Header
             <span class="badge badge-pill badge-primary" style="float: right">
                 <small>
-                    @Model.Product
+                    @foreach (var p in Model.Products)
+                    {
+                        @p.Name
+                        <br>
+                    }
                 </small>
             </span>
         </h4>
@@ -14,6 +18,7 @@
 
     <form asp-action="Index" asp-controller="Business" method="get">
         <input type="hidden" name="businessId" value="@Model.BusinessID" />
+        <img src="@Model.Picture" width="100" height="100" style="float: left"/>
         <span class="card-text p-1">
             @Model.User.Name
             @Model.User.Surname

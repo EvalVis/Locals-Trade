@@ -5,11 +5,10 @@
 }
 
 <h2 class="text-center">@Model.Header</h2>
-<div class="col-sm-3"><img src="https://g3.dcdn.lt/images/pix/braskes-71413768.jpg" style="width:100%"></div>
+<div class="col-sm-3"><img src="@Model.Picture" style="width:100%"></div>
 <div class="container">
     <div class="col-sm-8">
         <div class="panel panel-primary">
-            <div class="panel-heading">@Model.Product</div>
             <div class="panel-body">@Model.Description<br></div>
         </div>
     </div>
@@ -61,6 +60,8 @@
     </ul>
 </div>
 
+<partial name="ProductSummary" for="Products"/>
+
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
       integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
       crossorigin="" />
@@ -86,13 +87,6 @@
     }
 </style>
 <div id="mapid"></div>
-
-<div id="pictures">
-    @foreach (var product in @Model.Pictures)
-    {
-        <img src="@product" />
-    }
-</div>
 <script>
     const latitude = Number("@Model.Latitude");
     const longitude = Number("@Model.Longitude");
@@ -113,7 +107,7 @@
                 return;
             }
 
-            L.marker(result.latlng).addTo(mymap).bindPopup("@Model.Product<br/>" + result.address.LongLabel).openPopup();
+            L.marker(result.latlng).addTo(mymap).bindPopup(result.address.LongLabel).openPopup();
         });
     }
 </script>
