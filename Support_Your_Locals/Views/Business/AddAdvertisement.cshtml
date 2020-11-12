@@ -22,16 +22,49 @@
     }
 </style>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var input = document.createElement('input');
+        input.type = 'button';
+        input.id = 'productButton';
+        input.value = 'Add product';
+        input.className = 'btn btn-primary';
+
+        var clickCount = 0;
+        var container = document.getElementById('products');
+        container.appendChild(input);
+
+        input.onclick = function () {
+            var pr = "@nameof(BusinessRegisterModel.Products)";
+            var product = document.createElement('div');
+
+            product.innerHTML = '<label for="' + pr + '_' + clickCount + '_@nameof(Product.Name)">Product</label>' +
+                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(Product.Name)" name="' + pr + '[' + clickCount + '].@nameof(Product.Name)" value="" />' +
+
+                '<label for="' + pr + '_' + clickCount + '_@nameof(Product.PricePerUnit)">Unit price</label>' +
+                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(Product.PricePerUnit)" name="' + pr + '[' + clickCount + '].@nameof(Product.PricePerUnit)" value="" />' +
+
+                '<label for="' + pr + '_' + clickCount + '_@nameof(Product.Unit)">Unit</label>' +
+                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(Product.Unit)" name="' + pr + '[' + clickCount + '].@nameof(Product.Unit)" value="" />' +
+
+                '<label for="' + pr + '_' + clickCount + '_@nameof(Product.Comment)">Comment</label>' +
+                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(Product.Comment)" name="' + pr + '[' + clickCount + '].@nameof(Product.Comment)" value="" />' +
+
+                '<label for="' + pr + '_' + clickCount + '_@nameof(Product.Picture)">Picture</label>' +
+                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(Product.Picture)" name="' + pr + '[' + clickCount + '].@nameof(Product.Picture)" value="" />';
+            container.appendChild(product);
+            clickCount++;
+        };
+    }, false);
+</script>
+
+
 <div class="auth-container">
     <div class="container box">
         <h1>Add business advertisement</h1>
         <form id="addAdvertisement" asp-action="AddAdvertisement" method="post">
             <div class="form-group">
-                <label asp-for="Product">Product</label>
-                <input asp-for="Product" class="form-control">
-            </div>
-            <div class="form-group">
-                <label asp-for="Header">BusinessInfo</label>
+                <label asp-for="Header">Header</label>
                 <input asp-for="Header" class="form-control">
             </div>
             <div class="form-group">
@@ -42,30 +75,22 @@
                 <label asp-for="PhoneNumber">Phone number</label>
                 <input asp-for="PhoneNumber" class="form-control">
             </div>
-          
-            @for (int i = 0; i < 7; i++)
-            {
+
+            <div id="products"></div>
+
+            @for (int i = 0; i < 7; i++) {
                 ViewBag.DayInd = i;
-                <partial name="TimePicker" for="Workdays[i]"/>
+                <partial name="TimePicker" for="Workdays[i]" />
             }
-            
+
             <input type="hidden" id="longitude" asp-for="Longitude" />
             <input type="hidden" id="latitude" asp-for="Latitude" />
 
             <div id="mapid"></div>
 
-            <div onclick="showPictureInput()" id="add-picture" class="btn btn-primary">Add picture</div>
-            <div style="visibility:hidden" id="picture1" class="form-group">
-                <label asp-for="Pictures[0]">First picture</label>
-                <input asp-for="Pictures[0]" class="form-control" placeholder="Enter url address to youe picture">
-            </div>
-            <div style="visibility:hidden" id="picture2" class="form-group">
-                <label asp-for="Pictures[1]">Second picture</label>
-                <input asp-for="Pictures[1]" class="form-control" placeholder="Enter url address to youe picture">
-            </div>
-            <div style="visibility:hidden" id="picture3" class="form-group">
-                <label asp-for="Pictures[2]">Third picture</label>
-                <input asp-for="Pictures[2]" class="form-control" placeholder="Enter url address to youe picture">
+            <div class="form-group">
+            <label asp-for="Picture">Please enter your picture url</label>
+            <input asp-for="Picture" class="form-control"/>
             </div>
 
             <button type="submit" class="btn btn-primary">Advertise business</button>
@@ -75,29 +100,16 @@
 </div>
 
 <script>
-    let addPictureClickCount = 0;
-    function showPictureInput() {
-        if (addPictureClickCount <= 3) {
-            addPictureClickCount++;
-            const pictures = document.getElementById('picture' + addPictureClickCount);
-            pictures.style.visibility = null;
-        }
-        if (addPictureClickCount === 3) {
-            const pictures = document.getElementById('add-picture');
-            pictures.style.visibility = 'hidden';
-        }
-    }
-
     const mymap = L.map('mapid').setView([54.687, 25.279], 14);
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         maxZoom: 18,
         id: 'mapbox/streets-v11',
-       tileSize: 512,
+        tileSize: 512,
         zoomOffset: -1,
         accessToken: 'pk.eyJ1IjoibW1hcmdlIiwiYSI6ImNrZ3NmOTVrOTAwdmIzMHBlbm54MW8xYXAifQ.4Y4ElvNj24N3eMn28RhKNA'
     }).addTo(mymap);
-    
+
 
     let searchControl = L.esri.Geocoding.geosearch({ useMapBounds: false }).addTo(mymap);
 

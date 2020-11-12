@@ -36,13 +36,17 @@ namespace Support_Your_Locals.Infrastructure
         {
             return new Business
             {
-                Product = product,
                 Description = description,
                 Longitude = longitude,
                 Latitude = latitude,
                 PhoneNumber = phone,
                 Header = header
             };
+        }
+
+        private static Product CreateProduct(string name, decimal unitPrice, string unit, string comment)
+        {
+            return new Product {Name = name, PricePerUnit = unitPrice, Unit = unit, Comment = comment};
         }
 
         private static TimeSheet CreateWorkday(int fh, int fm, int th, int tm, int day)
@@ -79,6 +83,42 @@ namespace Support_Your_Locals.Infrastructure
             Business b8 = CreateBusiness("Dėvėtos kojinės", "Paprastai labai kvepia", "25.304485", "54.630629", "+37064512478", "Yra ir smirdančių");
             Business b9 = CreateBusiness("Labdara seneliams", "Paaukokite senelių namuose gyvenantiems senjorams", "24.489809", "55.565052", "+37062199630", "Padarykite gerą darbą vieno mygtuko paspaudimu!");
 
+            u1.Businesses.Add(b1);
+            u1.Businesses.Add(b2);
+            u2.Businesses.Add(b3);
+            u2.Businesses.Add(b4);
+            u3.Businesses.Add(b5);
+            u3.Businesses.Add(b6);
+            u4.Businesses.Add(b7);
+            u5.Businesses.Add(b8);
+            u6.Businesses.Add(b9);
+
+            Product p1 = CreateProduct("Traktorius", 10000, "vienetas", "Liko tik trys.");
+            Product p2 = CreateProduct("Daužtas BMW", 20000, "vienetas", "Jei netinka, galim dar padaužti prieš parduodant.");
+            Product p3 = CreateProduct("Nissan", 10000, "vienetas", "Sena gera mašina.");
+            Product p4 = CreateProduct("Saldainiai arbūzai", 3, "pakelis", "Tik močiutės pyragai skanesni.");
+            Product p5 = CreateProduct("Sproginėjantys čiulpinukai", 2, "čiulpinukas", "Suvalgius keisti garsai pilve girdisi.");
+            Product p6 = CreateProduct("Remonto paslauga", 350, "sutaisytas automobilis", "Paprastai sutaisai per valandą dvi.");
+            Product p7 = CreateProduct("Kontrolinių atsakymai", 20, "lapas", "Pametus garantija neteikiama.");
+            Product p8 = CreateProduct("Peisažas", 200, "piešinys",
+                "Perkant du ar daugiau, taikoma 20% nuolaida bendrai sumai");
+            Product p9 = CreateProduct("Natiurmortas", 500, "piešinys",
+                "Perkant du ar daugiau, mokate 20% brangiau bendros sumos");
+            Product p10 = CreateProduct("Kvepiančios kojinės", 25.73M, "viena kojinė", "Išnešiojo srities specialistas");
+            Product p11 = CreateProduct("Pinigų aukojimas", 5, "kartas", "Jei norite, galite paaukoti ir daugiau.");
+
+            b1.Products.Add(p1);
+            b1.Products.Add(p2);
+            b2.Products.Add(p3);
+            b3.Products.Add(p4);
+            b4.Products.Add(p5);
+            b5.Products.Add(p6);
+            b6.Products.Add(p7);
+            b7.Products.Add(p8);
+            b7.Products.Add(p9);
+            b8.Products.Add(p10);
+            b9.Products.Add(p11);
+
             TimeSheet t1 = CreateWorkday(10, 0, 11, 0, 1);
             TimeSheet t2 = CreateWorkday(10, 0, 16, 0, 3);
             TimeSheet t3 = CreateWorkday(10, 0, 12, 0, 2);
@@ -107,15 +147,6 @@ namespace Support_Your_Locals.Infrastructure
             b8.Workdays.Add(t12);
             b8.Workdays.Add(t13);
 
-            u1.Businesses.Add(b1);
-            u1.Businesses.Add(b2);
-            u2.Businesses.Add(b3);
-            u2.Businesses.Add(b4);
-            u3.Businesses.Add(b5);
-            u3.Businesses.Add(b6);
-            u4.Businesses.Add(b7);
-            u5.Businesses.Add(b8);
-            u6.Businesses.Add(b9);
             return new User[] {u1, u2, u3, u4, u5, u6, u7, u8, u9, u10, u11};
         }
 
