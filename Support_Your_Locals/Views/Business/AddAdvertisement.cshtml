@@ -35,18 +35,20 @@
         container.appendChild(input);
 
         input.onclick = function () {
+            var pr = "@nameof(BusinessRegisterModel.Products)";
             var products = document.createElement('div');
-            products.innerHTML = '<label for="Products_' + clickCount + '_Name">Product</label>' +
-                '<input type="text" id="Products_' + clickCount + '_Name" name="Products[' + clickCount + '].Name" value="" />' +
 
-                '<label for="Products_' + clickCount + '_PricePerUnit">Unit price</label>' +
-                '<input type="text" id="Products_' + clickCount + '_PricePerUnit" name="Products[' + clickCount + '].PricePerUnit" value="" />' +
+            products.innerHTML = '<label for="' + pr + '_' + clickCount + '_@nameof(Product.Name)">Product</label>' +
+                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(Product.Name)" name="' + pr + '[' + clickCount + '].@nameof(Product.Name)" value="" />' +
 
-                '<label for="Products_' + clickCount + '_Unit">Unit</label>' +
-                '<input type="text" id="Products_' + clickCount + '_Unit" name="Products[' + clickCount + '].Unit" value="" />' +
+                '<label for="' + pr + '_' + clickCount + '_@nameof(Product.PricePerUnit)">Unit price</label>' +
+                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(Product.PricePerUnit)" name="' + pr + '[' + clickCount + '].@nameof(Product.PricePerUnit)" value="" />' +
 
-                '<label for="Products_' + clickCount + '_Comment">Comment</label>' +
-                '<input type="text" id="Products_' + clickCount + '_Comment" name="Products[' + clickCount + '].Comment" value="" />';
+                '<label for="' + pr + '_' + clickCount + '_@nameof(Product.Unit)">Unit</label>' +
+                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(Product.Unit)" name="' + pr + '[' + clickCount + '].@nameof(Product.Unit)" value="" />' +
+
+                '<label for="' + pr + '_' + clickCount + '_@nameof(Product.Comment)">Comment</label>' +
+                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(Product.Comment)" name="' + pr + '[' + clickCount + '].@nameof(Product.Comment)" value="" />';
             container.appendChild(products);
             clickCount++;
         };
