@@ -2,7 +2,6 @@
 {
     public class Product
     {
-        //Binded with add advertisement.
         public long ProductID { get; set; }
         public string Name { get; set; }
         public decimal PricePerUnit { get; set; }

@@ -17,7 +17,6 @@ namespace Support_Your_Locals.Models.ViewModels
         public string Latitude { get; set; }
         public string Picture { get; set; }
         public TimeSheetRegisterViewModel[] Workdays { get; set; } = new TimeSheetRegisterViewModel[7];
-        //Binded with add advertisement.
         public List<Product> Products { get; set; } = new List<Product>();
     }
 }
