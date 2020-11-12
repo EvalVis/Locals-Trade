@@ -52,7 +52,7 @@ namespace Support_Your_Locals.Controllers
                         Surname = register.Surname,
                         BirthDate = register.BirthDate,
                         Email = register.Email,
-                        Passhash = hashCalculator.PassHash(register.Passhash)
+                        Passhash = hashCalculator.PassHash(register.Password)
                     });
                     return Redirect("/");
                 }
