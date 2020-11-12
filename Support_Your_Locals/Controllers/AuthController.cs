@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Support_Your_Locals.Cryptography;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
@@ -15,13 +19,15 @@ namespace Support_Your_Locals.Controllers
 {
     public class AuthController : Controller
     {
-        public byte[] salt = new byte[16];
 
         private IServiceRepository userRepository;
+        private HashCalculator hashCalculator;
+        public byte[] salt = new byte[16];
 
-        public AuthController(IServiceRepository repo)
+        public AuthController(IServiceRepository repo, HashCalculator hashCalc)
         {
             userRepository = repo;
+            hashCalculator = hashCalc;
         }
 
         [HttpGet]
@@ -39,20 +45,14 @@ namespace Support_Your_Locals.Controllers
                 register.AlreadyExists = exists;
                 if (!exists)
                 {
-                    new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
-                    var pbkdf2 = new Rfc2898DeriveBytes(register.Passhash, salt, 100000);
-                    byte[] hash = pbkdf2.GetBytes(20);
-                    byte[] hashBytes = new byte[36];
-                    Array.Copy(salt, 0, hashBytes, 0, 16);
-                    Array.Copy(hash, 0, hashBytes, 16, 20);
-                    string savedPasswordHash = Convert.ToBase64String(hashBytes);
+                    
                     userRepository.AddUser(new User
                     {
                         Name = register.Name,
                         Surname = register.Surname,
                         BirthDate = register.BirthDate,
                         Email = register.Email,
-                        Passhash = savedPasswordHash
+                        Passhash = hashCalculator.PassHash(register.Password)
                     });
                     return Redirect("/");
                 }
@@ -75,32 +75,17 @@ namespace Support_Your_Locals.Controllers
                 User user = await userRepository.Users.FirstOrDefaultAsync(b => b.Email == login.Email);
                 if (user != null)
                 {
-                    bool goodpass = false;
-                    string savedPasswordHash = user.Passhash;
-                    byte[] hashBytes = Convert.FromBase64String(savedPasswordHash);
-                    Array.Copy(hashBytes, 0, salt, 0, 16);
-                    var pbkdf2 = new Rfc2898DeriveBytes(login.Passhash, salt, 100000);
-                    byte[] hash = pbkdf2.GetBytes(20);
-                    for (int i = 0; i < 20; i++)
-                    {
-                        if (hashBytes[i + 16] == hash[i]) goodpass = true;
-                        else
-                        {
-                            goodpass = false;
-                            break;
-                        }
-                    }
-                    if (goodpass)
+                    if (hashCalculator.IsGoodPass(user.Passhash, login.Passhash, salt))
                     {
                         var claims = new List<Claim>
                         {
-                            new Claim(ClaimTypes.Name, user.Name)
+                            new Claim(ClaimTypes.Name, user.Name),
+                            new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString())
                         };
                         var identity = new ClaimsIdentity(claims, "SignIn");
                         var principal = new ClaimsPrincipal(identity);
                         var props = new AuthenticationProperties();
-                        await HttpContext.SignInAsync(
-                            CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
 
                         login.NotFound = false;
                         return Redirect("/");
