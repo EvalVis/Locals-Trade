@@ -50,7 +50,7 @@ namespace Support_Your_Locals.Controllers
                 PhoneNumber = businessRegisterModel.PhoneNumber,
                 Latitude = businessRegisterModel.Latitude,
                 Longitude = businessRegisterModel.Longitude,
-                Pictures = businessRegisterModel.Pictures.Where(item => item != null).ToList()
+                Picture = businessRegisterModel.Picture
             };
             for (int i = 0; i < 7; i++)
             {

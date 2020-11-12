@@ -5,7 +5,7 @@
 }
 
 <h2 class="text-center">@Model.Header</h2>
-<div class="col-sm-3"><img src="https://g3.dcdn.lt/images/pix/braskes-71413768.jpg" style="width:100%"></div>
+<div class="col-sm-3"><img src="@Model.Picture" style="width:100%"></div>
 <div class="container">
     <div class="col-sm-8">
         <div class="panel panel-primary">
@@ -87,13 +87,6 @@
     }
 </style>
 <div id="mapid"></div>
-
-<div id="pictures">
-    @foreach (var product in @Model.Pictures)
-    {
-        <img src="@product" />
-    }
-</div>
 <script>
     const latitude = Number("@Model.Latitude");
     const longitude = Number("@Model.Longitude");

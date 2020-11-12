@@ -20,8 +20,6 @@ namespace Support_Your_Locals.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var splitStringConverter = new ValueConverter<IList<string>, string>(v => string.Join(";", v), v => v.Split(new[] { ';' }));
-            modelBuilder.Entity<Business>().Property(nameof(BusinessEntity.Pictures)).HasConversion(splitStringConverter);
             modelBuilder.Entity<TimeSheet>().HasOne(t => t.Business).
                 WithMany(b => b.Workdays).HasForeignKey(t => t.BusinessID).IsRequired().OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Business>().HasOne(b => b.User).WithMany(u => u.Businesses).HasForeignKey(b => b.UserID)
