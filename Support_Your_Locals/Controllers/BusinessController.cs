@@ -64,7 +64,7 @@ namespace Support_Your_Locals.Controllers
 
             foreach (var pr in businessRegisterModel.Products)
             {
-                Product product = new Product {Name = pr.Name, PricePerUnit = pr.PricePerUnit, Unit = pr.Unit, Comment = pr.Comment};
+                Product product = new Product {Name = pr.Name, PricePerUnit = pr.PricePerUnit, Unit = pr.Unit, Comment = pr.Comment, Picture = pr.Picture};
                 business.Products.Add(product);
             }
             repository.AddBusiness(business);
