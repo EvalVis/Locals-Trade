@@ -105,7 +105,8 @@ namespace Support_Your_Locals.Controllers
                     {
                         var claims = new List<Claim>
                         {
-                            new Claim(ClaimTypes.Name, user.UserID.ToString())
+                            new Claim(ClaimTypes.Name, user.Name),
+                            new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString())
                         };
                         var identity = new ClaimsIdentity(claims, "SignIn");
                         var principal = new ClaimsPrincipal(identity);
