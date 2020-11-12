@@ -36,7 +36,7 @@ namespace Support_Your_Locals.Migrations
                     Latitude = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
                     Header = table.Column<string>(nullable: true),
-                    Pictures = table.Column<string>(nullable: true)
+                    Picture = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

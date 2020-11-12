@@ -10,7 +10,7 @@ using Support_Your_Locals.Models;
 namespace Support_Your_Locals.Migrations
 {
     [DbContext(typeof(ServiceDbContext))]
-    [Migration("20201110100244_AddUserBusinessTimeSheetToDb")]
+    [Migration("20201112165736_AddUserBusinessTimeSheetToDb")]
     partial class AddUserBusinessTimeSheetToDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,7 +43,7 @@ namespace Support_Your_Locals.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Pictures")
+                    b.Property<string>("Picture")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("UserID")
