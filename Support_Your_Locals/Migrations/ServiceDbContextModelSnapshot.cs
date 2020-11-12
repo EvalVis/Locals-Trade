@@ -70,6 +70,9 @@ namespace Support_Your_Locals.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Picture")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("PricePerUnit")
                         .HasColumnType("decimal(18,2)");
 

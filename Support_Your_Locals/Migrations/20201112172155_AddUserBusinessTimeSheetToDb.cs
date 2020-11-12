@@ -59,6 +59,7 @@ namespace Support_Your_Locals.Migrations
                     PricePerUnit = table.Column<decimal>(nullable: false),
                     Unit = table.Column<string>(nullable: true),
                     Comment = table.Column<string>(nullable: true),
+                    Picture = table.Column<string>(nullable: true),
                     BusinessID = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
