@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Support_Your_Locals.Migrations
 {
-    public partial class AddBusinessTimeSheetToDb : Migration
+    public partial class AddUserBusinessTimeSheetToDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,6 +46,27 @@ namespace Support_Your_Locals.Migrations
                         column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "UserID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Feedbacks",
+                columns: table => new
+                {
+                    ID = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SenderName = table.Column<string>(nullable: true),
+                    Text = table.Column<string>(nullable: true),
+                    BusinessID = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Feedbacks", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Feedbacks_Business_BusinessID",
+                        column: x => x.BusinessID,
+                        principalTable: "Business",
+                        principalColumn: "BusinessID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -101,6 +122,11 @@ namespace Support_Your_Locals.Migrations
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Feedbacks_BusinessID",
+                table: "Feedbacks",
+                column: "BusinessID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Products_BusinessID",
                 table: "Products",
                 column: "BusinessID");
@@ -113,6 +139,9 @@ namespace Support_Your_Locals.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Feedbacks");
+
             migrationBuilder.DropTable(
                 name: "Products");
 
