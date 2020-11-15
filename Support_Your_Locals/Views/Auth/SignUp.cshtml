@@ -34,19 +34,7 @@
             <label asp-for="Password">Password</label>
             <input type="password" asp-for="Password" class="form-control">
         </div>
-        @if (ViewBag.email == "true")
-        {
-            <div>
-                <b><label style="color: rgb(0, 255, 0)">Successfully registered</label></b>
-
-            </div>
-        }
-        else if (ViewBag.email == "false")
-        {
-            <div>
-                <b><label style="color: rgb(255, 0, 0)">This email already exists</label></b>
-            </div>
-        }
+        
         <div class="form-group">
             <a asp-action="SignIn">Already a member? Sign in</a>
         </div>
