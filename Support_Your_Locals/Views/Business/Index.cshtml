@@ -141,6 +141,8 @@
              data: $("#addFeedback").serialize(),
              success: function() {
                  alert("Form successfully sent");
+                 document.getElementById("addFeedback").style.display = "none";
+                 document.getElementById("addFeedback").reset();
              },
              error: function () {
                  alert("Failed to send form.");
