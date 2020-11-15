@@ -121,8 +121,8 @@
 
 <form id="addFeedback">
     <div class="form-group">
-    <label>Your name</label>
-    <input type="text" name="@nameof(Feedback.SenderName)" class="form-control" />
+        <label>Your name</label>
+        <input type="text" name="@nameof(Feedback.SenderName)" class="form-control" />
     </div>
 
     <div class="form-group">
@@ -133,6 +133,9 @@
     <button id="feedbackButton" class="btn btn-primary">Submit</button>
 </form>
 
+<label id="feedbackSent" hidden style="color: rgb(51, 255, 162)">Feedback successfully sent.</label>
+<label id="feedbackUnsent" hidden style="color: rgb(255, 0, 0)">Something went wrong. Failed to send feedback.</label>
+
 <script>
     $('#feedbackButton').click(function () {
         $.ajax({
@@ -140,12 +143,12 @@
              url: "/Business/AddFeedback",
              data: $("#addFeedback").serialize(),
              success: function() {
-                 alert("Form successfully sent");
                  document.getElementById("addFeedback").style.display = "none";
                  document.getElementById("addFeedback").reset();
+                 document.getElementById("feedbackSent").hidden = false;
              },
-             error: function () {
-                 alert("Failed to send form.");
+            error: function () {
+                document.getElementById("feedbackUnsent").hidden = false;
              }
          });
              return false;
