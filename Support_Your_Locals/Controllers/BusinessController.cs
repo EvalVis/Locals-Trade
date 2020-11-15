@@ -29,7 +29,8 @@ namespace Support_Your_Locals.Controllers
                 Include(b => b.Workdays).Include(b => b.Products)
                 .FirstOrDefaultAsync(b => b.BusinessID == businessId);
             if (business == null) return NotFound();
-            return View(business);
+            BusinessFeedbackViewModel businessFeedback = new BusinessFeedbackViewModel {Business = business};
+            return View(businessFeedback);
         }
 
         [Authorize]

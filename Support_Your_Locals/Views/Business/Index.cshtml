@@ -1,15 +1,15 @@
-﻿@model Business
+﻿@model BusinessFeedbackViewModel
 
 @{
     Layout = "_BusinessPageLayout";
 }
 
-<h2 class="text-center">@Model.Header</h2>
-<div class="col-sm-3"><img src="@Model.Picture" style="width:100%"></div>
+<h2 class="text-center">@Model.Business.Header</h2>
+<div class="col-sm-3"><img src="@Model.Business.Picture" style="width:100%"></div>
 <div class="container">
     <div class="col-sm-8">
         <div class="panel panel-primary">
-            <div class="panel-body">@Model.Description<br></div>
+            <div class="panel-body">@Model.Business.Description<br></div>
         </div>
     </div>
     <div class="col-sm-1">
@@ -24,7 +24,7 @@
             <tbody>
                 @for (int i = 1; i <= 7; i++)
                 {
-                    TimeSheet workday = Model.Workdays.FirstOrDefault(t => t.Weekday == i);
+                    TimeSheet workday = Model.Business.Workdays.FirstOrDefault(t => t.Weekday == i);
                     @if (workday == null)
                     {
                         <tr>
@@ -54,13 +54,13 @@
 <div class="col-sm-4">
     <h3>Contacts</h3>
     <ul>
-        <li>@Model.User.Name</li>
-        <li>@Model.User.Surname</li>
-        <li>@Model.PhoneNumber</li>
+        <li>@Model.Business.User.Name</li>
+        <li>@Model.Business.User.Surname</li>
+        <li>@Model.Business.PhoneNumber</li>
     </ul>
 </div>
 
-<partial name="ProductSummary" for="Products"/>
+<partial name="ProductSummary" for="Business.Products"/>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
       integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
@@ -88,8 +88,8 @@
 </style>
 <div id="mapid"></div>
 <script>
-    const latitude = Number("@Model.Latitude");
-    const longitude = Number("@Model.Longitude");
+    const latitude = Number("@Model.Business.Latitude");
+    const longitude = Number("@Model.Business.Longitude");
     if (latitude && longitude) {
         const mymap = L.map('mapid').setView([latitude, longitude], 13);
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
