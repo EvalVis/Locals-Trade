@@ -8,7 +8,6 @@ using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
-using System.Diagnostics;
 
 namespace Support_Your_Locals.Controllers
 {
@@ -28,6 +27,7 @@ namespace Support_Your_Locals.Controllers
             if (businessId == 0) businessId = 1;
             Business business = await repository.Business.Include(b => b.User).
                 Include(b => b.Workdays).Include(b => b.Products)
+                .Include(b => b.Feedbacks)
                 .FirstOrDefaultAsync(b => b.BusinessID == businessId);
             if (business == null) return NotFound();
             return View(business);

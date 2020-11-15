@@ -112,6 +112,13 @@
     }
 </script>
 
+<div>
+    @foreach (var f in Model.Feedbacks)
+    {
+        <partial name="FeedbackSummary" model="f"/>
+    }
+</div>
+
 <form id="addFeedback">
     <div class="form-group">
     <label>Your name</label>
@@ -128,14 +135,12 @@
 
 <script>
     $('#feedbackButton').click(function () {
-        //document.write($("#addFeedback").serialize());
-        //return false;
-         $.ajax({
+        $.ajax({
              type: "POST",
              url: "/Business/AddFeedback",
              data: $("#addFeedback").serialize(),
-             success: function(data) {
-                 alert(data);
+             success: function() {
+                 alert("Form successfully sent");
              },
              error: function () {
                  alert("Failed to send form.");

@@ -16,6 +16,6 @@ namespace Support_Your_Locals.Models
         public string Picture { get; set; }
         public List<TimeSheet> Workdays { get; set; } = new List<TimeSheet>();
         public List<Product> Products { get; set; } = new List<Product>();
-        public List<Feedback> Feedbacks { get; set; }
+        public List<Feedback> Feedbacks { get; set; } = new List<Feedback>();
     }
 }
