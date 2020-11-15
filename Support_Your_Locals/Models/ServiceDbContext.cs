@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using BusinessEntity = Support_Your_Locals.Models.Business;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Support_Your_Locals.Models
 {
@@ -26,6 +23,8 @@ namespace Support_Your_Locals.Models
                 .IsRequired().OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Product>().HasOne(p => p.Business).WithMany(b => b.Products)
                 .HasForeignKey(p => p.BusinessID).IsRequired().OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Feedback>().HasOne(f => f.Business).WithMany(b => b.Feedbacks)
+                .HasForeignKey(f => f.BusinessID).IsRequired().OnDelete(DeleteBehavior.Cascade);
             base.OnModelCreating(modelBuilder);
         }
 
