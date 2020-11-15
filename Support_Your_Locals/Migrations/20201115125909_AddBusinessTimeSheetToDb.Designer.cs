@@ -10,8 +10,8 @@ using Support_Your_Locals.Models;
 namespace Support_Your_Locals.Migrations
 {
     [DbContext(typeof(ServiceDbContext))]
-    [Migration("20201112172155_AddUserBusinessTimeSheetToDb")]
-    partial class AddUserBusinessTimeSheetToDb
+    [Migration("20201115125909_AddBusinessTimeSheetToDb")]
+    partial class AddBusinessTimeSheetToDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

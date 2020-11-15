@@ -49,8 +49,6 @@ namespace Support_Your_Locals.Controllers
                 Header = businessRegisterModel.Header,
                 Description = businessRegisterModel.Description,
                 UserID = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value),
-                Product = businessRegisterModel.Product,
-
                 PhoneNumber = businessRegisterModel.PhoneNumber,
                 Latitude = businessRegisterModel.Latitude,
                 Longitude = businessRegisterModel.Longitude,
