@@ -113,24 +113,32 @@
 </script>
 
 <form id="addFeedback">
+    <div class="form-group">
     <label>Your name</label>
-    <input type="text" name="@nameof(Feedback.SenderName)"/>
+    <input type="text" name="@nameof(Feedback.SenderName)" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Feedback</label>
+        <textarea name="@nameof(Feedback.Text)" class="form-control"></textarea>
+    </div>
+    <input type="hidden" name="@nameof(Feedback.BusinessID)" value="@Model.BusinessID"/>
     <button id="feedbackButton" class="btn btn-primary">Submit</button>
 </form>
 
 <script>
     $('#feedbackButton').click(function () {
-       // document.write($("#addFeedback").serialize());
-       // return false;
+        //document.write($("#addFeedback").serialize());
+        //return false;
          $.ajax({
              type: "POST",
-             url: "/business",
+             url: "/Business/AddFeedback",
              data: $("#addFeedback").serialize(),
              success: function(data) {
                  alert(data);
              },
              error: function () {
-                 alert(this.url);
+                 alert("Failed to send form.");
              }
          });
              return false;

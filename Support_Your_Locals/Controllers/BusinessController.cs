@@ -25,6 +25,7 @@ namespace Support_Your_Locals.Controllers
         [HttpGet]
         public async Task<ActionResult> Index(long businessId)
         {
+            if (businessId == 0) businessId = 1;
             Business business = await repository.Business.Include(b => b.User).
                 Include(b => b.Workdays).Include(b => b.Products)
                 .FirstOrDefaultAsync(b => b.BusinessID == businessId);
