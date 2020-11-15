@@ -111,3 +111,28 @@
         });
     }
 </script>
+
+<form id="addFeedback">
+    <label>Your name</label>
+    <input type="text" name="@nameof(Feedback.SenderName)"/>
+    <button id="feedbackButton" class="btn btn-primary">Submit</button>
+</form>
+
+<script>
+    $('#feedbackButton').click(function () {
+       // document.write($("#addFeedback").serialize());
+       // return false;
+         $.ajax({
+             type: "POST",
+             url: "/business",
+             data: $("#addFeedback").serialize(),
+             success: function(data) {
+                 alert(data);
+             },
+             error: function () {
+                 alert(this.url);
+             }
+         });
+             return false;
+    });
+</script>

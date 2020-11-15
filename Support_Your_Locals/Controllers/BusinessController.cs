@@ -32,6 +32,12 @@ namespace Support_Your_Locals.Controllers
             return View(business);
         }
 
+        [HttpPost]
+        public ActionResult AddFeedback(string senderName, string text, long businessId)
+        {
+            return Redirect("/");
+        }
+
         [Authorize]
         [HttpGet]
         public ViewResult AddAdvertisement()
