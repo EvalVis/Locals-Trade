@@ -34,9 +34,10 @@ namespace Support_Your_Locals.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddFeedback(string senderName, string text, long businessId)
+        public void AddFeedback(string senderName, string text, long businessId)
         {
-            return Redirect("/");
+            Feedback feedback = new Feedback {SenderName = senderName, Text = text, BusinessID = businessId};
+            repository.AddFeedback(feedback);
         }
 
         [Authorize]
