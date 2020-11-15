@@ -14,6 +14,7 @@ namespace Support_Your_Locals.Models
         public DbSet<Business> Business { get; set; }
         public DbSet<TimeSheet> TimeSheets { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
