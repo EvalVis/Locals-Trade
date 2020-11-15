@@ -1,5 +1,12 @@
 ﻿@model Support_Your_Locals.Models.ViewModels.UserRegisterModel
-
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </head>
 @{
     Layout = "_NoNavLayout";
 }
@@ -11,7 +18,10 @@
         </div>
         @if (Model?.AlreadyExists == true)
         {
-            <h5 class="bg-warning text-danger text-center">User already exists.</h5>
+    <div class="alert alert-warning alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Warning!</strong> User already exists.
+    </div>
         }
     <form asp-action="SignUp" method="post">
         <div class="form-group">
