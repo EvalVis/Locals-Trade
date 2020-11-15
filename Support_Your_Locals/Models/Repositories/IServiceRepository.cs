@@ -9,5 +9,6 @@ namespace Support_Your_Locals.Models.Repositories
         public IQueryable<Product> Products { get; }
         public void AddUser(User user);
         public void AddBusiness(Business business);
+        public void AddFeedback(Feedback feedback);
     }
 }

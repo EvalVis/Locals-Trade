@@ -29,5 +29,11 @@ namespace Support_Your_Locals.Models.Repositories
             context.SaveChanges();
         }
 
+        public void AddFeedback(Feedback feedback)
+        {
+            context.Add(feedback);
+            context.SaveChanges();
+        }
+
     }
 }
