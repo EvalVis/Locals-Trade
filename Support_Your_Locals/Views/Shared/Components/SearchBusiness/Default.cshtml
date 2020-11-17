@@ -28,14 +28,18 @@
 </form>
 
 <script>
+    var header = "@nameof(SearchResponse)";
+    var ownersSurname = header + "_" + "@nameof(SearchResponse.OwnersSurname)";
+    var businessInfo = header + "_" + "@nameof(SearchResponse.BusinessInfo)";
+    var searchIn = header + "_" + "@nameof(SearchResponse.SearchIn)";
+    var weekdaySelected = header + "_" + "@nameof(SearchResponse.WeekdaySelected)";
+
+    var osv = document.getElementById(ownersSurname).value;
+    var biv = document.getElementById(businessInfo).value;
+
     function setQuery() {
-        var header = "@nameof(SearchResponse)";
-        var ownersSurname = header + "_" + "@nameof(SearchResponse.OwnersSurname)";
-        var businessInfo = header + "_" + "@nameof(SearchResponse.BusinessInfo)";
-        var searchIn = header + "_" + "@nameof(SearchResponse.SearchIn)";
-        var weekdaySelected = header + "_" + "@nameof(SearchResponse.WeekdaySelected)";
-        var os = "os=" + document.getElementById(ownersSurname).value;
-        var bi = "bi=" + document.getElementById(businessInfo).value;
+        var os = "os=" + osv;
+        var bi = "bi=" + biv;
         var si = "si=" + document.getElementById(searchIn).value;
         var w = "w=";
         for (var i = 0; i < 7; i++) {
@@ -44,8 +48,14 @@
             var numericChar = value ? '1' : '0';
             w += numericChar;
         }
-        var query = "/?" + os + "&" + bi + "&" + si + "&" + w;
+        var query = "";
+        if (!defaultSearchFields(w)) query = "/?" + os + "&" + bi + "&" + si + "&" + w;
         document.forms["searchForm"].action = document.forms["searchForm"].action + query;
         return true;
+    }
+
+    function defaultSearchFields(w) {
+        return (osv === null || osv === "") && (biv === null || biv === "")
+            && (parseInt(document.getElementById(searchIn).value) === 0) && (w.localeCompare("w=1111111") === 0);
     }
 </script>
