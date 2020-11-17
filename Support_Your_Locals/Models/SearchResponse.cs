@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Support_Your_Locals.Models
 {
     public class SearchResponse
     {
-        public string OwnersSurname { get; set; } = "";
-        public string BusinessInfo { get; set; } = "";
-        public int SearchIn { get; set; } = 0;
+        [FromQuery(Name="os")]
+        public string OwnersSurname { get; set; }
+        [FromQuery(Name = "bi")]
+        public string BusinessInfo { get; set; }
+        [FromQuery(Name = "si")]
+        public int SearchIn { get; set; }
+        [FromQuery(Name = "w")]
         public string WeekSelected { get; set; } = "1111111";
-        public bool[] WeekdaySelected { get; set; }
+        public bool[] WeekdaySelected { get; set; } = new bool[7];
       
         public string ToQuery()
         {
@@ -18,8 +23,8 @@ namespace Support_Your_Locals.Models
         }
 
         private void SetWeekdaySelected()
-        {//TODO: Handle exceptions.
-            if (WeekSelected.Length < 7) return; // kind of solves this.
+        {
+            if (WeekSelected.Length != 7) return;
             for (int i = 0; i < 7; i++)
             {
                 if (WeekSelected[i] == '1') WeekdaySelected[i] = true;
@@ -29,8 +34,8 @@ namespace Support_Your_Locals.Models
 
         public SearchResponse()
         {
-            WeekdaySelected = new bool[7];
-            for (int i = 0; i < 7; i++) WeekdaySelected[i] = true;
+            System.Diagnostics.Debug.WriteLine("Name " + OwnersSurname);
+            SetWeekdaySelected();
         }
 
         public IEnumerable<Business> FilterBusinesses(IEnumerable<Business> businesses)

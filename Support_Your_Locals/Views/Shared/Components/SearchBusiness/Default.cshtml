@@ -41,14 +41,14 @@
         for (var i = 0; i < 7; i++) {
             var current = weekdaySelected + "_" + i + "_";
             var value = document.getElementById(current).value;
-            alert(current + " bet " + value);
+           // alert(current + " bet " + value);
             var numericChar = value ? '1' : '0';
             w += numericChar;
         }
         var query = "/?" + os + "&" + bi + "&" + si + "&" + w;
         document.forms["searchForm"].action = document.forms["searchForm"].action + query;
-        alert(window.location.href);
-        alert(document.forms["searchForm"].action);
+      //  alert(window.location.href);
+       // alert(document.forms["searchForm"].action);
         return true;
     }
 </script>
