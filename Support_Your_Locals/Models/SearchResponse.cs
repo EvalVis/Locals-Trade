@@ -22,7 +22,7 @@ namespace Support_Your_Locals.Models
             return $"/?os={OwnersSurname}&bi={BusinessInfo}&si={SearchIn}&w={WeekSelected}";
         }
 
-        private void SetWeekdaySelected()
+        public void SetWeekdaySelected()
         {
             if (WeekSelected.Length != 7) return;
             for (int i = 0; i < 7; i++)
@@ -30,12 +30,6 @@ namespace Support_Your_Locals.Models
                 if (WeekSelected[i] == '1') WeekdaySelected[i] = true;
                 else WeekdaySelected[i] = false;
             }
-        }
-
-        public SearchResponse()
-        {
-            System.Diagnostics.Debug.WriteLine("Name " + OwnersSurname);
-            SetWeekdaySelected();
         }
 
         public IEnumerable<Business> FilterBusinesses(IEnumerable<Business> businesses)
