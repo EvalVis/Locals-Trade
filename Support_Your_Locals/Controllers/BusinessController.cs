@@ -13,6 +13,8 @@ namespace Support_Your_Locals.Controllers
 {
     public class BusinessController : Controller
     {
+        public delegate void FeedbackHandler();
+        public static event FeedbackHandler FeedbackEvent;
 
         private IServiceRepository repository;
 
@@ -38,6 +40,7 @@ namespace Support_Your_Locals.Controllers
         {
             Feedback feedback = new Feedback {SenderName = senderName, Text = text, BusinessID = businessId};
             repository.AddFeedback(feedback);
+            FeedbackEvent?.Invoke();
         }
 
         [Authorize]
