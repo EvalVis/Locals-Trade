@@ -27,6 +27,8 @@ namespace Support_Your_Locals.Infrastructure.TagHelpers
 
             public string PageAction { get; set; }
 
+            public string PageQuery { get; set; }
+
             [HtmlAttributeName(DictionaryAttributePrefix = "page-url-")]
             public Dictionary<string, object> PageUrlValues { get; set; }
                 = new Dictionary<string, object>();
@@ -37,6 +39,7 @@ namespace Support_Your_Locals.Infrastructure.TagHelpers
 
             public override void Process(TagHelperContext context, TagHelperOutput output)
             {
+                foreach(var v in PageUrlValues) System.Diagnostics.Debug.WriteLine(v);
                 IUrlHelper urlHelper = urlHelperFactory.GetUrlHelper(ViewContext);
                 TagBuilder result = new TagBuilder("div");
                 for (int i = 1; i <= PageModel.TotalPages; i++)
@@ -44,6 +47,8 @@ namespace Support_Your_Locals.Infrastructure.TagHelpers
                     TagBuilder tag = new TagBuilder("a");
                     PageUrlValues["page"] = i;
                     tag.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
+                    tag.Attributes["href"] += PageQuery;
+                    System.Diagnostics.Debug.WriteLine(tag.Attributes["href"].ToString());
                     if (PageClassesEnabled)
                     {
                         tag.AddCssClass(PageClass);

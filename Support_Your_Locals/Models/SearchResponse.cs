@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Support_Your_Locals.Models.Repositories;
 
 namespace Support_Your_Locals.Models
 {
     public class SearchResponse
-    { // TODO: nameof.
-        [FromQuery(Name = "os")] public string OwnersSurname { get; set; } = "";
-        [FromQuery(Name = "bi")] public string BusinessInfo { get; set; } = "";
-        [FromQuery(Name = "si")] public int SearchIn { get; set; } = 0;
-        [FromQuery(Name = "w")]
+    {
+        public string OwnersSurname { get; set; } = "";
+        public string BusinessInfo { get; set; } = "";
+        public int SearchIn { get; set; } = 0;
         public string WeekSelected { get; set; } = "1111111";
-        public bool[] WeekdaySelected { get; set; } = {true, true, true, true, true, true, true};
+        public bool[] WeekdaySelected { get; set; }
       
         public string ToQuery()
         {
-            return $"os={OwnersSurname}&bi={BusinessInfo}&si={SearchIn}&w={WeekSelected}";
+            return $"/?os={OwnersSurname}&bi={BusinessInfo}&si={SearchIn}&w={WeekSelected}";
         }
 
         private void SetWeekdaySelected()
