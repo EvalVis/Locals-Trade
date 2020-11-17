@@ -34,13 +34,13 @@
     var searchIn = header + "_" + "@nameof(SearchResponse.SearchIn)";
     var weekdaySelected = header + "_" + "@nameof(SearchResponse.WeekdaySelected)";
 
-    var osv = document.getElementById(ownersSurname).value;
-    var biv = document.getElementById(businessInfo).value;
-
     function setQuery() {
+        var osv = document.getElementById(ownersSurname).value;
+        var biv = document.getElementById(businessInfo).value;
+        var siv = document.getElementById(searchIn).value;
         var os = "os=" + osv;
         var bi = "bi=" + biv;
-        var si = "si=" + document.getElementById(searchIn).value;
+        var si = "si=" + siv;
         var w = "w=";
         for (var i = 0; i < 7; i++) {
             var current = weekdaySelected + "_" + i + "_";
@@ -49,13 +49,13 @@
             w += numericChar;
         }
         var query = "";
-        if (!defaultSearchFields(w)) query = "/?" + os + "&" + bi + "&" + si + "&" + w;
+        if (!defaultSearchFields(osv, biv, siv, w)) query = "/?" + os + "&" + bi + "&" + si + "&" + w;
         document.forms["searchForm"].action = document.forms["searchForm"].action + query;
         return true;
     }
 
-    function defaultSearchFields(w) {
+    function defaultSearchFields(osv, biv, siv, w) {
         return (osv === null || osv === "") && (biv === null || biv === "")
-            && (parseInt(document.getElementById(searchIn).value) === 0) && (w.localeCompare("w=1111111") === 0);
+            && (parseInt(siv) === 0) && (w.localeCompare("w=1111111") === 0);
     }
 </script>
