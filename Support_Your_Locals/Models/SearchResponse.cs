@@ -19,9 +19,7 @@ namespace Support_Your_Locals.Models
       
         public string ToQuery()
         {
-            System.Diagnostics.Debug.WriteLine(DefaultSearchFields());
-            if (DefaultSearchFields()) return "";
-            return $"/?os={OwnersSurname}&bi={BusinessInfo}&si={SearchIn}&w={WeekSelected}";
+            return DefaultSearchFields() ? "" : $"/?os={OwnersSurname}&bi={BusinessInfo}&si={SearchIn}&w={WeekSelected}";
         }
 
         private bool DefaultSearchFields()
