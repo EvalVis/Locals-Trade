@@ -18,12 +18,27 @@ namespace Support_Your_Locals.Infrastructure
 
         private IServiceRepository repository;
         private IConfiguration config;
+        private delegate SmtpClient createSmtpClient();
+        private createSmtpClient createSmtp;
 
         public Mailer(IApplicationBuilder app, IConfiguration configuration)
         {
             repository = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<IServiceRepository>();
             config = configuration;
             BusinessController.FeedbackEvent += SendMail;
+            createSmtp = delegate ()
+            {
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.EnableSsl = true;
+
+                NetworkCredential credentials = new NetworkCredential("localstradebox@gmail.com", config["MailPassword"]);
+                smtp.UseDefaultCredentials = true;
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtp.Credentials = credentials;
+                smtp.Port = 587;
+                return smtp;
+            };
         }
 
         public void SendMail(Feedback feedback)
@@ -48,20 +63,10 @@ namespace Support_Your_Locals.Infrastructure
             }
 
             message.To.Add(new MailAddress(toEmail, toEmail));
-
-            SmtpClient smtp = new SmtpClient();
-            smtp.Host = "smtp.gmail.com";
-            smtp.EnableSsl = true;
-
-            NetworkCredential credentials = new NetworkCredential("localstradebox@gmail.com", config["MailPassword"]);
-            smtp.UseDefaultCredentials = true;
-            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtp.Credentials = credentials;
-            smtp.Port = 587;
             try
             {
-               //smtp.Send(message);
-                smtp.SendAsync(message, null);
+                //createSmtp().Invoke()).Send(message);
+                createSmtp().SendAsync(message, null);
             }
             catch (SmtpFailedRecipientException e)
             {
@@ -73,7 +78,7 @@ namespace Support_Your_Locals.Infrastructure
                 Debug.WriteLine($"Failed to send email with smtp. The name of the sender: " +
                                 $" {feedback.SenderName}. The message: \"{feedback.Text}\" was being sent to {toEmail}. " +
                                 $"Exception code: {e.StatusCode}. " +
-                                $"Detailed exception info: {e}" );
+                                $"Detailed exception info: {e}");
             }
         }
 
