@@ -8,9 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Support_Your_Locals.Controllers;
+using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
 
-namespace Support_Your_Locals.Models
+namespace Support_Your_Locals.Infrastructure
 {
     public class Mailer
     {
