@@ -59,8 +59,8 @@ namespace Support_Your_Locals.Models
             smtp.Port = 587;
             try
             {
-                smtp.Send(message);
-              //  smtp.SendAsync(message, null);
+               //smtp.Send(message);
+                smtp.SendAsync(message, null);
             }
             catch (SmtpFailedRecipientException e)
             {
