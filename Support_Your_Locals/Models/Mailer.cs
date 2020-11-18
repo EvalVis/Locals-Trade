@@ -11,9 +11,9 @@ namespace Support_Your_Locals.Models
             BusinessController.FeedbackEvent += SendMail;
         }
 
-        public void SendMail()
+        public void SendMail(Feedback feedback)
         {
-            System.Diagnostics.Debug.WriteLine(this.GetHashCode() + " Sent");
+            System.Diagnostics.Debug.WriteLine(feedback.Text);
         }
 
         public void Mute()
