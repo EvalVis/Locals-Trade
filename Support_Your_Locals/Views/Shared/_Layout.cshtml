@@ -15,7 +15,9 @@
         }
         else
         {
-            <a asp-controller="Auth" asp-action="SignOut">Sign Out</a>
+            <form method="post">
+                <button asp-controller="Auth" asp-action="SignOut" class="btn btn-primary">Sign Out</button>
+            </form>
         }
         <a asp-controller="Business" asp-action="AddAdvertisement" class="navbar-brand ml-2">Add advertisement</a>
 
