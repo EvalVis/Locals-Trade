@@ -9,41 +9,41 @@
 
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
 <link href="/lib/datetimepicker/css/jquery.datetimepicker.min.css" rel="stylesheet" />
-<script src="css/pmamremover.css"></script>
 
-<div class="container mt-5 mb-5" style="width: 400px">
-    <label>@DayNames.days[dayIndex]</label>
-    <input type="hidden" asp-for="Weekday" value="@(dayIndex + 1)" />
-    <label asp-for="From">From</label>
-    <input type="text" asp-for="From" id="@pickerFrom" class="form-control"/>
-    <label asp-for="To">To</label>
-    <input type="text" asp-for="To" id="@pickerTo" class="form-control"/>
+<div class="row">
+    <label class="col">@DayNames.days[dayIndex]</label>
+    <input type="hidden" asp-for="Weekday" value="@(dayIndex + 1)"  />
+    <label class="col" asp-for="From">From</label>
+    <input type="text" asp-for="From" id="@pickerFrom" class="form-control col" readonly="readonly"/>
+    <label class="col" asp-for="To">To</label>
+    <input type="text" asp-for="To" id="@pickerTo" class="form-control col" readonly="readonly"/>
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="/lib/datetimepicker/js/jquery.datetimepicker.full.min.js"></script>
 <script>
+    var stepTime = 10;
     $('#picker' + @dayIndex).datetimepicker({
         timepicker: true,
         datepicker: false,
         format: 'H:i',
-        step: 10,
-        onShow: function () {
+        step: stepTime,
+        onShow: function() {
             this.setOptions({
                 maxTime: $('#picker' + @day7Index).val() ? $('#picker' + @day7Index).val() : false
-            })
+            });
         }
-    })
+    });
     $('#picker' + @day7Index).datetimepicker({
         timepicker: true,
         datepicker: false,
         format: 'H:i',
-        step: 10,
-        onShow: function () {
+        step: stepTime,
+        onShow: function() {
             this.setOptions({
                 minTime: $('#picker' + @dayIndex).val() ? $('#picker' + @dayIndex).val() : false
-            })
+            });
         }
-    })
+    });
 </script>
