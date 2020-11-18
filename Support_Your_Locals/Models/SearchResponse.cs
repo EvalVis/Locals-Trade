@@ -16,19 +16,20 @@ namespace Support_Your_Locals.Models
         [FromQuery(Name = "w")]
         public string WeekSelected { get; set; } = "1111111";
         public bool[] WeekdaySelected { get; set; } = new bool[7];
+        [FromQuery(Name = "f")]
+        public DateTime OpenFrom { get; set; } = new DateTime(1999, 12, 06, 08, 00, 00);
+        [FromQuery(Name= "t")]
+        public DateTime OpenTo { get; set; } = new DateTime(1999, 12, 06, 18, 00, 00);
       
         public string ToQuery()
         {
-            return DefaultSearchFields() ? "" : $"/?os={OwnersSurname}&bi={BusinessInfo}&si={SearchIn}&w={WeekSelected}";
+            return $"/?os={OwnersSurname}&bi={BusinessInfo}&si={SearchIn}&w={WeekSelected}&f={OpenFrom.TimeOfDay}&t={OpenTo.TimeOfDay}";
         }
 
-        private bool DefaultSearchFields()
-        {
-            return string.IsNullOrEmpty(OwnersSurname) && string.IsNullOrEmpty(BusinessInfo) && SearchIn == 0 && WeekSelected == "1111111";
-        }
 
         public void SetWeekdaySelected()
         {
+            System.Diagnostics.Debug.WriteLine(OpenFrom);
             if (WeekSelected.Length != 7) return;
             for (int i = 0; i < 7; i++)
             {
@@ -39,7 +40,7 @@ namespace Support_Your_Locals.Models
 
         public IEnumerable<Business> FilterBusinesses(IEnumerable<Business> businesses)
         {
-            return businesses.Where(b => BusinessConditionsMet(b) && UserConditionsMet(b.User) && ChosenWeekday(b.Workdays));
+            return businesses.Where(b => BusinessConditionsMet(b) && UserConditionsMet(b.User) && ChosenWeekday(b.Workdays) && ChosenTimeInterval(b.Workdays));
         }
 
         private bool UserConditionsMet(User user)
@@ -50,7 +51,7 @@ namespace Support_Your_Locals.Models
 
         private bool BusinessConditionsMet(Business business)
         {
-            if (!String.IsNullOrEmpty(BusinessInfo))
+            if (!string.IsNullOrEmpty(BusinessInfo))
             {
                 if (SearchIn == 0)
                 {
@@ -76,8 +77,6 @@ namespace Support_Your_Locals.Models
             return business.Description.ToLower().Contains(BusinessInfo.ToLower()); // OK, BusinessInfo is Description if search in description is ticked.
         }
 
-        //TODO: Search by working hours.
-
         private bool ChosenWeekday(IEnumerable<TimeSheet> timeSheets)
         {
             return timeSheets.Count(t => WeekdaySelected[t.Weekday - 1]) > 0;
@@ -86,6 +85,11 @@ namespace Support_Your_Locals.Models
         private bool ChosenOwnersSurname(User user)
         {
             return user.Surname.ToLower().Contains(OwnersSurname.ToLower());
+        }
+
+        private bool ChosenTimeInterval(IEnumerable<TimeSheet> timeSheets)
+        {
+            return timeSheets.All(t => t.From.TimeOfDay <= OpenFrom.TimeOfDay && t.To.TimeOfDay <= OpenTo.TimeOfDay);
         }
 
     }

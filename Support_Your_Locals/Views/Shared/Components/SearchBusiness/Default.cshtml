@@ -4,11 +4,11 @@
     <h4 class="text-center">Search for a business</h4>
     <div class="form-group">
         <label asp-for="SearchResponse.OwnersSurname">By owner's surname</label>
-        <input asp-for="SearchResponse.OwnersSurname" class="form-control"/>
+        <input asp-for="SearchResponse.OwnersSurname" class="form-control" />
     </div>
     <div class="form-group">
         <label asp-for="SearchResponse.BusinessInfo">By business's info</label>
-        <input asp-for="SearchResponse.BusinessInfo" name="bi" class="form-control"/>
+        <input asp-for="SearchResponse.BusinessInfo" class="form-control" />
     </div>
     <div class="form-group">
         <label asp-for="SearchResponse.SearchIn">Select a search mode</label>
@@ -19,10 +19,17 @@
         </select>
     </div>
     <div class="form-group">
-        @for (int i = 0; i < 7; i++)
-        {
-            <label><input asp-for="SearchResponse.WeekdaySelected[i]"/>@DayNames.days[i]</label>
+        @for (var i = 0; i < 7; i++) {
+            <label><input asp-for="SearchResponse.WeekdaySelected[i]" />@DayNames.days[i]</label>
         }
+    </div>
+    <div class="form-group">
+        <label asp-for="SearchResponse.OpenFrom">Open From</label>
+        <input asp-for="SearchResponse.OpenFrom" value="@Model.SearchResponse.OpenFrom.TimeOfDay" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="SearchResponse.OpenTo">Open To</label>
+        <input asp-for="SearchResponse.OpenTo" value="@Model.SearchResponse.OpenTo.TimeOfDay" class="form-control"/>
     </div>
     <button type="submit" class="btn btn-primary">Search</button>
 </form>
@@ -33,14 +40,13 @@
     var businessInfo = header + "_" + "@nameof(SearchResponse.BusinessInfo)";
     var searchIn = header + "_" + "@nameof(SearchResponse.SearchIn)";
     var weekdaySelected = header + "_" + "@nameof(SearchResponse.WeekdaySelected)";
+    var openFrom = header + "_" + "@nameof(SearchResponse.OpenFrom)";
+    var openTo = header + "_" + "@nameof(SearchResponse.OpenTo)";
 
     function setQuery() {
-        var osv = document.getElementById(ownersSurname).value;
-        var biv = document.getElementById(businessInfo).value;
-        var siv = document.getElementById(searchIn).value;
-        var os = "os=" + osv;
-        var bi = "bi=" + biv;
-        var si = "si=" + siv;
+        var os = "os=" + document.getElementById(ownersSurname).value;
+        var bi = "bi=" + document.getElementById(businessInfo).value;
+        var si = "si=" + document.getElementById(searchIn).value;
         var w = "w=";
         for (var i = 0; i < 7; i++) {
             var current = weekdaySelected + "_" + i + "_";
@@ -48,14 +54,11 @@
             var numericChar = value ? '1' : '0';
             w += numericChar;
         }
-        var query = "";
-        if (!defaultSearchFields(osv, biv, siv, w)) query = "/?" + os + "&" + bi + "&" + si + "&" + w;
+        var f = "f=" + document.getElementById(openFrom).value;
+        var t = "t=" + document.getElementById(openTo).value;
+
+        var query = "/?" + os + "&" + bi + "&" + si + "&" + w + "&" + f + "&" + t;
         document.forms["searchForm"].action = document.forms["searchForm"].action + query;
         return true;
-    }
-
-    function defaultSearchFields(osv, biv, siv, w) {
-        return (osv === null || osv === "") && (biv === null || biv === "")
-            && (parseInt(siv) === 0) && (w.localeCompare("w=1111111") === 0);
     }
 </script>
