@@ -1,10 +1,12 @@
 ﻿@model BusinessListViewModel
-
-@foreach (var b in Model.Businesses) {
-    <partial name="BusinessSummary" model="b" />
-}
+    <div style=" width: 1080px; padding: 8% 0 0; margin: auto;">
+        @foreach (var b in Model.Businesses)
+        {
+            <partial name="BusinessSummary" model="b" />
+        }
 
 <div page-model="@Model.PagingInfo" page-action="Index" page-classes-enabled="true" page-class="btn"
      page-class-normal="btn-outline-dark" page-class-selected="btn-primary"
      page-url-product="@Model.CurrentProduct" page-query="@Model.SearchResponse.ToQuery()" class="btn-group pull-right m-1">
+</div>
 </div>
