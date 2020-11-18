@@ -9,7 +9,6 @@
 
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
 <link href="/lib/datetimepicker/css/jquery.datetimepicker.min.css" rel="stylesheet" />
-<script src="css/pmamremover.css"></script>
 
 <div class="row">
     <label class="col">@DayNames.days[dayIndex]</label>
@@ -24,26 +23,27 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="/lib/datetimepicker/js/jquery.datetimepicker.full.min.js"></script>
 <script>
+    var stepTime = 10;
     $('#picker' + @dayIndex).datetimepicker({
         timepicker: true,
         datepicker: false,
         format: 'H:i',
-        step: 10,
-        onShow: function () {
+        step: stepTime,
+        onShow: function() {
             this.setOptions({
                 maxTime: $('#picker' + @day7Index).val() ? $('#picker' + @day7Index).val() : false
-            })
+            });
         }
-    })
+    });
     $('#picker' + @day7Index).datetimepicker({
         timepicker: true,
         datepicker: false,
         format: 'H:i',
-        step: 10,
-        onShow: function () {
+        step: stepTime,
+        onShow: function() {
             this.setOptions({
                 minTime: $('#picker' + @dayIndex).val() ? $('#picker' + @dayIndex).val() : false
-            })
+            });
         }
-    })
+    });
 </script>

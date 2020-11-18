@@ -27,6 +27,8 @@ namespace Support_Your_Locals.Infrastructure.TagHelpers
 
             public string PageAction { get; set; }
 
+            public string PageQuery { get; set; }
+
             [HtmlAttributeName(DictionaryAttributePrefix = "page-url-")]
             public Dictionary<string, object> PageUrlValues { get; set; }
                 = new Dictionary<string, object>();
@@ -44,6 +46,7 @@ namespace Support_Your_Locals.Infrastructure.TagHelpers
                     TagBuilder tag = new TagBuilder("a");
                     PageUrlValues["page"] = i;
                     tag.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
+                    tag.Attributes["href"] += PageQuery;
                     if (PageClassesEnabled)
                     {
                         tag.AddCssClass(PageClass);
