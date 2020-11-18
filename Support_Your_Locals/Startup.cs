@@ -14,6 +14,9 @@ namespace Support_Your_Locals
 {
     public class Startup
     {
+
+        private Mailer mailer;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -57,6 +60,13 @@ namespace Support_Your_Locals
             app.UseStaticFiles();
             app.UseSession();
             app.UseRouting();
+
+            app.Use(async (context, next) =>
+            {
+                mailer?.Mute();
+                mailer = new Mailer(app, Configuration);
+                await next();
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();

@@ -10,8 +10,8 @@ using Support_Your_Locals.Models;
 namespace Support_Your_Locals.Migrations
 {
     [DbContext(typeof(ServiceDbContext))]
-    [Migration("20201115125909_AddBusinessTimeSheetToDb")]
-    partial class AddBusinessTimeSheetToDb
+    [Migration("20201115152332_AddUserBusinessTimeSheetToDb")]
+    partial class AddUserBusinessTimeSheetToDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,6 +54,29 @@ namespace Support_Your_Locals.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Business");
+                });
+
+            modelBuilder.Entity("Support_Your_Locals.Models.Feedback", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("BusinessID")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("SenderName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("BusinessID");
+
+                    b.ToTable("Feedbacks");
                 });
 
             modelBuilder.Entity("Support_Your_Locals.Models.Product", b =>
@@ -146,6 +169,15 @@ namespace Support_Your_Locals.Migrations
                     b.HasOne("Support_Your_Locals.Models.User", "User")
                         .WithMany("Businesses")
                         .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Support_Your_Locals.Models.Feedback", b =>
+                {
+                    b.HasOne("Support_Your_Locals.Models.Business", "Business")
+                        .WithMany("Feedbacks")
+                        .HasForeignKey("BusinessID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

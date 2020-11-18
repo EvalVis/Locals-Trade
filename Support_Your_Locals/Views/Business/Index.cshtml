@@ -111,3 +111,46 @@
         });
     }
 </script>
+
+<div>
+    @foreach (var f in Model.Feedbacks)
+    {
+        <partial name="FeedbackSummary" model="f"/>
+    }
+</div>
+
+<form id="addFeedback">
+    <div class="form-group">
+        <label>Your name</label>
+        <input type="text" name="@nameof(Feedback.SenderName)" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Feedback</label>
+        <textarea name="@nameof(Feedback.Text)" class="form-control"></textarea>
+    </div>
+    <input type="hidden" name="@nameof(Feedback.BusinessID)" value="@Model.BusinessID"/>
+    <button id="feedbackButton" class="btn btn-primary">Submit</button>
+</form>
+
+<label id="feedbackSent" hidden style="color: rgb(51, 255, 162)">Feedback successfully sent.</label>
+<label id="feedbackUnsent" hidden style="color: rgb(255, 0, 0)">Something went wrong. Failed to send feedback.</label>
+
+<script>
+    $('#feedbackButton').click(function () {
+        $.ajax({
+             type: "POST",
+             url: "/Business/AddFeedback",
+             data: $("#addFeedback").serialize(),
+             success: function() {
+                 document.getElementById("addFeedback").style.display = "none";
+                 document.getElementById("addFeedback").reset();
+                 document.getElementById("feedbackSent").hidden = false;
+             },
+            error: function () {
+                document.getElementById("feedbackUnsent").hidden = false;
+             }
+         });
+             return false;
+    });
+</script>
