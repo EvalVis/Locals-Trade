@@ -1,4 +1,4 @@
-@model UserLoginModel
+﻿@model UserLoginModel
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,12 +10,6 @@
 @{
     Layout = "_NoNavLayout";
 }
-@if (User.Identity.IsAuthenticated) { 
-    <form asp-action="SignOut" method="post">
-    <button class="btn btn-light btn-lg">Sign Out</button>
-    </form>
-}
-else { 
 <div class="auth-container">
     <div class="container box">
         <h1>Sign In</h1>
@@ -46,4 +40,3 @@ else {
         
     </div>
 </div>
-}
