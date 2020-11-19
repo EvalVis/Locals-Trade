@@ -20,10 +20,24 @@ namespace Support_Your_Locals.Infrastructure
         private IConfiguration config;
         private BusinessController.FeedbackHandler handler;
 
+        private Lazy<SmtpClient> smtp;
+
         public Mailer(IApplicationBuilder app, IConfiguration configuration)
         {
             repository = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<IServiceRepository>();
             config = configuration;
+            smtp = new Lazy<SmtpClient>(() =>
+            {
+                return new SmtpClient()
+                {
+                    Host = "smtp.gmail.com",
+                    EnableSsl = true,
+                    UseDefaultCredentials = true,
+                    Credentials = new NetworkCredential("localstradebox@gmail.com", config["MailPassword"]),
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    Port = 587
+                };
+            });
             handler = delegate(Feedback feedback)
             {
                 MailMessage message = new MailMessage();
@@ -47,19 +61,11 @@ namespace Support_Your_Locals.Infrastructure
 
                 message.To.Add(new MailAddress(toEmail, toEmail));
 
-                SmtpClient smtp = new SmtpClient();
-                smtp.Host = "smtp.gmail.com";
-                smtp.EnableSsl = true;
-
-                NetworkCredential credentials = new NetworkCredential("localstradebox@gmail.com", config["MailPassword"]);
-                smtp.UseDefaultCredentials = true;
-                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                smtp.Credentials = credentials;
-                smtp.Port = 587;
+                SmtpClient protocol = smtp.Value;
                 try
                 {
-                    //smtp.Send(message);
-                    smtp.SendAsync(message, null);
+                    protocol.Send(message);
+                    //protocol.SendAsync(message, null);
                 }
                 catch (SmtpFailedRecipientException e)
                 {
