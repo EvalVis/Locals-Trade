@@ -63,7 +63,6 @@ namespace Support_Your_Locals
 
             app.Use(async (context, next) =>
             {
-                mailer?.Mute();
                 mailer = new Mailer(app, Configuration);
                 await next();
             });
