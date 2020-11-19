@@ -77,11 +77,6 @@ namespace Support_Your_Locals.Infrastructure
             BusinessController.FeedbackEvent += handler;
         }
 
-        public void SendMail(Feedback feedback)
-        {
-            
-        }
-
         public void Mute()
         {
             BusinessController.FeedbackEvent -= handler;
