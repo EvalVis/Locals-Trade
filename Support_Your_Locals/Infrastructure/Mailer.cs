@@ -18,6 +18,7 @@ namespace Support_Your_Locals.Infrastructure
 
         private IServiceRepository repository;
         private IConfiguration config;
+        private BusinessController.FeedbackHandler handler;
 
         private Lazy<SmtpClient> smtp;
 
@@ -37,10 +38,8 @@ namespace Support_Your_Locals.Infrastructure
                     Port = 587
                 };
             });
-            BusinessController.FeedbackHandler handler = null;
             handler = delegate(Feedback feedback)
             {
-                BusinessController.FeedbackEvent -= handler;
                 MailMessage message = new MailMessage();
                 message.Subject = "LocalsTrade: Business feedback";
                 message.Body = $"Hello. You have received a new business feedback: \"{feedback.Text}\", from {feedback.SenderName}";
@@ -65,7 +64,8 @@ namespace Support_Your_Locals.Infrastructure
                 SmtpClient protocol = smtp.Value;
                 try
                 {
-                    protocol.SendMailAsync(message);
+                    protocol.Send(message);
+                    //protocol.SendAsync(message, null);
                 }
                 catch (SmtpFailedRecipientException e)
                 {
@@ -81,6 +81,11 @@ namespace Support_Your_Locals.Infrastructure
                 }
             };
             BusinessController.FeedbackEvent += handler;
+        }
+
+        public void Mute()
+        {
+            BusinessController.FeedbackEvent -= handler;
         }
 
     }
