@@ -20,6 +20,8 @@ namespace Support_Your_Locals.Models
         public DateTime OpenFrom { get; set; } = new DateTime(1999, 12, 06, 08, 00, 00);
         [FromQuery(Name= "t")]
         public DateTime OpenTo { get; set; } = new DateTime(1999, 12, 06, 18, 00, 00);
+
+        private delegate bool Filter<T>(T item);
       
         public string ToQuery()
         {
@@ -40,30 +42,22 @@ namespace Support_Your_Locals.Models
 
         public IEnumerable<Business> FilterBusinesses(IEnumerable<Business> businesses)
         {
-            return businesses.Where(b => BusinessConditionsMet(b) && UserConditionsMet(b.User) && ChosenWeekday(b.Workdays) && ChosenTimeInterval(b.Workdays));
-        }
-
-        private bool UserConditionsMet(User user)
-        {
-            if (!string.IsNullOrEmpty(OwnersSurname)) return ChosenOwnersSurname(user);
-            return true;
-        }
-
-        private bool BusinessConditionsMet(Business business)
-        {
-            if (!string.IsNullOrEmpty(BusinessInfo))
+            Filter<User> ownersFilter = delegate(User user)
             {
-                if (SearchIn == 0)
-                {
-                    if (!ChosenHeader(business)) return false;
-                }
-                else if (SearchIn == 1)
-                {
-                    if (!ChosenDescription(business)) return false;
-                }
-                else if (!ChosenDescription(business) || ChosenHeader(business)) return false;
-            }
-            return true;
+                return (string.IsNullOrEmpty(OwnersSurname) || user.Surname.ToLower().Contains(OwnersSurname.ToLower()));
+            };
+            Filter<Business> businessFilter = delegate(Business business)
+            {
+                return string.IsNullOrEmpty(BusinessInfo) || (SearchIn == 0 && ChosenHeader(business))
+                        && (SearchIn == 1 && ChosenDescription(business)) ||
+                        (SearchIn == 2 && ChosenHeader(business) && ChosenDescription(business));
+            };
+            Filter<IEnumerable<TimeSheet>> timeFilter = delegate(IEnumerable<TimeSheet> workdays)
+            {
+                return workdays.All(w => (w.From.TimeOfDay <= OpenFrom.TimeOfDay
+                                          && w.To.TimeOfDay <= OpenTo.TimeOfDay) || !WeekdaySelected[w.Weekday - 1]);
+            };
+            return businesses.Where(b => ownersFilter(b.User) && businessFilter(b) && timeFilter(b.Workdays));
         }
 
 
@@ -74,22 +68,7 @@ namespace Support_Your_Locals.Models
 
         private bool ChosenDescription(Business business)
         {
-            return business.Description.ToLower().Contains(BusinessInfo.ToLower()); // OK, BusinessInfo is Description if search in description is ticked.
-        }
-
-        private bool ChosenWeekday(IEnumerable<TimeSheet> timeSheets)
-        {
-            return timeSheets.Count(t => WeekdaySelected[t.Weekday - 1]) > 0;
-        }
-
-        private bool ChosenOwnersSurname(User user)
-        {
-            return user.Surname.ToLower().Contains(OwnersSurname.ToLower());
-        }
-
-        private bool ChosenTimeInterval(IEnumerable<TimeSheet> timeSheets)
-        {
-            return timeSheets.All(t => t.From.TimeOfDay <= OpenFrom.TimeOfDay && t.To.TimeOfDay <= OpenTo.TimeOfDay);
+            return business.Description.ToLower().Contains(BusinessInfo.ToLower());
         }
 
     }
