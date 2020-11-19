@@ -3,56 +3,67 @@
 @{
     Layout = "_NoNavLayout";
 }
+<div class="login-page">
+    @if (Model?.AlreadyExists == true)
+    {
+        <div class="alert alert-warning alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Warning!</strong> User already exists.
+        </div>
+    }
+    <div class="form">
+        <div class="auth-container">
+            <div class="container box">
+                <h1>Sign Up</h1>
+                <form asp-action="SignUp" method="post">
+                    <div class="form-group">
+                        <label asp-for="Email">Email</label>
+                        <input asp-for="Email" class="form-control">
+                        <span asp-validation-for="Email"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Name">Name</label>
+                        <input asp-for="Name" class="form-control">
+                        <span asp-validation-for="Name"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Surname">Surname</label>
+                        <input asp-for="Surname" class="form-control">
+                        <span asp-validation-for="Surname"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BirthDate">BirthDate</label>
+                        @Html.TextBox("BirthDate", Model, new { type = "date" })
+                        <span asp-validation-for="BirthDate"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password">Password</label>
+                        <input type="password" asp-for="Password" class="form-control">
+                        <span asp-validation-for="Password"></span>
+                    </div>
 
-<div class="auth-container">
-    <div class="container box">
-        <h1>Sign Up</h1>
-        <div asp-validation-summary="All">
-        </div>
-        @if (Model?.AlreadyExists == true)
-        {
-            <h5 class="bg-warning text-danger text-center">User already exists.</h5>
-        }
-    <form asp-action="SignUp" method="post">
-        <div class="form-group">
-            <label asp-for="Email">Email</label>
-            <input asp-for="Email" class="form-control">
-        </div>
-        <div class="form-group">
-            <label asp-for="Name">Name</label>
-            <input asp-for="Name" class="form-control">
-        </div>
-        <div class="form-group">
-            <label asp-for="Surname">Surname</label>
-            <input asp-for="Surname" class="form-control">
-        </div>
-        <div class="form-group">
-            <label asp-for="BirthDate">BirthDate</label>
-            @Html.TextBox("BirthDate", Model, new { type = "date" })
-        </div>
-        <div class="form-group">
-            <label asp-for="Password">Password</label>
-            <input type="password" asp-for="Password" class="form-control">
-        </div>
-        @if (ViewBag.email == "true")
-        {
-            <div>
-                <b><label style="color: rgb(0, 255, 0)">Successfully registered</label></b>
+                    <div class="form-group">
+                        <a asp-action="SignIn">Already a member? Sign in</a>
+                    </div>
 
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+
+                </form>
             </div>
-        }
-        else if (ViewBag.email == "false")
-        {
-            <div>
-                <b><label style="color: rgb(255, 0, 0)">This email already exists</label></b>
-            </div>
-        }
-        <div class="form-group">
-            <a asp-action="SignIn">Already a member? Sign in</a>
+
+
+            <!--
+            <form class="login-form">
+                <h2>Sign up</h2>
+                <input type="text" placeholder="username" />
+                <input type="password" placeholder="password" />
+                <button>login</button>
+                <p class="message">Not registered? <a href="#">Create an account</a></p>
+            </form>-->
         </div>
-
-        <button type="submit" class="btn btn-primary">Sign Up</button>
-
-    </form>
     </div>
 </div>
+
+
+    
+
