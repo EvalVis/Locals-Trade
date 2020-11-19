@@ -65,7 +65,7 @@ namespace Support_Your_Locals.Infrastructure
                 SmtpClient protocol = smtp.Value;
                 try
                 {
-                    protocol.Send(message);
+                    protocol.SendMailAsync(message);
                 }
                 catch (SmtpFailedRecipientException e)
                 {
