@@ -62,9 +62,12 @@ namespace Support_Your_Locals.Controllers
                         Longitude = business.Longitude,
                         Latitude = business.Latitude,
                         Picture = business.Picture,
-                        Workdays = business.Workdays.ToArray(),
                         Products = business.Products
                     };
+                    foreach (TimeSheet workday in business.Workdays)
+                    {
+                        businessRegisterModel.Workdays[workday.Weekday - 1] = workday;
+                    }
                     return View(businessRegisterModel);
                 }
                 return Redirect("/");
