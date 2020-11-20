@@ -16,7 +16,7 @@ namespace Support_Your_Locals.Models.ViewModels
         public string Longitude { get; set; }
         public string Latitude { get; set; }
         public string Picture { get; set; }
-        public TimeSheetRegisterViewModel[] Workdays { get; set; } = new TimeSheetRegisterViewModel[7];
+        public TimeSheet[] Workdays { get; set; } = new TimeSheet[7];
         public List<Product> Products { get; set; } = new List<Product>();
     }
 }

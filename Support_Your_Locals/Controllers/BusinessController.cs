@@ -45,10 +45,33 @@ namespace Support_Your_Locals.Controllers
 
         [Authorize]
         [HttpGet]
-        public ViewResult AddAdvertisement()
+        public async Task<ActionResult> AddAdvertisement(long businessId)
         {
+            if (businessId > 0)
+            {
+                Business business = await repository.Business.Include(b => b.Workdays)
+                    .Include(b => b.Products)
+                    .FirstOrDefaultAsync(b => b.BusinessID == businessId);
+                if (business != null)
+                {
+                    BusinessRegisterModel businessRegisterModel = new BusinessRegisterModel()
+                    {
+                        Description = business.Description,
+                        PhoneNumber = business.PhoneNumber,
+                        Header = business.Header,
+                        Longitude = business.Longitude,
+                        Latitude = business.Latitude,
+                        Picture = business.Picture,
+                        Workdays = business.Workdays.ToArray(),
+                        Products = business.Products
+                    };
+                    return View(businessRegisterModel);
+                }
+                return Redirect("/");
+            }
             return View();
         }
+
         [Authorize]
         [HttpPost]
         public ActionResult AddAdvertisement(BusinessRegisterModel businessRegisterModel)
@@ -63,23 +86,10 @@ namespace Support_Your_Locals.Controllers
                 PhoneNumber = businessRegisterModel.PhoneNumber,
                 Latitude = businessRegisterModel.Latitude,
                 Longitude = businessRegisterModel.Longitude,
-                Picture = businessRegisterModel.Picture
+                Picture = businessRegisterModel.Picture,
+                Workdays = businessRegisterModel.Workdays.ToList(),
+                Products = businessRegisterModel.Products
             };
-            for (int i = 0; i < 7; i++)
-            {
-                TimeSheetRegisterViewModel day = businessRegisterModel.Workdays[i];
-                DateTime from = day.From;
-                DateTime to = day.To;
-                if (TimeSheetRegisterViewModel.Invalid(from, to)) continue;
-                TimeSheet workday = new TimeSheet { From = day.From, To = day.To, Weekday = day.Weekday, Business = business};
-                business.Workdays.Add(workday);
-            }
-
-            foreach (var pr in businessRegisterModel.Products)
-            {
-                Product product = new Product {Name = pr.Name, PricePerUnit = pr.PricePerUnit, Unit = pr.Unit, Comment = pr.Comment, Picture = pr.Picture};
-                business.Products.Add(product);
-            }
             repository.AddBusiness(business);
             return Redirect("/");
         }

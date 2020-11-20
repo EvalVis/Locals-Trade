@@ -82,6 +82,8 @@ namespace Support_Your_Locals
                 endpoints.MapControllerRoute("page", "page{page:int}", new { Controller = "Home", action = "Index", page = 1 });
                 endpoints.MapControllerRoute("product", "{product}", new { Controller = "Home", action = "Index", page = 1 });
                 endpoints.MapControllerRoute("advertisement", "business/{businessId:long}", new {Controller = "Business", action = "Index"});
+                endpoints.MapControllerRoute("addAdvertisement", "business/addAdvertisement/{businessId:long}", 
+                    new {Controller = "Business", action = "AddAdvertisement"});
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
                 endpoints.MapBlazorHub();
