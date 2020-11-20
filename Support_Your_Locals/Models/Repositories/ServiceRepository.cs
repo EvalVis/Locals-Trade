@@ -41,5 +41,10 @@ namespace Support_Your_Locals.Models.Repositories
             context.SaveChanges();
         }
 
+        public void SaveBusiness(Business business)
+        {
+            context.SaveChanges();
+        }
+
     }
 }
