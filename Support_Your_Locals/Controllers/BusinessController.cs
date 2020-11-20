@@ -52,9 +52,12 @@ namespace Support_Your_Locals.Controllers
                 Business business = await repository.Business.Include(b => b.Workdays)
                     .Include(b => b.Products)
                     .FirstOrDefaultAsync(b => b.BusinessID == businessId);
+                long userID = long.Parse(HttpContext.User.Claims
+                    .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
                 if (business != null)
-                {
-                    BusinessRegisterModel businessRegisterModel = new BusinessRegisterModel()
+                { // TODO: Redirect replace with error.
+                    if (business.UserID != userID) return Redirect("/");
+                        BusinessRegisterModel businessRegisterModel = new BusinessRegisterModel()
                     {
                         Description = business.Description,
                         PhoneNumber = business.PhoneNumber,
@@ -68,6 +71,7 @@ namespace Support_Your_Locals.Controllers
                     {
                         businessRegisterModel.Workdays[workday.Weekday - 1] = workday;
                     }
+                    TempData["Edit"] = "1";
                     return View(businessRegisterModel);
                 }
                 return Redirect("/");
@@ -85,7 +89,9 @@ namespace Support_Your_Locals.Controllers
                 // Exception here
                 Header = businessRegisterModel.Header,
                 Description = businessRegisterModel.Description,
-                UserID = long.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value),
+                UserID =
+                    long.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)
+                        .Value),
                 PhoneNumber = businessRegisterModel.PhoneNumber,
                 Latitude = businessRegisterModel.Latitude,
                 Longitude = businessRegisterModel.Longitude,
@@ -93,8 +99,18 @@ namespace Support_Your_Locals.Controllers
                 Workdays = businessRegisterModel.Workdays.ToList(),
                 Products = businessRegisterModel.Products
             };
-            repository.AddBusiness(business);
+            if (ViewData["Edit"] == null)
+            {
+                repository.AddBusiness(business);
+            }
+            else if(TempData["Edit"].ToString() == "1")
+            {
+                repository.SaveBusiness(business);
+            }
+            System.Diagnostics.Debug.WriteLine("About Edit: " + TempData["Edit"]);
+
             return Redirect("/");
         }
+
     }
 }
