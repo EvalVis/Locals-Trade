@@ -1,0 +1,56 @@
+﻿@page "/user/businesses"
+@inherits OwningComponentBase<IServiceRepository>
+
+<table class="table table-sm table-striped table-bordered">
+    <thead>
+    <tr>
+        <th>Header</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (UserBusinesses?.Count() > 0) {
+        @foreach (Business b in UserBusinesses) {
+            <tr>
+                <td>@b.Header</td>
+                <td>
+                    <NavLink class="btn btn-info btn-sm" href="@GetDetailsUrl(b.BusinessID)">Details</NavLink>
+                    <NavLink class="btn btn-warning btn-sm" href="@GetEditUrl(b.BusinessID)">Edit</NavLink>
+                    <button class="btn btn-danger btn-sm" @onclick="@(e => DeleteBusiness(b))">Delete</button>
+                </td>
+            </tr>
+        }
+    }
+    else {
+        <tr>
+            <td colspan="5" class="text-center">No businesses being advertised.</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<NavLink class="btn btn-primary" href="/business/addAdvertisement">Advertise a business</NavLink>
+
+@code
+{
+
+    public IServiceRepository Repository => Service;
+
+    public IEnumerable<Business> UserBusinesses { get; set; }
+
+    protected override async Task OnInitializedAsync() {
+        await UpdateData();
+    }
+
+    public async Task UpdateData() {
+        UserBusinesses = await Repository.Business.ToListAsync();
+    }
+
+    public async Task DeleteBusiness(Business b) {
+        Repository.DeleteBusiness(b);
+        await UpdateData();
+    }
+
+    public string GetDetailsUrl(long id) => $"/user/businesses/details/{id}";
+    public string GetEditUrl(long id) => $"/user/businesses/edit/{id}";
+
+}

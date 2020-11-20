@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,14 +32,16 @@ namespace Support_Your_Locals
             services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddScoped<HashCalculator>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddRazorPages();
             services.AddDistributedMemoryCache();
             services.AddSession();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddServerSideBlazor();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
                     options.LoginPath = "/Auth/SignIn";
                 });
-            services.AddServerSideBlazor();
 
         }
 
@@ -82,7 +85,9 @@ namespace Support_Your_Locals
                 endpoints.MapControllerRoute("pagination", "Businesses/page{page}",
                     new { Controller = "Home", action = "Index", page = 1 });
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapRazorPages();
                 endpoints.MapBlazorHub();
+                endpoints.MapFallbackToPage("/user/{*catchall}", "/User/Index");
             });
             SeedData.EnsurePopulated(app, new HashCalculator());
         }

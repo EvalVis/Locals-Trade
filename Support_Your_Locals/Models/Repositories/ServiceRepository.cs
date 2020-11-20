@@ -35,5 +35,11 @@ namespace Support_Your_Locals.Models.Repositories
             context.SaveChanges();
         }
 
+        public void DeleteBusiness(Business business)
+        {
+            context.Remove(business);
+            context.SaveChanges();
+        }
+
     }
 }
