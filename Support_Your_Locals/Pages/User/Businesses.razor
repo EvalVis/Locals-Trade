@@ -1,5 +1,6 @@
 ﻿@page "/user/businesses"
 @inherits OwningComponentBase<IServiceRepository>
+@inject IHttpContextAccessor context
 
 <table class="table table-sm table-striped table-bordered">
     <thead>
@@ -41,8 +42,18 @@
         await UpdateData();
     }
 
-    public async Task UpdateData() {
-        UserBusinesses = await Repository.Business.ToListAsync();
+    public async Task UpdateData()
+    {
+        try
+        {
+            long userID = long.Parse(context.HttpContext.User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            UserBusinesses = await Repository.Business.Where(b => b.UserID == userID).ToListAsync();
+        }
+        catch (Exception)
+        {
+            Debug.WriteLine("Intrusion. Someone accessed User Business page without unauthenticated.");
+            return;
+        }
     }
 
     public async Task DeleteBusiness(Business b) {
