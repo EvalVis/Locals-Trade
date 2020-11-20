@@ -1,0 +1,11 @@
+﻿@page
+@model UserSettingsModel
+
+<table class="table table-sm table-striped table-bordered">
+    <tbody>
+    <tr><th>Name</th><td>@Model.User.Name</td></tr>
+    <tr><th>Surname</th><td>@Model.User.Surname</td></tr>
+    <tr><th>Date of birth</th><td>@Model.User.BirthDate.ToString("yyyy MMMM d")</td></tr>
+    <tr><th>Email</th><td>@Model.User.Email</td></tr>
+    </tbody>
+</table>
