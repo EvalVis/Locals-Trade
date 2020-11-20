@@ -38,6 +38,7 @@ namespace Support_Your_Locals
                 {
                     options.LoginPath = "/Auth/SignIn";
                 });
+            services.AddServerSideBlazor();
 
         }
 
@@ -81,6 +82,7 @@ namespace Support_Your_Locals
                 endpoints.MapControllerRoute("pagination", "Businesses/page{page}",
                     new { Controller = "Home", action = "Index", page = 1 });
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapBlazorHub();
             });
             SeedData.EnsurePopulated(app, new HashCalculator());
         }
