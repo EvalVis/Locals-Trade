@@ -13,5 +13,11 @@ namespace Support_Your_Locals.Models
         public int Weekday { get; set; }
         public long BusinessID { get; set; }
         public Business Business { get; set; }
+
+        public bool InvalidTime()
+        {
+            return From.Equals(To);
+        }
+
     }
 }

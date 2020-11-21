@@ -35,7 +35,7 @@ namespace Support_Your_Locals.Models
             PhoneNumber = registerModel.PhoneNumber;
             Header = registerModel.Header;
             Picture = registerModel.Picture;
-            Workdays = registerModel.Workdays.ToList();
+            inspectWorkdaysValidity(registerModel);
             Products = registerModel.Products;
         }
 
@@ -47,8 +47,16 @@ namespace Support_Your_Locals.Models
             PhoneNumber = registerModel.PhoneNumber;
             Header = registerModel.Header;
             Picture = registerModel.Picture;
-            Workdays = registerModel.Workdays.ToList();
+            inspectWorkdaysValidity(registerModel);
             Products = registerModel.Products;
+        }
+
+        private void inspectWorkdaysValidity(BusinessRegisterModel registerModel)
+        {
+            foreach (var w in registerModel.Workdays)
+            {
+                if(!w.InvalidTime()) Workdays.Add(w);
+            }
         }
 
     }
