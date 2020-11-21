@@ -23,7 +23,7 @@ namespace Support_Your_Locals.Controllers
         public BusinessController(IServiceRepository repo, IHttpContextAccessor accessor)
         {
             repository = repo;
-            userID = long.Parse(accessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            long.TryParse(accessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value, out userID);
         }
 
         [HttpGet]
@@ -78,7 +78,9 @@ namespace Support_Your_Locals.Controllers
                 repository.AddBusiness(business);
                 return Redirect("/");
             }
-            Business dbBusiness = await repository.Business.FirstOrDefaultAsync(b => b.BusinessID == businessRegisterModel.BusinessId);
+            Business dbBusiness = await repository.Business
+                .Include(b => b.Workdays).Include(b => b.Products)
+                .FirstOrDefaultAsync(b => b.BusinessID == businessRegisterModel.BusinessId);
             if (dbBusiness.UserID == userID)
             {
                 dbBusiness.UpdateBusiness(businessRegisterModel);
