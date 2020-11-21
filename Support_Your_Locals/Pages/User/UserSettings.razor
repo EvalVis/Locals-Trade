@@ -2,6 +2,7 @@
 @attribute [Authorize]
 @inherits OwningComponentBase<IServiceRepository>
 @inject IHttpContextAccessor accessor
+@inject HashCalculator hashCalculator
 
 <table class="table table-sm table-striped table-bordered">
     <tbody>
@@ -12,19 +13,33 @@
 </table>
 <EditForm Model="User" OnValidSubmit="SaveUser">
     <InputText @bind-Value="User.Email" disabled="@DisabledEditEmail"></InputText>
-    @if (!DisabledEditEmail)
-    {
+    @if (!DisabledEditEmail) {
         <button type="submit" class="btn btn-primary">Save</button>
-        <button type="button" class="btn btn-warning" @onclick="@onCancel">Cancel</button>
+        <button type="button" class="btn btn-warning" @onclick="@onEmailCancel">Cancel</button>
     }
 </EditForm>
+<EditForm Model="User" OnValidSubmit="SaveUser">
+    @if (!HideChangePassword) {
+        <label>New password</label>
+        <InputText @bind-Value="@userPassword"></InputText>
+        <button type="submit" class="btn btn-danger">Confirm</button>
+        <button type="button" class="btn btn-warning" @onclick="@onPasswordCancel">Cancel</button>
+    }
+</EditForm>
+@if (DisabledEditEmail) {
     <button @onclick="@onEditEmail">Change email</button>
+}
+@if (HideChangePassword)
+{
+    <button @onclick="@onShowChangePassword" class="btn btn-danger">Change password</button>
+}
 
     @code {
 
         public IServiceRepository Repository => Service;
         public User User { get; set; }
         private string userEmail { get; set; }
+        private string userPassword { get; set; }
 
         protected override void OnParametersSet() {
             long userID = long.Parse(accessor.HttpContext.User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
@@ -33,20 +48,36 @@
         }
 
         private bool DisabledEditEmail { get; set; } = true;
+        private bool HideChangePassword { get; set; } = true;
 
         private void onEditEmail() {
             DisabledEditEmail = false;
         }
 
-        private void onCancel()
-        {
+        private void onEmailCancel() {
             User.Email = userEmail;
             DisabledEditEmail = true;
         }
 
+        private void onShowChangePassword()
+        {
+            userPassword = null;
+            HideChangePassword = false;
+        }
+
+        private void onPasswordCancel()
+        {
+            HideChangePassword = true;
+        }
+
+        private void SaveEmail() {
+            userEmail = User.Email;
+            Repository.SaveUser(User);
+        }
+
         private void SaveUser()
         {
-            userEmail = User.Email;
+            User.Passhash = hashCalculator.PassHash(userPassword);
             Repository.SaveUser(User);
         }
 
