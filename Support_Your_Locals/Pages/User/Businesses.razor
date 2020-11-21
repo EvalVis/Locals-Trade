@@ -16,6 +16,7 @@
                 <td>
                     <NavLink class="btn btn-info btn-sm" href="@GetDetailsUrl(b.BusinessID)">Advertisement page</NavLink>
                     <NavLink class="btn btn-warning btn-sm" href="@GetEditUrl(b.BusinessID)">Edit</NavLink>
+                    <NavLink class="btn btn-light btm-sm" href="@GetFeedbackUrl(b.BusinessID)">Business feedbacks</NavLink>
                     <button class="btn btn-danger btn-sm" @onclick="@(e => DeleteBusiness(b))">Delete</button>
                 </td>
             </tr>
@@ -63,5 +64,6 @@
 
     public string GetDetailsUrl(long id) => $"/business/{id}";
     public string GetEditUrl(long id) => $"/business/edit/{id}";
+    public string GetFeedbackUrl(long id) => $"/business/feedbacks/{id}";
 
 }
