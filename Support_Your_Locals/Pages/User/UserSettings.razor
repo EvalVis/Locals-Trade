@@ -1,0 +1,53 @@
+﻿@page "/user/usersettings"
+@attribute [Authorize]
+@inherits OwningComponentBase<IServiceRepository>
+@inject IHttpContextAccessor accessor
+
+<table class="table table-sm table-striped table-bordered">
+    <tbody>
+    <tr><th>Name</th><td>@User.Name</td></tr>
+    <tr><th>Surname</th><td>@User.Surname</td></tr>
+    <tr><th>Date of birth</th><td>@User.BirthDate.ToString("yyyy MMMM d")</td></tr>
+    </tbody>
+</table>
+<EditForm Model="User" OnValidSubmit="SaveUser">
+    <InputText @bind-Value="User.Email" disabled="@DisabledEditEmail"></InputText>
+    @if (!DisabledEditEmail)
+    {
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-warning" @onclick="@onCancel">Cancel</button>
+    }
+</EditForm>
+    <button @onclick="@onEditEmail">Change email</button>
+
+    @code {
+
+        public IServiceRepository Repository => Service;
+        public User User { get; set; }
+        private string userEmail { get; set; }
+
+        protected override void OnParametersSet() {
+            long userID = long.Parse(accessor.HttpContext.User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            User = Repository.Users.FirstOrDefault(u => u.UserID == userID);
+            userEmail = User.Email;
+        }
+
+        private bool DisabledEditEmail { get; set; } = true;
+
+        private void onEditEmail() {
+            DisabledEditEmail = false;
+        }
+
+        private void onCancel()
+        {
+            User.Email = userEmail;
+            DisabledEditEmail = true;
+        }
+
+        private void SaveUser()
+        {
+            userEmail = User.Email;
+            Repository.SaveUser(User);
+        }
+
+    }

@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 namespace Support_Your_Locals.Models.Repositories
 {
@@ -43,6 +42,11 @@ namespace Support_Your_Locals.Models.Repositories
         }
 
         public void SaveBusiness(Business business)
+        {
+            context.SaveChanges();
+        }
+
+        public void SaveUser(User user)
         {
             context.SaveChanges();
         }
