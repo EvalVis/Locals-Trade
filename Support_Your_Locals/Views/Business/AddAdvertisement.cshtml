@@ -80,22 +80,20 @@
                     </div>
                     <div class="formbuss">
                         <div id="products">
-                            @if (Model?.Products != null)
-                            {
-                                for (int i = 0; i < Model.Products.Count; i++)
-                                {
-                                    if (Model.Products[i] != null)
-                                    {
+                            @if (Model?.Products != null) {
+                                for (int i = 0; i < Model.Products.Count; i++) {
+                                    if (Model.Products[i] != null) {
                                         <label asp-for="Products[i].Name">Product</label>
-                                        <input asp-for="Products[i].Name"/>
+                                        <input asp-for="Products[i].Name" />
                                         <label asp-for="Products[i].PricePerUnit">Unit price</label>
-                                        <input asp-for="Products[i].PricePerUnit"/>
+                                        <input asp-for="Products[i].PricePerUnit" />
                                         <label asp-for="Products[i].Unit">Unit</label>
-                                        <input asp-for="Products[i].Unit"/>
+                                        <input asp-for="Products[i].Unit" />
                                         <label asp-for="Products[i].Comment">Comment</label>
-                                        <input asp-for="Products[i].Comment"/>
+                                        <input asp-for="Products[i].Comment" />
                                         <label asp-for="Products[i].Picture">Picture</label>
-                                        <input asp-for="Picture"/>
+                                        <input asp-for="Picture" />
+                                        <hr style="border-top: 3px solid #bbb;">
                                     }
                                 }
                             }
