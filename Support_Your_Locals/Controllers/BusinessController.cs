@@ -8,6 +8,7 @@ using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace Support_Your_Locals.Controllers
 {
@@ -17,16 +18,18 @@ namespace Support_Your_Locals.Controllers
         public static event FeedbackHandler FeedbackEvent;
 
         private IServiceRepository repository;
+        private long userID;
 
-        public BusinessController(IServiceRepository repo)
+        public BusinessController(IServiceRepository repo, IHttpContextAccessor accessor)
         {
             repository = repo;
+            userID = long.Parse(accessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
         }
 
         [HttpGet]
         public async Task<ActionResult> Index(long businessId)
         {
-            if (businessId == 0) businessId = 1;
+            if (businessId <= 0) Redirect("/");
             Business business = await repository.Business.Include(b => b.User).
                 Include(b => b.Workdays).Include(b => b.Products)
                 .Include(b => b.Feedbacks)
@@ -52,26 +55,10 @@ namespace Support_Your_Locals.Controllers
                 Business business = await repository.Business.Include(b => b.Workdays)
                     .Include(b => b.Products)
                     .FirstOrDefaultAsync(b => b.BusinessID == businessId);
-                long userID = long.Parse(HttpContext.User.Claims
-                    .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
                 if (business != null)
                 { // TODO: Redirect replace with error.
                     if (business.UserID != userID) return Redirect("/");
-                        BusinessRegisterModel businessRegisterModel = new BusinessRegisterModel()
-                    {
-                        Description = business.Description,
-                        PhoneNumber = business.PhoneNumber,
-                        Header = business.Header,
-                        Longitude = business.Longitude,
-                        Latitude = business.Latitude,
-                        Picture = business.Picture,
-                        Products = business.Products
-                    };
-                    foreach (TimeSheet workday in business.Workdays)
-                    {
-                        businessRegisterModel.Workdays[workday.Weekday - 1] = workday;
-                    }
-                    TempData["Edit"] = "1";
+                    BusinessRegisterModel businessRegisterModel = new BusinessRegisterModel(business);
                     return View(businessRegisterModel);
                 }
                 return Redirect("/");
@@ -81,34 +68,22 @@ namespace Support_Your_Locals.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult AddAdvertisement(BusinessRegisterModel businessRegisterModel)
+        public async Task<ActionResult> AddAdvertisement(BusinessRegisterModel businessRegisterModel)
         {
             //TODO: validation
-            Business business = new Business
+            if (businessRegisterModel.BusinessId < 0) Redirect("/");
+            if (businessRegisterModel.BusinessId == 0)
             {
-                // Exception here
-                Header = businessRegisterModel.Header,
-                Description = businessRegisterModel.Description,
-                UserID =
-                    long.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)
-                        .Value),
-                PhoneNumber = businessRegisterModel.PhoneNumber,
-                Latitude = businessRegisterModel.Latitude,
-                Longitude = businessRegisterModel.Longitude,
-                Picture = businessRegisterModel.Picture,
-                Workdays = businessRegisterModel.Workdays.ToList(),
-                Products = businessRegisterModel.Products
-            };
-            if (ViewData["Edit"] == null)
-            {
+                Business business = new Business(businessRegisterModel, userID);
                 repository.AddBusiness(business);
+                return Redirect("/");
             }
-            else if(TempData["Edit"].ToString() == "1")
+            Business dbBusiness = await repository.Business.FirstOrDefaultAsync(b => b.BusinessID == businessRegisterModel.BusinessId);
+            if (dbBusiness.UserID == userID)
             {
-                repository.SaveBusiness(business);
+                dbBusiness.UpdateBusiness(businessRegisterModel);
+                repository.SaveBusiness(dbBusiness);
             }
-            System.Diagnostics.Debug.WriteLine("About Edit: " + TempData["Edit"]);
-
             return Redirect("/");
         }
 
