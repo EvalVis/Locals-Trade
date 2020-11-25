@@ -1,8 +1,14 @@
 ﻿@model Tuple<string, IEnumerable<string>>
 
-<a class="btn btn-block btn-outline-secondary" asp-action="Index" asp-controller="Home" asp-route-product="">Home</a>
+<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+    @(Model.Item1 ?? "Products")
+</button>
+<div class="dropdown-menu">
+    <a class="btn btn-block btn-outline-secondary" asp-action="Index" asp-controller="Home" asp-route-product=""><b>Home</b></a>
+    @foreach (string product in Model.Item2)
+    {
+        <a class="btn btn-block @(product == Model.Item1 ? "btn-primary" : "btn-outline-secondary")"
+           asp-action="Index" asp-controller="Home" asp-route-product="@product" asp-route-page="1">@product</a>
+    }
+</div>
 
-@foreach (string product in Model.Item2) {
-    <a class="btn btn-block @(product == Model.Item1 ? "btn-primary" : "btn-outline-secondary")"
-       asp-action="Index" asp-controller="Home" asp-route-product="@product" asp-route-page="1">@product</a>
-}

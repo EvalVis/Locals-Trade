@@ -2,27 +2,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Support_Your_Locals.Models.Repositories;
 
 namespace Support_Your_Locals.Models
 {
     public class SearchResponse
-    { // TODO: nameof.
-        [FromQuery(Name = "os")] public string OwnersSurname { get; set; } = "";
-        [FromQuery(Name = "bi")] public string BusinessInfo { get; set; } = "";
-        [FromQuery(Name = "si")] public int SearchIn { get; set; } = 0;
+    {
+        [FromQuery(Name="os")]
+        public string OwnersSurname { get; set; }
+        [FromQuery(Name = "bi")]
+        public string BusinessInfo { get; set; }
+        [FromQuery(Name = "si")]
+        public int SearchIn { get; set; }
         [FromQuery(Name = "w")]
         public string WeekSelected { get; set; } = "1111111";
-        public bool[] WeekdaySelected { get; set; } = {true, true, true, true, true, true, true};
+        public bool[] WeekdaySelected { get; set; } = new bool[7];
+        [FromQuery(Name = "f")]
+        public DateTime OpenFrom { get; set; } = new DateTime(1999, 12, 06, 23, 59, 00);
+        [FromQuery(Name= "t")]
+        public DateTime OpenTo { get; set; } = new DateTime(1999, 12, 06, 23, 59, 00);
       
         public string ToQuery()
         {
-            return $"os={OwnersSurname}&bi={BusinessInfo}&si={SearchIn}&w={WeekSelected}";
+            return $"/?os={OwnersSurname}&bi={BusinessInfo}&si={SearchIn}&w={WeekSelected}&f={OpenFrom.TimeOfDay}&t={OpenTo.TimeOfDay}";
         }
 
-        private void SetWeekdaySelected()
-        {//TODO: Handle exceptions.
-            if (WeekSelected.Length < 7) return; // kind of solves this.
+
+        public void SetWeekdaySelected()
+        {
+            System.Diagnostics.Debug.WriteLine(OpenFrom);
+            if (WeekSelected.Length != 7) return;
             for (int i = 0; i < 7; i++)
             {
                 if (WeekSelected[i] == '1') WeekdaySelected[i] = true;
@@ -30,15 +38,9 @@ namespace Support_Your_Locals.Models
             }
         }
 
-        public SearchResponse()
-        {
-            WeekdaySelected = new bool[7];
-            for (int i = 0; i < 7; i++) WeekdaySelected[i] = true;
-        }
-
         public IEnumerable<Business> FilterBusinesses(IEnumerable<Business> businesses)
         {
-            return businesses.Where(b => BusinessConditionsMet(b) && UserConditionsMet(b.User) && ChosenWeekday(b.Workdays));
+            return businesses.Where(b => BusinessConditionsMet(b) && UserConditionsMet(b.User) && ChosenWeekday(b.Workdays) && ChosenTimeInterval(b.Workdays));
         }
 
         private bool UserConditionsMet(User user)
@@ -49,7 +51,7 @@ namespace Support_Your_Locals.Models
 
         private bool BusinessConditionsMet(Business business)
         {
-            if (!String.IsNullOrEmpty(BusinessInfo))
+            if (!string.IsNullOrEmpty(BusinessInfo))
             {
                 if (SearchIn == 0)
                 {
@@ -75,8 +77,6 @@ namespace Support_Your_Locals.Models
             return business.Description.ToLower().Contains(BusinessInfo.ToLower()); // OK, BusinessInfo is Description if search in description is ticked.
         }
 
-        //TODO: Search by working hours.
-
         private bool ChosenWeekday(IEnumerable<TimeSheet> timeSheets)
         {
             return timeSheets.Count(t => WeekdaySelected[t.Weekday - 1]) > 0;
@@ -85,6 +85,11 @@ namespace Support_Your_Locals.Models
         private bool ChosenOwnersSurname(User user)
         {
             return user.Surname.ToLower().Contains(OwnersSurname.ToLower());
+        }
+
+        private bool ChosenTimeInterval(IEnumerable<TimeSheet> timeSheets)
+        {
+            return timeSheets.All(t => t.From.TimeOfDay <= OpenFrom.TimeOfDay && t.To.TimeOfDay <= OpenTo.TimeOfDay);
         }
 
     }

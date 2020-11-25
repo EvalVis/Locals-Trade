@@ -20,77 +20,92 @@
 
 <style type="text/css">
     #mapid {
-        height: 500px;
-        width: 50%;
+        height: 400px;
+        width: 100%;
     }
 </style>
 
-<div class="auth-container">
-    <div class="container box">
-        <h1>Add business advertisement</h1>
-        <form id="addAdvertisement" asp-action="AddAdvertisement" method="post">
-            <div class="form-group">
-                <label asp-for="Product">Product</label>
-                <input asp-for="Product" class="form-control">
-            </div>
-            <div class="form-group">
-                <label asp-for="Header">BusinessInfo</label>
-                <input asp-for="Header" class="form-control">
-            </div>
-            <div class="form-group">
-                <label asp-for="Description">Description</label>
-                <textarea asp-for="Description" class="form-control"> </textarea>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber">Phone number</label>
-                <input asp-for="PhoneNumber" class="form-control">
-            </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var input = document.createElement('input');
+        input.type = 'button';
+        input.id = 'productButton';
+        input.value = 'Add product';
+        input.className = 'btn btn-light btn-lg';
 
-            @for (int i = 0; i < 7; i++)
-            {
-                ViewBag.DayInd = i;
-                <partial name="TimePicker" for="Workdays[i]" />
-            }
+        var clickCount = 0;
+        var container = document.getElementById('products');
+        container.appendChild(input);
 
-            <input type="hidden" id="longitude" asp-for="Longitude" />
-            <input type="hidden" id="latitude" asp-for="Latitude" />
+        input.onclick = function () {
+            var pr = "@nameof(BusinessRegisterModel.Products)";
+            var product = document.createElement('div');
 
-            <div id="mapid"></div>
+            product.innerHTML = '<label for="' + pr + '_' + clickCount + '_@nameof(Product.Name)">Product</label>' +
+                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(Product.Name)" name="' + pr + '[' + clickCount + '].@nameof(Product.Name)" value="" />' +
 
-            <div onclick="showPictureInput()" id="add-picture" class="btn btn-primary">Add picture</div>
-            <div style="visibility:hidden" id="picture1" class="form-group">
-                <label asp-for="Pictures[0]">First picture</label>
-                <input asp-for="Pictures[0]" class="form-control" placeholder="Enter url address to youe picture">
+                '<label for="' + pr + '_' + clickCount + '_@nameof(Product.PricePerUnit)">Unit price</label>' +
+                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(Product.PricePerUnit)" name="' + pr + '[' + clickCount + '].@nameof(Product.PricePerUnit)" value="" />' +
+
+                '<label for="' + pr + '_' + clickCount + '_@nameof(Product.Unit)">Unit</label>' +
+                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(Product.Unit)" name="' + pr + '[' + clickCount + '].@nameof(Product.Unit)" value="" />' +
+
+                '<label for="' + pr + '_' + clickCount + '_@nameof(Product.Comment)">Comment</label>' +
+                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(Product.Comment)" name="' + pr + '[' + clickCount + '].@nameof(Product.Comment)" value="" />' +
+
+                '<label for="' + pr + '_' + clickCount + '_@nameof(Product.Picture)">Picture</label>' +
+                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(Product.Picture)" name="' + pr + '[' + clickCount + '].@nameof(Product.Picture)" value="" />' +'<hr style="border-top: 3px solid #bbb;">';
+            container.appendChild(product);
+            clickCount++;
+        };
+    }, false);
+</script>
+
+<div class="login-page">
+    <div class="form">
+        <div>
+            <div >
+                <h1>Add business advertisement</h1>
+                <form id="addAdvertisement" asp-action="AddAdvertisement" method="post">
+                    <div class="form-group">
+                        <label asp-for="Header">Header</label>
+                        <input asp-for="Header" class="form-control">
+                    </div> 
+                    <div class="form-group">
+                        <label asp-for="Description">Description</label>
+                        <textarea asp-for="Description" class="form-control"> </textarea>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber">Phone number</label>
+                        <input asp-for="PhoneNumber" class="form-control">
+                    </div>
+                    <div class="formbuss">
+                        <div id="products"></div>
+                    </div>
+                    @for (int i = 0; i < 7; i++)
+                    {
+                        ViewBag.DayInd = i;
+                        <partial name="TimePicker" for="Workdays[i]" />
+                    }
+
+                    <input type="hidden" id="longitude" asp-for="Longitude" />
+                    <input type="hidden" id="latitude" asp-for="Latitude" />
+                    <label>Please choose location</label>
+                    <div id="mapid" ></div>
+
+                    <div class="form-group">
+                        <label asp-for="Picture">Please enter your picture url</label>
+                        <input asp-for="Picture" class="form-control" />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Advertise business</button>
+
+                </form>
             </div>
-            <div style="visibility:hidden" id="picture2" class="form-group">
-                <label asp-for="Pictures[1]">Second picture</label>
-                <input asp-for="Pictures[1]" class="form-control" placeholder="Enter url address to youe picture">
-            </div>
-            <div style="visibility:hidden" id="picture3" class="form-group">
-                <label asp-for="Pictures[2]">Third picture</label>
-                <input asp-for="Pictures[2]" class="form-control" placeholder="Enter url address to youe picture">
-            </div>
-
-            <button type="submit" class="btn btn-primary">Advertise business</button>
-
-        </form>
+        </div>
     </div>
 </div>
-
 <script>
-    let addPictureClickCount = 0;
-    function showPictureInput() {
-        if (addPictureClickCount <= 3) {
-            addPictureClickCount++;
-            const pictures = document.getElementById('picture' + addPictureClickCount);
-            pictures.style.visibility = null;
-        }
-        if (addPictureClickCount === 3) {
-            const pictures = document.getElementById('add-picture');
-            pictures.style.visibility = 'hidden';
-        }
-    }
-
     const mymap = L.map('mapid').setView([54.687, 25.279], 14);
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',

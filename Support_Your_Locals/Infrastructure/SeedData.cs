@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Support_Your_Locals.Cryptography;
 using Support_Your_Locals.Models;
 
 namespace Support_Your_Locals.Infrastructure
@@ -10,7 +11,7 @@ namespace Support_Your_Locals.Infrastructure
     public class SeedData
     {
 
-        public static void EnsurePopulated(IApplicationBuilder app)
+        public static void EnsurePopulated(IApplicationBuilder app, HashCalculator hashCalculator)
         {
             ServiceDbContext context = app.ApplicationServices.CreateScope().ServiceProvider
                 .GetRequiredService<ServiceDbContext>();
@@ -21,27 +22,31 @@ namespace Support_Your_Locals.Infrastructure
             }
             if (!context.Users.Any())
             {
-                context.Users.AddRange(CreateTestMaterial(context));
+                context.Users.AddRange(CreateTestMaterial(context, hashCalculator));
                 context.SaveChanges();
             }
         }
 
-        private static User CreateUser(string name, string surname, int year, int month, int day, string email)
+        private static User CreateUser(string name, string surname, int year, int month, int day, string email, string passhash)
         {
-            return new User {Name = name, Surname = surname, BirthDate = new DateTime(year, month, day), Email = email};
+            return new User {Name = name, Surname = surname, BirthDate = new DateTime(year, month, day), Email = email, Passhash = passhash};
         }
 
         private static Business CreateBusiness(string product, string description, string longitude, string latitude, string phone, string header)
         {
             return new Business
             {
-                Product = product,
                 Description = description,
                 Longitude = longitude,
                 Latitude = latitude,
                 PhoneNumber = phone,
                 Header = header
             };
+        }
+
+        private static Product CreateProduct(string name, decimal unitPrice, string unit, string comment)
+        {
+            return new Product {Name = name, PricePerUnit = unitPrice, Unit = unit, Comment = comment};
         }
 
         private static TimeSheet CreateWorkday(int fh, int fm, int th, int tm, int day)
@@ -54,19 +59,19 @@ namespace Support_Your_Locals.Infrastructure
             };
         }
 
-        private static User[] CreateTestMaterial(ServiceDbContext context)
+        private static User[] CreateTestMaterial(ServiceDbContext context, HashCalculator hashCalculator)
         {
-            User u1 = CreateUser("Evaldas", "Visockas", 1999, 12, 06, "vievaldas@gmail.com");
-            User u2 = CreateUser("Šarūnas", "Teisutis", 1996, 04, 02, "teisutis@gmail.com");
-            User u3 = CreateUser("Kazys", "Bruolė", 1950, 01, 02, "bruoleparpuole@gmail.com");
-            User u4 = CreateUser("Birutė", "Išdykėlė", 2001, 01, 15, "birute@gmail.com");
-            User u5 = CreateUser("Lapinas", "Baronas", 2005, 10, 15, "gandras@gmail.com");
-            User u6 = CreateUser("Konradas", "Rado", 2018, 06, 05, "neturiu@gmail.com");
-            User u7 = CreateUser("Vaiva", "Vaivorykštė", 1961, 07, 02, "vaivaesu@gmail.com");
-            User u8 = CreateUser("Vaidas", "Grinius", 2004, 03, 06, "vaidas2004@gmail.com");
-            User u9 = CreateUser("Laputė", "Laisvuolė", 1930, 02, 15, "laisvoji.lape@gmail.com");
-            User u10 = CreateUser("Kazys", "Keistuolis", 1994, 04, 12, "1994.kazys.04@gmail.com");
-            User u11 = CreateUser("Rasa", "Išplaukusi", 2000, 01, 03, "rasa.ryto@gmail.com");
+            User u1 = CreateUser("Evaldas", "Visockas", 1999, 12, 06, "vievaldas@gmail.com", hashCalculator.PassHash("lydeka"));
+            User u2 = CreateUser("Šarūnas", "Teisutis", 1996, 04, 02, "vievaldas@gmail.com", hashCalculator.PassHash("tigras"));
+            User u3 = CreateUser("Kazys", "Bruolė", 1950, 01, 02, "vievaldas@gmail.com", hashCalculator.PassHash("katinas"));
+            User u4 = CreateUser("Birutė", "Išdykėlė", 2001, 01, 15, "vievaldas@gmail.com", hashCalculator.PassHash("miau"));
+            User u5 = CreateUser("Lapinas", "Baronas", 2005, 10, 15, "vievaldas@gmail.com", hashCalculator.PassHash("uosis"));
+            User u6 = CreateUser("Konradas", "Rado", 2018, 06, 05, "vievaldas@gmail.com", hashCalculator.PassHash("cimbaliukas"));
+            User u7 = CreateUser("Vaiva", "Vaivorykštė", 1961, 07, 02, "vievaldas@gmail.com", hashCalculator.PassHash("paprika"));
+            User u8 = CreateUser("Vaidas", "Grinius", 2004, 03, 06, "vievaldas@gmail.com", hashCalculator.PassHash("lapinas"));
+            User u9 = CreateUser("Laputė", "Laisvuolė", 1930, 02, 15, "vievaldas@gmail.com", hashCalculator.PassHash("kaziukas"));
+            User u10 = CreateUser("Kazys", "Keistuolis", 1994, 04, 12, "vievaldas@gmail.com", hashCalculator.PassHash("greitkelis"));
+            User u11 = CreateUser("Rasa", "Išplaukusi", 2000, 01, 03, "vievaldas@gmail.com", hashCalculator.PassHash("popkornas"));
 
             Business b1 = CreateBusiness("Traktoriai", "Traktorių parduotuvė", "25.274633", "54.699603", "+37064575620","10% nuolaida žieminėms padangoms");
             Business b2 = CreateBusiness("Automobiliai", "Daužti automobiliai už prieinamą kainą", "25.268811", "54.693882", "+37064215675", "Įsigykite automobilius be rėmo, greit neliks");
@@ -77,6 +82,42 @@ namespace Support_Your_Locals.Infrastructure
             Business b7 = CreateBusiness("Piešiniai", "Galiu daryti portretus, natiurmortą, peisažą ir t.t.", "25.359637", "54.306365", "+37064233450","Piešiniai už (beveik) dyką!");
             Business b8 = CreateBusiness("Dėvėtos kojinės", "Paprastai labai kvepia", "25.304485", "54.630629", "+37064512478", "Yra ir smirdančių");
             Business b9 = CreateBusiness("Labdara seneliams", "Paaukokite senelių namuose gyvenantiems senjorams", "24.489809", "55.565052", "+37062199630", "Padarykite gerą darbą vieno mygtuko paspaudimu!");
+
+            u1.Businesses.Add(b1);
+            u1.Businesses.Add(b2);
+            u2.Businesses.Add(b3);
+            u2.Businesses.Add(b4);
+            u3.Businesses.Add(b5);
+            u3.Businesses.Add(b6);
+            u4.Businesses.Add(b7);
+            u5.Businesses.Add(b8);
+            u6.Businesses.Add(b9);
+
+            Product p1 = CreateProduct("Traktorius", 10000, "vienetas", "Liko tik trys.");
+            Product p2 = CreateProduct("Daužtas BMW", 20000, "vienetas", "Jei netinka, galim dar padaužti prieš parduodant.");
+            Product p3 = CreateProduct("Nissan", 10000, "vienetas", "Sena gera mašina.");
+            Product p4 = CreateProduct("Saldainiai arbūzai", 3, "pakelis", "Tik močiutės pyragai skanesni.");
+            Product p5 = CreateProduct("Sproginėjantys čiulpinukai", 2, "čiulpinukas", "Suvalgius keisti garsai pilve girdisi.");
+            Product p6 = CreateProduct("Remonto paslauga", 350, "sutaisytas automobilis", "Paprastai sutaisai per valandą dvi.");
+            Product p7 = CreateProduct("Kontrolinių atsakymai", 20, "lapas", "Pametus garantija neteikiama.");
+            Product p8 = CreateProduct("Peisažas", 200, "piešinys",
+                "Perkant du ar daugiau, taikoma 20% nuolaida bendrai sumai");
+            Product p9 = CreateProduct("Natiurmortas", 500, "piešinys",
+                "Perkant du ar daugiau, mokate 20% brangiau bendros sumos");
+            Product p10 = CreateProduct("Kvepiančios kojinės", 25.73M, "viena kojinė", "Išnešiojo srities specialistas");
+            Product p11 = CreateProduct("Pinigų aukojimas", 5, "kartas", "Jei norite, galite paaukoti ir daugiau.");
+
+            b1.Products.Add(p1);
+            b1.Products.Add(p2);
+            b2.Products.Add(p3);
+            b3.Products.Add(p4);
+            b4.Products.Add(p5);
+            b5.Products.Add(p6);
+            b6.Products.Add(p7);
+            b7.Products.Add(p8);
+            b7.Products.Add(p9);
+            b8.Products.Add(p10);
+            b9.Products.Add(p11);
 
             TimeSheet t1 = CreateWorkday(10, 0, 11, 0, 1);
             TimeSheet t2 = CreateWorkday(10, 0, 16, 0, 3);
@@ -106,15 +147,6 @@ namespace Support_Your_Locals.Infrastructure
             b8.Workdays.Add(t12);
             b8.Workdays.Add(t13);
 
-            u1.Businesses.Add(b1);
-            u1.Businesses.Add(b2);
-            u2.Businesses.Add(b3);
-            u2.Businesses.Add(b4);
-            u3.Businesses.Add(b5);
-            u3.Businesses.Add(b6);
-            u4.Businesses.Add(b7);
-            u5.Businesses.Add(b8);
-            u6.Businesses.Add(b9);
             return new User[] {u1, u2, u3, u4, u5, u6, u7, u8, u9, u10, u11};
         }
 

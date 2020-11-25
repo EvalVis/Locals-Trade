@@ -10,7 +10,7 @@ using Support_Your_Locals.Models;
 namespace Support_Your_Locals.Migrations
 {
     [DbContext(typeof(ServiceDbContext))]
-    [Migration("20201109154907_AddUserBusinessTimeSheetToDb")]
+    [Migration("20201115152332_AddUserBusinessTimeSheetToDb")]
     partial class AddUserBusinessTimeSheetToDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,10 +43,7 @@ namespace Support_Your_Locals.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Pictures")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Product")
+                    b.Property<string>("Picture")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("UserID")
@@ -54,7 +51,64 @@ namespace Support_Your_Locals.Migrations
 
                     b.HasKey("BusinessID");
 
+                    b.HasIndex("UserID");
+
                     b.ToTable("Business");
+                });
+
+            modelBuilder.Entity("Support_Your_Locals.Models.Feedback", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("BusinessID")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("SenderName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("BusinessID");
+
+                    b.ToTable("Feedbacks");
+                });
+
+            modelBuilder.Entity("Support_Your_Locals.Models.Product", b =>
+                {
+                    b.Property<long>("ProductID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("BusinessID")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Picture")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("PricePerUnit")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Unit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProductID");
+
+                    b.HasIndex("BusinessID");
+
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Support_Your_Locals.Models.TimeSheet", b =>
@@ -77,6 +131,8 @@ namespace Support_Your_Locals.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("TimeSheetID");
+
+                    b.HasIndex("BusinessID");
 
                     b.ToTable("TimeSheets");
                 });
@@ -106,6 +162,42 @@ namespace Support_Your_Locals.Migrations
                     b.HasKey("UserID");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Support_Your_Locals.Models.Business", b =>
+                {
+                    b.HasOne("Support_Your_Locals.Models.User", "User")
+                        .WithMany("Businesses")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Support_Your_Locals.Models.Feedback", b =>
+                {
+                    b.HasOne("Support_Your_Locals.Models.Business", "Business")
+                        .WithMany("Feedbacks")
+                        .HasForeignKey("BusinessID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Support_Your_Locals.Models.Product", b =>
+                {
+                    b.HasOne("Support_Your_Locals.Models.Business", "Business")
+                        .WithMany("Products")
+                        .HasForeignKey("BusinessID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Support_Your_Locals.Models.TimeSheet", b =>
+                {
+                    b.HasOne("Support_Your_Locals.Models.Business", "Business")
+                        .WithMany("Workdays")
+                        .HasForeignKey("BusinessID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

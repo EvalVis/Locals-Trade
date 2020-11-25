@@ -8,11 +8,10 @@
 }
 
 <h2 class="text-center">@Model.Header</h2>
-<div class="col-sm-3"><img src="https://g3.dcdn.lt/images/pix/braskes-71413768.jpg" style="width:100%"></div>
+<div class="col-sm-3"><img src="@Model.Picture" style="width:100%"></div>
 <div class="container">
     <div class="col-sm-8">
         <div class="panel panel-primary">
-            <div class="panel-heading">@Model.Product</div>
             <div class="panel-body">@Model.Description<br></div>
         </div>
     </div>
@@ -64,6 +63,8 @@
     </ul>
 </div>
 
+<partial name="ProductSummary" for="Products"/>
+
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
       integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
       crossorigin="" />
@@ -89,13 +90,6 @@
     }
 </style>
 <div id="mapid"></div>
-
-<div id="pictures">
-    @foreach (var product in @Model.Pictures)
-    {
-        <img src="@product" />
-    }
-</div>
 <script>
     const latitude = Number("@Model.Latitude");
     const longitude = Number("@Model.Longitude");
@@ -116,7 +110,50 @@
                 return;
             }
 
-            L.marker(result.latlng).addTo(mymap).bindPopup("@Model.Product<br/>" + result.address.LongLabel).openPopup();
+            L.marker(result.latlng).addTo(mymap).bindPopup(result.address.LongLabel).openPopup();
         });
     }
+</script>
+
+<div>
+    @foreach (var f in Model.Feedbacks)
+    {
+        <partial name="FeedbackSummary" model="f"/>
+    }
+</div>
+
+<form id="addFeedback">
+    <div class="form-group">
+        <label>Your name</label>
+        <input type="text" name="@nameof(Feedback.SenderName)" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Feedback</label>
+        <textarea name="@nameof(Feedback.Text)" class="form-control"></textarea>
+    </div>
+    <input type="hidden" name="@nameof(Feedback.BusinessID)" value="@Model.BusinessID"/>
+    <button id="feedbackButton" class="btn btn-primary">Submit</button>
+</form>
+
+<label id="feedbackSent" hidden style="color: rgb(51, 255, 162)">Feedback successfully sent.</label>
+<label id="feedbackUnsent" hidden style="color: rgb(255, 0, 0)">Something went wrong. Failed to send feedback.</label>
+
+<script>
+    $('#feedbackButton').click(function () {
+        $.ajax({
+             type: "POST",
+             url: "/Business/AddFeedback",
+             data: $("#addFeedback").serialize(),
+             success: function() {
+                 document.getElementById("addFeedback").style.display = "none";
+                 document.getElementById("addFeedback").reset();
+                 document.getElementById("feedbackSent").hidden = false;
+             },
+            error: function () {
+                document.getElementById("feedbackUnsent").hidden = false;
+             }
+         });
+             return false;
+    });
 </script>

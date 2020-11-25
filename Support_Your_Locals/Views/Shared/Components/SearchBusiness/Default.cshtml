@@ -1,28 +1,100 @@
 ﻿@model BusinessListViewModel
 
-<form asp-action="Index" asp-controller="Home">
+<form id="searchForm" asp-action="Index" asp-controller="Home" onsubmit="setQuery()">
     <h4 class="text-center">Search for a business</h4>
     <div class="form-group">
         <label asp-for="SearchResponse.OwnersSurname">By owner's surname</label>
-        <input asp-for="SearchResponse.OwnersSurname" class="form-control"/>
+        <input asp-for="SearchResponse.OwnersSurname" class="form-control" />
     </div>
     <div class="form-group">
         <label asp-for="SearchResponse.BusinessInfo">By business's info</label>
-        <input asp-for="SearchResponse.BusinessInfo" class="form-control"/>
+        <input asp-for="SearchResponse.BusinessInfo" class="form-control" />
     </div>
     <div class="form-group">
-        <label><input type="radio" asp-for="SearchResponse.SearchIn" name="SearchIn" value="0"/>Search in header</label>
-        <label><input type="radio" asp-for="SearchResponse.SearchIn" name="SearchIn" value="1"/>Search in description</label>
-        <label><input type="radio" asp-for="SearchResponse.SearchIn" name="SearchIn" value="2"/>Search in description and header</label>
-</div>
+        <label asp-for="SearchResponse.SearchIn">Select a search mode</label>
+        <select asp-for="SearchResponse.SearchIn">
+            <option value="0">Search only in header</option>
+            <option value="1">Search only in description</option>
+            <option value="2">Search in description and header</option>
+        </select>
+    </div>
     <div class="form-group">
-        <label><input type="checkbox" asp-for="SearchResponse.WeekdaySelected[0]" />Monday</label>
-        <label><input type="checkbox" asp-for="SearchResponse.WeekdaySelected[1]" />Tuesday</label>
-        <label><input type="checkbox" asp-for="SearchResponse.WeekdaySelected[2]" />Wednesday</label>
-        <label><input type="checkbox" asp-for="SearchResponse.WeekdaySelected[3]" />Thursday</label>
-        <label><input type="checkbox" asp-for="SearchResponse.WeekdaySelected[4]" />Friday</label>
-        <label><input type="checkbox" asp-for="SearchResponse.WeekdaySelected[5]" />Saturday</label>
-        <label><input type="checkbox" asp-for="SearchResponse.WeekdaySelected[6]" />Sunday</label>
+        @for (var i = 0; i < 7; i++) {
+            <label><input asp-for="SearchResponse.WeekdaySelected[i]" />@DayNames.days[i]</label>
+        }
+    </div>
+    <div class="form-group">
+        <label asp-for="SearchResponse.OpenFrom">Open From</label>
+        <input type="text" asp-for="SearchResponse.OpenFrom" value="@Model.SearchResponse.OpenFrom.TimeOfDay" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="SearchResponse.OpenTo">Open To</label>
+        <input type="text" asp-for="SearchResponse.OpenTo" value="@Model.SearchResponse.OpenTo.TimeOfDay" class="form-control" />
     </div>
     <button type="submit" class="btn btn-primary">Search</button>
 </form>
+
+<script>
+    var header = "@nameof(SearchResponse)";
+    var ownersSurname = header + "_" + "@nameof(SearchResponse.OwnersSurname)";
+    var businessInfo = header + "_" + "@nameof(SearchResponse.BusinessInfo)";
+    var searchIn = header + "_" + "@nameof(SearchResponse.SearchIn)";
+    var weekdaySelected = header + "_" + "@nameof(SearchResponse.WeekdaySelected)";
+    var openFrom = header + "_" + "@nameof(SearchResponse.OpenFrom)";
+    var openTo = header + "_" + "@nameof(SearchResponse.OpenTo)";
+
+    function setQuery() {
+        var os = "os=" + document.getElementById(ownersSurname).value;
+        var bi = "bi=" + document.getElementById(businessInfo).value;
+        var si = "si=" + document.getElementById(searchIn).value;
+        var w = "w=";
+        for (var i = 0; i < 7; i++) {
+            var current = weekdaySelected + "_" + i + "_";
+            var value = document.getElementById(current).checked;
+            var numericChar = value ? '1' : '0';
+            w += numericChar;
+        }
+        var f = "f=" + document.getElementById(openFrom).value;
+        var t = "t=" + document.getElementById(openTo).value;
+
+        var query = "/?" + os + "&" + bi + "&" + si + "&" + w + "&" + f + "&" + t;
+        document.forms["searchForm"].action = document.forms["searchForm"].action + query;
+        return true;
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="/lib/datetimepicker/js/jquery.datetimepicker.full.min.js"></script>
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+<link href="/lib/datetimepicker/css/jquery.datetimepicker.min.css" rel="stylesheet" />
+
+<script>
+    var stepTime = 10;
+    var fromID = "#" + openFrom;
+    var toID = "#" + openTo;
+    $(fromID).datetimepicker({
+        timepicker: true,
+        datepicker: false,
+        format: 'H:i',
+        step: stepTime,
+        onShow: function () {
+            this.setOptions({
+                maxTime: $(toID).val() ? $(toID).val() : false
+            });
+        }
+    });
+    $(toID).datetimepicker({
+        timepicker: true,
+        datepicker: false,
+        format: 'H:i',
+        step: stepTime,
+        onShow: function () {
+            this.setOptions({
+                minTime: $(fromID).val() ? $(fromID).val() : false
+            });
+        }
+    });
+</script>

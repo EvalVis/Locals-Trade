@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Support_Your_Locals.Cryptography;
 using Support_Your_Locals.Infrastructure;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
@@ -13,6 +14,9 @@ namespace Support_Your_Locals
 {
     public class Startup
     {
+
+        private Mailer mailer;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,6 +29,7 @@ namespace Support_Your_Locals
         {
             services.AddDbContext<ServiceDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IServiceRepository, ServiceRepository>();
+            services.AddScoped<HashCalculator>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddDistributedMemoryCache();
             services.AddSession();
@@ -55,6 +60,13 @@ namespace Support_Your_Locals
             app.UseSession();
             app.UseRouting();
 
+            app.Use(async (context, next) =>
+            {
+                mailer?.Mute();
+                mailer = new Mailer(app, Configuration);
+                await next();
+            });
+
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseCookiePolicy();
@@ -69,7 +81,7 @@ namespace Support_Your_Locals
                     new { Controller = "Home", action = "Index", page = 1 });
                 endpoints.MapDefaultControllerRoute();
             });
-            SeedData.EnsurePopulated(app);
+            SeedData.EnsurePopulated(app, new HashCalculator());
         }
     }
 }
