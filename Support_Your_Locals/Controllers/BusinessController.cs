@@ -9,13 +9,15 @@ using Support_Your_Locals.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using Support_Your_Locals.Infrastructure;
 
 namespace Support_Your_Locals.Controllers
 {
     public class BusinessController : Controller
     {
-        public delegate void FeedbackHandler(Feedback feedback);
-        public static event FeedbackHandler FeedbackEvent;
+        //public delegate void FeedbackHandler(Feedback feedback);
+        //public static event FeedbackHandler FeedbackEvent;
+        public static event EventHandler<FeedbackEventArgs> FeedbackEvent;
 
         private IServiceRepository repository;
         private long userID;
@@ -43,7 +45,7 @@ namespace Support_Your_Locals.Controllers
         {
             Feedback feedback = new Feedback {SenderName = senderName, Text = text, BusinessID = businessId};
             repository.AddFeedback(feedback);
-            FeedbackEvent?.Invoke(feedback);
+            FeedbackEvent(this, new FeedbackEventArgs(feedback));
         }
 
         [Authorize]
