@@ -1,5 +1,8 @@
 ﻿@model Business
 
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
 @{
     Layout = "_BusinessPageLayout";
 }
@@ -102,7 +105,7 @@
             id: 'mapbox/streets-v11',
             tileSize: 512,
             zoomOffset: -1,
-            accessToken: 'pk.eyJ1IjoibW1hcmdlIiwiYSI6ImNrZ3NmOTVrOTAwdmIzMHBlbm54MW8xYXAifQ.4Y4ElvNj24N3eMn28RhKNA'
+            accessToken: '@Configuration["Maps:AccessToken"]'
         }).addTo(mymap);
 
         var geocodeService = L.esri.Geocoding.geocodeService();
