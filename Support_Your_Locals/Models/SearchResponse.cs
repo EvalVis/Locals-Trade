@@ -17,10 +17,9 @@ namespace Support_Your_Locals.Models
         public string WeekSelected { get; set; } = "1111111";
         public bool[] WeekdaySelected { get; set; } = new bool[7];
         [FromQuery(Name = "f")]
-        public DateTime OpenFrom { get; set; } = new DateTime(1999, 12, 06, 08, 00, 00);
+        public DateTime OpenFrom { get; set; } = new DateTime(1999, 12, 06, 23, 59, 00);
         [FromQuery(Name= "t")]
         public DateTime OpenTo { get; set; } = new DateTime(1999, 12, 06, 18, 00, 00);
-
         private delegate bool Filter<T>(T item);
       
         public string ToQuery()
