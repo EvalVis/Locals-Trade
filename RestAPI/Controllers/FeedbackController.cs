@@ -10,12 +10,12 @@ namespace RestAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FeedbacksController : ControllerBase
+    public class FeedbackController : ControllerBase
     {
 
         private IServiceRepository repository;
 
-        public FeedbacksController(IServiceRepository repo)
+        public FeedbackController(IServiceRepository repo)
         {
             repository = repo;
         }
