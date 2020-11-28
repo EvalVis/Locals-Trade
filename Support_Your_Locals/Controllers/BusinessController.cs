@@ -63,7 +63,7 @@ namespace Support_Your_Locals.Controllers
                 PhoneNumber = businessRegisterModel.PhoneNumber,
                 Latitude = businessRegisterModel.Latitude,
                 Longitude = businessRegisterModel.Longitude,
-                Picture = businessRegisterModel.Picture
+                //Picture = businessRegisterModel.Picture
             };
             for (int i = 0; i < 7; i++)
             {

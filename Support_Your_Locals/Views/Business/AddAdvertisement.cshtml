@@ -95,7 +95,8 @@
 
                     <div class="form-group">
                         <label asp-for="Picture">Upload a business photo</label>
-                        <input type="file" asp-for="Picture" class="form-control" />
+                        <input id="businessPicture" asp-for="Picture" accept="image/jpeg,image/jpg" class="form-control" onchange="showSelectedImage()"/>
+                        <img id="businessImage" width="100" height="100" src="#" alt="Image preview" hidden/>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Advertise business</button>
@@ -105,6 +106,21 @@
         </div>
     </div>
 </div>
+
+<script>
+    function showSelectedImage() {
+        var file = document.getElementById("businessPicture").files[0];
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#businessImage').attr('src', e.target.result);
+        }
+        var data = reader.readAsDataURL(file);
+        document.getElementById("businessImage").hidden = false;
+    }
+</script>
+
+
+
 <script>
     const mymap = L.map('mapid').setView([54.687, 25.279], 14);
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
