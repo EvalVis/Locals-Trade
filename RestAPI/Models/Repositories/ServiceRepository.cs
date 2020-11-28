@@ -11,6 +11,7 @@ namespace RestAPI.Models.Repositories
         public IQueryable<Business> Business => context.Business;
 
         public IQueryable<Product> Products => context.Products;
+        public IQueryable<Feedback> Feedbacks => context.Feedbacks;
 
         public ServiceRepository(ServiceDbContext ctx)
         {
