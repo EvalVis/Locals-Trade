@@ -95,8 +95,8 @@
 
                     <div class="form-group">
                         <label asp-for="Picture">Upload a business photo</label>
-                        <input id="businessPicture" asp-for="Picture" accept="image/jpeg,image/jpg" class="form-control" onchange="showSelectedImage()"/>
-                        <img id="businessImage" width="100" height="100" src="#" alt="Image preview" hidden/>
+                        <input id="businessPicture" asp-for="Picture" accept="image/jpeg,image/jpg" class="form-control" onchange="showSelectedImage(this)"/>
+                        <img id="businessPicturePreview" width="100" height="100" src="#" alt="Image preview" hidden/>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Advertise business</button>
@@ -108,14 +108,17 @@
 </div>
 
 <script>
-    function showSelectedImage() {
-        var file = document.getElementById("businessPicture").files[0];
+    function showSelectedImage(caller) {
+        var callerId = caller.id;
+        var file = document.getElementById(callerId).files[0];
         var reader = new FileReader();
+        var jpreview = "#" + callerId + "Preview";
         reader.onload = function (e) {
-            $('#businessImage').attr('src', e.target.result);
+            $(jpreview).attr('src', e.target.result);
         }
         var data = reader.readAsDataURL(file);
-        document.getElementById("businessImage").hidden = false;
+        var preview = callerId + "Preview";
+        document.getElementById(preview).hidden = false;
     }
 </script>
 
