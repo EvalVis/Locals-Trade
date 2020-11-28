@@ -54,7 +54,9 @@
                 '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(Product.Comment)" name="' + pr + '[' + clickCount + '].@nameof(Product.Comment)" value="" />' +
 
                 '<label for="' + pr + '_' + clickCount + '_@nameof(Product.Picture)">Picture</label>' +
-                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(Product.Picture)" name="' + pr + '[' + clickCount + '].@nameof(Product.Picture)" value="" />' +'<hr style="border-top: 3px solid #bbb;">';
+                '<input type="file" id="' + pr + '_' + clickCount + '_@nameof(Product.Picture)" name="' + pr + '[' + clickCount + '].@nameof(Product.Picture)" value="" onchange="showSelectedImage(this)"/>' +
+
+                '<img id="' + pr + '_' + clickCount + '_@nameof(Product.Picture)' + 'Preview" width="100" height="100" src="#" alt="Image preview" hidden />' +'<hr style="border-top: 3px solid #bbb;">';
             container.appendChild(product);
             clickCount++;
         };
@@ -96,7 +98,7 @@
                     <div class="form-group">
                         <label asp-for="Picture">Upload a business photo</label>
                         <input id="businessPicture" asp-for="Picture" accept="image/jpeg,image/jpg" class="form-control" onchange="showSelectedImage(this)"/>
-                        <img id="businessPicturePreview" width="100" height="100" src="#" alt="Image preview" hidden/>
+                        <img id="businessPicturePreview" width="100" height="100" src="#" alt="Image preview" hidden />
                     </div>
 
                     <button type="submit" class="btn btn-primary">Advertise business</button>
@@ -112,9 +114,9 @@
         var callerId = caller.id;
         var file = document.getElementById(callerId).files[0];
         var reader = new FileReader();
-        var jpreview = "#" + callerId + "Preview";
+        var jPreview = "#" + callerId + "Preview";
         reader.onload = function (e) {
-            $(jpreview).attr('src', e.target.result);
+            $(jPreview).attr('src', e.target.result);
         }
         var data = reader.readAsDataURL(file);
         var preview = callerId + "Preview";

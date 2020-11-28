@@ -1,4 +1,7 @@
-﻿namespace Support_Your_Locals.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
+
+namespace Support_Your_Locals.Models
 {
     public class Product
     {
@@ -7,7 +10,8 @@
         public decimal PricePerUnit { get; set; }
         public string Unit { get; set; }
         public string Comment { get; set; }
-        public string Picture { get; set; }
+        [NotMapped]
+        public IFormFile Picture { get; set; }
         public long BusinessID { get; set; }
         public Business Business { get; set; }
     }
