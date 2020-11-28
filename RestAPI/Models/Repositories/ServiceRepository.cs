@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 
 namespace RestAPI.Models.Repositories
 {
@@ -34,6 +35,12 @@ namespace RestAPI.Models.Repositories
         {
             context.Add(feedback);
             context.SaveChanges();
+        }
+
+        public async Task AddFeedbackAsync(Feedback feedback)
+        {
+            await context.Feedbacks.AddAsync(feedback);
+            await context.SaveChangesAsync();
         }
 
         public void DeleteBusiness(Business business)

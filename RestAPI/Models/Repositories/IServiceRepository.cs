@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 
 namespace RestAPI.Models.Repositories
 {
@@ -11,6 +12,7 @@ namespace RestAPI.Models.Repositories
         public void AddUser(User user);
         public void AddBusiness(Business business);
         public void AddFeedback(Feedback feedback);
+        public Task AddFeedbackAsync(Feedback feedback);
         public void SaveBusiness(Business business);
         public void DeleteBusiness(Business business);
         public void SaveUser(User user);
