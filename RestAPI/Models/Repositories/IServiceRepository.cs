@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace RestAPI.Models.Repositories
 {
@@ -13,6 +14,7 @@ namespace RestAPI.Models.Repositories
         public void AddBusiness(Business business);
         public void AddFeedback(Feedback feedback);
         public Task AddFeedbackAsync(Feedback feedback);
+        public Task Patch<T>(JsonPatchDocument<T> document, T entity) where T: class;
         public void SaveBusiness(Business business);
         public void DeleteBusiness(Business business);
         public void SaveUser(User user);

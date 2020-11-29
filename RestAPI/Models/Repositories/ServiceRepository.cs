@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace RestAPI.Models.Repositories
 {
@@ -57,6 +58,12 @@ namespace RestAPI.Models.Repositories
         public void SaveUser(User user)
         {
             context.SaveChanges();
+        }
+
+        public async Task Patch<T> (JsonPatchDocument<T> document, T entity) where T: class
+        {
+            document.ApplyTo(entity);
+            await context.SaveChangesAsync();
         }
 
     }

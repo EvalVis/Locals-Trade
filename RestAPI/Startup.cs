@@ -1,13 +1,12 @@
-﻿using System.Reflection;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using RestAPI.Models;
 using RestAPI.Models.Repositories;
 
@@ -26,8 +25,9 @@ namespace RestAPI {
         {
             services.AddDbContext<ServiceDbContext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:DatabaseConnection"]));
             services.AddScoped<IServiceRepository, ServiceRepository>();
-            services.AddControllers();
-            services.Configure<JsonOptions>(opts => opts.JsonSerializerOptions.IgnoreNullValues = true);
+            services.AddControllers().AddNewtonsoftJson();
+            services.Configure<MvcNewtonsoftJsonOptions>(opts =>
+                opts.SerializerSettings.NullValueHandling = NullValueHandling.Ignore);
             services.AddSwaggerGen(s => s.SwaggerDoc("v1", new OpenApiInfo {Title = "RestAPI for Support Your Locals", Version = "v1"}));
         }
 
