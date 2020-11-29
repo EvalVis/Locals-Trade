@@ -14,9 +14,9 @@ namespace RestAPI.Models
         public string PhoneNumber { get; set; }
         public string Header { get; set; }
         public string Picture { get; set; }
-        public List<TimeSheet> Workdays { get; set; } = new List<TimeSheet>();
-        public List<Product> Products { get; set; } = new List<Product>();
-        public List<Feedback> Feedbacks { get; set; } = new List<Feedback>();
+        public IEnumerable<TimeSheet> Workdays { get; set; } = new List<TimeSheet>();
+        public IEnumerable<Product> Products { get; set; } = new List<Product>();
+        public IEnumerable<Feedback> Feedbacks { get; set; } = new List<Feedback>();
 
     }
 }

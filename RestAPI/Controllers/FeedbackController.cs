@@ -30,7 +30,7 @@ namespace RestAPI.Controllers
         public async Task SaveFeedback(FeedbackBindingTarget feedbackBindingTarget)
         {
             Feedback feedback = feedbackBindingTarget.ToFeedback();
-            await repository.AddFeedbackAsync(feedback);
+            await repository.SaveFeedbackAsync(feedback);
         }
 
     }

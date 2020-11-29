@@ -13,9 +13,9 @@ namespace RestAPI.Models.Repositories
         public void AddUser(User user);
         public void AddBusiness(Business business);
         public void AddFeedback(Feedback feedback);
-        public Task AddFeedbackAsync(Feedback feedback);
+        public Task SaveFeedbackAsync(Feedback feedback);
         public Task Patch<T>(JsonPatchDocument<T> document, T entity) where T: class;
-        public void SaveBusiness(Business business);
+        public Task SaveBusinessAsync(Business business);
         public Task RemoveBusinessAsync(Business business);
         public void SaveUser(User user);
     }

@@ -38,7 +38,7 @@ namespace RestAPI.Models.Repositories
             context.SaveChanges();
         }
 
-        public async Task AddFeedbackAsync(Feedback feedback)
+        public async Task SaveFeedbackAsync(Feedback feedback)
         {
             await context.Feedbacks.AddAsync(feedback);
             await context.SaveChangesAsync();
@@ -50,9 +50,10 @@ namespace RestAPI.Models.Repositories
             await context.SaveChangesAsync();
         }
 
-        public void SaveBusiness(Business business)
+        public async Task SaveBusinessAsync(Business business)
         {
-            context.SaveChanges();
+            await context.Business.AddAsync(business);
+            await context.SaveChangesAsync();
         }
 
         public void SaveUser(User user)

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RestAPI.Models;
 using RestAPI.Models.Repositories;
-using Support_Your_Locals.Cryptography;
+using RestAPI.Cryptography;
 
 namespace RestAPI.Controllers
 {

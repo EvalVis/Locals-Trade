@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RestAPI.Models;
+using RestAPI.Models.BindingTargets;
 using RestAPI.Models.Repositories;
 
 namespace RestAPI.Controllers
@@ -48,6 +49,12 @@ namespace RestAPI.Controllers
         public async Task RemoveBusiness(long id)
         {
             await repository.RemoveBusinessAsync(new Business {BusinessID = id});
+        }
+
+        [HttpPost]
+        public async Task SaveBusiness(BusinessBindingTarget target)
+        {
+            await repository.SaveBusinessAsync(target.ToBusiness());
         }
 
     }
