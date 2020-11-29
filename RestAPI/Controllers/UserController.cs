@@ -17,7 +17,7 @@ namespace RestAPI.Controllers
             repository = repo;
         }
 
-        [HttpPatch("{id}")]
+        [HttpPatch("email/{id}")]
         public async Task PatchEmail(long id, string email)
         {
             JsonPatchDocument<User> document = new JsonPatchDocument<User>();
@@ -29,7 +29,7 @@ namespace RestAPI.Controllers
             }
         }
 
-        [HttpPatch("{id}")]
+        [HttpPatch("password/{id}")]
         public async Task PatchPassword(long id, string password)
         {
             string hashed = new HashCalculator().PassHash(password);
