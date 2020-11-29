@@ -67,5 +67,11 @@ namespace RestAPI.Models.Repositories
             await context.SaveChangesAsync();
         }
 
+        public async Task UpdateBusinessAsync(Business business)
+        {
+            context.Update(business);
+            await context.SaveChangesAsync();
+        }
+
     }
 }

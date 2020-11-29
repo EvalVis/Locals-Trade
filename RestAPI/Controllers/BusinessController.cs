@@ -56,5 +56,11 @@ namespace RestAPI.Controllers
             await repository.SaveBusinessAsync(target.ToBusiness());
         }
 
+        [HttpPut]
+        public async Task UpdateBusiness(Business business)
+        {
+            await repository.UpdateBusinessAsync(business);
+        }
+
     }
 }
