@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +42,12 @@ namespace RestAPI.Controllers
         public async Task<Business> Business(long id)
         {
             return await repository.Business.FirstOrDefaultAsync(b => b.BusinessID == id);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task RemoveBusiness(long id)
+        {
+            await repository.RemoveBusinessAsync(new Business {BusinessID = id});
         }
 
     }

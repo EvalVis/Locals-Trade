@@ -44,10 +44,10 @@ namespace RestAPI.Models.Repositories
             await context.SaveChangesAsync();
         }
 
-        public void DeleteBusiness(Business business)
+        public async Task RemoveBusinessAsync(Business business)
         {
             context.Remove(business);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public void SaveBusiness(Business business)
