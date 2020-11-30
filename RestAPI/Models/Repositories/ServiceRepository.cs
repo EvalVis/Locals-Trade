@@ -20,24 +20,6 @@ namespace RestAPI.Models.Repositories
             context = ctx;
         }
 
-        public void AddUser(User user)
-        {
-            context.Add(user);
-            context.SaveChanges();
-        }
-
-        public void AddBusiness(Business business)
-        {
-            context.Add(business);
-            context.SaveChanges();
-        }
-
-        public void AddFeedback(Feedback feedback)
-        {
-            context.Add(feedback);
-            context.SaveChanges();
-        }
-
         public async Task SaveFeedbackAsync(Feedback feedback)
         {
             await context.Feedbacks.AddAsync(feedback);
@@ -56,9 +38,10 @@ namespace RestAPI.Models.Repositories
             await context.SaveChangesAsync();
         }
 
-        public void SaveUser(User user)
+        public async Task SaveUserAsync(User user)
         {
-            context.SaveChanges();
+            await context.AddAsync(user);
+            await context.SaveChangesAsync();
         }
 
         public async Task Patch<T> (JsonPatchDocument<T> document, T entity) where T: class

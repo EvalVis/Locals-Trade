@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using RestAPI.Models;
 using RestAPI.Models.Repositories;
 using RestAPI.Cryptography;
+using RestAPI.Models.BindingTargets;
 
 namespace RestAPI.Controllers
 {
@@ -39,6 +40,15 @@ namespace RestAPI.Controllers
             if (User != null)
             {
                 await repository.Patch(document, user);
+            }
+        }
+
+        [HttpPost]
+        public async Task SignUp(UserBindingTarget target)
+        {
+            if (repository.Users.FirstOrDefaultAsync(u => u.Email == target.Email) == null)
+            {
+                await repository.SaveUserAsync(target.ToUser());
             }
         }
 
