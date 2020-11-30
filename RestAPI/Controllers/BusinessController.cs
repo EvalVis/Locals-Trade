@@ -9,7 +9,6 @@ using RestAPI.Models.Repositories;
 namespace RestAPI.Controllers
 {
     [Route("api/[controller]")]
-    [Route("/")]
     [ApiController]
     public class BusinessController : ControllerBase
     {
