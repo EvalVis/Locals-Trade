@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using RestAPI.Models;
 using RestAPI.Models.Repositories;
 using RestAPI.Cryptography;
-using RestAPI.Models.BindingTargets;
 
 namespace RestAPI.Controllers
 {
@@ -66,18 +64,22 @@ namespace RestAPI.Controllers
         public async Task<IActionResult> SignIn(string email, string password)
         {
             if (email == null || password == null) return BadRequest();
-            string passwordHash = new HashCalculator().PassHash(password);
             User user = await repository.Users.FirstOrDefaultAsync(u => u.Email == email);
-            System.Diagnostics.Debug.WriteLine(passwordHash + " " + password + " " + user.UserID + " " + user.Passhash);
-            if (user != null && user.Passhash == passwordHash)
-            {
-                jsonWebToken.Authenticate(email, password);
-                if (jsonWebToken == null)
-                {
-                    return Unauthorized();
+            if (user != null)
+            { 
+                bool match = new HashCalculator().IsGoodPass(user.Passhash, password); 
+                if (match) 
+                { 
+                    jsonWebToken.Authenticate(email, password);
+                    if (jsonWebToken == null)
+                    {
+                        return Unauthorized();
+                    }
+
+                    return Ok(jsonWebToken);
                 }
-                return Ok(jsonWebToken);
             }
+
             return NotFound();
         }
 
