@@ -7,15 +7,17 @@
     Layout = "_BusinessPageLayout";
 }
 
-<h2 class="text-center">@Model.Header</h2>
-<div class="col-sm-3"><img src="@Model.Picture" style="width:100%"></div>
-<div class="container">
-    <div class="col-sm-8">
-        <div class="panel panel-primary">
-            <div class="panel-body">@Model.Description<br></div>
+<div class="login-page">
+    <div class="form">
+
+        <div class="container">
+            <h2>@Model.Header</h2>
+            <div class="card">
+                <div style="text-align: left;">@Model.Description</div>
+            </div>
         </div>
-    </div>
-    <div class="col-sm-1">
+        <img src="@Model.Picture" style="width:100%">
+        <h2>Timesheet</h2>
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -40,8 +42,8 @@
                     {
                         <tr>
                             <td>@DayNames.days[i - 1]</td>
-                            <td>@workday.From.TimeOfDay </td>
-                            <td>@workday.To.TimeOfDay </td>
+                            <td>@workday.From.ToShortTimeString()</td>
+                            <td>@workday.To.ToShortTimeString()</td>
                         </tr>
                     }
 
@@ -52,18 +54,21 @@
             </tbody>
 
         </table>
+        <div>
+            <h3>Contacts</h3>
+            <ul style="text-align:left;">
+                <li>@Model.User.Name</li>
+                <li>@Model.User.Surname</li>
+                <li>@Model.PhoneNumber</li>
+            </ul>
+        </div>
+        <partial name="ProductSummary" for="Products" />
+
+        <div id="mapid"></div>
     </div>
 </div>
-<div class="col-sm-4">
-    <h3>Contacts</h3>
-    <ul>
-        <li>@Model.User.Name</li>
-        <li>@Model.User.Surname</li>
-        <li>@Model.PhoneNumber</li>
-    </ul>
-</div>
 
-<partial name="ProductSummary" for="Products"/>
+
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
       integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
@@ -86,10 +91,9 @@
 <style type="text/css">
     #mapid {
         height: 500px;
-        width: 30%;
     }
 </style>
-<div id="mapid"></div>
+
 <script>
     const latitude = Number("@Model.Latitude");
     const longitude = Number("@Model.Longitude");
@@ -114,46 +118,41 @@
         });
     }
 </script>
-
 <div>
-    @foreach (var f in Model.Feedbacks)
-    {
-        <partial name="FeedbackSummary" model="f"/>
-    }
+    <div class="form">
+        <form id="addFeedback">
+            <div class="form-group">
+                <label>Your name</label>
+                <input type="text" name="@nameof(Feedback.SenderName)" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Feedback</label>
+                <textarea name="@nameof(Feedback.Text)" class="form-control"></textarea>
+            </div>
+            <input type="hidden" name="@nameof(Feedback.BusinessID)" value="@Model.BusinessID" />
+            <button id="feedbackButton" class="btn btn-primary">Submit</button>
+        </form>
+
+        <label id="feedbackSent" hidden style="color: rgb(51, 255, 162)">Feedback successfully sent.</label>
+        <label id="feedbackUnsent" hidden style="color: rgb(255, 0, 0)">Something went wrong. Failed to send feedback.</label>
+    </div>
 </div>
-
-<form id="addFeedback">
-    <div class="form-group">
-        <label>Your name</label>
-        <input type="text" name="@nameof(Feedback.SenderName)" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label>Feedback</label>
-        <textarea name="@nameof(Feedback.Text)" class="form-control"></textarea>
-    </div>
-    <input type="hidden" name="@nameof(Feedback.BusinessID)" value="@Model.BusinessID"/>
-    <button id="feedbackButton" class="btn btn-primary">Submit</button>
-</form>
-
-<label id="feedbackSent" hidden style="color: rgb(51, 255, 162)">Feedback successfully sent.</label>
-<label id="feedbackUnsent" hidden style="color: rgb(255, 0, 0)">Something went wrong. Failed to send feedback.</label>
-
 <script>
     $('#feedbackButton').click(function () {
         $.ajax({
-             type: "POST",
-             url: "/Business/AddFeedback",
-             data: $("#addFeedback").serialize(),
-             success: function() {
-                 document.getElementById("addFeedback").style.display = "none";
-                 document.getElementById("addFeedback").reset();
-                 document.getElementById("feedbackSent").hidden = false;
-             },
+            type: "POST",
+            url: "/Business/AddFeedback",
+            data: $("#addFeedback").serialize(),
+            success: function () {
+                document.getElementById("addFeedback").style.display = "none";
+                document.getElementById("addFeedback").reset();
+                document.getElementById("feedbackSent").hidden = false;
+            },
             error: function () {
                 document.getElementById("feedbackUnsent").hidden = false;
-             }
-         });
-             return false;
+            }
+        });
+        return false;
     });
 </script>
