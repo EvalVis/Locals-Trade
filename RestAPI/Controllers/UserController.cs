@@ -27,12 +27,12 @@ namespace RestAPI.Controllers
 
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [HttpPatch("email/{id}")]
-        public async Task<IActionResult> PatchEmail(long id, string email)
+        [HttpPatch("email/{email}")]
+        public async Task<IActionResult> PatchEmail(string email, string newEmail)
         {
             JsonPatchDocument<User> document = new JsonPatchDocument<User>();
-            document.Replace(u => u.Email, email);
-            User user = await repository.Users.FirstOrDefaultAsync(u => u.UserID == id);
+            document.Replace(u => u.Email, newEmail);
+            User user = await repository.Users.FirstOrDefaultAsync(u => u.Email == email);
             if (user != null)
             {
                 await repository.Patch(document, user);
@@ -41,15 +41,15 @@ namespace RestAPI.Controllers
             return NotFound();
         }
         [Authorize]
-        [HttpPatch("password/{id}")]
+        [HttpPatch("password/{email}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> PatchPassword(long id, string password)
+        public async Task<IActionResult> PatchPassword(string email, string password)
         {
             string hashed = new HashCalculator().PassHash(password);
             JsonPatchDocument<User> document = new JsonPatchDocument<User>();
             document.Replace(u => u.Passhash, hashed);
-            User user = await repository.Users.FirstOrDefaultAsync(u => u.UserID == id);
+            User user = await repository.Users.FirstOrDefaultAsync(u => u.Email == email);
             if (user != null)
             {
                 await repository.Patch(document, user);
