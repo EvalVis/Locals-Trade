@@ -34,15 +34,18 @@ namespace RestAPI.Controllers
             if (!businesses.Any()) return NoContent();
             foreach (var b in businesses)
             {
-                b.User.Email = null;
-                b.User.BirthDate = new DateTime(00,00,00);
-                b.User.Passhash = null;
-                b.User.Businesses = null;
-                foreach (var w in b.Workdays) w.Business = null;
-                foreach (var p in b.Products) p.Business = null;
-                foreach (var f in b.Feedbacks) f.Business = null;
+                b.EliminateDepth();
             }
             return Ok(businesses);
+        }
+
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<IEnumerable<Business>> GetFilteredBusinesses(SearchEngine searchEngine)
+        {
+            IEnumerable<Business> filteredBusinesses = searchEngine.FilterBusinesses();
+            if (!filteredBusinesses.Any()) return NoContent();
+;            return Ok(filteredBusinesses);
         }
 
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -50,8 +53,11 @@ namespace RestAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Business>> Business(long id)
         {
-            Business business = await repository.Business.FirstOrDefaultAsync(b => b.BusinessID == id);
+            Business business = await repository.Business.
+                Include(b => b.Workdays).Include(b => b.Products).Include(b => b.User).
+                FirstOrDefaultAsync(b => b.BusinessID == id);
             if (business == null) return NotFound();
+            business.EliminateDepth();
             return Ok(business);
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace RestAPI.Models
 {
@@ -17,6 +18,21 @@ namespace RestAPI.Models
         public IEnumerable<TimeSheet> Workdays { get; set; } = new List<TimeSheet>();
         public IEnumerable<Product> Products { get; set; } = new List<Product>();
         public IEnumerable<Feedback> Feedbacks { get; set; } = new List<Feedback>();
+
+        public void EliminateDepth()
+        {
+            if (User != null)
+            {
+                User.Email = null;
+                User.BirthDate = new DateTime(00, 00, 00);
+                User.Passhash = null;
+                User.Businesses = null;
+            }
+
+            foreach (var w in Workdays) w.Business = null;
+            foreach (var p in Products) p.Business = null;
+            foreach (var f in Feedbacks) f.Business = null;
+        }
 
     }
 }
