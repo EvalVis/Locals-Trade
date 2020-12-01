@@ -16,7 +16,7 @@
 </head>
 <body>
     <div class="bg-dark text-white p-2">
-        <a class="nicetitle" style="font-size: 20px; color: #bbe1fa" href="../">Support Your Locals</a>
+        <a class="nicetitle" style="font-size: 20px; color: #bbe1fa" href="../">Local Support</a>
         @if (!User.Identity.IsAuthenticated)
         {
             <a asp-controller="Auth" asp-action="SignIn" class="navbar-brand ml-2">Sign In</a>
@@ -24,10 +24,12 @@
         }
         else
         {
-            <form method="post" style="display: inline;">
-                <button asp-controller="Auth" asp-action="SignOut" class="btn btn-primary">Sign Out</button>
-            </form>
-      <span style="float:right;text-align:right;margin-left: 80px;">Welcome @User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value!</span>
+    <div style="float:right;text-align:right;margin-left: 80px;">
+        <form method="post" style="display: inline;">
+            <button asp-controller="Auth" asp-action="SignOut" class="btn btn-primary">Sign Out</button>
+        </form>
+        <span>Welcome @User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value!</span>
+    </div>
         }
         <a asp-controller="Business" asp-action="AddAdvertisement" class="navbar-brand ml-2 navbuttons">Add advertisement</a>
     </div>
