@@ -12,6 +12,7 @@ using RestAPI.Models.BindingTargets;
 
 namespace RestAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -40,7 +41,6 @@ namespace RestAPI.Controllers
             }
             return NotFound();
         }
-        [Authorize]
         [HttpPatch("password/{email}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -58,6 +58,7 @@ namespace RestAPI.Controllers
             return NotFound();
         }
 
+        [AllowAnonymous]
         [HttpPost("SignUp")]
         public async Task SignUp(UserBindingTarget target)
         {
@@ -67,6 +68,7 @@ namespace RestAPI.Controllers
             }
         }
 
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

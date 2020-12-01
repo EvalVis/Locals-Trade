@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +11,7 @@ using RestAPI.Models.Repositories;
 
 namespace RestAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BusinessController : ControllerBase
@@ -22,6 +23,7 @@ namespace RestAPI.Controllers
             repository = repo;
         }
 
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet("All")]
@@ -39,6 +41,7 @@ namespace RestAPI.Controllers
             return Ok(businesses);
         }
 
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPost("Filtered")]
@@ -53,6 +56,7 @@ namespace RestAPI.Controllers
 ;            return Ok(filteredBusinesses);
         }
 
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet("{id}")]

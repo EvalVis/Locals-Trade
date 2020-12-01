@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestAPI.Models;
@@ -9,6 +10,7 @@ using RestAPI.Models.Repositories;
 
 namespace RestAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class FeedbackController : ControllerBase
@@ -33,6 +35,7 @@ namespace RestAPI.Controllers
             return Ok(feedbacks);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> SaveFeedback(FeedbackBindingTarget feedbackBindingTarget)
         {
