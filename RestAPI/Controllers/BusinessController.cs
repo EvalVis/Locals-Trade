@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RestAPI.Models;
@@ -19,28 +22,37 @@ namespace RestAPI.Controllers
             repository = repo;
         }
 
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet]
-        public IEnumerable<Business> GetBusinesses()
+        public ActionResult<IEnumerable<Business>> GetBusinesses()
         {
             IEnumerable<Business> businesses = repository.Business.
                 Include(b => b.User).
                 Include(b => b.Products).
                 Include(b => b.Workdays);
+            if (!businesses.Any()) return NoContent();
             foreach (var b in businesses)
             {
+                b.User.Email = null;
+                b.User.BirthDate = new DateTime(00,00,00);
                 b.User.Passhash = null;
                 b.User.Businesses = null;
                 foreach (var w in b.Workdays) w.Business = null;
                 foreach (var p in b.Products) p.Business = null;
                 foreach (var f in b.Feedbacks) f.Business = null;
             }
-            return businesses;
+            return Ok(businesses);
         }
 
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet("{id}")]
-        public async Task<Business> Business(long id)
+        public async Task<ActionResult<Business>> Business(long id)
         {
-            return await repository.Business.FirstOrDefaultAsync(b => b.BusinessID == id);
+            Business business = await repository.Business.FirstOrDefaultAsync(b => b.BusinessID == id);
+            if (business == null) return NotFound();
+            return Ok(business);
         }
 
         [HttpDelete("{id}")]
@@ -50,15 +62,17 @@ namespace RestAPI.Controllers
         }
 
         [HttpPost]
-        public async Task SaveBusiness(BusinessBindingTarget target)
+        public async Task<ActionResult> SaveBusiness(BusinessBindingTarget target)
         {
             await repository.SaveBusinessAsync(target.ToBusiness());
+            return Ok();
         }
 
         [HttpPut]
-        public async Task UpdateBusiness(Business business)
+        public async Task<ActionResult> UpdateBusiness(Business business)
         {
             await repository.UpdateBusinessAsync(business);
+            return Ok();
         }
 
     }

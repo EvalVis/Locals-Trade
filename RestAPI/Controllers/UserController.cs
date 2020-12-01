@@ -23,8 +23,10 @@ namespace RestAPI.Controllers
             jsonWebToken = token;
         }
 
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPatch("email/{id}")]
-        public async Task PatchEmail(long id, string email)
+        public async Task<IActionResult> PatchEmail(long id, string email)
         {
             JsonPatchDocument<User> document = new JsonPatchDocument<User>();
             document.Replace(u => u.Email, email);
@@ -32,11 +34,15 @@ namespace RestAPI.Controllers
             if (user != null)
             {
                 await repository.Patch(document, user);
+                return Ok();
             }
+            return NotFound();
         }
         [Authorize]
         [HttpPatch("password/{id}")]
-        public async Task PatchPassword(long id, string password)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> PatchPassword(long id, string password)
         {
             string hashed = new HashCalculator().PassHash(password);
             JsonPatchDocument<User> document = new JsonPatchDocument<User>();
@@ -45,7 +51,9 @@ namespace RestAPI.Controllers
             if (user != null)
             {
                 await repository.Patch(document, user);
+                return Ok();
             }
+            return NotFound();
         }
 
         /*[HttpPost]
@@ -76,11 +84,10 @@ namespace RestAPI.Controllers
                     {
                         return Unauthorized();
                     }
-
                     return Ok(token);
                 }
+                return Unauthorized();
             }
-
             return NotFound();
         }
 

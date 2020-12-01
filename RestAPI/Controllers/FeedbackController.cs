@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestAPI.Models;
 using RestAPI.Models.BindingTargets;
@@ -20,17 +21,24 @@ namespace RestAPI.Controllers
             repository = repo;
         }
 
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [HttpGet("{businessId}")]
-        public IEnumerable<Feedback> GetFeedbacks(long businessId)
+        public ActionResult<IEnumerable<Feedback>> GetFeedbacks(long businessId)
         {
-            return repository.Feedbacks.Where(f => f.BusinessID == businessId);
+            if (businessId < 1) return BadRequest();
+            IEnumerable<Feedback> feedbacks = repository.Feedbacks.Where(f => f.BusinessID == businessId);
+            if (!feedbacks.Any()) return NoContent();
+            return Ok(feedbacks);
         }
 
         [HttpPost]
-        public async Task SaveFeedback(FeedbackBindingTarget feedbackBindingTarget)
+        public async Task<IActionResult> SaveFeedback(FeedbackBindingTarget feedbackBindingTarget)
         {
             Feedback feedback = feedbackBindingTarget.ToFeedback();
             await repository.SaveFeedbackAsync(feedback);
+            return Ok();
         }
 
     }
