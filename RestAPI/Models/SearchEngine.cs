@@ -14,40 +14,36 @@ namespace RestAPI.Models
         public bool[] WeekdaySelected { get; set; } = new bool[7];
         public DateTime OpenFrom { get; set; }
         public DateTime OpenTo { get; set; }
-        private delegate bool Filter<T>(T item);
-        private IServiceRepository repository;
 
-        public SearchEngine(IServiceRepository repo)
+
+        public IEnumerable<Business> FilterBusinesses(IServiceRepository repository)
         {
-            repository = repo;
+            return repository.Business.Include(b => b.User).Include(b => b.Workdays).Include(b => b.Products);
+                //Where(b => BusinessConditionsMet(b) && UserConditionsMet(b.User) && ChosenWeekday(b.Workdays) && ChosenTimeInterval(b.Workdays))
         }
 
-        public IEnumerable<Business> FilterBusinesses()
+        private bool UserConditionsMet(User user)
         {
-            Filter<User> ownersFilter = delegate(User user)
+            if (!string.IsNullOrEmpty(OwnersSurname)) return ChosenOwnersSurname(user);
+            return true;
+        }
+
+        private bool BusinessConditionsMet(Business business)
+        {
+            if (!string.IsNullOrEmpty(BusinessInfo))
             {
-                return (string.IsNullOrEmpty(OwnersSurname) || user.Surname.ToLower().Contains(OwnersSurname.ToLower()));
-            };
-            Filter<Business> businessFilter = delegate(Business business)
-            {
-                return string.IsNullOrEmpty(BusinessInfo) || (SearchIn == 0 && ChosenHeader(business))
-                        && (SearchIn == 1 && ChosenDescription(business)) ||
-                        (SearchIn == 2 && ChosenHeader(business) && ChosenDescription(business));
-            };
-            Filter<IEnumerable<TimeSheet>> timeFilter = delegate(IEnumerable<TimeSheet> workdays)
-            {
-                return workdays.All(w => (w.From.TimeOfDay <= OpenFrom.TimeOfDay
-                                          && w.To.TimeOfDay <= OpenTo.TimeOfDay) || !WeekdaySelected[w.Weekday - 1]);
-            };
-            IEnumerable<Business> result = repository.Business.Where(b => ownersFilter(b.User) && businessFilter(b) && timeFilter(b.Workdays)).
-                Include(b => b.User).Include(b => b.Products).Include(b => b.Workdays);
-            foreach (var b in result)
-            {
-                b.EliminateDepth();
+                if (SearchIn == 0)
+                {
+                    if (!ChosenHeader(business)) return false;
+                }
+                else if (SearchIn == 1)
+                {
+                    if (!ChosenDescription(business)) return false;
+                }
+                else if (!ChosenDescription(business) || ChosenHeader(business)) return false;
             }
-            return result;
+            return true;
         }
-
 
         private bool ChosenHeader(Business business)
         {
@@ -56,7 +52,22 @@ namespace RestAPI.Models
 
         private bool ChosenDescription(Business business)
         {
-            return business.Description.ToLower().Contains(BusinessInfo.ToLower());
+            return business.Description.ToLower().Contains(BusinessInfo.ToLower()); // OK, BusinessInfo is Description if search in description is ticked.
+        }
+
+        private bool ChosenWeekday(IEnumerable<TimeSheet> timeSheets)
+        {
+            return timeSheets.Count(t => WeekdaySelected[t.Weekday - 1]) > 0;
+        }
+
+        private bool ChosenOwnersSurname(User user)
+        {
+            return user.Surname.ToLower().Contains(OwnersSurname.ToLower());
+        }
+
+        private bool ChosenTimeInterval(IEnumerable<TimeSheet> timeSheets)
+        {
+            return timeSheets.All(t => t.From.TimeOfDay <= OpenFrom.TimeOfDay && t.To.TimeOfDay <= OpenTo.TimeOfDay);
         }
 
     }

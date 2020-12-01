@@ -24,7 +24,7 @@ namespace RestAPI.Controllers
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [HttpGet]
+        [HttpGet("All")]
         public ActionResult<IEnumerable<Business>> GetBusinesses()
         {
             IEnumerable<Business> businesses = repository.Business.
@@ -41,9 +41,14 @@ namespace RestAPI.Controllers
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpPost("Filtered")]
         public ActionResult<IEnumerable<Business>> GetFilteredBusinesses(SearchEngine searchEngine)
         {
-            IEnumerable<Business> filteredBusinesses = searchEngine.FilterBusinesses();
+            IEnumerable<Business> filteredBusinesses = searchEngine.FilterBusinesses(repository);
+            foreach (var b in filteredBusinesses)
+            {
+                b.EliminateDepth();
+            }
             if (!filteredBusinesses.Any()) return NoContent();
 ;            return Ok(filteredBusinesses);
         }

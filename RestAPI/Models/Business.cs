@@ -24,7 +24,7 @@ namespace RestAPI.Models
             if (User != null)
             {
                 User.Email = null;
-                User.BirthDate = new DateTime(00, 00, 00);
+                User.BirthDate = new DateTime(1999, 12, 06);
                 User.Passhash = null;
                 User.Businesses = null;
             }

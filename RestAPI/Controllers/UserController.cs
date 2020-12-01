@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using RestAPI.Models;
 using RestAPI.Models.Repositories;
 using RestAPI.Cryptography;
+using RestAPI.Models.BindingTargets;
 
 namespace RestAPI.Controllers
 {
@@ -56,20 +58,20 @@ namespace RestAPI.Controllers
             return NotFound();
         }
 
-        /*[HttpPost]
+        [HttpPost("SignUp")]
         public async Task SignUp(UserBindingTarget target)
         {
             if (!repository.Users.Any(u => u.Email == target.Email))
             {
                 await repository.SaveUserAsync(target.ToUser());
             }
-        }*/
+        }
 
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [HttpPost]
+        [HttpPost("SignIn")]
         public async Task<IActionResult> SignIn(string email, string password)
         {
             if (email == null || password == null) return BadRequest();
