@@ -21,8 +21,7 @@ namespace Support_Your_Locals.Models
         {
             get
             {
-                var file = File.ReadAllBytes("Content/Images/business-icon.png");
-                string imageBase64Data = Convert.ToBase64String(PictureData ?? file);
+                string imageBase64Data = Convert.ToBase64String(PictureData ?? File.ReadAllBytes("Content/Images/business-icon.png"));
                 return string.Format("data:image/jpg;base64,{0}", imageBase64Data);
             }
         }
