@@ -16,7 +16,7 @@ namespace RestAPI.Controllers
             this.key = key;
         }
 
-        public string Authenticate(string email, string password)
+        public string Authenticate(string email)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenKey = Encoding.ASCII.GetBytes(key);

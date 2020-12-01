@@ -50,7 +50,7 @@ namespace RestAPI {
                     ValidateAudience = false
                 };
             });
-            services.AddSingleton<JsonWebToken>(new JsonWebToken(key));
+            services.AddSingleton(new JsonWebToken(key));
             services.AddSwaggerGen(s => s.SwaggerDoc("v1", new OpenApiInfo {Title = "RestAPI for Support Your Locals", Version = "v1"}));
         }
 
@@ -61,6 +61,8 @@ namespace RestAPI {
             }
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +34,7 @@ namespace RestAPI.Controllers
                 await repository.Patch(document, user);
             }
         }
-
+        [Authorize]
         [HttpPatch("password/{id}")]
         public async Task PatchPassword(long id, string password)
         {
@@ -70,13 +71,13 @@ namespace RestAPI.Controllers
                 bool match = new HashCalculator().IsGoodPass(user.Passhash, password); 
                 if (match) 
                 { 
-                    jsonWebToken.Authenticate(email, password);
+                    var token = jsonWebToken.Authenticate(email);
                     if (jsonWebToken == null)
                     {
                         return Unauthorized();
                     }
 
-                    return Ok(jsonWebToken);
+                    return Ok(token);
                 }
             }
 
