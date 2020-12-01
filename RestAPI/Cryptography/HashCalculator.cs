@@ -15,6 +15,7 @@ namespace RestAPI.Cryptography
             byte[] hashBytes = new byte[36];
             Array.Copy(salt, 0, hashBytes, 0, 16);
             Array.Copy(hash, 0, hashBytes, 16, 20);
+            System.Diagnostics.Debug.WriteLine("Hashing " + password + " to " + Convert.ToBase64String(hashBytes));
             return Convert.ToBase64String(hashBytes);
         }
 

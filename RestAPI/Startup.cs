@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using RestAPI.Controllers;
+using RestAPI.Cryptography;
 using RestAPI.Models;
 using RestAPI.Models.Repositories;
 
@@ -30,6 +31,7 @@ namespace RestAPI {
             var key = "test key";
             services.AddDbContext<ServiceDbContext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:DatabaseConnection"]));
             services.AddScoped<IServiceRepository, ServiceRepository>();
+
             services.AddControllers().AddNewtonsoftJson();
             services.Configure<MvcNewtonsoftJsonOptions>(opts =>
                 opts.SerializerSettings.NullValueHandling = NullValueHandling.Ignore);

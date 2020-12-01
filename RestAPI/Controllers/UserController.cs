@@ -43,7 +43,7 @@ namespace RestAPI.Controllers
             JsonPatchDocument<User> document = new JsonPatchDocument<User>();
             document.Replace(u => u.Passhash, hashed);
             User user = await repository.Users.FirstOrDefaultAsync(u => u.UserID == id);
-            if (User != null)
+            if (user != null)
             {
                 await repository.Patch(document, user);
             }
@@ -68,6 +68,7 @@ namespace RestAPI.Controllers
             if (email == null || password == null) return BadRequest();
             string passwordHash = new HashCalculator().PassHash(password);
             User user = await repository.Users.FirstOrDefaultAsync(u => u.Email == email);
+            System.Diagnostics.Debug.WriteLine(passwordHash + " " + password + " " + user.UserID + " " + user.Passhash);
             if (user != null && user.Passhash == passwordHash)
             {
                 jsonWebToken.Authenticate(email, password);
