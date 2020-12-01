@@ -24,7 +24,7 @@
         }
         else
         {
-            <form method="post">
+            <form method="post" style="display: inline;">
                 <button asp-controller="Auth" asp-action="SignOut" class="btn btn-primary">Sign Out</button>
             </form>
       <span style="float:right;text-align:right;margin-left: 80px;">Welcome @User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value!</span>
