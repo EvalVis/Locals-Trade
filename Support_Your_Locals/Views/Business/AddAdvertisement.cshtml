@@ -64,13 +64,13 @@
 <div class="login-page">
     <div class="form">
         <div>
-            <div >
+            <div>
                 <h1>Add business advertisement</h1>
-                <form id="addAdvertisement" asp-action="AddAdvertisement" method="post">
+                <form id="addAdvertisement" asp-action="AddAdvertisement" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label asp-for="Header">Header</label>
                         <input asp-for="Header" class="form-control">
-                    </div> 
+                    </div>
                     <div class="form-group">
                         <label asp-for="Description">Description</label>
                         <textarea asp-for="Description" class="form-control"> </textarea>
@@ -91,15 +91,13 @@
                     <input type="hidden" id="longitude" asp-for="Longitude" />
                     <input type="hidden" id="latitude" asp-for="Latitude" />
                     <label>Please choose location</label>
-                    <div id="mapid" ></div>
+                    <div id="mapid"></div>
 
                     <div class="form-group">
                         <label asp-for="Picture">Please enter your picture url</label>
-                        <input asp-for="Picture" class="form-control" />
+                        <input type="file" asp-for="Picture" class="form-control" />
                     </div>
-
                     <button type="submit" class="btn btn-primary">Advertise business</button>
-
                 </form>
             </div>
         </div>

@@ -8,6 +8,7 @@ using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using System.IO;
 
 namespace Support_Your_Locals.Controllers
 {
@@ -53,6 +54,10 @@ namespace Support_Your_Locals.Controllers
         [HttpPost]
         public ActionResult AddAdvertisement(BusinessRegisterModel businessRegisterModel)
         {
+
+            MemoryStream imageMemoryStream = new MemoryStream();
+            businessRegisterModel.Picture.CopyTo(imageMemoryStream);
+
             //TODO: validation
             Business business = new Business
             {
@@ -63,7 +68,7 @@ namespace Support_Your_Locals.Controllers
                 PhoneNumber = businessRegisterModel.PhoneNumber,
                 Latitude = businessRegisterModel.Latitude,
                 Longitude = businessRegisterModel.Longitude,
-                Picture = businessRegisterModel.Picture
+                PictureData = imageMemoryStream.ToArray(),
             };
             for (int i = 0; i < 7; i++)
             {
