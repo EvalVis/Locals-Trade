@@ -12,8 +12,9 @@ namespace RestAPI.Models.BindingTargets
         public string Picture { get; set; }
         public List<TimeSheetBindingTarget> WorkdayTargets { get; set; } = new List<TimeSheetBindingTarget>();
         public List<ProductBindingTarget> ProductTargets { get; set; } = new List<ProductBindingTarget>();
-        public Business ToBusiness() => new Business
+        public Business ToBusiness(long userId) => new Business
         {
+            UserID = userId,
             Description = Description,
             Longitude = Longitude,
             Latitude = Latitude,

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,9 +18,11 @@ namespace RestAPI.Controllers
     public class BusinessController : ControllerBase
     {
         private IServiceRepository repository;
+        private long claimedId;
 
         public BusinessController(IServiceRepository repo)
         {
+            claimedId = long.Parse(HttpContext.User.Claims.FirstOrDefault(type => type.Value == ClaimTypes.NameIdentifier).Value);
             repository = repo;
         }
 
@@ -70,16 +73,32 @@ namespace RestAPI.Controllers
             return Ok(business);
         }
 
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpDelete("{id}")]
-        public async Task RemoveBusiness(long id)
+        public async Task<IActionResult> RemoveBusiness(long id)
         {
-            await repository.RemoveBusinessAsync(new Business {BusinessID = id});
+            if (id < 1) return BadRequest();
+            Business business = await repository.Business.FirstOrDefaultAsync(b => b.BusinessID == id);
+            if (business == null)
+            {
+                return NotFound();
+            }
+
+            if (business.UserID != claimedId)
+            {
+                return Unauthorized();
+            }
+            await repository.RemoveBusinessAsync(business);
+            return Ok();
         }
 
         [HttpPost]
         public async Task<ActionResult> SaveBusiness(BusinessBindingTarget target)
         {
-            await repository.SaveBusinessAsync(target.ToBusiness());
+            await repository.SaveBusinessAsync(target.ToBusiness(claimedId));
             return Ok();
         }
 
