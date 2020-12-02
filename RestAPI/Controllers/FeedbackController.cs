@@ -23,7 +23,7 @@ namespace RestAPI.Controllers
 
         public FeedbackController(IServiceRepository repo)
         {
-            claimedId = long.Parse(HttpContext.User.Claims.FirstOrDefault(type => type.Value == ClaimTypes.NameIdentifier).Value);
+            claimedId = long.Parse(HttpContext.User.Claims.FirstOrDefault(type => type.Value == ClaimTypes.NameIdentifier)?.Value ?? "0");
             repository = repo;
         }
 

@@ -24,7 +24,7 @@ namespace RestAPI.Controllers
 
         public UserController(IServiceRepository repo, JsonWebToken token)
         {
-            claimedId = long.Parse(HttpContext.User.Claims.FirstOrDefault(type => type.Value == ClaimTypes.NameIdentifier).Value);
+            claimedId = long.Parse(HttpContext.User.Claims.FirstOrDefault(type => type.Value == ClaimTypes.NameIdentifier)?.Value ?? "0");
             repository = repo;
             jsonWebToken = token;
         }
