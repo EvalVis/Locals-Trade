@@ -20,9 +20,9 @@ namespace RestAPI.Controllers
         private IServiceRepository repository;
         private long claimedId;
 
-        public BusinessController(IServiceRepository repo)
+        public BusinessController(IServiceRepository repo, IHttpContextAccessor accessor)
         {
-            claimedId = long.Parse(HttpContext.User.Claims.FirstOrDefault(type => type.Value == ClaimTypes.NameIdentifier)?.Value ?? "0");
+            claimedId = long.Parse(accessor.HttpContext.User.Claims.FirstOrDefault(type => type.Value == ClaimTypes.NameIdentifier)?.Value ?? "0");
             repository = repo;
         }
 

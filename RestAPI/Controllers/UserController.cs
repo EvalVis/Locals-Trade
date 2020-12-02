@@ -22,9 +22,9 @@ namespace RestAPI.Controllers
         private JsonWebToken jsonWebToken;
         private long claimedId;
 
-        public UserController(IServiceRepository repo, JsonWebToken token)
+        public UserController(IServiceRepository repo, JsonWebToken token, IHttpContextAccessor accessor)
         {
-            claimedId = long.Parse(HttpContext.User.Claims.FirstOrDefault(type => type.Value == ClaimTypes.NameIdentifier)?.Value ?? "0");
+            claimedId = long.Parse(accessor.HttpContext.User.Claims.FirstOrDefault(type => type.Value == ClaimTypes.NameIdentifier)?.Value ?? "0");
             repository = repo;
             jsonWebToken = token;
         }
