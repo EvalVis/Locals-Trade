@@ -6,13 +6,14 @@ namespace Support_Your_Locals.Models.ViewModels
     public class BusinessRegisterModel
     {
 
+
         public long BusinessId { get; set; } //Danger zone.
-        [Required(ErrorMessage = "Please add your business description")]
+        [Required(ErrorMessage = "Please add description for your business")]
         public string Description {get; set;}
-        [RegularExpression(@"^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$", ErrorMessage = "Bad phone number")]
-        [Required(ErrorMessage = "Please enter your business phone number")]
+        [RegularExpression(@"^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$", ErrorMessage = "Entered phone number is not correct")]
+        [Required(ErrorMessage = "Please enter correct phone number for your business")]
         public string PhoneNumber {get; set;}
-        [Required(ErrorMessage = "Please enter your business header")]
+        [Required(ErrorMessage = "Please enter header for your business")]
         public string Header {get; set;}
         public string Longitude { get; set; }
         public string Latitude { get; set; }
@@ -40,6 +41,5 @@ namespace Support_Your_Locals.Models.ViewModels
                 Workdays[workday.Weekday - 1] = workday;
             }
         }
-
     }
 }

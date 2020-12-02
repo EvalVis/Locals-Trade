@@ -72,14 +72,20 @@ namespace Support_Your_Locals.Controllers
         [HttpPost]
         public async Task<ActionResult> AddAdvertisement(BusinessRegisterModel businessRegisterModel)
         {
-            //TODO: validation
-            if (businessRegisterModel.BusinessId < 0) Redirect("/");
-            if (businessRegisterModel.BusinessId == 0)
+            if (!ModelState.IsValid)
             {
-                Business business = new Business(businessRegisterModel, userID);
-                repository.AddBusiness(business);
-                return Redirect("/");
+              return View();
             }
+            Business business = new Business
+            {
+                Header = businessRegisterModel.Header,
+                Description = businessRegisterModel.Description,
+                UserID = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value),
+                PhoneNumber = businessRegisterModel.PhoneNumber,
+                Latitude = businessRegisterModel.Latitude,
+                Longitude = businessRegisterModel.Longitude,
+                Picture = businessRegisterModel.Picture
+            };
             Business dbBusiness = await repository.Business
                 .Include(b => b.Workdays).Include(b => b.Products)
                 .FirstOrDefaultAsync(b => b.BusinessID == businessRegisterModel.BusinessId);
