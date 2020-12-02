@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using RestAPI.Infrastructure;
 using RestAPI.Models;
 using RestAPI.Models.BindingTargets;
 using RestAPI.Models.Repositories;
@@ -20,11 +22,13 @@ namespace RestAPI.Controllers
 
         private IServiceRepository repository;
         private long claimedId;
+        private IConfiguration configuration;
 
-        public FeedbackController(IServiceRepository repo, IHttpContextAccessor accessor)
+        public FeedbackController(IServiceRepository repo, IHttpContextAccessor accessor, IConfiguration config)
         {
             claimedId = long.Parse(accessor.HttpContext.User.Claims.FirstOrDefault(type => type.Value == ClaimTypes.NameIdentifier)?.Value ?? "0");
             repository = repo;
+            configuration = config;
         }
 
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -56,6 +60,7 @@ namespace RestAPI.Controllers
         {
             Feedback feedback = feedbackBindingTarget.ToFeedback();
             await repository.SaveFeedbackAsync(feedback);
+            new Mailer(repository, configuration).SendMail(feedback);
             return Ok();
         }
 
