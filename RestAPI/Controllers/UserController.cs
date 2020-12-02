@@ -83,7 +83,7 @@ namespace RestAPI.Controllers
                 bool match = new HashCalculator().IsGoodPass(user.Passhash, password); 
                 if (match) 
                 { 
-                    var token = jsonWebToken.Authenticate(email);
+                    var token = jsonWebToken.Authenticate(user.UserID);
                     if (jsonWebToken == null)
                     {
                         return Unauthorized();

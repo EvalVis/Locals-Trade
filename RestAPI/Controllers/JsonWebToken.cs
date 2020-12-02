@@ -16,14 +16,14 @@ namespace RestAPI.Controllers
             this.key = key;
         }
 
-        public string Authenticate(string email)
+        public string Authenticate(long id)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenKey = Encoding.ASCII.GetBytes(key);
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
                 Subject = new ClaimsIdentity(
-                new Claim[] {new Claim(ClaimTypes.Email, email) }),
+                new Claim[] {new Claim(ClaimTypes.NameIdentifier, id.ToString()) }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
             };
