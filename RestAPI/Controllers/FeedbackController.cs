@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -26,13 +27,19 @@ namespace RestAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpGet("{businessId}")]
         public ActionResult<IEnumerable<Feedback>> GetFeedbacks(long businessId)
         {
+            long claimedId = long.Parse(HttpContext.User.Claims.FirstOrDefault(type => type.Value == ClaimTypes.NameIdentifier).Value);
             if (businessId < 1) return BadRequest();
-            IEnumerable<Feedback> feedbacks = repository.Feedbacks.Where(f => f.BusinessID == businessId);
-            if (!feedbacks.Any()) return NoContent();
-            return Ok(feedbacks);
+            if (repository.Business.FirstOrDefault(b => b.BusinessID == businessId)?.UserID == claimedId)
+            {
+                IEnumerable<Feedback> feedbacks = repository.Feedbacks.Where(f => f.BusinessID == businessId);
+                if (!feedbacks.Any()) return NoContent();
+                return Ok(feedbacks);
+            }
+            return Unauthorized();
         }
 
         [AllowAnonymous]
