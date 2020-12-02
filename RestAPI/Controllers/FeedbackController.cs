@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RestAPI.Models;
 using RestAPI.Models.BindingTargets;
 using RestAPI.Models.Repositories;
@@ -28,13 +29,19 @@ namespace RestAPI.Controllers
 
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpGet("{businessId}")]
-        public ActionResult<IEnumerable<Feedback>> GetFeedbacks(long businessId)
+        public async Task<ActionResult<IEnumerable<Feedback>>> GetFeedbacks(long businessId)
         {
             if (businessId < 1) return BadRequest();
-            if (repository.Business.FirstOrDefault(b => b.BusinessID == businessId)?.UserID == claimedId)
+            Business business = await repository.Business.FirstOrDefaultAsync(b => b.BusinessID == businessId);
+            if (business == null)
+            {
+                return NotFound();
+            }
+            if (business.UserID == claimedId)
             {
                 IEnumerable<Feedback> feedbacks = repository.Feedbacks.Where(f => f.BusinessID == businessId);
                 if (!feedbacks.Any()) return NoContent();

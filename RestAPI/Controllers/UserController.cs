@@ -73,13 +73,17 @@ namespace RestAPI.Controllers
         }
 
         [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         [HttpPost("SignUp")]
-        public async Task SignUp(UserBindingTarget target)
+        public async Task<IActionResult> SignUp(UserBindingTarget target)
         {
             if (!repository.Users.Any(u => u.Email == target.Email))
             {
                 await repository.SaveUserAsync(target.ToUser());
+                return Ok();
             }
+            return Conflict();
         }
 
         [AllowAnonymous]
