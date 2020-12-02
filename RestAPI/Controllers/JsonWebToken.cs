@@ -10,13 +10,15 @@ namespace RestAPI.Controllers
     {
 
         private string key;
+        private JsonRefreshToken jsonRefreshToken;
 
-        public JsonWebToken(string key)
+        public JsonWebToken(string key, JsonRefreshToken refreshToken)
         {
             this.key = key;
+            jsonRefreshToken = refreshToken;
         }
 
-        public string Authenticate(long id)
+        public FreshAndRefreshToken Authenticate(long id)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenKey = Encoding.ASCII.GetBytes(key);
@@ -24,11 +26,12 @@ namespace RestAPI.Controllers
             {
                 Subject = new ClaimsIdentity(
                 new Claim[] {new Claim(ClaimTypes.NameIdentifier, id.ToString()) }),
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = DateTime.UtcNow.AddMinutes(20),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            var refreshToken = jsonRefreshToken.GenerateToken();
+            return new FreshAndRefreshToken {FreshToken = tokenHandler.WriteToken(token), RefreshToken = refreshToken};
         }
 
     }

@@ -28,7 +28,8 @@ namespace RestAPI {
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var key = "test key for the project.";
+            var keyString = "test key for the project.";
+            var key = Encoding.ASCII.GetBytes(keyString);
             services.AddDbContext<ServiceDbContext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:DatabaseConnection"]));
             services.AddScoped<IServiceRepository, ServiceRepository>();
 
@@ -46,13 +47,16 @@ namespace RestAPI {
                 bearer.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
             });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton(new JsonWebToken(key));
+            services.AddSingleton(serviceProvider =>
+                new JsonTokenRefresher(key, serviceProvider.GetService<IHttpContextAccessor>(), serviceProvider.GetService<JsonWebToken>())));
+            services.AddSingleton(new JsonRefreshToken());
+            services.AddSingleton(serviceProvider => new JsonWebToken(keyString, serviceProvider.GetService<JsonRefreshToken>()));
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddSwaggerGen(s => s.SwaggerDoc("v1", new OpenApiInfo {Title = "RestAPI for Support Your Locals", Version = "v1"}));
         }
