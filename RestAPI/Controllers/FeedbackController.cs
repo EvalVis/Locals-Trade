@@ -18,9 +18,11 @@ namespace RestAPI.Controllers
     {
 
         private IServiceRepository repository;
+        private long claimedId;
 
         public FeedbackController(IServiceRepository repo)
         {
+            claimedId = long.Parse(HttpContext.User.Claims.FirstOrDefault(type => type.Value == ClaimTypes.NameIdentifier).Value);
             repository = repo;
         }
 
@@ -31,7 +33,6 @@ namespace RestAPI.Controllers
         [HttpGet("{businessId}")]
         public ActionResult<IEnumerable<Feedback>> GetFeedbacks(long businessId)
         {
-            long claimedId = long.Parse(HttpContext.User.Claims.FirstOrDefault(type => type.Value == ClaimTypes.NameIdentifier).Value);
             if (businessId < 1) return BadRequest();
             if (repository.Business.FirstOrDefault(b => b.BusinessID == businessId)?.UserID == claimedId)
             {

@@ -20,9 +20,11 @@ namespace RestAPI.Controllers
     {
         private IServiceRepository repository;
         private JsonWebToken jsonWebToken;
+        private long claimedId;
 
         public UserController(IServiceRepository repo, JsonWebToken token)
         {
+            claimedId = long.Parse(HttpContext.User.Claims.FirstOrDefault(type => type.Value == ClaimTypes.NameIdentifier).Value);
             repository = repo;
             jsonWebToken = token;
         }
@@ -33,7 +35,6 @@ namespace RestAPI.Controllers
         [HttpPatch("email/{email}")]
         public async Task<IActionResult> PatchEmail(string password, string newEmail)
         {
-            long claimedId = long.Parse(HttpContext.User.Claims.FirstOrDefault(type => type.Value == ClaimTypes.NameIdentifier).Value);
             JsonPatchDocument<User> document = new JsonPatchDocument<User>();
             document.Replace(u => u.Email, newEmail);
             User user = await repository.Users.FirstOrDefaultAsync(u => u.UserID == claimedId);
@@ -55,7 +56,6 @@ namespace RestAPI.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> PatchPassword(string currentPassword, string newPassword)
         {
-            long claimedId = long.Parse(HttpContext.User.Claims.FirstOrDefault(type => type.Value == ClaimTypes.NameIdentifier).Value);
             string hashed = new HashCalculator().PassHash(newPassword);
             JsonPatchDocument<User> document = new JsonPatchDocument<User>();
             document.Replace(u => u.Passhash, hashed);
