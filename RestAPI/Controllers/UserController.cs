@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -28,32 +29,45 @@ namespace RestAPI.Controllers
 
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpPatch("email/{email}")]
-        public async Task<IActionResult> PatchEmail(string email, string newEmail)
+        public async Task<IActionResult> PatchEmail(string password, string newEmail)
         {
+            long claimedId = long.Parse(HttpContext.User.Claims.FirstOrDefault(type => type.Value == ClaimTypes.NameIdentifier).Value);
             JsonPatchDocument<User> document = new JsonPatchDocument<User>();
             document.Replace(u => u.Email, newEmail);
-            User user = await repository.Users.FirstOrDefaultAsync(u => u.Email == email);
+            User user = await repository.Users.FirstOrDefaultAsync(u => u.UserID == claimedId);
             if (user != null)
             {
-                await repository.Patch(document, user);
-                return Ok();
+                if (new HashCalculator().IsGoodPass(user.Passhash, password))
+                {
+                    await repository.Patch(document, user);
+                    return Ok();
+                }
+                return Unauthorized();
             }
             return NotFound();
         }
+
         [HttpPatch("password/{email}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> PatchPassword(string email, string password)
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> PatchPassword(string currentPassword, string newPassword)
         {
-            string hashed = new HashCalculator().PassHash(password);
+            long claimedId = long.Parse(HttpContext.User.Claims.FirstOrDefault(type => type.Value == ClaimTypes.NameIdentifier).Value);
+            string hashed = new HashCalculator().PassHash(newPassword);
             JsonPatchDocument<User> document = new JsonPatchDocument<User>();
             document.Replace(u => u.Passhash, hashed);
-            User user = await repository.Users.FirstOrDefaultAsync(u => u.Email == email);
+            User user = await repository.Users.FirstOrDefaultAsync(u => u.UserID == claimedId);
             if (user != null)
             {
-                await repository.Patch(document, user);
-                return Ok();
+                if (new HashCalculator().IsGoodPass(user.Passhash, currentPassword))
+                {
+                    await repository.Patch(document, user);
+                    return Ok();
+                }
+                return Unauthorized();
             }
             return NotFound();
         }
