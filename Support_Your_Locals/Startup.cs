@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -42,8 +43,11 @@ namespace Support_Your_Locals
             services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddScoped<HashCalculator>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddRazorPages();
             services.AddDistributedMemoryCache();
             services.AddSession();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddServerSideBlazor();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
@@ -86,11 +90,14 @@ namespace Support_Your_Locals
             {
                 endpoints.MapControllerRoute("productPage", "{product}/page{page:int}", new { Controller = "Home", action = "Index" });
                 endpoints.MapControllerRoute("page", "page{page:int}", new { Controller = "Home", action = "Index", page = 1 });
-                endpoints.MapControllerRoute("product", "{product}",
-                    new { Controller = "Home", action = "Index", page = 1 });
-                endpoints.MapControllerRoute("pagination", "Businesses/page{page}",
-                    new { Controller = "Home", action = "Index", page = 1 });
+                endpoints.MapControllerRoute("product", "{product}", new { Controller = "Home", action = "Index", page = 1 });
+                endpoints.MapControllerRoute("advertisement", "business/{businessId:long}", new {Controller = "Business", action = "Index"});
+                endpoints.MapControllerRoute("addAdvertisement", "business/edit/{businessId:long}", 
+                    new {Controller = "Business", action = "AddAdvertisement"});
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapRazorPages();
+                endpoints.MapBlazorHub();
+                endpoints.MapFallbackToPage("/user/{*catchall}", "/User/Index");
             });
             SeedData.EnsurePopulated(app, new HashCalculator());
         }

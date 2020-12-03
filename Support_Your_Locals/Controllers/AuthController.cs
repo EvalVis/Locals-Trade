@@ -98,7 +98,7 @@ namespace Support_Your_Locals.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> SignOut()
         {
             await HttpContext.SignOutAsync();
