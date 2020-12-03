@@ -110,9 +110,13 @@ namespace RestAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut]
         public async Task<ActionResult> UpdateBusiness(string password, Business business)
         {
+            if (business.BusinessID < 1) return BadRequest();
+            business.UserID = claimedId;
+            business.User = null;
             Business targetBusiness = await repository.Business.Include(b => b.User).FirstOrDefaultAsync(b => b.BusinessID == business.BusinessID);
             if (targetBusiness == null)
             {
