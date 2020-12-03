@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Support_Your_Locals.Models.ViewModels;
 
 namespace Support_Your_Locals.Models
 {
@@ -17,5 +19,45 @@ namespace Support_Your_Locals.Models
         public List<TimeSheet> Workdays { get; set; } = new List<TimeSheet>();
         public List<Product> Products { get; set; } = new List<Product>();
         public List<Feedback> Feedbacks { get; set; } = new List<Feedback>();
+
+        public Business()
+        {
+            
+        }
+
+        public Business(BusinessRegisterModel registerModel, long userID)
+        {
+            BusinessID = registerModel.BusinessId; // danger zone.
+            UserID = userID;
+            Description = registerModel.Description;
+            Longitude = registerModel.Longitude;
+            Latitude = registerModel.Latitude;
+            PhoneNumber = registerModel.PhoneNumber;
+            Header = registerModel.Header;
+            Picture = registerModel.Picture;
+            inspectWorkdaysValidity(registerModel);
+            Products = registerModel.Products;
+        }
+
+        public void UpdateBusiness(BusinessRegisterModel registerModel)
+        {
+            Description = registerModel.Description;
+            Longitude = registerModel.Longitude;
+            Latitude = registerModel.Latitude;
+            PhoneNumber = registerModel.PhoneNumber;
+            Header = registerModel.Header;
+            Picture = registerModel.Picture;
+            inspectWorkdaysValidity(registerModel);
+            Products = registerModel.Products;
+        }
+
+        private void inspectWorkdaysValidity(BusinessRegisterModel registerModel)
+        {
+            foreach (var w in registerModel.Workdays)
+            {
+                if(!w.InvalidTime()) Workdays.Add(w);
+            }
+        }
+
     }
 }

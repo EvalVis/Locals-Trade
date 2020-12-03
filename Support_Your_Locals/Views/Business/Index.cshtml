@@ -16,6 +16,7 @@
                 <div style="text-align: left;">@Model.Description</div>
             </div>
         </div>
+
         <img src="@Model.Picture" style="width:100%" onclick="openModal();currentSlide(1)" class="hover-shadow cursor">
         <h2>Timesheet</h2>
         <table class="table table-hover">
@@ -106,7 +107,7 @@
         dots[slideIndex - 1].className += " active";
         captionText.innerHTML = dots[slideIndex - 1].alt;
     }
-</script>
+
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
       integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
@@ -175,6 +176,7 @@
         <label id="feedbackSent" hidden style="color: rgb(51, 255, 162)">Feedback successfully sent.</label>
         <label id="feedbackUnsent" hidden style="color: rgb(255, 0, 0)">Something went wrong. Failed to send feedback.</label>
     </div>
+
 </div>
 <script>
     $('#feedbackButton').click(function () {

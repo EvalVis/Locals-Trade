@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,8 +17,10 @@ namespace Support_Your_Locals.Models
         [FromQuery(Name = "w")]
         public string WeekSelected { get; set; } = "1111111";
         public bool[] WeekdaySelected { get; set; } = new bool[7];
+        [DataType(DataType.Time)]
         [FromQuery(Name = "f")]
         public DateTime OpenFrom { get; set; } = new DateTime(1999, 12, 06, 23, 59, 00);
+        [DataType(DataType.Time)]
         [FromQuery(Name= "t")]
         public DateTime OpenTo { get; set; } = new DateTime(1999, 12, 06, 18, 00, 00);
         private delegate bool Filter<T>(T item);
