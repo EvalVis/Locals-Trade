@@ -16,7 +16,7 @@
                 <div style="text-align: left;">@Model.Description</div>
             </div>
         </div>
-        <img src="@Model.Picture" style="width:100%">
+        <img src="@Model.Picture" style="width:100%" onclick="openModal();currentSlide(1)" class="hover-shadow cursor">
         <h2>Timesheet</h2>
         <table class="table table-hover">
             <thead>
@@ -26,7 +26,7 @@
                     <th>To</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody style="text-align: left">
                 @for (int i = 1; i <= 7; i++)
                 {
                     TimeSheet workday = Model.Workdays.FirstOrDefault(t => t.Weekday == i);
@@ -62,13 +62,51 @@
                 <li>@Model.PhoneNumber</li>
             </ul>
         </div>
+
         <partial name="ProductSummary" for="Products" />
 
         <div id="mapid"></div>
     </div>
 </div>
 
+<script>
+    function openModal() {
+        document.getElementById("myModal").style.display = "block";
+    }
 
+    function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+    }
+
+    var slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("demo");
+        var captionText = document.getElementById("caption");
+        if (n > slides.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = slides.length }
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex - 1].style.display = "block";
+        dots[slideIndex - 1].className += " active";
+        captionText.innerHTML = dots[slideIndex - 1].alt;
+    }
+</script>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
       integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
