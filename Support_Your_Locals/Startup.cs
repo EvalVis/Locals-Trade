@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,7 +29,17 @@ namespace Support_Your_Locals
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ServiceDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            var connectionStringBuilder = new SqlConnectionStringBuilder
+            {
+                DataSource = Configuration["Database:DataSource"],
+                InitialCatalog = Configuration["Database:Name"],
+                UserID = Configuration["Database:Username"],
+                Password = Configuration["Database:Password"],
+                Encrypt = true,
+                MultipleActiveResultSets = true,
+                TrustServerCertificate = true,
+            };
+            services.AddDbContext<ServiceDbContext>(option => option.UseSqlServer(connectionStringBuilder.ConnectionString));
             services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddScoped<HashCalculator>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
