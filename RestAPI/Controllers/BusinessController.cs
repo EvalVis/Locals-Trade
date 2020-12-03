@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RestAPI.Cryptography;
 using RestAPI.Models;
 using RestAPI.Models.BindingTargets;
 using RestAPI.Models.Repositories;
@@ -78,7 +79,7 @@ namespace RestAPI.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> RemoveBusiness(long id)
+        public async Task<IActionResult> RemoveBusiness(string password, long id)
         {
             if (id < 1) return BadRequest();
             Business business = await repository.Business.FirstOrDefaultAsync(b => b.BusinessID == id);
@@ -86,13 +87,17 @@ namespace RestAPI.Controllers
             {
                 return NotFound();
             }
-
             if (business.UserID != claimedId)
             {
                 return Unauthorized();
             }
-            await repository.RemoveBusinessAsync(business);
-            return Ok();
+            User user = await repository.Users.FirstOrDefaultAsync(u => u.UserID == claimedId);
+            if (new HashCalculator().IsGoodPass(user.Passhash, password))
+            {
+                await repository.RemoveBusinessAsync(business);
+                return Ok();
+            }
+            return Unauthorized();
         }
 
         [HttpPost]
@@ -102,11 +107,28 @@ namespace RestAPI.Controllers
             return Ok();
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut]
-        public async Task<ActionResult> UpdateBusiness(Business business)
+        public async Task<ActionResult> UpdateBusiness(string password, Business business)
         {
-            await repository.UpdateBusinessAsync(business);
-            return Ok();
+            Business targetBusiness = await repository.Business.Include(b => b.User).FirstOrDefaultAsync(b => b.BusinessID == business.BusinessID);
+            if (targetBusiness == null)
+            {
+                return NotFound();
+            }
+            User user = targetBusiness.User;
+            if (user.UserID != claimedId)
+            {
+                return Unauthorized();
+            }
+            if (new HashCalculator().IsGoodPass(user.Passhash, password))
+            {
+                await repository.UpdateBusinessAsync(business);
+                return Ok();
+            }
+            return Unauthorized();
         }
 
     }

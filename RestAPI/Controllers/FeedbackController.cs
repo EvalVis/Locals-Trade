@@ -45,8 +45,8 @@ namespace RestAPI.Controllers
             {
                 return NotFound();
             }
-           // if (business.UserID == claimedId)
-            //{
+            if (business.UserID == claimedId)
+            {
                 IEnumerable<Feedback> feedbacks = repository.Feedbacks.Where(f => f.BusinessID == businessId);
                 foreach (var f in feedbacks)
                 {
@@ -54,8 +54,8 @@ namespace RestAPI.Controllers
                 }
                 if (!feedbacks.Any()) return NoContent();
                 return Ok(feedbacks);
-            //}
-            //return Unauthorized();
+            }
+            return Unauthorized();
         }
 
         [AllowAnonymous]
