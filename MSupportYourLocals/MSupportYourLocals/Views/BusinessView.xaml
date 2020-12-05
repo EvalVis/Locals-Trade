@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:MSupportYourLocals.ViewModels;assembly=MSupportYourLocals"
+             x:Class="MSupportYourLocals.Views.BusinessView">
+    <ContentPage.BindingContext>
+        <viewmodel:BusinessViewModel></viewmodel:BusinessViewModel>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <ScrollView>
+            <Grid>
+                <CollectionView ItemsSource="{Binding Business}" SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout HorizontalOptions="FillAndExpand">
+                                <Label Text="{Binding Header}" FontSize="Large" TextColor="Black"></Label>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

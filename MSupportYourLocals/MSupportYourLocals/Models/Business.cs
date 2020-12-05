@@ -1,6 +1,6 @@
 ﻿namespace MSupportYourLocals.Models
 {
-    class BusinessItem
+    public class Business
     {
         public long Id { get; set; }
         public string Description { get; set; }
