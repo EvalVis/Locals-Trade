@@ -88,12 +88,6 @@
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MSupportYourLocals\MSupportYourLocals.csproj">
-      <Project>{E3D3678F-8FE9-488F-89BD-3E304EAEB799}</Project>
-      <Name>MSupportYourLocals</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>

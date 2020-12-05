@@ -127,10 +127,4 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\MSupportYourLocals\MSupportYourLocals.csproj">
-      <Project>{E3D3678F-8FE9-488F-89BD-3E304EAEB799}</Project>
-      <Name>MSupportYourLocals</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>
