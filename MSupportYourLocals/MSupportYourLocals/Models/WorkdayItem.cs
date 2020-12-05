@@ -2,7 +2,7 @@
 
 namespace MSupportYourLocals.Models
 {
-    class WorkdayItem
+    public class WorkdayItem
     {
         public DateTime From { get; set; }
         public DateTime To { get; set; }

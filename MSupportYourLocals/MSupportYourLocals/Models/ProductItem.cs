@@ -1,6 +1,6 @@
 ﻿namespace MSupportYourLocals.Models
 {
-    class ProductItem
+    public class ProductItem
     {
         public string Name { get; set; }
         public decimal PricePerUnit { get; set; }
