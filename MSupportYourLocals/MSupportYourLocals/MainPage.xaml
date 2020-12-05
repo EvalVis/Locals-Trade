@@ -3,7 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MSupportYourLocals.MainPage">
 
-    <StackLayout>
+    <StackLayout Padding="20" Spacing="50" VerticalOptions="Center">
+        <Label Text="Please login" FontAttributes="Bold" FontSize="Large" HorizontalOptions="Center"/>
+        <Entry Placeholder="Email" />
+        <Entry Placeholder="Password" IsPassword="True" />
+        <Button Text="Sign in" BackgroundColor="YellowGreen" TextColor="White" FontAttributes="Bold"></Button>
+        <Button Text="Sign up" BackgroundColor="Goldenrod" TextColor="White" FontAttributes="Bold"></Button>
+        <Button Text="Skip" BackgroundColor="MediumTurquoise" TextColor="White"></Button>
     </StackLayout>
 
 </ContentPage>
