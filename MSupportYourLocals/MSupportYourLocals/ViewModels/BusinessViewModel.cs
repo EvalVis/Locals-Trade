@@ -33,14 +33,7 @@ namespace MSupportYourLocals.ViewModels
 
         public async Task GetBusinesses()
         {
-            System.Diagnostics.Debug.WriteLine("Testavimas 1");
             ObservableCollection<Business> businesses = await businessService.GetBusinesses();
-            System.Diagnostics.Debug.WriteLine("Testavimas 2");
-            System.Diagnostics.Debug.WriteLine(businesses.Count);
-            foreach (var b in businesses)
-            {
-                System.Diagnostics.Debug.WriteLine(b.Header);
-            }
         }
 
     }

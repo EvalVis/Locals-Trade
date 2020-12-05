@@ -22,15 +22,11 @@ namespace MSupportYourLocals.Services
             #endif
             httpClient.BaseAddress = new Uri("https://10.0.2.2:44311/"); 
             httpClient.DefaultRequestHeaders.Accept.Clear(); 
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")); 
-            System.Diagnostics.Debug.WriteLine("Testavimas 3"); 
-            HttpResponseMessage response = await httpClient.GetAsync("/api/Business/All"); 
-            System.Diagnostics.Debug.WriteLine("Testavimas 4"); 
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = await httpClient.GetAsync("/api/Business/All");
             if (response.StatusCode == HttpStatusCode.OK) 
-            { 
-                System.Diagnostics.Debug.WriteLine("Testavimas 5");
+            {
                 var result = await response.Content.ReadAsStringAsync();
-                System.Diagnostics.Debug.WriteLine("Testavimas 6");
                 ObservableCollection<Business> businesses = JsonConvert.DeserializeObject<ObservableCollection<Business>>(result);
                 return businesses;
             } 
