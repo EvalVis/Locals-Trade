@@ -1,6 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using MSupportYourLocals.Models;
 using Newtonsoft.Json;
@@ -12,16 +14,25 @@ namespace MSupportYourLocals.Services
 
         public async Task<ObservableCollection<Business>> GetBusinesses()
         {
-            string url = "http://localhost:65329/api/Business/All";
-            HttpClient httpClient = new HttpClient();
-            HttpResponseMessage response = await httpClient.GetAsync(url);
-            if (response.StatusCode == HttpStatusCode.OK)
+            using (HttpClient httpClient = new HttpClient())
             {
-                var result = await response.Content.ReadAsStringAsync();
-                ObservableCollection<Business> businesses = JsonConvert.DeserializeObject<ObservableCollection<Business>>(result);
-                return businesses;
+                httpClient.BaseAddress = new Uri("https://10.0.2.2:44311");
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                System.Diagnostics.Debug.WriteLine("Testavimas 3");
+                HttpResponseMessage response = await httpClient.GetAsync("/api/Business/All");
+                System.Diagnostics.Debug.WriteLine("Testavimas 4");
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    System.Diagnostics.Debug.WriteLine("Testavimas 5");
+                    var result = await response.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine("Testavimas 6");
+                    ObservableCollection<Business> businesses =
+                        JsonConvert.DeserializeObject<ObservableCollection<Business>>(result);
+                    return businesses;
+                }
+                return null;
             }
-            return null;
         }
 
     }

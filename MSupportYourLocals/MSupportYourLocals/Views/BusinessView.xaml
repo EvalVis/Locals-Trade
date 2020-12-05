@@ -7,19 +7,6 @@
         <viewmodel:BusinessViewModel></viewmodel:BusinessViewModel>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <ScrollView>
-            <Grid>
-                <CollectionView ItemsSource="{Binding Business}" SelectionMode="None">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <StackLayout HorizontalOptions="FillAndExpand">
-                                <Label Text="Check" FontSize="Large" TextColor="Black"></Label>
-                                <!--<Label Text="{Binding Header}" FontSize="Large" TextColor="Black"></Label>-->
-                            </StackLayout>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </Grid>
-        </ScrollView>
+        <Label Text="Check" FontSize="Large" TextColor="Black"></Label>
     </ContentPage.Content>
 </ContentPage>

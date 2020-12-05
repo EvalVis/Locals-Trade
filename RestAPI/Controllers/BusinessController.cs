@@ -33,6 +33,7 @@ namespace RestAPI.Controllers
         [HttpGet("All")]
         public ActionResult<IEnumerable<Business>> GetBusinesses()
         {
+            System.Diagnostics.Debug.WriteLine("Pavyko.");
             IEnumerable<Business> businesses = repository.Business.
                 Include(b => b.User).
                 Include(b => b.Products).

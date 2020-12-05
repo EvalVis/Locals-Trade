@@ -62,7 +62,8 @@ namespace RestAPI {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseHsts();
+            app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
