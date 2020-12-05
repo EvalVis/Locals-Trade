@@ -9,7 +9,7 @@
         <Entry Placeholder="Password" IsPassword="True" />
         <Button Text="Sign in" BackgroundColor="YellowGreen" TextColor="White" FontAttributes="Bold"></Button>
         <Button Text="Sign up" BackgroundColor="Goldenrod" TextColor="White" FontAttributes="Bold"></Button>
-        <Button Text="Skip" BackgroundColor="MediumTurquoise" TextColor="White"></Button>
+        <Button Text="Skip" BackgroundColor="MediumTurquoise" TextColor="White" Clicked="Skipped"></Button>
     </StackLayout>
 
 </ContentPage>

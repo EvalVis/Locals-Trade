@@ -13,7 +13,8 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <StackLayout HorizontalOptions="FillAndExpand">
-                                <Label Text="{Binding Header}" FontSize="Large" TextColor="Black"></Label>
+                                <Label Text="Check" FontSize="Large" TextColor="Black"></Label>
+                                <!--<Label Text="{Binding Header}" FontSize="Large" TextColor="Black"></Label>-->
                             </StackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

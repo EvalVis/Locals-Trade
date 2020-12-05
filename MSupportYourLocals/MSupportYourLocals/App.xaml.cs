@@ -1,13 +1,12 @@
-﻿using System;
+﻿using MSupportYourLocals.Services;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace MSupportYourLocals {
     public partial class App : Application {
         public App() {
             InitializeComponent();
-
-            MainPage = new MainPage();
+            DependencyService.Register<IBusinessService, BusinessService>();
+            MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnStart() {

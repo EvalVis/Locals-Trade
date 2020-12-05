@@ -1,11 +1,18 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using MSupportYourLocals.Models;
+using MSupportYourLocals.Services;
+using Xamarin.Forms;
 
 namespace MSupportYourLocals.ViewModels
 {
     public class BusinessViewModel : INotifyPropertyChanged
     {
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private IBusinessService businessService = DependencyService.Get<IBusinessService>();
 
         private ObservableCollection<Business> business;
 
@@ -21,9 +28,17 @@ namespace MSupportYourLocals.ViewModels
 
         public BusinessViewModel()
         {
-            
+            GetBusinesses();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public async Task GetBusinesses()
+        {
+            ObservableCollection<Business> businesses = await businessService.GetBusinesses();
+            foreach (var b in businesses)
+            {
+                System.Diagnostics.Debug.WriteLine(b.Header);
+            }
+        }
+
     }
 }
