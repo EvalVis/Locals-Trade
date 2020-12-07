@@ -32,7 +32,7 @@ namespace RestAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [HttpPatch("email/{email}")]
+        [HttpPatch("email/{password}/{newEmail}")]
         public async Task<IActionResult> PatchEmail(string password, string newEmail)
         {
             JsonPatchDocument<User> document = new JsonPatchDocument<User>();
@@ -50,12 +50,13 @@ namespace RestAPI.Controllers
             return NotFound();
         }
 
-        [HttpPatch("password/{email}")]
+        [HttpPatch("password/{currentPassword}/{newPassword}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> PatchPassword(string currentPassword, string newPassword)
         {
+            System.Diagnostics.Debug.WriteLine("tikrinu " + HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value + " claimedId: " + claimedId);
             string hashed = new HashCalculator().PassHash(newPassword);
             JsonPatchDocument<User> document = new JsonPatchDocument<User>();
             document.Replace(u => u.Passhash, hashed);
