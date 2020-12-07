@@ -80,7 +80,7 @@ namespace RestAPI.Controllers
         public async Task<IActionResult> SignUp(UserBindingTarget target)
         {
             if (target == null) return BadRequest();
-            if (!repository.Users.Any(u => u.Email == target.Email))
+            if (!repository.Users.Any(u => u.Email == target.Email)) // TODO: LOCK because clicking rapidly (on client side) could result in creation of multiple equal emails.
             {
                 await repository.SaveUserAsync(target.ToUser());
                 return Ok();
