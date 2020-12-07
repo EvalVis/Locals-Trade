@@ -14,7 +14,14 @@
                         <DataTemplate>
                             <StackLayout HorizontalOptions="FillAndExpand" Margin="0" Padding="0">
                                 <Label Text="{Binding Header}" FontSize="Large" TextColor="Black"></Label>
-                                <Label Text="{Binding User.FullName}" FontSize="Large" TextColor="Black"></Label>
+                                <Label Text="{Binding User.FullName}" FontSize="Large" TextColor="DarkMagenta"></Label>
+                                <CollectionView ItemsSource="{Binding Products}" SelectionMode="None">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Label Text="{Binding Name}" FontSize="Medium" FontAttributes="Italic" TextColor="Blue"></Label>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
                             </StackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

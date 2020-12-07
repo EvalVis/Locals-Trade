@@ -1,4 +1,6 @@
-﻿namespace MSupportYourLocals.Models
+﻿using System.Collections.ObjectModel;
+
+namespace MSupportYourLocals.Models
 {
     public class Business
     {
@@ -9,5 +11,6 @@
         public string Latitude { get; set; }
         public string PhoneNumber { get; set; }
         public string Header { get; set; }
+        public ObservableCollection<Product> Products { get; set; } = new ObservableCollection<Product>();
     }
 }
