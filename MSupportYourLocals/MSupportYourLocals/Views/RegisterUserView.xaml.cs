@@ -19,7 +19,7 @@ namespace MSupportYourLocals.Views
 
         public async void SignUp(Object sender, EventArgs e)
         {
-            User user = new User
+            UserBindingTarget target = new UserBindingTarget()
             {
                 Name = NameEntry.Text,
                 Surname = SurnameEntry.Text,
@@ -27,7 +27,7 @@ namespace MSupportYourLocals.Views
                 Email = EmailEntry.Text,
                 Password = PasswordEntry.Text
             };
-            await registerUserService.Register(user);
+            await registerUserService.Register(target);
             // await Navigation.PushAsync(new RegisterUserView());
         }
     }

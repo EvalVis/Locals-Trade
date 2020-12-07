@@ -5,6 +5,6 @@ namespace MSupportYourLocals.Services
 {
     public interface IRegisterUserService
     {
-        Task Register(User user);
+        Task Register(UserBindingTarget target);
     }
 }

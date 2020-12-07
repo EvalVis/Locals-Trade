@@ -7,10 +7,10 @@ namespace MSupportYourLocals.Services
     public class RegisterUserService : Service, IRegisterUserService
     {
 
-        public async Task Register(User user)
+        public async Task Register(UserBindingTarget target)
         {
             HttpClient httpClient = MakeHttpClient();
-            HttpResponseMessage response = await httpClient.PostAsJsonAsync("/api/User/SignUp", user);
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync("/api/User/SignUp", target);
         }
 
     }

@@ -12,7 +12,7 @@
         <DatePicker x:Name="BirthDate"></DatePicker>
         <Entry x:Name="EmailEntry" Placeholder="Email" />
         <Entry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" />
-        <Button Text="Sign up" BackgroundColor="Goldenrod" TextColor="White" FontAttributes="Bold"></Button>
+        <Button Text="Sign up" BackgroundColor="Goldenrod" TextColor="White" FontAttributes="Bold" Clicked="SignUp"></Button>
     </StackLayout>
     </ScrollView>
 </ContentPage>
