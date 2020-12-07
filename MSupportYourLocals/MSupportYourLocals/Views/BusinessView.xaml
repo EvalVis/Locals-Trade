@@ -8,6 +8,20 @@
                 <StackLayout HorizontalOptions="FillAndExpand" Margin="0" Padding="0">
                     <Label Text="{Binding Path=Business.Header}" FontSize="Large" TextColor="Black"></Label>
                     <Label Text="{Binding Business.User.FullName}" FontSize="Large" TextColor="Brown"></Label>
+                    <Label Text="{Binding Business.Description}" FontSize="Medium" TextColor="ForestGreen"></Label>
+                    <Label Text="{Binding Business.PhoneNumber}" FontSize="Medium" TextColor="Crimson"></Label>
+                    <CollectionView ItemsSource="{Binding Business.Products}" SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout HorizontalOptions="FillAndExpand" Margin="0" Padding="0">
+                                    <Label Text="{Binding Name}" FontSize="Small" TextColor="MediumTurquoise"></Label>
+                                    <Label Text="{Binding PricePerUnit}" FontSize="Small" TextColor="MediumSpringGreen"></Label>
+                                    <Label Text="{Binding Unit}" FontSize="Small" TextColor="Gold"></Label>
+                                    <Label Text="{Binding Comment}" FontSize="Small" TextColor="Blue"></Label>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </StackLayout>
             </Grid>
         </ScrollView>
