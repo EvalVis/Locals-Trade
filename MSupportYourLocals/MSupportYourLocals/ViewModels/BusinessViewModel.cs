@@ -7,9 +7,9 @@ namespace MSupportYourLocals.ViewModels
 
         public Business Business { get; set; }
 
-        public BusinessViewModel()
+        public BusinessViewModel(Business business)
         {
-            
+            Business = business;
         }
 
     }

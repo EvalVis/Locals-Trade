@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using MSupportYourLocals.Models;
+using MSupportYourLocals.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,13 +16,13 @@ namespace MSupportYourLocals.Views
         }
 
 
-        public void BusinessSelected(object sender, SelectionChangedEventArgs e)
+        public async void BusinessSelected(object sender, SelectionChangedEventArgs e)
         {
             Object chosen = e.CurrentSelection.FirstOrDefault();
             if (chosen is Business)
             {
                 Business business = chosen as Business;
-                System.Diagnostics.Debug.WriteLine(business.User.Name);
+                await Navigation.PushAsync(new BusinessView(new BusinessViewModel(business)));
             }
         }
 
