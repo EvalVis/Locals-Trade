@@ -1,12 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewmodel="clr-namespace:MSupportYourLocals.ViewModels;assembly=MSupportYourLocals"
+             xmlns:viewModels="clr-namespace:MSupportYourLocals.ViewModels;assembly=MSupportYourLocals"
              x:Class="MSupportYourLocals.Views.BusinessView">
     <ContentPage.BindingContext>
-        <viewmodel:BusinessViewModel></viewmodel:BusinessViewModel>
+        <viewModels:BusinessViewModel></viewModels:BusinessViewModel>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <Label Text="Check" FontSize="Large" TextColor="Black"></Label>
+        <ScrollView>
+            <Grid>
+                <CollectionView ItemsSource="{Binding Business}" SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout HorizontalOptions="FillAndExpand" Margin="0" Padding="0">
+                                <Label Text="{Binding Header}" FontSize="Large" TextColor="Black"></Label>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

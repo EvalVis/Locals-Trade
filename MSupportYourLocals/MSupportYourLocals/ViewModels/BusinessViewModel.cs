@@ -33,7 +33,7 @@ namespace MSupportYourLocals.ViewModels
 
         public async Task GetBusinesses()
         {
-            ObservableCollection<Business> businesses = await businessService.GetBusinesses();
+            business = await businessService.GetBusinesses();
         }
 
     }
