@@ -12,5 +12,6 @@ namespace MSupportYourLocals.Models
         public string PhoneNumber { get; set; }
         public string Header { get; set; }
         public ObservableCollection<Product> Products { get; set; } = new ObservableCollection<Product>();
+        public ObservableCollection<Workday> Workdays { get; set; } = new ObservableCollection<Workday>();
     }
 }

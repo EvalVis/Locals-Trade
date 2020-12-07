@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MSupportYourLocals.Infrastructure;assembly=MSupportYourLocals"
              x:Class="MSupportYourLocals.Views.BusinessView">
     <ContentPage.Content>
         <ScrollView>
@@ -10,6 +11,17 @@
                     <Label Text="{Binding Business.User.FullName}" FontSize="Large" TextColor="Brown"></Label>
                     <Label Text="{Binding Business.Description}" FontSize="Medium" TextColor="ForestGreen"></Label>
                     <Label Text="{Binding Business.PhoneNumber}" FontSize="Medium" TextColor="Crimson"></Label>
+                    <CollectionView ItemsSource="{Binding Business.Workdays}" SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout HorizontalOptions="FillAndExpand" Margin="0" Padding="0">
+                                    <Label Text="{Binding Weekday}" FontSize="Small" TextColor="IndianRed"></Label>
+                                    <Label Text="{Binding From}" FontSize="Small" TextColor="Gainsboro"></Label>
+                                    <Label Text="{Binding To}" FontSize="Small" TextColor="Gainsboro"></Label>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                     <CollectionView ItemsSource="{Binding Business.Products}" SelectionMode="None">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using MSupportYourLocals.Infrastructure;
 using MSupportYourLocals.Models;
 using Newtonsoft.Json;
 
@@ -28,6 +30,7 @@ namespace MSupportYourLocals.Services
             {
                 var result = await response.Content.ReadAsStringAsync();
                 ObservableCollection<Business> businesses = JsonConvert.DeserializeObject<ObservableCollection<Business>>(result);
+                businesses = SortByWeekday.Sort(businesses);
                 return businesses;
             } 
             return null;
