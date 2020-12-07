@@ -14,6 +14,7 @@
                         <DataTemplate>
                             <StackLayout HorizontalOptions="FillAndExpand" Margin="0" Padding="0">
                                 <Label Text="{Binding Header}" FontSize="Large" TextColor="Black"></Label>
+                                <Label Text="{Binding User.FullName}" FontSize="Large" TextColor="Black"></Label>
                             </StackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
