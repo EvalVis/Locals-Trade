@@ -18,6 +18,11 @@ namespace MSupportYourLocals {
             //await Navigation.PushAsync(new BusinessesView());
         }
 
+        public async void SignUp(Object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new RegisterUserView());
+        }
+
         public async void Skipped(Object sender, EventArgs e)
         {
             await Navigation.PushAsync(new BusinessesView());
