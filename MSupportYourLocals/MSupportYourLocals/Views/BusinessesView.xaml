@@ -15,6 +15,7 @@
                             <StackLayout HorizontalOptions="FillAndExpand" Margin="0" Padding="0">
                                 <Label Text="{Binding Header}" FontSize="Large" TextColor="Black"></Label>
                                 <Label Text="{Binding User.FullName}" FontSize="Large" TextColor="DarkMagenta"></Label>
+                                <Button Text="Go to" BackgroundColor="MediumTurquoise" TextColor="White" Clicked="Button_OnClicked"></Button>
                             </StackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

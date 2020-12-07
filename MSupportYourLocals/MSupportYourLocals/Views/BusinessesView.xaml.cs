@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace MSupportYourLocals.Views
@@ -9,6 +10,11 @@ namespace MSupportYourLocals.Views
         public BusinessesView()
         {
             InitializeComponent();
+        }
+
+        private void Button_OnClicked(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine(sender.GetType());
         }
     }
 }

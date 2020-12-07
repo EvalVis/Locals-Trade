@@ -3,6 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MSupportYourLocals.Views.BusinessView">
     <ContentPage.Content>
-
+        <Label>Check</Label>
     </ContentPage.Content>
 </ContentPage>
