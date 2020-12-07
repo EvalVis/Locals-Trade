@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace MSupportYourLocals.ViewModels
 {
-    public class BusinessViewModel : INotifyPropertyChanged
+    public class BusinessesViewModel : INotifyPropertyChanged
     {
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -26,7 +26,7 @@ namespace MSupportYourLocals.ViewModels
             }
         }
 
-        public BusinessViewModel()
+        public BusinessesViewModel()
         {
             Task.Run(async () => await GetBusinesses()).Wait();
         }
