@@ -9,13 +9,12 @@
     <ContentPage.Content>
         <ScrollView>
             <Grid>
-                <CollectionView ItemsSource="{Binding Business}" SelectionMode="None">
+                <CollectionView ItemsSource="{Binding Businesses}" SelectionMode="Single" SelectionChanged="BusinessSelected">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <StackLayout HorizontalOptions="FillAndExpand" Margin="0" Padding="0">
                                 <Label Text="{Binding Header}" FontSize="Large" TextColor="Black"></Label>
                                 <Label Text="{Binding User.FullName}" FontSize="Large" TextColor="DarkMagenta"></Label>
-                                <Button Text="Go to" BackgroundColor="MediumTurquoise" TextColor="White" Clicked="Button_OnClicked"></Button>
                             </StackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

@@ -14,14 +14,14 @@ namespace MSupportYourLocals.ViewModels
 
         private IBusinessService businessService = DependencyService.Get<IBusinessService>();
 
-        private ObservableCollection<Business> business;
+        private ObservableCollection<Business> businesses;
 
-        public ObservableCollection<Business> Business
+        public ObservableCollection<Business> Businesses
         {
-            get { return business; }
+            get { return businesses; }
             set
             {
-                business = value;
+                businesses = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Business"));
             }
         }
@@ -33,7 +33,7 @@ namespace MSupportYourLocals.ViewModels
 
         public async Task GetBusinesses()
         {
-            business = await businessService.GetBusinesses();
+            businesses = await businessService.GetBusinesses();
         }
 
     }

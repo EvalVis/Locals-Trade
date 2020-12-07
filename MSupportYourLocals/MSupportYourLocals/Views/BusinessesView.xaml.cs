@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using MSupportYourLocals.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,9 +14,16 @@ namespace MSupportYourLocals.Views
             InitializeComponent();
         }
 
-        private void Button_OnClicked(object sender, EventArgs e)
+
+        public void BusinessSelected(object sender, SelectionChangedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine(sender.GetType());
+            Object chosen = e.CurrentSelection.FirstOrDefault();
+            if (chosen is Business)
+            {
+                Business business = chosen as Business;
+                System.Diagnostics.Debug.WriteLine(business.User.Name);
+            }
         }
+
     }
 }
