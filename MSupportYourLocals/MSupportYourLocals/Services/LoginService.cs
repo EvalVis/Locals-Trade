@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -10,10 +11,13 @@ namespace MSupportYourLocals.Services
         public async Task Login(string email, string password)
         {
             HttpClient httpClient = MakeHttpClient();
-            HttpResponseMessage response = await httpClient.PostAsync("/api/User/SignIn", null);
+            var login = new {Email = email, Password = password};
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync("/api/User/SignIn", login);
             if (response.StatusCode == HttpStatusCode.OK)
             {
+                System.Diagnostics.Debug.WriteLine(await response.Content.ReadAsStringAsync());
             }
+        }
 
     }
 }

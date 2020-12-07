@@ -1,9 +1,13 @@
 ﻿using System;
+using MSupportYourLocals.Services;
 using MSupportYourLocals.Views;
 using Xamarin.Forms;
 
 namespace MSupportYourLocals {
     public partial class MainPage : ContentPage {
+
+        private ILoginService loginService = DependencyService.Get<ILoginService>();
+
         public MainPage() {
             InitializeComponent();
         }

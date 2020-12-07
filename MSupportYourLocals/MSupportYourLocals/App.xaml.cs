@@ -5,6 +5,7 @@ namespace MSupportYourLocals {
     public partial class App : Application {
         public App() {
             InitializeComponent();
+            DependencyService.Register<ILoginService, LoginService>();
             DependencyService.Register<IBusinessService, BusinessService>();
             MainPage = new NavigationPage(new MainPage());
         }

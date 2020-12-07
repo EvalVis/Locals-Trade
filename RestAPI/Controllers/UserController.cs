@@ -73,11 +73,13 @@ namespace RestAPI.Controllers
         }
 
         [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [HttpPost("SignUp")]
         public async Task<IActionResult> SignUp(UserBindingTarget target)
         {
+            if (target == null) return BadRequest();
             if (!repository.Users.Any(u => u.Email == target.Email))
             {
                 await repository.SaveUserAsync(target.ToUser());
@@ -92,13 +94,13 @@ namespace RestAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPost("SignIn")]
-        public async Task<IActionResult> SignIn(string email, string password)
+        public async Task<IActionResult> SignIn(Login login)
         {
-            if (email == null || password == null) return BadRequest();
-            User user = await repository.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (login.Email == null || login.Password == null) return BadRequest();
+            User user = await repository.Users.FirstOrDefaultAsync(u => u.Email == login.Email);
             if (user != null)
             { 
-                bool match = new HashCalculator().IsGoodPass(user.Passhash, password); 
+                bool match = new HashCalculator().IsGoodPass(user.Passhash, login.Password); 
                 if (match) 
                 { 
                     var token = jsonWebToken.Authenticate(user.UserID);
