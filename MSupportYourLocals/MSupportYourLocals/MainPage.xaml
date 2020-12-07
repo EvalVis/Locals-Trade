@@ -5,9 +5,9 @@
 
     <StackLayout Padding="20" Spacing="50" VerticalOptions="Center">
         <Label Text="Please login" FontAttributes="Bold" FontSize="Large" HorizontalOptions="Center"/>
-        <Entry Placeholder="Email" />
-        <Entry Placeholder="Password" IsPassword="True" />
-        <Button Text="Sign in" BackgroundColor="YellowGreen" TextColor="White" FontAttributes="Bold"></Button>
+        <Entry x:Name="EmailEntry" Placeholder="Email" />
+        <Entry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" />
+        <Button Text="Sign in" BackgroundColor="YellowGreen" TextColor="White" FontAttributes="Bold" Clicked="Login"></Button>
         <Button Text="Sign up" BackgroundColor="Goldenrod" TextColor="White" FontAttributes="Bold"></Button>
         <Button Text="Skip" BackgroundColor="MediumTurquoise" TextColor="White" Clicked="Skipped"></Button>
     </StackLayout>
