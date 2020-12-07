@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace MSupportYourLocals.Services
 {
     public class LoginService : Service, ILoginService
     {
+
+        private JsonWebTokenHolder tokenService = DependencyService.Get<JsonWebTokenHolder>();
 
         public async Task Login(string email, string password)
         {
@@ -15,7 +17,7 @@ namespace MSupportYourLocals.Services
             HttpResponseMessage response = await httpClient.PostAsJsonAsync("/api/User/SignIn", login);
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                System.Diagnostics.Debug.WriteLine(await response.Content.ReadAsStringAsync());
+                tokenService.Token = await response.Content.ReadAsStringAsync();
             }
         }
 
