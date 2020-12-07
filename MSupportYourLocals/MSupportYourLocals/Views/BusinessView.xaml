@@ -3,6 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MSupportYourLocals.Views.BusinessView">
     <ContentPage.Content>
-        <Label>Check</Label>
+        <ScrollView>
+            <Grid>
+                <StackLayout HorizontalOptions="FillAndExpand" Margin="0" Padding="0">
+                    <Label Text="{Binding Path=Business.Header}" FontSize="Large" TextColor="Black"></Label>
+                    <Label Text="{Binding Business.User.FullName}" FontSize="Large" TextColor="Brown"></Label>
+                </StackLayout>
+            </Grid>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
