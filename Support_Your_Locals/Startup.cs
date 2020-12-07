@@ -52,6 +52,15 @@ namespace Support_Your_Locals
                 {
                     options.LoginPath = "/Auth/SignIn";
                 });
+            services.AddAuthentication()
+            .AddGoogle(options =>
+            {
+                IConfigurationSection googleAuthNSection =
+                    Configuration.GetSection("Authentication:Google");
+
+                options.ClientId = googleAuthNSection["ClientId"];
+                options.ClientSecret = googleAuthNSection["ClientSecret"];
+            });
 
         }
 
