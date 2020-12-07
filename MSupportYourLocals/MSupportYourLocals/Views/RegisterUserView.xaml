@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MSupportYourLocals.Views.RegisterUserView">
 
+    <ScrollView>
     <StackLayout Padding="20" Spacing="50" VerticalOptions="Center">
         <Label Text="Sign up" FontAttributes="Bold" FontSize="Large" HorizontalOptions="Center"/>
         <Entry x:Name="NameEntry" Placeholder="Name" />
@@ -13,4 +14,5 @@
         <Entry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" />
         <Button Text="Sign up" BackgroundColor="Goldenrod" TextColor="White" FontAttributes="Bold"></Button>
     </StackLayout>
+    </ScrollView>
 </ContentPage>
