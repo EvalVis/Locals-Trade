@@ -24,7 +24,7 @@ namespace RestAPI.Controllers
 
         public UserController(IServiceRepository repo, JsonWebToken token, IHttpContextAccessor accessor)
         {
-            claimedId = long.Parse(accessor.HttpContext.User.Claims.FirstOrDefault(type => type.Value == ClaimTypes.NameIdentifier)?.Value ?? "0");
+            claimedId = long.Parse(accessor.HttpContext.User.Claims.FirstOrDefault(type => type.Type == ClaimTypes.NameIdentifier)?.Value ?? "0");
             repository = repo;
             jsonWebToken = token;
         }
@@ -32,7 +32,7 @@ namespace RestAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [HttpPatch("email/{password}/{newEmail}")]
+        [HttpPatch("email")]
         public async Task<IActionResult> PatchEmail(string password, string newEmail)
         {
             JsonPatchDocument<User> document = new JsonPatchDocument<User>();
@@ -50,13 +50,12 @@ namespace RestAPI.Controllers
             return NotFound();
         }
 
-        [HttpPatch("password/{currentPassword}/{newPassword}")]
+        [HttpPatch("password")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> PatchPassword(string currentPassword, string newPassword)
         {
-            System.Diagnostics.Debug.WriteLine("tikrinu " + HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value + " claimedId: " + claimedId);
             string hashed = new HashCalculator().PassHash(newPassword);
             JsonPatchDocument<User> document = new JsonPatchDocument<User>();
             document.Replace(u => u.Passhash, hashed);

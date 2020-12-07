@@ -26,7 +26,7 @@ namespace RestAPI.Controllers
 
         public FeedbackController(IServiceRepository repo, IHttpContextAccessor accessor, IConfiguration config)
         {
-            claimedId = long.Parse(accessor.HttpContext.User.Claims.FirstOrDefault(type => type.Value == ClaimTypes.NameIdentifier)?.Value ?? "0");
+            claimedId = long.Parse(accessor.HttpContext.User.Claims.FirstOrDefault(type => type.Type == ClaimTypes.NameIdentifier)?.Value ?? "0");
             repository = repo;
             configuration = config;
         }

@@ -23,7 +23,7 @@ namespace RestAPI.Controllers
 
         public BusinessController(IServiceRepository repo, IHttpContextAccessor accessor)
         {
-            claimedId = long.Parse(accessor.HttpContext.User.Claims.FirstOrDefault(type => type.Value == ClaimTypes.NameIdentifier)?.Value ?? "0");
+            claimedId = long.Parse(accessor.HttpContext.User.Claims.FirstOrDefault(type => type.Type == ClaimTypes.NameIdentifier)?.Value ?? "0");
             repository = repo;
         }
 
