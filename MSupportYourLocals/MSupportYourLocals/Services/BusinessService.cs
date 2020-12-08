@@ -13,7 +13,6 @@ namespace MSupportYourLocals.Services
 
         public async Task<ObservableCollection<Business>> GetBusinesses()
         {
-            HttpClient httpClient = MakeHttpClient();
             HttpResponseMessage response = await httpClient.GetAsync("/api/Business/All");
             if (response.StatusCode == HttpStatusCode.OK) 
             {

@@ -14,7 +14,6 @@ namespace MSupportYourLocals.Services
 
         public async Task<ObservableCollection<Business>> GetBusinesses()
         {
-            HttpClient httpClient = MakeHttpClient();
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.Token);
             HttpResponseMessage response = await httpClient.GetAsync("/api/Business/User");
             if (response.StatusCode == HttpStatusCode.OK)

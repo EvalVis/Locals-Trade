@@ -9,7 +9,6 @@ namespace MSupportYourLocals.Services
 
         public async Task Register(UserBindingTarget target)
         {
-            HttpClient httpClient = MakeHttpClient();
             HttpResponseMessage response = await httpClient.PostAsJsonAsync("/api/User/SignUp", target);
         }
 

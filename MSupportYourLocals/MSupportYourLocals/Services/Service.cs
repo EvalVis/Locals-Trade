@@ -8,7 +8,14 @@ namespace MSupportYourLocals.Services
     public abstract class Service
     {
 
+        protected HttpClient httpClient;
+
         protected JsonWebTokenHolder tokenService = DependencyService.Get<JsonWebTokenHolder>();
+
+        protected Service()
+        {
+            httpClient = MakeHttpClient();
+        }
 
         private HttpClientHandler GetInsecureHandler()
         {

@@ -13,7 +13,6 @@ namespace MSupportYourLocals.Services
 
         public async Task<ObservableCollection<Feedback>> GetFeedbacks(long businessId)
         {
-            HttpClient httpClient = MakeHttpClient();
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.Token);
             HttpResponseMessage response = await httpClient.GetAsync($"/api/Feedback/{businessId}");
             if (response.StatusCode == HttpStatusCode.OK)
