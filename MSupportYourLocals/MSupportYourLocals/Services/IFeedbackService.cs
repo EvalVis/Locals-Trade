@@ -6,6 +6,6 @@ namespace MSupportYourLocals.Services
 {
     public interface IFeedbackService
     {
-        Task<ObservableCollection<Feedback>> GetFeedbacks();
+        Task<ObservableCollection<Feedback>> GetFeedbacks(long businessId);
     }
 }
