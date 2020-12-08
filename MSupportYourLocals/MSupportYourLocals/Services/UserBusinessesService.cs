@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace MSupportYourLocals.Services
 {
-    public class UserBusinessesService : Service, IBusinessService
+    public class UserBusinessesService : Service, IUserBusinessService
     {
 
         public async Task<ObservableCollection<Business>> GetBusinesses()
@@ -24,6 +24,16 @@ namespace MSupportYourLocals.Services
                 businesses = SortByWeekday.Sort(businesses);
                 return businesses;
             }
+            return null;
+        }
+
+        public Task DeleteBusiness(long businessId)
+        {
+            return null;
+        }
+
+        public Task<Business> CreateBusiness()
+        {
             return null;
         }
 
