@@ -60,6 +60,23 @@ namespace RestAPI.Controllers
 ;            return Ok(filteredBusinesses);
         }
 
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpPost("User")]
+        public ActionResult<IEnumerable<Business>> GetUserBusinesses()
+        {
+            IEnumerable<Business> businesses = repository.Business.
+                Include(b => b.User).
+                Include(b => b.Products).
+                Include(b => b.Workdays).Where(b => b.BusinessID == claimedId);
+            if (!businesses.Any()) return NoContent();
+            foreach (var b in businesses)
+            {
+                b.EliminateDepth();
+            }
+            return Ok(businesses);
+        }
+
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]

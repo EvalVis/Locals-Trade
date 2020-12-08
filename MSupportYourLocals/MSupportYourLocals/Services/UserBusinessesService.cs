@@ -11,7 +11,7 @@ namespace MSupportYourLocals.Services
         public Task<ObservableCollection<Business>> GetBusinesses()
         {
             HttpClient httpClient = MakeHttpClient();
-            //HttpResponseMessage response = await httpClient.GetAsync()
+            HttpResponseMessage response = await httpClient.GetAsync()
         }
 
     }
