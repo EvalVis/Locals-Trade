@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using MSupportYourLocals.ViewModels;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace MSupportYourLocals.Views
@@ -6,9 +7,10 @@ namespace MSupportYourLocals.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FeedbackView : ContentPage
     {
-        public FeedbackView()
+        public FeedbackView(FeedbackViewModel feedbackViewModel)
         {
             InitializeComponent();
+            BindingContext = feedbackViewModel;
         }
     }
 }
