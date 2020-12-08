@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 using MSupportYourLocals.Infrastructure;
 using MSupportYourLocals.Models;
 using Newtonsoft.Json;
-using Xamarin.Forms;
 
 namespace MSupportYourLocals.Services
 {
     public class UserBusinessesService : Service, IBusinessService
     {
-
-        private JsonWebTokenHolder tokenService = DependencyService.Get<JsonWebTokenHolder>();
 
         public async Task<ObservableCollection<Business>> GetBusinesses()
         {

@@ -1,14 +1,11 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace MSupportYourLocals.Services
 {
     public class LoginService : Service, ILoginService
     {
-
-        private JsonWebTokenHolder tokenService = DependencyService.Get<JsonWebTokenHolder>();
 
         public async Task Login(string email, string password)
         {

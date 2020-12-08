@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using Xamarin.Forms;
 
 namespace MSupportYourLocals.Services
 {
     public abstract class Service
     {
+
+        protected JsonWebTokenHolder tokenService = DependencyService.Get<JsonWebTokenHolder>();
 
         private HttpClientHandler GetInsecureHandler()
         {
