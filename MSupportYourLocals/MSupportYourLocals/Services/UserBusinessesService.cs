@@ -31,9 +31,10 @@ namespace MSupportYourLocals.Services
             return null;
         }
 
-        public Task<Business> CreateBusiness()
+        public async Task CreateBusiness(Business business)
         {
-            return null;
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.Token);
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync("/api/Business/User", business);
         }
 
     }

@@ -8,6 +8,6 @@ namespace MSupportYourLocals.Services
     {
         Task<ObservableCollection<Business>> GetBusinesses();
         Task DeleteBusiness(long businessId);
-        Task<Business> CreateBusiness();
+        Task CreateBusiness(Business business);
     }
 }
