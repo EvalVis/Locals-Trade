@@ -51,5 +51,11 @@ namespace Support_Your_Locals.Models.Repositories
             context.SaveChanges();
         }
 
+        public void DeleteUser(User user)
+        {
+            context.Remove(user);
+            context.SaveChanges();
+        }
+
     }
 }
