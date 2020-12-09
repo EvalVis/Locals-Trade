@@ -4,7 +4,7 @@ namespace MSupportYourLocals.Models
 {
     public class Business
     {
-        public long Id { get; set; }
+        public long BusinessId { get; set; }
         public User User { get; set; }
         public string Description { get; set; }
         public string Longitude { get; set; }

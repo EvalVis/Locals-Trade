@@ -105,11 +105,13 @@ namespace MSupportYourLocals.Views
                     await EditBusiness(password);
                 }
             }
+            Controls.IsVisible = false;
+            Verification.IsVisible = false;
         }
 
         private async Task DeleteBusiness(string password)
         {
-            await businessService.DeleteBusiness(password, chosenBusiness.Id);
+            await businessService.DeleteBusiness(password, chosenBusiness.BusinessId);
         }
 
         private async Task EditBusiness(string password)
