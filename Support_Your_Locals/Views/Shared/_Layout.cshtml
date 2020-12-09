@@ -52,6 +52,7 @@
 <body>
     <div class="bg-dark text-white p-2">
         <a class="nicetitle" style="font-size: 20px; color: #bbe1fa" href="../">Local Support</a>
+        
         @if (!User.Identity.IsAuthenticated)
         {
             <a asp-controller="Auth" asp-action="SignIn" class="navbar-brand ml-2">Sign In</a>
@@ -59,10 +60,9 @@
         }
         else
         {
-    <div style="float:right;text-align:right;margin-left: 80px;">
 
         <div class="dropdown">
-            <span class="navbar-brand ml-2">Welcome @User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value! <i class='fas fa-angle-down'></i></span>
+            <a class="navbar-brand ml-2">Welcome @User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value! <i class='fas fa-angle-down'></i></a>
             <div class="dropdown-content" style="float: left; text-align: center;">
                 <a href="../user/businesses">Your businesses</a>
                 <a href="../user/usersettings">User settings</a>
@@ -71,10 +71,9 @@
                 </form>
             </div>
         </div>
-    </div>
 
         }
-        <a asp-controller="Business" asp-action="AddAdvertisement" class="navbar-brand ml-2 navbuttons">Add advertisement</a>
+    <a asp-controller="Business" asp-action="AddAdvertisement" class="navbar-brand ml-2 navbuttons">Add advertisement</a>
 
     </div>
     <div class="row m-1 p-1">
