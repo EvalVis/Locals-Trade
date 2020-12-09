@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace MSupportYourLocals.ViewModels
 {
-    class UserBusinessViewModel
+    public class UserBusinessViewModel
     {
 
         private IBusinessService businessService = DependencyService.Get<IBusinessService>();

@@ -1,5 +1,6 @@
 ﻿using System;
 using MSupportYourLocals.Services;
+using MSupportYourLocals.ViewModels;
 using MSupportYourLocals.Views;
 using Xamarin.Forms;
 
@@ -25,7 +26,7 @@ namespace MSupportYourLocals {
 
         public async void Skipped(Object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new BusinessesView());
+            await Navigation.PushAsync(new BusinessesView(new BusinessesViewModel()));
         }
 
     }

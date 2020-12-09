@@ -5,9 +5,6 @@
              xmlns:viewModels="clr-namespace:MSupportYourLocals.ViewModels;assembly=MSupportYourLocals"
              x:Class="MSupportYourLocals.Views.BusinessesView">
 
-    <ContentPage.BindingContext>
-        <viewModels:BusinessesViewModel></viewModels:BusinessesViewModel>
-    </ContentPage.BindingContext>
     <ContentPage.Content>
         <ScrollView>
             <Grid>

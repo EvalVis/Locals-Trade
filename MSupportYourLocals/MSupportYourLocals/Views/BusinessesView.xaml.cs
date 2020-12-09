@@ -11,9 +11,16 @@ namespace MSupportYourLocals.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BusinessesView : TopBarView
     {
-        public BusinessesView()
+        public BusinessesView(BusinessesViewModel businessesViewModel)
         {
             InitializeComponent();
+            BindingContext = businessesViewModel;
+        }
+
+        public BusinessesView(UserBusinessViewModel userBusinessViewModel)
+        {
+            InitializeComponent();
+            BindingContext = userBusinessViewModel;
         }
 
 
