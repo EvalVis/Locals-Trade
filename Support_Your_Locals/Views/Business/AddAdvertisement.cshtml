@@ -33,7 +33,7 @@
         input.value = 'Add product';
         input.className = 'btn btn-light btn-lg';
 
-        var clickCount = @(Model?.Products?.Count ?? 0);
+        var clickCount = 0;
         var container = document.getElementById('products');
         container.appendChild(input);
 
@@ -61,8 +61,6 @@
     }, false);
 </script>
 
-<input type="hidden" asp-for="BusinessId"/>
-
 <div class="login-page">
     <div class="form">
         <div>
@@ -82,27 +80,9 @@
                         <input asp-for="PhoneNumber" class="form-control">
                     </div>
                     <div class="formbuss">
-                        <div id="products">
-                            @if (Model?.Products != null) {
-                                for (int i = 0; i < Model.Products.Count; i++) {
-                                    if (Model.Products[i] != null) {
-                                        <label asp-for="Products[i].Name">Product</label>
-                                        <input asp-for="Products[i].Name" />
-                                        <label asp-for="Products[i].PricePerUnit">Unit price</label>
-                                        <input asp-for="Products[i].PricePerUnit" />
-                                        <label asp-for="Products[i].Unit">Unit</label>
-                                        <input asp-for="Products[i].Unit" />
-                                        <label asp-for="Products[i].Comment">Comment</label>
-                                        <input asp-for="Products[i].Comment" />
-                                        <label asp-for="Products[i].Picture">Picture</label>
-                                        <input asp-for="Picture" />
-                                        <hr style="border-top: 3px solid #bbb;">
-                                    }
-                                }
-                            }
-                        </div>
+                        <div id="products"></div>
                     </div>
-                    @for (var i = 0; i < 7; i++)
+                    @for (int i = 0; i < 7; i++)
                     {
                         ViewBag.DayInd = i;
                         <partial name="TimePicker" for="Workdays[i]" />

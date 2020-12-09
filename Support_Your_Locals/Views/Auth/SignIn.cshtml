@@ -12,35 +12,39 @@
             <strong>Warning!</strong> Incorrect email or password.
         </div>
     }
-<div class="form">
+    <div class="form">
 
-    @if (User.Identity.IsAuthenticated) {
-        <a asp-controller="Auth" asp-action="SignOut" class="btn btn-primary btn-sm">Sign out</a>
-    }
-    else {
-        <div class="auth-container">
-            <div class="container box">
-                <h1>Sign In</h1>
-                <form asp-action="SignIn" method="post">
-                    <div class="form-group">
-                        <label asp-for="Email">Email</label>
-                        <input asp-for="Email" class="form-control">
-                        <span asp-validation-for="Email"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Passhash">Password</label>
-                        <input type="password" asp-for="Passhash" class="form-control">
-                        <span asp-validation-for="Passhash"></span>
-                    </div>
-                    <div class="form-group">
-                        <a asp-controller="Auth" asp-action="SignUp">Not a member yet? Sign up</a>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Sign In</button>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <form asp-action="SignOut" method="post">
+                <button class="btn btn-light btn-lg">Sign Out</button>
+            </form>
+        }
+        else
+        {
+            <div class="auth-container">
+                <div class="container box">
+                    <h1>Sign In</h1>
+                    <form asp-action="SignIn" method="post">
+                        <div class="form-group">
+                            <label asp-for="Email">Email</label>
+                            <input asp-for="Email" class="form-control">
+                            <span asp-validation-for="Email"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Passhash">Password</label>
+                            <input type="password" asp-for="Passhash" class="form-control">
+                            <span asp-validation-for="Passhash"></span>
+                        </div>
+                        <div class="form-group">
+                            <a asp-controller="Auth" asp-action="SignUp">Not a member yet? Sign up</a>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign In</button>
 
-                </form>
+                    </form>
 
+                </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
 </div>

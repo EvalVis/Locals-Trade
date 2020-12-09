@@ -19,6 +19,7 @@ namespace Support_Your_Locals.Infrastructure
 
         private IServiceRepository repository;
         private IConfiguration config;
+        private BusinessController.FeedbackHandler handler;
 
         private Lazy<SmtpClient> smtp;
 
@@ -38,57 +39,56 @@ namespace Support_Your_Locals.Infrastructure
                     Port = 587
                 };
             });
-            BusinessController.FeedbackEvent += SendMail;
-        }
-
-
-        public void SendMail(object sender, FeedbackEventArgs feedbackEvent)
-        {
-            MailMessage message = new MailMessage();
-            message.Subject = "LocalsTrade: Business feedback";
-            message.Body = $"Hello. You have received a new business feedback: \"{feedbackEvent.Feedback.Text}\", from {feedbackEvent.Feedback.SenderName}";
-            message.IsBodyHtml = false;
-
-            message.From = new MailAddress("localstradebox@gmail.com", "Locals Trade box");
-            string toEmail;
-            try
+            handler = delegate(Feedback feedback)
             {
-                toEmail = repository.Business.Where(b => b.BusinessID == feedbackEvent.Feedback.BusinessID).Include(b => b.User)
-                    .First().User.Email;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine($"Could not send email: Business somehow does not have an owner or " +
-                                $"{nameof(User.Email)} field is null. Business ID: {feedbackEvent.Feedback.BusinessID}. Detailed exception: {e}");
-                return;
-            }
+                MailMessage message = new MailMessage();
+                message.Subject = "LocalsTrade: Business feedback";
+                message.Body = $"Hello. You have received a new business feedback: \"{feedback.Text}\", from {feedback.SenderName}";
+                message.IsBodyHtml = false;
 
-            message.To.Add(new MailAddress(toEmail, toEmail));
-            SmtpClient protocol = smtp.Value;
-            Task.Run(() =>
-            {
+                message.From = new MailAddress("localstradebox@gmail.com", "Locals Trade box");
+                string toEmail;
                 try
                 {
-                    protocol.Send(message);
+                    toEmail = repository.Business.Where(b => b.BusinessID == feedback.BusinessID).Include(b => b.User)
+                        .First().User.Email;
                 }
-                catch (SmtpFailedRecipientException e)
+                catch (Exception e)
                 {
-                    Debug.WriteLine($"Failed to send an email (name of the sender: {feedbackEvent.Feedback.SenderName}, message \"{feedbackEvent.Feedback.Text}\") to a recipient {toEmail}. " +
-                                    $"Exception code: {e.StatusCode}. Detailed exception info: {e}");
+                    Debug.WriteLine($"Could not send email: Business somehow does not have an owner or " +
+                                    $"{nameof(User.Email)} field is null. Business ID: {feedback.BusinessID}. Detailed exception: {e}");
+                    return;
                 }
-                catch (SmtpException e)
-                {
-                    Debug.WriteLine($"Failed to send email with smtp. The name of the sender: " +
-                                    $" {feedbackEvent.Feedback.SenderName}. The message: \"{feedbackEvent.Feedback.Text}\" was being sent to {toEmail}. " +
-                                    $"Exception code: {e.StatusCode}. " +
-                                    $"Detailed exception info: {e}");
-                }
-            });
+
+                message.To.Add(new MailAddress(toEmail, toEmail));
+
+                SmtpClient protocol = smtp.Value;
+                Task.Run( () =>
+                    {
+                        try
+                        {
+                            protocol.Send(message);
+                        }
+                        catch (SmtpFailedRecipientException e)
+                        {
+                            Debug.WriteLine($"Failed to send an email (name of the sender: {feedback.SenderName}, message \"{feedback.Text}\") to a recipient {toEmail}. " +
+                                            $"Exception code: {e.StatusCode}. Detailed exception info: {e}");
+                        }
+                        catch (SmtpException e)
+                        {
+                            Debug.WriteLine($"Failed to send email with smtp. The name of the sender: " +
+                                            $" {feedback.SenderName}. The message: \"{feedback.Text}\" was being sent to {toEmail}. " +
+                                            $"Exception code: {e.StatusCode}. " +
+                                            $"Detailed exception info: {e}");
+                        }
+                    });
+            };
+            BusinessController.FeedbackEvent += handler;
         }
 
         public void Mute()
         {
-            BusinessController.FeedbackEvent -= SendMail;
+            BusinessController.FeedbackEvent -= handler;
         }
 
     }

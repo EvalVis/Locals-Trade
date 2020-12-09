@@ -25,11 +25,11 @@
     </div>
     <div class="form-group">
         <label asp-for="SearchResponse.OpenFrom">Open From</label>
-        <input type="text" asp-for="SearchResponse.OpenFrom" class="form-control" />
+        <input type="text" asp-for="SearchResponse.OpenFrom" value="@Model.SearchResponse.OpenFrom.TimeOfDay" class="form-control" />
     </div>
     <div class="form-group">
         <label asp-for="SearchResponse.OpenTo">Open To</label>
-        <input type="text" asp-for="SearchResponse.OpenTo" class="form-control" />
+        <input type="text" asp-for="SearchResponse.OpenTo" value="@Model.SearchResponse.OpenTo.TimeOfDay" class="form-control" />
     </div>
     <button type="submit" class="btn btn-primary">Search</button>
 </form>

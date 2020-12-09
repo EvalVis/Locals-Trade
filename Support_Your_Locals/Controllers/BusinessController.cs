@@ -8,30 +8,25 @@ using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
-using Support_Your_Locals.Infrastructure;
 
 namespace Support_Your_Locals.Controllers
 {
     public class BusinessController : Controller
     {
-        //public delegate void FeedbackHandler(Feedback feedback);
-        //public static event FeedbackHandler FeedbackEvent;
-        public static event EventHandler<FeedbackEventArgs> FeedbackEvent;
+        public delegate void FeedbackHandler(Feedback feedback);
+        public static event FeedbackHandler FeedbackEvent;
 
         private IServiceRepository repository;
-        private long userID;
 
-        public BusinessController(IServiceRepository repo, IHttpContextAccessor accessor)
+        public BusinessController(IServiceRepository repo)
         {
             repository = repo;
-            long.TryParse(accessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value, out userID);
         }
 
         [HttpGet]
         public async Task<ActionResult> Index(long businessId)
         {
-            if (businessId <= 0) Redirect("/");
+            if (businessId == 0) businessId = 1;
             Business business = await repository.Business.Include(b => b.User).
                 Include(b => b.Workdays).Include(b => b.Products)
                 .Include(b => b.Feedbacks)
@@ -45,51 +40,48 @@ namespace Support_Your_Locals.Controllers
         {
             Feedback feedback = new Feedback {SenderName = senderName, Text = text, BusinessID = businessId};
             repository.AddFeedback(feedback);
-            FeedbackEvent(this, new FeedbackEventArgs(feedback));
+            FeedbackEvent?.Invoke(feedback);
         }
 
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult> AddAdvertisement(long businessId)
+        public ViewResult AddAdvertisement()
         {
-            if (businessId > 0)
-            {
-                Business business = await repository.Business.Include(b => b.Workdays)
-                    .Include(b => b.Products)
-                    .FirstOrDefaultAsync(b => b.BusinessID == businessId);
-                if (business != null)
-                { // TODO: Redirect replace with error.
-                    if (business.UserID != userID) return Redirect("/");
-                    BusinessRegisterModel businessRegisterModel = new BusinessRegisterModel(business);
-                    return View(businessRegisterModel);
-                }
-                return Redirect("/");
-            }
             return View();
         }
-
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult> AddAdvertisement(BusinessRegisterModel businessRegisterModel)
+        public ActionResult AddAdvertisement(BusinessRegisterModel businessRegisterModel)
         {
             //TODO: validation
-            if (businessRegisterModel.BusinessId < 0) Redirect("/");
-            if (businessRegisterModel.BusinessId == 0)
+            Business business = new Business
             {
-                Business business = new Business(businessRegisterModel, userID);
-                repository.AddBusiness(business);
-                return Redirect("/");
-            }
-            Business dbBusiness = await repository.Business
-                .Include(b => b.Workdays).Include(b => b.Products)
-                .FirstOrDefaultAsync(b => b.BusinessID == businessRegisterModel.BusinessId);
-            if (dbBusiness.UserID == userID)
+                // Exception here
+                Header = businessRegisterModel.Header,
+                Description = businessRegisterModel.Description,
+                UserID = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value),
+                PhoneNumber = businessRegisterModel.PhoneNumber,
+                Latitude = businessRegisterModel.Latitude,
+                Longitude = businessRegisterModel.Longitude,
+                Picture = businessRegisterModel.Picture
+            };
+            for (int i = 0; i < 7; i++)
             {
-                dbBusiness.UpdateBusiness(businessRegisterModel);
-                repository.SaveBusiness(dbBusiness);
+                TimeSheetRegisterViewModel day = businessRegisterModel.Workdays[i];
+                DateTime from = day.From;
+                DateTime to = day.To;
+                if (TimeSheetRegisterViewModel.Invalid(from, to)) continue;
+                TimeSheet workday = new TimeSheet { From = day.From, To = day.To, Weekday = day.Weekday, Business = business};
+                business.Workdays.Add(workday);
             }
+
+            foreach (var pr in businessRegisterModel.Products)
+            {
+                Product product = new Product {Name = pr.Name, PricePerUnit = pr.PricePerUnit, Unit = pr.Unit, Comment = pr.Comment, Picture = pr.Picture};
+                business.Products.Add(product);
+            }
+            repository.AddBusiness(business);
             return Redirect("/");
         }
-
     }
 }
