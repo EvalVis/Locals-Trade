@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using MSupportYourLocals.Infrastructure;
 using MSupportYourLocals.Models;
+using MSupportYourLocals.Services;
 using MSupportYourLocals.ViewModels;
 using MSupportYourLocals.Views.Shared;
 using Xamarin.Forms;
@@ -16,6 +18,8 @@ namespace MSupportYourLocals.Views
         private bool personal;
         private ActionEnum action;
         private Business chosenBusiness;
+
+        private IBusinessService businessService = DependencyService.Get<IBusinessService>();
 
         public BusinessesView(BusinessesViewModel businessesViewModel)
         {
@@ -94,20 +98,21 @@ namespace MSupportYourLocals.Views
             {
                 if (action == ActionEnum.Delete)
                 {
-                    DeleteBusiness(password);
+                    await DeleteBusiness(password);
                 }
                 else if (action == ActionEnum.Edit)
                 {
-                    EditBusiness(password);
+                    await EditBusiness(password);
                 }
             }
         }
 
-        private void DeleteBusiness(string password)
+        private async Task DeleteBusiness(string password)
         {
+            await businessService.DeleteBusiness(password, chosenBusiness.Id);
         }
 
-        private void EditBusiness(string password)
+        private async Task EditBusiness(string password)
         {
         }
 

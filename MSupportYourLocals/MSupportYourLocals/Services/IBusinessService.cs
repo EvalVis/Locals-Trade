@@ -8,7 +8,7 @@ namespace MSupportYourLocals.Services
     {
         Task<ObservableCollection<Business>> GetBusinesses();
         Task<ObservableCollection<Business>> GetUserBusinesses();
-        Task DeleteBusiness(long businessId);
+        Task DeleteBusiness(string password, long businessId);
         Task CreateBusiness(Business business);
     }
 }
