@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using MSupportYourLocals.Models;
 using MSupportYourLocals.Services;
@@ -6,12 +7,24 @@ using Xamarin.Forms;
 
 namespace MSupportYourLocals.ViewModels
 {
-    public class UserBusinessViewModel
+    public class UserBusinessViewModel : INotifyPropertyChanged
     {
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private IBusinessService businessService = DependencyService.Get<IBusinessService>();
 
         private ObservableCollection<Business> businesses;
+
+        public ObservableCollection<Business> Businesses
+        {
+            get { return businesses; }
+            set
+            {
+                businesses = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Business"));
+            }
+        }
 
         public UserBusinessViewModel()
         {

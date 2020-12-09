@@ -6,7 +6,10 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Business list"
                      Order="Primary"
-                     Priority="0" />
+                     Priority="0" Clicked="BusinessList" />
+        <ToolbarItem Text="Your Business"
+                     Order="Primary"
+                     Priority="0" Clicked="UserBusinessList" />
     </ContentPage.ToolbarItems>
 
 </ContentPage>

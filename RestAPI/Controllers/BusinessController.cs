@@ -62,13 +62,13 @@ namespace RestAPI.Controllers
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [HttpPost("User")]
+        [HttpGet("User")]
         public ActionResult<IEnumerable<Business>> GetUserBusinesses()
         {
             IEnumerable<Business> businesses = repository.Business.
                 Include(b => b.User).
                 Include(b => b.Products).
-                Include(b => b.Workdays).Where(b => b.BusinessID == claimedId);
+                Include(b => b.Workdays).Where(b => b.UserID == claimedId);
             if (!businesses.Any()) return NoContent();
             foreach (var b in businesses)
             {

@@ -2,7 +2,6 @@
 <shared:TopBarView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:shared="clr-namespace:MSupportYourLocals.Views.Shared;assembly=MSupportYourLocals"
-             xmlns:viewModels="clr-namespace:MSupportYourLocals.ViewModels;assembly=MSupportYourLocals"
              x:Class="MSupportYourLocals.Views.BusinessesView">
 
     <ContentPage.Content>
