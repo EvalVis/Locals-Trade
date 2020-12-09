@@ -3,10 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MSupportYourLocals.Views.FeedbackView">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Delete all"
+                     Order="Primary"
+                     Priority="0" Clicked="DeleteAllFeedbacks" />
+    </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
         <ScrollView>
             <Grid>
-                <CollectionView ItemsSource="{Binding Feedbacks}" SelectionMode="None">
+                <CollectionView ItemsSource="{Binding Feedbacks}" SelectionMode="Single" SelectionChanged="FeedbackSelected">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <StackLayout HorizontalOptions="FillAndExpand" Margin="0" Padding="0">
@@ -16,6 +22,67 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
+
+                <ContentView
+                    x:Name="Controls"
+                    Padding="10,0"
+                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                    AbsoluteLayout.LayoutFlags="All"
+                    BackgroundColor="#C0808080"
+                    IsVisible="false">
+
+                    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                        <StackLayout
+                            Orientation="Vertical">
+                            <Button Margin="20,0,20,0" Text="Delete" BackgroundColor="Red" TextColor="White" FontAttributes="Bold" Clicked="DeleteSingle" />
+                            <Button Margin="20,0,20,0" Text="Close" BackgroundColor="Blue" TextColor="White" FontAttributes="Bold" Clicked="CancelSingle" />
+                        </StackLayout>
+
+                    </StackLayout>
+
+                </ContentView>
+
+                <ContentView
+                    x:Name="Confirmation"
+                    Padding="10,0"
+                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                    AbsoluteLayout.LayoutFlags="All"
+                    BackgroundColor="#C0808080"
+                    IsVisible="false">
+
+                    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                        <StackLayout
+                            Orientation="Vertical">
+                            <Label Margin="20,20,20,0" Text="Are you sure you want to delete this feedback?" FontAttributes="Bold" FontSize="Large" />
+                            <Button Margin="20,0,20,0" Text="Confirm" BackgroundColor="Red" TextColor="White" FontAttributes="Bold" Clicked="ConfirmSingleDelete" />
+                            <Button Margin="20,0,20,0" Text="Cancel" BackgroundColor="LawnGreen" TextColor="White" FontAttributes="Bold" Clicked="CancelSingleDelete" />
+                        </StackLayout>
+
+                    </StackLayout>
+
+                </ContentView>
+
+                <ContentView
+                    x:Name="Verification"
+                    Padding="10,0"
+                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                    AbsoluteLayout.LayoutFlags="All"
+                    BackgroundColor="#C0808080"
+                    IsVisible="false">
+
+                    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                        <StackLayout
+                            Orientation="Vertical">
+                            <Label Margin="20,20,20,0" Text="Do you really want to delete all feedbacks sent to you?
+                                   If so, please confirm by entering your password" FontAttributes="Bold" FontSize="Large" />
+                            <Entry Margin="20,0,20,0" x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" />
+                            <Button Margin="20,0,20,0" Text="Confirm" BackgroundColor="Red" TextColor="White" FontAttributes="Bold" Clicked="ConfirmTotalDeletion" />
+                            <Button Margin="20,0,20,0" Text="Cancel" BackgroundColor="LawnGreen" TextColor="White" FontAttributes="Bold" Clicked="CancelTotalDeletion" />
+                        </StackLayout>
+
+                    </StackLayout>
+
+                </ContentView>
             </Grid>
         </ScrollView>
     </ContentPage.Content>

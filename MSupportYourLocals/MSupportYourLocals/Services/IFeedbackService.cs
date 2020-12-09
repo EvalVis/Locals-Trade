@@ -8,5 +8,7 @@ namespace MSupportYourLocals.Services
     {
         Task<ObservableCollection<Feedback>> GetFeedbacks(long businessId);
         Task SendFeedback(string senderName, string text, long businessId);
+        Task DeleteAllFeedbacks(long businessId);
+        Task DeleteFeedback(long feedbackId);
     }
 }
