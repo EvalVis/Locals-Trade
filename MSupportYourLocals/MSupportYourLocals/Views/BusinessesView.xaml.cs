@@ -20,6 +20,7 @@ namespace MSupportYourLocals.Views
         private Business chosenBusiness;
 
         private IBusinessService businessService = DependencyService.Get<IBusinessService>();
+        private IFeedbackService feedbackService = DependencyService.Get<IFeedbackService>();
 
         public BusinessesView(BusinessesViewModel businessesViewModel)
         {
@@ -118,8 +119,9 @@ namespace MSupportYourLocals.Views
         {
         }
 
-        private void GetFeedbacks()
+        private async Task GetFeedbacks()
         {
+            await feedbackService.GetFeedbacks(chosenBusiness.BusinessId);
         }
 
         private async Task ShowDetails()
