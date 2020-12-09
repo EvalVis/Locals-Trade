@@ -11,16 +11,21 @@ namespace MSupportYourLocals.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BusinessesView : TopBarView
     {
+
+        private bool personal;
+
         public BusinessesView(BusinessesViewModel businessesViewModel)
         {
             InitializeComponent();
             BindingContext = businessesViewModel;
+            personal = false;
         }
 
         public BusinessesView(UserBusinessViewModel userBusinessViewModel)
         {
             InitializeComponent();
             BindingContext = userBusinessViewModel;
+            personal = true;
         }
 
 
@@ -30,7 +35,14 @@ namespace MSupportYourLocals.Views
             if (chosen is Business)
             {
                 Business business = chosen as Business;
-                await Navigation.PushAsync(new BusinessView(new BusinessViewModel(business)));
+                if (!personal)
+                {
+                    await Navigation.PushAsync(new BusinessView(new BusinessViewModel(business)));
+                }
+                else
+                {
+                    Controls.IsVisible = true;
+                }
             }
         }
 

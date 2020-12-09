@@ -17,6 +17,27 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
+                <ContentView
+                    x:Name="Controls"
+                    Padding="10,0"
+                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                    AbsoluteLayout.LayoutFlags="All"
+                    BackgroundColor="#C0808080"
+                    IsVisible="false">
+
+                    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                        <StackLayout
+                            Orientation="Vertical">
+                            <Button Margin="20,20,20,0" Text="Edit" BackgroundColor="Gold" TextColor="White" FontAttributes="Bold" />
+                            <Button Margin="20,0,20,0" Text="Delete" BackgroundColor="Red" TextColor="White" FontAttributes="Bold" />
+                            <Button Margin="20,0,20,0" Text="Details" BackgroundColor="MediumTurquoise" TextColor="White" FontAttributes="Bold" />
+                            <Button Margin="20,0,20,0" Text="Feedback" BackgroundColor="LawnGreen" TextColor="White" FontAttributes="Bold" />
+
+                        </StackLayout>
+
+                    </StackLayout>
+
+                </ContentView>
             </Grid>
         </ScrollView>
     </ContentPage.Content>
