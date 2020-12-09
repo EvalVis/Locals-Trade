@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using MSupportYourLocals.Infrastructure;
@@ -72,12 +73,14 @@ namespace MSupportYourLocals.Views
 
         public async void BusinessDetails(object sender, EventArgs e)
         {
+            Controls.IsVisible = false;
             await ShowDetails();
         }
 
-        public void BusinessFeedbacks(object sender, EventArgs e)
+        public async void BusinessFeedbacks(object sender, EventArgs e)
         {
-            GetFeedbacks();
+            Controls.IsVisible = false;
+            await GetFeedbacks();
         }
 
         public void ClosePopUp(object sender, EventArgs e)
@@ -121,7 +124,8 @@ namespace MSupportYourLocals.Views
 
         private async Task GetFeedbacks()
         {
-            await feedbackService.GetFeedbacks(chosenBusiness.BusinessId);
+            ObservableCollection<Feedback> feedbacks = await feedbackService.GetFeedbacks(chosenBusiness.BusinessId);
+            await Navigation.PushAsync(new FeedbackView(new FeedbackViewModel(feedbacks)));
         }
 
         private async Task ShowDetails()

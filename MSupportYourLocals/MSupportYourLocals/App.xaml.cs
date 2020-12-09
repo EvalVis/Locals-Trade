@@ -9,6 +9,7 @@ namespace MSupportYourLocals {
             DependencyService.Register<IBusinessService, BusinessService>();
             DependencyService.RegisterSingleton(new JsonWebTokenHolder());
             DependencyService.Register<IRegisterUserService, RegisterUserService>();
+            DependencyService.Register<IFeedbackService, FeedbackService>();
             MainPage = new NavigationPage(new MainPage());
         }
 
