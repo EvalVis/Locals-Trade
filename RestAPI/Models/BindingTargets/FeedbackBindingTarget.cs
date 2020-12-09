@@ -2,13 +2,13 @@
 {
     public class FeedbackBindingTarget
     {
-        public string SendersName { get; set; }
+        public string SenderName { get; set; }
         public string Text { get; set; }
         public long BusinessID { get; set; }
 
         public Feedback ToFeedback() => new Feedback
         {
-            SendersName = SendersName,
+            SenderName = SenderName,
             Text = Text,
             BusinessID = BusinessID
         };

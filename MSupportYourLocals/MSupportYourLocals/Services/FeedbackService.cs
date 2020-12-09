@@ -24,9 +24,9 @@ namespace MSupportYourLocals.Services
             return null;
         }
 
-        public async Task SendFeedback(string sendersName, string text, long businessId)
+        public async Task SendFeedback(string senderName, string text, long businessId)
         {
-            var feedbackBindingTarget = new { sendersName = sendersName, text = text, businessId = businessId};
+            var feedbackBindingTarget = new { SenderName = senderName, Text = text, BusinessID = businessId};
             HttpResponseMessage response = await httpClient.PostAsJsonAsync("/api/Feedback", feedbackBindingTarget);
         }
 
