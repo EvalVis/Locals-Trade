@@ -69,9 +69,9 @@ namespace MSupportYourLocals.Views
             action = ActionEnum.Edit;
         }
 
-        public void BusinessDetails(object sender, EventArgs e)
+        public async void BusinessDetails(object sender, EventArgs e)
         {
-            ShowDetails();
+            await ShowDetails();
         }
 
         public void BusinessFeedbacks(object sender, EventArgs e)
@@ -122,8 +122,9 @@ namespace MSupportYourLocals.Views
         {
         }
 
-        private void ShowDetails()
+        private async Task ShowDetails()
         {
+            await Navigation.PushAsync(new BusinessView(new BusinessViewModel(chosenBusiness)));
         }
 
     }
