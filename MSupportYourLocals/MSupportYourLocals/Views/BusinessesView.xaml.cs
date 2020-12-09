@@ -2,13 +2,14 @@
 using System.Linq;
 using MSupportYourLocals.Models;
 using MSupportYourLocals.ViewModels;
+using MSupportYourLocals.Views.Shared;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace MSupportYourLocals.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class BusinessesView : ContentPage
+    public partial class BusinessesView : TopBarView
     {
         public BusinessesView()
         {
