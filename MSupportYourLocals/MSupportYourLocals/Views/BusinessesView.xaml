@@ -28,10 +28,32 @@
                     <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
                         <StackLayout
                             Orientation="Vertical">
-                            <Button Margin="20,20,20,0" Text="Edit" BackgroundColor="Gold" TextColor="White" FontAttributes="Bold" />
-                            <Button Margin="20,0,20,0" Text="Delete" BackgroundColor="Red" TextColor="White" FontAttributes="Bold" />
-                            <Button Margin="20,0,20,0" Text="Details" BackgroundColor="MediumTurquoise" TextColor="White" FontAttributes="Bold" />
-                            <Button Margin="20,0,20,0" Text="Feedback" BackgroundColor="LawnGreen" TextColor="White" FontAttributes="Bold" />
+                            <Button Margin="20,20,20,0" Text="Edit" BackgroundColor="Gold" TextColor="White" FontAttributes="Bold" Clicked="BusinessEdit" />
+                            <Button Margin="20,0,20,0" Text="Delete" BackgroundColor="Red" TextColor="White" FontAttributes="Bold" Clicked="BusinessDelete"/>
+                            <Button Margin="20,0,20,0" Text="Details" BackgroundColor="MediumTurquoise" TextColor="White" FontAttributes="Bold" Clicked="BusinessDetails" />
+                            <Button Margin="20,0,20,0" Text="Feedbacks" BackgroundColor="LawnGreen" TextColor="White" FontAttributes="Bold" Clicked="BusinessFeedbacks" />
+                            <Button Margin="20,0,20,0" Text="Close" BackgroundColor="Blue" TextColor="White" FontAttributes="Bold" Clicked="ClosePopUp" />
+
+                        </StackLayout>
+
+                    </StackLayout>
+
+                </ContentView>
+                 <ContentView
+                    x:Name="Verification"
+                    Padding="10,0"
+                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                    AbsoluteLayout.LayoutFlags="All"
+                    BackgroundColor="#C0808080"
+                    IsVisible="false">
+
+                    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                        <StackLayout
+                            Orientation="Vertical">
+                            <Label Margin="20,20,20,0" Text="Please enter your password to confirm the delete" FontAttributes="Bold" FontSize="Large" />
+                            <Entry Margin="20,0,20,0" x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" />
+                            <Button Margin="20,0,20,0" Text="Confirm" BackgroundColor="Red" TextColor="White" FontAttributes="Bold" Clicked="VerifyAction" />
+                            <Button Margin="20,0,20,0" Text="Cancel" BackgroundColor="LawnGreen" TextColor="White" FontAttributes="Bold" Clicked="CancelAction" />
 
                         </StackLayout>
 
