@@ -67,25 +67,27 @@
         }
         else
         {
-    <div style="float:right;text-align:right;margin-left: 80px;">
+            <div style="float:right;text-align:right;margin-left: 80px;">
 
-        <div class="dropdown">
-            <span class="navbar-brand ml-2">Welcome @User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value! <i class='fas fa-angle-down'></i></span>
-            <div class="dropdown-content" style="float: left; text-align: center;">
-                <a href="../user/businesses">Your businesses</a>
-                <a href="../user/usersettings">User settings</a>
-                <form method="get" style="display: inline;">
-                    <button asp-controller="Auth" asp-action="SignOut" class="btn btn-info">Sign Out</button>
-                </form>
+                <div class="dropdown">
+                    <span class="navbar-brand ml-2">Welcome @User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value! <i class='fas fa-angle-down'></i></span>
+                    <div class="dropdown-content" style="float: left; text-align: center;">
+                        <a href="../user/businesses">Your businesses</a>
+                        <a href="../user/usersettings">User settings</a>
+                        <form method="get" style="display: inline;">
+                            <button asp-controller="Auth" asp-action="SignOut" class="btn btn-info">Sign Out</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
         }
         <a asp-controller="Business" asp-action="AddAdvertisement" class="navbar-brand ml-2 navbuttons">Add advertisement</a>
-    </div>
 
-<div>
-    @RenderBody()
-</div>
+    </div>
+    <div class="container">
+        <div class="row">
+            @RenderBody()
+        </div>
+    </div>
 </body>
 </html>
