@@ -7,6 +7,18 @@
     <ContentPage.Content>
         <ScrollView>
             <Grid>
+                <ContentView>
+                <StackLayout HorizontalOptions="FillAndExpand" Margin="0" Padding="0">
+                    <Label Text="Name" FontSize="Large" TextColor="Black" />
+                    <Label Text="{Binding User.Name}" FontSize="Large" TextColor="Black" />
+                    <Label Text="Surname" FontSize="Large" TextColor="Black" />
+                    <Label Text="{Binding User.Surname}" FontSize="Large" TextColor="Black" />
+                    <Label Text="Date of birth" FontSize="Large" TextColor="Black" />
+                    <Label Text="{Binding User.BirthDate}" FontSize="Large" TextColor="Black" />
+                    <Label Text="Email" FontSize="Large" TextColor="Black" />
+                    <Label Text="{Binding User.Email}" FontSize="Large" TextColor="Black" />
+                </StackLayout>
+                </ContentView>
 
                 <ContentView
                     x:Name="LoginOptions"

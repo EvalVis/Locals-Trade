@@ -16,28 +16,16 @@ namespace MSupportYourLocals.Views
         {
             InitializeComponent();
             BindingContext = userViewModel;
-            LoginOptions.IsVisible = false;
-            setContent(userViewModel);
-        }
-
-        private void setContent(UserViewModel userViewModel)
-        {
-            string name = userViewModel?.User?.Name;
-            string surname = userViewModel?.User?.Surname;
-            string birthDate = userViewModel?.User?.BirthDate.ToShortDateString();
-            string email = userViewModel?.User?.Email;
-            Content = new StackLayout() {Children =
+            if (tokenService.Token != null)
             {
-                new Label {Text = "Name"},
-                new Label {Text = name},
-                new Label {Text = "Surname"},
-                new Label {Text = surname},
-                new Label {Text = "Birth date"},
-                new Label {Text = birthDate},
-                new Label {Text = "Email"},
-                new Label {Text = email}
+                LoginOptions.IsVisible = false;
+                Settings.IsVisible = true;
             }
-            };
+            else
+            {
+                LoginOptions.IsVisible = true;
+                Settings.IsVisible = false;
+            }
         }
 
         public async void Login(object sender, EventArgs e)
