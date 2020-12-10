@@ -60,11 +60,11 @@ namespace MSupportYourLocals.Views
             Confirmation.IsVisible = false;
             if (action == ActionEnum.Delete)
             {
-                await ConfirmedDeleteAll();
+                await ConfirmedDeleteOne();
             }
             else if (action == ActionEnum.DeleteAll)
             {
-                await ConfirmedDeleteOne();
+                await ConfirmedDeleteAll();
             }
         }
 
