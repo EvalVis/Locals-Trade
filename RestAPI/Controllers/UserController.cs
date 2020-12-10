@@ -33,14 +33,14 @@ namespace RestAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpPatch("email")]
-        public async Task<IActionResult> PatchEmail(string password, string newEmail)
+        public async Task<IActionResult> PatchEmail(EmailPatch patch)
         {
             JsonPatchDocument<User> document = new JsonPatchDocument<User>();
-            document.Replace(u => u.Email, newEmail);
+            document.Replace(u => u.Email, patch.NewEmail);
             User user = await repository.Users.FirstOrDefaultAsync(u => u.UserID == claimedId);
             if (user != null)
             {
-                if (new HashCalculator().IsGoodPass(user.Passhash, password))
+                if (new HashCalculator().IsGoodPass(user.Passhash, patch.Password))
                 {
                     await repository.Patch(document, user);
                     return Ok();
@@ -54,15 +54,15 @@ namespace RestAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> PatchPassword(string currentPassword, string newPassword)
+        public async Task<IActionResult> PatchPassword(PasswordPatch patch)
         {
-            string hashed = new HashCalculator().PassHash(newPassword);
+            string hashed = new HashCalculator().PassHash(patch.NewPassword);
             JsonPatchDocument<User> document = new JsonPatchDocument<User>();
             document.Replace(u => u.Passhash, hashed);
             User user = await repository.Users.FirstOrDefaultAsync(u => u.UserID == claimedId);
             if (user != null)
             {
-                if (new HashCalculator().IsGoodPass(user.Passhash, currentPassword))
+                if (new HashCalculator().IsGoodPass(user.Passhash, patch.CurrentPassword))
                 {
                     await repository.Patch(document, user);
                     return Ok();
@@ -80,7 +80,7 @@ namespace RestAPI.Controllers
         public async Task<IActionResult> SignUp(UserBindingTarget target)
         {
             if (target == null) return BadRequest();
-            if (!repository.Users.Any(u => u.Email == target.Email)) // TODO: LOCK because clicking rapidly (on client side) could result in creation of multiple equal emails.
+            if (!repository.Users.Any(u => u.Email == target.Email)) // TODO: SET EMAIL UNIQUE.
             {
                 await repository.SaveUserAsync(target.ToUser());
                 return Ok();

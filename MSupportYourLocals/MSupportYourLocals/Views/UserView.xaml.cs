@@ -40,6 +40,7 @@ namespace MSupportYourLocals.Views
 
         public void ChangeEmail(object sender, EventArgs e)
         {
+            Navigation.PushAsync(new ChangeEmailView());
         }
 
         public void ChangePassword(object sender, EventArgs e)

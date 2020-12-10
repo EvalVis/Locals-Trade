@@ -30,10 +30,8 @@ namespace MSupportYourLocals.Services
         public async Task<User> GetUser()
         {
             if (tokenService.Token == null) return null;
-            System.Diagnostics.Debug.WriteLine("Yes");
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.Token);
             HttpResponseMessage response = await httpClient.GetAsync("/api/User/Current");
-            System.Diagnostics.Debug.WriteLine(response.StatusCode);
             if (response.StatusCode == HttpStatusCode.OK)
             { 
                 var result = await response.Content.ReadAsStringAsync(); 
@@ -45,18 +43,16 @@ namespace MSupportYourLocals.Services
 
         public async Task PatchPassword(string currentPassword, string newPassword)
         {
-            System.Diagnostics.Debug.WriteLine("I am here 1");
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.Token);
-            var data = new { CurrentPassword = currentPassword, NewPassword = newPassword };
-            HttpResponseMessage response = await httpClient.PatchAsync("/api/User/password", data);
-            System.Diagnostics.Debug.WriteLine($" {response.StatusCode} I am here 2");
+            var passwordPatch = new { CurrentPassword = currentPassword, NewPassword = newPassword };
+            HttpResponseMessage response = await httpClient.PatchAsync("/api/User/password", passwordPatch);
         }
 
         public async Task PatchEmail(string password, string email)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.Token);
-            var data = new {Password = password, Email = email};
-            HttpResponseMessage response = await httpClient.PatchAsync("/api/User/email", data);
+            var emailPatch = new {Password = password, NewEmail = email};
+            HttpResponseMessage response = await httpClient.PatchAsync("/api/User/email", emailPatch);
         }
 
     }
