@@ -21,6 +21,9 @@
     <Compile Update="Views\BusinessesView.xaml.cs">
       <DependentUpon>BusinessesView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\UserView.xaml.cs">
+      <DependentUpon>UserView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -42,7 +45,7 @@
     <EmbeddedResource Update="Views\Shared\TopBarView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\UserPanelView.xaml">
+    <EmbeddedResource Update="Views\UserView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

@@ -5,10 +5,8 @@ namespace MSupportYourLocals {
     public partial class App : Application {
         public App() {
             InitializeComponent();
-            DependencyService.Register<ILoginService, LoginService>();
             DependencyService.Register<IBusinessService, BusinessService>();
             DependencyService.RegisterSingleton(new JsonWebTokenHolder());
-            DependencyService.Register<IRegisterUserService, RegisterUserService>();
             DependencyService.Register<IFeedbackService, FeedbackService>();
             DependencyService.Register<IUserService, UserService>();
             MainPage = new NavigationPage(new MainPage());

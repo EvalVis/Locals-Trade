@@ -7,7 +7,7 @@ using Xamarin.Forms;
 namespace MSupportYourLocals {
     public partial class MainPage : ContentPage {
 
-        private ILoginService loginService = DependencyService.Get<ILoginService>();
+        private IUserService userService = DependencyService.Get<IUserService>();
 
         public MainPage() {
             InitializeComponent();
@@ -15,7 +15,7 @@ namespace MSupportYourLocals {
 
         public async void Login(Object sender, EventArgs e)
         {
-            await loginService.Login(EmailEntry.Text, PasswordEntry.Text);
+            await userService.Login(EmailEntry.Text, PasswordEntry.Text);
             //await Navigation.PushAsync(new BusinessesView());
         }
 

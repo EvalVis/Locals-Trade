@@ -10,6 +10,21 @@ namespace MSupportYourLocals.Services
     public class UserService : Service, IUserService
     {
 
+        public async Task Login(string email, string password)
+        {
+            var login = new { Email = email, Password = password };
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync("/api/User/SignIn", login);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                tokenService.Token = await response.Content.ReadAsStringAsync();
+            }
+        }
+
+        public async Task Register(UserBindingTarget target)
+        {
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync("/api/User/SignUp", target);
+        }
+
         public async Task<User> GetUser()
         {
             if (tokenService.Token == null) return null;

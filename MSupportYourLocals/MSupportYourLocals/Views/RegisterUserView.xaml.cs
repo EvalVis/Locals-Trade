@@ -10,7 +10,7 @@ namespace MSupportYourLocals.Views
     public partial class RegisterUserView : ContentPage
     {
 
-        private IRegisterUserService registerUserService = DependencyService.Get<IRegisterUserService>();
+        private IUserService userService = DependencyService.Get<IUserService>();
 
         public RegisterUserView()
         {
@@ -27,7 +27,7 @@ namespace MSupportYourLocals.Views
                 Email = EmailEntry.Text,
                 Password = PasswordEntry.Text
             };
-            await registerUserService.Register(target);
+            await userService.Register(target);
             // await Navigation.PushAsync(new RegisterUserView());
         }
     }
