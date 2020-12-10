@@ -39,7 +39,7 @@ namespace MSupportYourLocals.Views.Shared
         {
             if (tokenService.Token != null)
             {
-                await Navigation.PushAsync(new AddAdvertisementView());
+                await Navigation.PushAsync(new AdvertisementView(new BusinessViewModel(null)));
             }
             else
             {

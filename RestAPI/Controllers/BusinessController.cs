@@ -134,7 +134,7 @@ namespace RestAPI.Controllers
             if (business.Business.BusinessID < 1) return BadRequest();
             business.Business.UserID = claimedId;
             business.Business.User = null;
-            Business targetBusiness = await repository.Business.Include(b => b.User).FirstOrDefaultAsync(b => b.BusinessID == business.BusinessID);
+            Business targetBusiness = await repository.Business.Include(b => b.User).FirstOrDefaultAsync(b => b.BusinessID == business.Business.BusinessID);
             if (targetBusiness == null)
             {
                 return NotFound();
