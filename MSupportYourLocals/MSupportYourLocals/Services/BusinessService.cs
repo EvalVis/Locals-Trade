@@ -54,5 +54,12 @@ namespace MSupportYourLocals.Services
             HttpResponseMessage response = await httpClient.PostAsJsonAsync("/api/Business", business);
         }
 
+        public async Task UpdateBusiness(string password, Business business)
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.Token);
+            var updateBusiness = new {Password = password, Business = business};
+            HttpResponseMessage response = await httpClient.PutAsJsonAsync("/api/Business", updateBusiness);
+        }
+
     }
 }

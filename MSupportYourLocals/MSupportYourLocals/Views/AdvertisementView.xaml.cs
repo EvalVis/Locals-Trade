@@ -38,7 +38,7 @@ namespace MSupportYourLocals.Views
 
         public async void Confirm(object sender, EventArgs e)
         {
-            await businessService.EditBusiness(PasswordEntry.Text, business);
+            await businessService.UpdateBusiness(PasswordEntry.Text, business);
             await Navigation.PopAsync();
         }
 
