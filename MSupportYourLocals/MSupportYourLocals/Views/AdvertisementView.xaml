@@ -1,9 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MSupportYourLocals.Views.AddAdvertisementView">
+             x:Class="MSupportYourLocals.Views.AdvertisementView">
 
-    <StackLayout>
+    <ContentPage.Content>
+        <ScrollView>
+            <Grid>
+                <StackLayout>
         <Label Text="Please enter your business header" FontAttributes="Bold" FontSize="Large" />
         <Entry Text="{Binding Header}" x:Name="HeaderEntry" Placeholder="Header" />
         <Label Text="Please enter your business description" FontAttributes="Bold" FontSize="Large" />
@@ -12,5 +15,24 @@
         <Entry Text="{Binding PhoneNumber}" x:Name="PhoneEntry" Placeholder="Phone number" />
         <Button Text="Change" BackgroundColor="Gold" TextColor="White" FontAttributes="Bold" Clicked="Submit" />
     </StackLayout>
-
+                <ContentView
+        x:Name="Verification"
+        Padding="10,0"
+        AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+        AbsoluteLayout.LayoutFlags="All"
+        BackgroundColor="#C0808080"
+        IsVisible="false">
+                    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                        <StackLayout
+                Orientation="Vertical">
+                            <Label Text="Please enter your password to confirm the update."></Label>
+                            <Entry Margin="20,0,20,0" x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" />
+                            <Button Margin="20,0,20,0" Text="Confirm" BackgroundColor="Blue" TextColor="White" FontAttributes="Bold" Clicked="Confirm" />
+                            <Button Margin="20,0,20,0" Text="Cancel" BackgroundColor="Aqua" TextColor="White" FontAttributes="Bold" Clicked="Cancel" />
+                        </StackLayout>
+                    </StackLayout>
+                </ContentView>
+            </Grid>
+        </ScrollView>
+        </ContentPage.Content>
 </ContentPage>

@@ -8,14 +8,14 @@ using Xamarin.Forms.Xaml;
 namespace MSupportYourLocals.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AddAdvertisementView : ContentPage
+    public partial class AdvertisementView : ContentPage
     {
 
         private IBusinessService businessService = DependencyService.Get<IBusinessService>();
         private JsonWebTokenHolder tokenService = DependencyService.Get<JsonWebTokenHolder>();
         private Business business;
 
-        public AddAdvertisementView(BusinessViewModel businessViewModel)
+        public AdvertisementView(BusinessViewModel businessViewModel)
         {
             InitializeComponent();
             BindingContext = businessViewModel;
@@ -28,12 +28,24 @@ namespace MSupportYourLocals.Views
             {
                 business = new Business {Header = HeaderEntry.Text, Description = DescriptionEntry.Text, PhoneNumber = PhoneEntry.Text};
                 await businessService.CreateBusiness(business);
+                await Navigation.PopAsync();
             }
             else
             {
-                await businessService.EditBusiness(business);
+                Verification.IsVisible = true;
             }
+        }
+
+        public async void Confirm(object sender, EventArgs e)
+        {
+            await businessService.EditBusiness(PasswordEntry.Text, business);
             await Navigation.PopAsync();
         }
+
+        public async void Cancel(object sender, EventArgs e)
+        {
+            Verification.IsVisible = false;
+        }
+
     }
 }

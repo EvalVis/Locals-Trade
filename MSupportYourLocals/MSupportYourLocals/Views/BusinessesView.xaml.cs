@@ -125,6 +125,7 @@ namespace MSupportYourLocals.Views
 
         private async Task EditBusiness(string password)
         {
+            await Navigation.PushAsync(new AdvertisementView(new BusinessViewModel(chosenBusiness)));
         }
 
         private async Task GetFeedbacks()
