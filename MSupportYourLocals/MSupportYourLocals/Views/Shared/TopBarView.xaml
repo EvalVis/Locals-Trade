@@ -10,6 +10,9 @@
         <ToolbarItem Text="Your Business"
                      Order="Primary"
                      Priority="0" Clicked="UserBusinessList" />
+        <ToolbarItem Text="User Panel"
+                     Order="Primary"
+                     Priority="0" Clicked="UserPanel" />
     </ContentPage.ToolbarItems>
 
 </ContentPage>

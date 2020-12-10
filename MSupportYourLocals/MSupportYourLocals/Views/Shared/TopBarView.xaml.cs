@@ -13,14 +13,19 @@ namespace MSupportYourLocals.Views.Shared
             InitializeComponent();
         }
 
-        public async void BusinessList(Object sender, EventArgs e)
+        public async void BusinessList(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new BusinessesView(new BusinessesViewModel()));
         }
 
-        public async void UserBusinessList(Object sender, EventArgs e)
+        public async void UserBusinessList(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new BusinessesView(new UserBusinessViewModel()));
+        }
+
+        public async void UserPanel(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new UserPanelView(new UserViewModel()));
         }
 
     }

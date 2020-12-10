@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<shared:TopBarView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:shared="clr-namespace:MSupportYourLocals.Views.Shared;assembly=MSupportYourLocals"
+             x:Class="MSupportYourLocals.Views.UserPanelView">
+
+    <ContentPage.Content>
+        <ScrollView>
+            <Grid>
+                <ContentView>
+                <StackLayout HorizontalOptions="FillAndExpand" Margin="0" Padding="0">
+                    <Label Text="Name" FontSize="Large" TextColor="Black" />
+                    <Label Text="{Binding Name}" FontSize="Large" TextColor="Black" />
+                    <Label Text="Surname" FontSize="Large" TextColor="Black" />
+                    <Label Text="{Binding Surname}" FontSize="Large" TextColor="Black" />
+                    <Label Text="Date of birth" FontSize="Large" TextColor="Black" />
+                    <Label Text="{Binding BirthDate}" FontSize="Large" TextColor="Black" />
+                    <Label Text="Email" FontSize="Large" TextColor="Black" />
+                    <Label Text="{Binding Email}" FontSize="Large" TextColor="Black" />
+                </StackLayout>
+                </ContentView>
+
+                <ContentView
+                    x:Name="LoginOptions"
+                    Padding="10,0"
+                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                    AbsoluteLayout.LayoutFlags="All"
+                    BackgroundColor="#C0808080">
+
+                    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                        <StackLayout
+                            Orientation="Vertical">
+                            <Button Margin="20,0,20,0" Text="Login" BackgroundColor="Blue" TextColor="White" FontAttributes="Bold" Clicked="Login" />
+                            <Button Margin="20,0,20,0" Text="Sign up" BackgroundColor="Gold" TextColor="White" FontAttributes="Bold" Clicked="SignUp" />
+                        </StackLayout>
+                    </StackLayout>
+                </ContentView>
+
+                <ContentView
+                    x:Name="Settings"
+                    Padding="10,0"
+                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                    AbsoluteLayout.LayoutFlags="All"
+                    BackgroundColor="#C0808080">
+
+                    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                        <StackLayout
+                            Orientation="Vertical">
+                            <Button Margin="20,0,20,0" Text="Change email" BackgroundColor="Aqua" TextColor="White" FontAttributes="Bold" Clicked="ChangeEmail" />
+                            <Button Margin="20,0,20,0" Text="Change password" BackgroundColor="IndianRed" TextColor="White" FontAttributes="Bold" Clicked="ChangePassword" />
+                        </StackLayout>
+                    </StackLayout>
+                </ContentView>
+
+
+            </Grid>
+        </ScrollView>
+    </ContentPage.Content>
+
+
+</shared:TopBarView>
