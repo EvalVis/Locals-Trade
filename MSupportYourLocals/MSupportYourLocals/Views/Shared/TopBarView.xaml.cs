@@ -12,6 +12,7 @@ namespace MSupportYourLocals.Views.Shared
     {
 
         private IUserService userService = DependencyService.Get<IUserService>();
+        private JsonWebTokenHolder tokenService = DependencyService.Get<JsonWebTokenHolder>();
 
         public TopBarView()
         {
@@ -32,6 +33,19 @@ namespace MSupportYourLocals.Views.Shared
         {
             User user = await userService.GetUser();
             await Navigation.PushAsync(new UserPanelView(new UserViewModel(user)));
+        }
+
+        public async void AddAdvertisement(Object sender, EventArgs e)
+        {
+            if (tokenService.Token != null)
+            {
+                await Navigation.PushAsync(new AddAdvertisementView());
+            }
+            else
+            {
+                await DisplayAlert("You are not signed in",
+                    "Please login or create an account to add a business advertisement", "OK");
+            }
         }
 
     }

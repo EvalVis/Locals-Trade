@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MSupportYourLocals.Views.AddAdvertisementView">
+
+    <StackLayout>
+        <Label Text="Please enter your business header" FontAttributes="Bold" FontSize="Large" />
+        <Entry x:Name="HeaderEntry" Placeholder="Header" />
+        <Label Text="Please enter your business description" FontAttributes="Bold" FontSize="Large" />
+        <Entry x:Name="DescriptionEntry" Placeholder="Description" />
+        <Label Text="Please enter your business phone number" FontAttributes="Bold" FontSize="Large" />
+        <Entry x:Name="PhoneEntry" Placeholder="Phone number" />
+        <Button Text="Change" BackgroundColor="Gold" TextColor="White" FontAttributes="Bold" Clicked="Submit" />
+    </StackLayout>
+
+</ContentPage>
