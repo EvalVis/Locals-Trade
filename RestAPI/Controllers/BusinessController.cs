@@ -129,11 +129,11 @@ namespace RestAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut]
-        public async Task<ActionResult> UpdateBusiness(string password, Business business)
+        public async Task<ActionResult> UpdateBusiness(UpdateBusiness business)
         {
-            if (business.BusinessID < 1) return BadRequest();
-            business.UserID = claimedId;
-            business.User = null;
+            if (business.Business.BusinessID < 1) return BadRequest();
+            business.Business.UserID = claimedId;
+            business.Business.User = null;
             Business targetBusiness = await repository.Business.Include(b => b.User).FirstOrDefaultAsync(b => b.BusinessID == business.BusinessID);
             if (targetBusiness == null)
             {
@@ -144,9 +144,9 @@ namespace RestAPI.Controllers
             {
                 return Unauthorized();
             }
-            if (new HashCalculator().IsGoodPass(user.Passhash, password))
+            if (new HashCalculator().IsGoodPass(user.Passhash, business.Password))
             {
-                await repository.UpdateBusinessAsync(business);
+                await repository.UpdateBusinessAsync(business.Business);
                 return Ok();
             }
             return Unauthorized();
