@@ -46,6 +46,7 @@ namespace MSupportYourLocals.Views
                 chosenBusiness = chosen as Business;
                 if (!personal)
                 {
+                    BusinessList.SelectedItem = null;
                     await Navigation.PushAsync(new BusinessView(new BusinessViewModel(chosenBusiness)));
                 }
                 else
@@ -74,12 +75,14 @@ namespace MSupportYourLocals.Views
         public async void BusinessDetails(object sender, EventArgs e)
         {
             Controls.IsVisible = false;
+            BusinessList.SelectedItem = null;
             await ShowDetails();
         }
 
         public async void BusinessFeedbacks(object sender, EventArgs e)
         {
             Controls.IsVisible = false;
+            BusinessList.SelectedItem = null;
             await GetFeedbacks();
         }
 
@@ -87,6 +90,7 @@ namespace MSupportYourLocals.Views
         {
             Controls.IsVisible = false;
             Verification.IsVisible = false;
+            BusinessList.SelectedItem = null;
         }
 
         public void CancelAction(object sender, EventArgs e)
@@ -97,6 +101,7 @@ namespace MSupportYourLocals.Views
 
         public async void VerifyAction(object sender, EventArgs e)
         {
+            BusinessList.SelectedItem = null;
             string password = PasswordEntry.Text;
             if (!string.IsNullOrEmpty(password))
             {

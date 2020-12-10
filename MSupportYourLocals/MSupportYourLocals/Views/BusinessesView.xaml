@@ -7,7 +7,7 @@
     <ContentPage.Content>
         <ScrollView>
             <Grid>
-                <CollectionView ItemsSource="{Binding Businesses}" SelectionMode="Single" SelectionChanged="BusinessSelected">
+                <CollectionView x:Name="BusinessList" ItemsSource="{Binding Businesses}" SelectionMode="Single" SelectionChanged="BusinessSelected">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <StackLayout HorizontalOptions="FillAndExpand" Margin="0" Padding="0">
