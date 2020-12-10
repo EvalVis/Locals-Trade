@@ -4,15 +4,15 @@
              x:Class="MSupportYourLocals.Views.Shared.TopBarView">
 
     <ContentPage.ToolbarItems>
+        <ToolbarItem Text="User Panel"
+                     Order="Primary"
+                     Priority="0" Clicked="UserPanel" />
         <ToolbarItem Text="Business list"
                      Order="Primary"
                      Priority="0" Clicked="BusinessList" />
         <ToolbarItem Text="Your Business"
                      Order="Primary"
                      Priority="0" Clicked="UserBusinessList" />
-        <ToolbarItem Text="User Panel"
-                     Order="Primary"
-                     Priority="0" Clicked="UserPanel" />
     </ContentPage.ToolbarItems>
 
 </ContentPage>
