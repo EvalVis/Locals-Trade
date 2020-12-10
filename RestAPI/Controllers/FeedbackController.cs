@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using RestAPI.Cryptography;
 using RestAPI.Infrastructure;
 using RestAPI.Models;
 using RestAPI.Models.BindingTargets;
@@ -65,6 +67,41 @@ namespace RestAPI.Controllers
             Feedback feedback = feedbackBindingTarget.ToFeedback();
             await repository.SaveFeedbackAsync(feedback);
             new Mailer(repository, configuration).SendMail(feedback);
+            return Ok();
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpDelete("All")]
+        public async Task<IActionResult> DeleteAllFeedbacks(long businessId)
+        {
+            if (businessId < 1) return BadRequest();
+            Business business = await repository.Business.Include(b => b.Feedbacks).FirstOrDefaultAsync(b => b.BusinessID == businessId);
+            IEnumerable<Feedback> feedbacks = business.Feedbacks;
+            User user = business.User;
+            if (business.UserID != claimedId)
+            {
+                return Unauthorized();
+            } 
+            await repository.RemoveFeedbacksAsync(feedbacks); 
+            return Ok();
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpDelete("One")]
+        public async Task<IActionResult> DeleteFeedback(long feedbackId)
+        {
+            if (feedbackId < 1) return BadRequest();
+            Feedback feedback = await repository.Feedbacks.Include(f => f.Business).FirstOrDefaultAsync(f => f.ID == feedbackId);
+            Business business = feedback.Business;
+            if (business.UserID != claimedId)
+            {
+                return Unauthorized();
+            }
+            await repository.RemoveFeedbackAsync(feedback);
             return Ok();
         }
 

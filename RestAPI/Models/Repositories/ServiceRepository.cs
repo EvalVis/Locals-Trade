@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.JsonPatch;
 
@@ -53,6 +54,18 @@ namespace RestAPI.Models.Repositories
         public async Task UpdateBusinessAsync(Business business)
         {
             context.Update(business);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task RemoveFeedbacksAsync(IEnumerable<Feedback> feedbacks)
+        {
+            context.RemoveRange(feedbacks);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task RemoveFeedbackAsync(Feedback feedback)
+        {
+            context.Remove(feedback);
             await context.SaveChangesAsync();
         }
 

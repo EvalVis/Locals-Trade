@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.JsonPatch;
 
@@ -16,5 +17,7 @@ namespace RestAPI.Models.Repositories
         public Task RemoveBusinessAsync(Business business);
         public Task UpdateBusinessAsync(Business business);
         public Task SaveUserAsync(User user);
+        public Task RemoveFeedbacksAsync(IEnumerable<Feedback> feedbacks);
+        public Task RemoveFeedbackAsync(Feedback feedback);
     }
 }
