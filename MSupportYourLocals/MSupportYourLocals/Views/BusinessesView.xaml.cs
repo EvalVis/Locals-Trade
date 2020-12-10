@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using MSupportYourLocals.Infrastructure;
 using MSupportYourLocals.Models;
 using MSupportYourLocals.Services;
 using MSupportYourLocals.ViewModels;
@@ -17,7 +16,6 @@ namespace MSupportYourLocals.Views
     {
 
         private bool personal;
-        private ActionEnum action;
         private Business chosenBusiness;
 
         private IBusinessService businessService = DependencyService.Get<IBusinessService>();
@@ -61,15 +59,6 @@ namespace MSupportYourLocals.Views
             PasswordEntry.Text = "";
             Controls.IsVisible = false;
             Verification.IsVisible = true;
-            action = ActionEnum.Delete;
-        }
-
-        public async void BusinessEdit(object sender, EventArgs e)
-        {
-            PasswordEntry.Text = "";
-            Controls.IsVisible = false;
-            Verification.IsVisible = true;
-            action = ActionEnum.Edit;
         }
 
         public async void BusinessDetails(object sender, EventArgs e)
@@ -105,14 +94,7 @@ namespace MSupportYourLocals.Views
             string password = PasswordEntry.Text;
             if (!string.IsNullOrEmpty(password))
             {
-                if (action == ActionEnum.Delete)
-                {
-                    await DeleteBusiness(password);
-                }
-                else if (action == ActionEnum.Edit)
-                {
-                    await EditBusiness(password);
-                }
+                await DeleteBusiness(password);
             }
             Controls.IsVisible = false;
             Verification.IsVisible = false;
@@ -123,8 +105,11 @@ namespace MSupportYourLocals.Views
             await businessService.DeleteBusiness(password, chosenBusiness.BusinessId);
         }
 
-        private async Task EditBusiness(string password)
+        private async void EditBusiness(object sender, EventArgs e)
         {
+            BusinessList.SelectedItem = null;
+            PasswordEntry.Text = "";
+            Controls.IsVisible = false;
             await Navigation.PushAsync(new AdvertisementView(new BusinessViewModel(chosenBusiness)));
         }
 
