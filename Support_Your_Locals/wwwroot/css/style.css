@@ -142,9 +142,47 @@ body {
     }
 
 .form h1 {
+    font-size: 200%;
+}
+.form label {
     font-size: 150%;
 }
+.form input {
+    font-size: 150%;
+}
+.form span {
+    font-size: 150%;
+}
+.nav a {
+    font-size: 170%;
+}
+.ind {
+    font-size: 130%;
+}
 
-@media (min-width: 480px) {
-    
+@media (max-width: 480px) {
+    .form h1 {
+        font-size: 100%;
+    }
+
+    .form label {
+        font-size: 100%;
+    }
+
+    .form input {
+        font-size: 100%;
+    }
+
+    .form span {
+        font-size: 100%;
+    }
+
+    .nav a {
+        font-size: 100%;
+    }
+
+    .ind {
+        font-size: 100%;
+    }
+
 }

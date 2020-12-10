@@ -50,8 +50,8 @@
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 </head>
 <body>
-    <div class="bg-dark text-white p-2">
-        <a class="nicetitle" style="font-size: 20px; color: #bbe1fa" href="../">Local Support</a>
+    <div class="bg-dark text-white p-2 nav">
+        <a class="nicetitle" style="color: #bbe1fa" href="../">Local Support</a>
         
         @if (!User.Identity.IsAuthenticated)
         {
@@ -76,7 +76,7 @@
     <a asp-controller="Business" asp-action="AddAdvertisement" class="navbar-brand ml-2 navbuttons">Add advertisement</a>
 
     </div>
-    <div class="row m-1 p-1">
+    <div class="row m-1 p-1 ind">
         <div id="categories" class="col-4">
             <vc:navigation-menu></vc:navigation-menu>
         </div>
