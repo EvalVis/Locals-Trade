@@ -42,7 +42,7 @@ namespace MSupportYourLocals.Views
             await Navigation.PopAsync();
         }
 
-        public async void Cancel(object sender, EventArgs e)
+        public void Cancel(object sender, EventArgs e)
         {
             Verification.IsVisible = false;
         }
