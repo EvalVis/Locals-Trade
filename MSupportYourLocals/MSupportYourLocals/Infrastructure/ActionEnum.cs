@@ -2,6 +2,6 @@
 {
     public enum ActionEnum
     {
-        Delete, Edit
+        Delete, Edit, DeleteAll
     }
 }

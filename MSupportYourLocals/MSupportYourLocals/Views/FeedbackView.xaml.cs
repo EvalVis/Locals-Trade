@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
+using MSupportYourLocals.Infrastructure;
 using MSupportYourLocals.Models;
 using MSupportYourLocals.Services;
 using MSupportYourLocals.ViewModels;
@@ -15,6 +17,7 @@ namespace MSupportYourLocals.Views
         private IFeedbackService feedbackService = DependencyService.Get<IFeedbackService>();
         private Feedback chosenFeedback;
         private long businessId;
+        private ActionEnum action;
 
         public FeedbackView(long businessId, FeedbackViewModel feedbackViewModel)
         {
@@ -23,42 +26,50 @@ namespace MSupportYourLocals.Views
             this.businessId = businessId;
         }
 
-        public async void ConfirmTotalDeletion(object sender, EventArgs e)
+        public void DeleteAll(object sender, EventArgs e)
         {
-            await feedbackService.DeleteAllFeedbacks(businessId);
-            Verification.IsVisible = false;
+            Confirmation.IsVisible = true;
+            action = ActionEnum.DeleteAll;
         }
 
-        public void CancelTotalDeletion(object sender, EventArgs e)
-        {
-            Verification.IsVisible = false;
-        }
-
-        public void DeleteAllFeedbacks(object sender, EventArgs e)
-        {
-            Verification.IsVisible = true;
-        }
-
-        public void CancelSingleDelete(object sender, EventArgs e)
+        public async Task ConfirmedDeleteAll()
         {
             Confirmation.IsVisible = false;
+            await feedbackService.DeleteAllFeedbacks(businessId);
         }
 
-        public void DeleteSingle(object sender, EventArgs e)
+        public async Task ConfirmedDeleteOne()
         {
-            Controls.IsVisible = false;
-            Confirmation.IsVisible = true;
-        }
-
-        public void CancelSingle(object sender, EventArgs e)
-        {
-            Controls.IsVisible = false;
-        }
-
-        public async void ConfirmSingleDelete(object sender, EventArgs e)
-        {
+            Confirmation.IsVisible = false;
             await feedbackService.DeleteFeedback(chosenFeedback.ID);
+        }
+
+        public async void Cancel(object sender, EventArgs e)
+        {
             Controls.IsVisible = false;
+        }
+
+        public async void Delete(object sender, EventArgs e)
+        {
+            Confirmation.IsVisible = true;
+            action = ActionEnum.Delete;
+        }
+
+        public async void ConfirmDelete(object sender, EventArgs e)
+        {
+            Confirmation.IsVisible = false;
+            if (action == ActionEnum.Delete)
+            {
+                await ConfirmedDeleteAll();
+            }
+            else if (action == ActionEnum.DeleteAll)
+            {
+                await ConfirmedDeleteOne();
+            }
+        }
+
+        public void CancelDelete(object sender, EventArgs e)
+        {
             Confirmation.IsVisible = false;
         }
 
