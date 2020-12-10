@@ -1,4 +1,4 @@
-﻿namespace RestAPI.Models
+﻿namespace RestAPI.Models.BindingTargets
 {
     public class EmailPatch
     {

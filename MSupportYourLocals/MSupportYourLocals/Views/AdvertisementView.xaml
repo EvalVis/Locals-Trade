@@ -25,7 +25,7 @@
                     <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
                         <StackLayout
                 Orientation="Vertical">
-                            <Label Text="Please enter your password to confirm the update."></Label>
+                            <Label Text="Please enter your password to confirm the update." FontAttributes="Bold" FontSize="Large"></Label>
                             <Entry Margin="20,0,20,0" x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" />
                             <Button Margin="20,0,20,0" Text="Confirm" BackgroundColor="Blue" TextColor="White" FontAttributes="Bold" Clicked="Confirm" />
                             <Button Margin="20,0,20,0" Text="Cancel" BackgroundColor="Aqua" TextColor="White" FontAttributes="Bold" Clicked="Cancel" />
