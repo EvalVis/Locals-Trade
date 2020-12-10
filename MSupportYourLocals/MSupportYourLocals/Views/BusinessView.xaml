@@ -21,9 +21,9 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout HorizontalOptions="FillAndExpand" Margin="0" Padding="0">
-                                    <Label Text="{Binding Weekday}" FontSize="Small" TextColor="IndianRed"></Label>
-                                    <Label Text="{Binding From}" FontSize="Small" TextColor="Gainsboro"></Label>
-                                    <Label Text="{Binding To}" FontSize="Small" TextColor="Gainsboro"></Label>
+                                    <Label Text="{Binding WeekdayName}" FontSize="Small" TextColor="IndianRed"></Label>
+                                    <Label Text="{Binding FromTime}" FontSize="Small" TextColor="Gainsboro"></Label>
+                                    <Label Text="{Binding ToTime}" FontSize="Small" TextColor="Gainsboro"></Label>
                                 </StackLayout>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>

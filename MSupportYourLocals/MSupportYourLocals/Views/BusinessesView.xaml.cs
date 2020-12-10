@@ -125,7 +125,7 @@ namespace MSupportYourLocals.Views
         private async Task GetFeedbacks()
         {
             ObservableCollection<Feedback> feedbacks = await feedbackService.GetFeedbacks(chosenBusiness.BusinessId);
-            await Navigation.PushAsync(new FeedbackView(new FeedbackViewModel(feedbacks)));
+            await Navigation.PushAsync(new FeedbackView(chosenBusiness.BusinessId, new FeedbackViewModel(feedbacks)));
         }
 
         private async Task ShowDetails()
