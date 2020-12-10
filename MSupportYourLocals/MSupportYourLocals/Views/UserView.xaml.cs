@@ -38,14 +38,13 @@ namespace MSupportYourLocals.Views
             await Navigation.PushAsync(new RegisterUserView());
         }
 
-        public async void ChangeEmail(object sender, EventArgs e)
+        public void ChangeEmail(object sender, EventArgs e)
         {
-
         }
 
-        public async void ChangePassword(object sender, EventArgs e)
+        public void ChangePassword(object sender, EventArgs e)
         {
-
+            Navigation.PushAsync(new ChangePasswordView());
         }
 
     }

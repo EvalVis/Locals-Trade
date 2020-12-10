@@ -1,7 +1,9 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
+using MSupportYourLocals.Infrastructure.Extensions;
 using MSupportYourLocals.Models;
 using Newtonsoft.Json;
 
@@ -39,6 +41,22 @@ namespace MSupportYourLocals.Services
                 return user;
             }
             return null;
+        }
+
+        public async Task PatchPassword(string currentPassword, string newPassword)
+        {
+            System.Diagnostics.Debug.WriteLine("I am here 1");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.Token);
+            var data = new { CurrentPassword = currentPassword, NewPassword = newPassword };
+            HttpResponseMessage response = await httpClient.PatchAsync("/api/User/password", data);
+            System.Diagnostics.Debug.WriteLine($" {response.StatusCode} I am here 2");
+        }
+
+        public async Task PatchEmail(string password, string email)
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.Token);
+            var data = new {Password = password, Email = email};
+            HttpResponseMessage response = await httpClient.PatchAsync("/api/User/email", data);
         }
 
     }
