@@ -115,5 +115,13 @@ namespace RestAPI.Controllers
             return NotFound();
         }
 
+        [HttpGet("Current")]
+        public async Task<IActionResult> GetUser()
+        {
+            User user = await repository.Users.FirstOrDefaultAsync(u => u.UserID == claimedId);
+            user.Passhash = null;
+            return Ok(user);
+        }
+
     }
 }
