@@ -13,5 +13,6 @@ namespace Support_Your_Locals.Models.Repositories
         public void SaveBusiness(Business business);
         public void DeleteBusiness(Business business);
         public void SaveUser(User user);
+        public void DeleteUser(User user);
     }
 }
