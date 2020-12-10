@@ -18,6 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\AdvertisementView.xaml.cs">
+      <DependentUpon>AdvertisementView.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\BusinessesView.xaml.cs">
       <DependentUpon>BusinessesView.xaml</DependentUpon>
     </Compile>
@@ -27,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Views\AddAdvertisementView.xaml">
+    <EmbeddedResource Update="Views\AdvertisementView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\AddFeedbackView.xaml">
