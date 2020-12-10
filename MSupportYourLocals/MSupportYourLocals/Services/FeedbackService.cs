@@ -30,5 +30,17 @@ namespace MSupportYourLocals.Services
             HttpResponseMessage response = await httpClient.PostAsJsonAsync("/api/Feedback", feedbackBindingTarget);
         }
 
+        public async Task DeleteFeedback(long feedbackId)
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.Token);
+            HttpResponseMessage response = await httpClient.DeleteAsync($"/api/Feedback/One/{feedbackId}");
+        }
+
+        public async Task DeleteAllFeedbacks(long businessId)
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.Token);
+            HttpResponseMessage response = await httpClient.DeleteAsync($"/api/Feedback/All/{businessId}");
+        }
+
     }
 }

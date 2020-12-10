@@ -73,7 +73,7 @@ namespace RestAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpDelete("All")]
+        [HttpDelete("All/{businessId}")]
         public async Task<IActionResult> DeleteAllFeedbacks(long businessId)
         {
             if (businessId < 1) return BadRequest();
@@ -91,7 +91,7 @@ namespace RestAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpDelete("One")]
+        [HttpDelete("One/{feedbackId}")]
         public async Task<IActionResult> DeleteFeedback(long feedbackId)
         {
             if (feedbackId < 1) return BadRequest();
