@@ -35,7 +35,6 @@ namespace Support_Your_Locals
                 InitialCatalog = Configuration["Database:Name"],
                 UserID = Configuration["Database:Username"],
                 Password = Configuration["Database:Password"],
-                Encrypt = true,
                 MultipleActiveResultSets = true,
                 TrustServerCertificate = true,
             };
