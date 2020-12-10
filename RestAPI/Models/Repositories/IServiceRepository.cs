@@ -15,7 +15,7 @@ namespace RestAPI.Models.Repositories
         public Task Patch<T>(JsonPatchDocument<T> document, T entity) where T: class;
         public Task SaveBusinessAsync(Business business);
         public Task RemoveBusinessAsync(Business business);
-        public Task UpdateBusinessAsync(Business business);
+        public Task UpdateBusinessAsync(Business targetBusiness, Business business);
         public Task SaveUserAsync(User user);
         public Task RemoveFeedbacksAsync(IEnumerable<Feedback> feedbacks);
         public Task RemoveFeedbackAsync(Feedback feedback);

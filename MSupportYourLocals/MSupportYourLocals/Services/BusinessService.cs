@@ -42,10 +42,7 @@ namespace MSupportYourLocals.Services
         public async Task DeleteBusiness(string password, long businessId)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.Token);
-            System.Diagnostics.Debug.WriteLine("I am here " + businessId);
             HttpResponseMessage response = await httpClient.DeleteAsync($"/api/Business/{businessId}?password={password}");
-            System.Diagnostics.Debug.WriteLine("I am out");
-            System.Diagnostics.Debug.WriteLine(response.StatusCode + " this response");
         }
 
         public async Task CreateBusiness(Business business)

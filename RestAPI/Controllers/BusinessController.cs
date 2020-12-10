@@ -146,7 +146,7 @@ namespace RestAPI.Controllers
             }
             if (new HashCalculator().IsGoodPass(user.Passhash, business.Password))
             {
-                await repository.UpdateBusinessAsync(business.Business);
+                await repository.UpdateBusinessAsync(targetBusiness, business.Business);
                 return Ok();
             }
             return Unauthorized();
