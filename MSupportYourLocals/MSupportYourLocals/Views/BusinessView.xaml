@@ -25,8 +25,8 @@
                                 <DataTemplate>
                                 <StackLayout Margin="20,20,20,20">
                                         <Label Text="{Binding WeekdayName}" FontSize="Small" TextColor="IndianRed"></Label>
-                                        <Label Text="{Binding From}" FontSize="Small" TextColor="Gainsboro"></Label>
-                                        <Label Text="{Binding To}" FontSize="Small" TextColor="Gainsboro"></Label>
+                                        <Label Text="{Binding From, StringFormat='{}{0:hh\\:mm}'}" FontSize="Small" TextColor="Gainsboro"></Label>
+                                        <Label Text="{Binding To, StringFormat='{}{0:hh\\:mm}'}" FontSize="Small" TextColor="Gainsboro"></Label>
                                     </StackLayout>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
