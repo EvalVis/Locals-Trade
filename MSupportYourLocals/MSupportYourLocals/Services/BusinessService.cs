@@ -12,15 +12,14 @@ namespace MSupportYourLocals.Services
     class BusinessService : Service, IBusinessService
     {
 
-        public async Task<ObservableCollection<Business>> GetBusinesses()
+        public async Task<PageBusiness> GetBusinesses()
         {
             HttpResponseMessage response = await httpClient.GetAsync("/api/Business/All");
             if (response.StatusCode == HttpStatusCode.OK) 
             {
                 var result = await response.Content.ReadAsStringAsync();
-                ObservableCollection<Business> businesses = JsonConvert.DeserializeObject<ObservableCollection<Business>>(result);
-                businesses = SortByWeekday.Sort(businesses);
-                return businesses;
+                PageBusiness pageBusiness = JsonConvert.DeserializeObject<PageBusiness>(result);
+                return pageBusiness;
             } 
             return null;
         }

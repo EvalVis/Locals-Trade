@@ -6,7 +6,7 @@ namespace MSupportYourLocals.Services
 {
     public interface IBusinessService
     {
-        Task<ObservableCollection<Business>> GetBusinesses();
+        Task<PageBusiness> GetBusinesses();
         Task<ObservableCollection<Business>> GetUserBusinesses();
         Task DeleteBusiness(string password, long businessId);
         Task CreateBusiness(Business business);
