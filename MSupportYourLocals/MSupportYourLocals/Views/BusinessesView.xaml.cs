@@ -25,7 +25,9 @@ namespace MSupportYourLocals.Views
         {
             InitializeComponent();
             BindingContext = businessesViewModel;
-            Grid.Children.Add(new PageView(1, 1));
+            int currentPage = businessesViewModel?.CurrentPage ?? 1;
+            int totalPages = businessesViewModel?.TotalPages ?? 1;
+            Grid.Children.Add(new PageView(currentPage, totalPages));
         }
 
         public BusinessesView(UserBusinessViewModel userBusinessViewModel)

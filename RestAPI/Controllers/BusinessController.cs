@@ -33,7 +33,7 @@ namespace RestAPI.Controllers
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [HttpGet("All")]
+        [HttpGet("All/{page}")]
         public ActionResult<PageBusiness> GetBusinesses(int page = 1)
         {
             long totalItems = repository.Business.Count();
@@ -54,7 +54,7 @@ namespace RestAPI.Controllers
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [HttpPost("Filtered")]
+        [HttpPost("Filtered/{page}")]
         public ActionResult<PageBusiness> GetFilteredBusinesses(SearchEngine searchEngine, int page = 1)
         {
             long totalItems = repository.Business.Count();

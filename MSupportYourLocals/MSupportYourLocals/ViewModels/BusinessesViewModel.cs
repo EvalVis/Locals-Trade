@@ -37,7 +37,7 @@ namespace MSupportYourLocals.ViewModels
 
         public async Task GetBusinesses()
         {
-            PageBusiness pageBusiness = await businessService.GetBusinesses();
+            PageBusiness pageBusiness = await businessService.GetBusinesses(CurrentPage);
             businesses = pageBusiness?.Businesses;
             businesses = SortByWeekday.Sort(businesses);
             TotalPages = pageBusiness?.TotalPages ?? 1;

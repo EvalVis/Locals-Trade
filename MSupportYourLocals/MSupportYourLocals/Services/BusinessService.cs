@@ -12,10 +12,10 @@ namespace MSupportYourLocals.Services
     class BusinessService : Service, IBusinessService
     {
 
-        public async Task<PageBusiness> GetBusinesses()
+        public async Task<PageBusiness> GetBusinesses(int page)
         {
-            HttpResponseMessage response = await httpClient.GetAsync("/api/Business/All");
-            if (response.StatusCode == HttpStatusCode.OK) 
+            HttpResponseMessage response = await httpClient.GetAsync($"/api/Business/All/{page}");
+            if (response.StatusCode == HttpStatusCode.OK)
             {
                 var result = await response.Content.ReadAsStringAsync();
                 System.Diagnostics.Debug.WriteLine("the string " + result);
