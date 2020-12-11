@@ -34,8 +34,10 @@ namespace RestAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet("All")]
-        public ActionResult<IEnumerable<Business>> GetBusinesses(int page = 1)
+        public ActionResult<IEnumerable<PageBusiness>> GetBusinesses(int page = 1)
         {
+            long totalItems = repository.Business.Count();
+            int totalPages = (int)Math.Ceiling((decimal)totalItems / pageSize);
             IEnumerable<Business> businesses = repository.Business.
                 Include(b => b.User).
                 Include(b => b.Products).
@@ -45,7 +47,8 @@ namespace RestAPI.Controllers
             {
                 b.EliminateDepth();
             }
-            return Ok(businesses);
+            PageBusiness pageBusiness = new PageBusiness {TotalPages = totalPages, Businesses = businesses};
+            return Ok(pageBusiness);
         }
 
         [AllowAnonymous]
@@ -54,13 +57,16 @@ namespace RestAPI.Controllers
         [HttpPost("Filtered")]
         public ActionResult<IEnumerable<Business>> GetFilteredBusinesses(SearchEngine searchEngine, int page = 1)
         {
+            long totalItems = repository.Business.Count();
+            int totalPages = (int)Math.Ceiling((decimal)totalItems / pageSize);
             IEnumerable<Business> filteredBusinesses = searchEngine.FilterBusinesses(page, pageSize, repository);
             foreach (var b in filteredBusinesses)
             {
                 b.EliminateDepth();
             }
             if (!filteredBusinesses.Any()) return NoContent();
-;            return Ok(filteredBusinesses);
+            PageBusiness filteredPageBusiness = new PageBusiness { TotalPages = totalPages, Businesses = filteredBusinesses };
+            return Ok(filteredPageBusiness);
         }
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
