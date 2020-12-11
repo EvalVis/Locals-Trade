@@ -6,7 +6,7 @@
 
     <ContentPage.Content>
         <ScrollView>
-            <Grid>
+            <Grid x:Name="Grid">
                 <StackLayout x:Name="Stack">
                     <shared:SearchView x:Name="Search"></shared:SearchView>
                     <CollectionView x:Name="BusinessList" ItemsSource="{Binding Businesses}" SelectionMode="Single" SelectionChanged="BusinessSelected">
@@ -57,12 +57,9 @@
                             <Entry Margin="20,0,20,0" x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" />
                             <Button Margin="20,0,20,0" Text="Confirm" BackgroundColor="Red" TextColor="White" FontAttributes="Bold" Clicked="VerifyAction" />
                             <Button Margin="20,0,20,0" Text="Cancel" BackgroundColor="LawnGreen" TextColor="White" FontAttributes="Bold" Clicked="CancelAction" />
-
                         </StackLayout>
-
                     </StackLayout>
-
-                </ContentView>
+                 </ContentView>
             </Grid>
         </ScrollView>
     </ContentPage.Content>

@@ -26,7 +26,7 @@ namespace MSupportYourLocals {
 
         public async void Continue(Object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new BusinessesView(new BusinessesViewModel()));
+            await Navigation.PushAsync(new BusinessesView(new BusinessesViewModel(1)));
         }
 
     }

@@ -21,7 +21,7 @@ namespace MSupportYourLocals.Views.Shared
 
         public async void BusinessList(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new BusinessesView(new BusinessesViewModel()));
+            await Navigation.PushAsync(new BusinessesView(new BusinessesViewModel(1)));
         }
 
         public async void UserBusinessList(object sender, EventArgs e)

@@ -17,6 +17,7 @@ namespace MSupportYourLocals.ViewModels
 
         private ObservableCollection<Business> businesses;
         public int TotalPages;
+        public int CurrentPage;
 
         public ObservableCollection<Business> Businesses
         {
@@ -28,8 +29,9 @@ namespace MSupportYourLocals.ViewModels
             }
         }
 
-        public BusinessesViewModel()
+        public BusinessesViewModel(int currentPage)
         {
+            CurrentPage = currentPage;
             Task.Run(async () => await GetBusinesses()).Wait();
         }
 
