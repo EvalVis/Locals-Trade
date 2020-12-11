@@ -26,7 +26,14 @@ namespace MSupportYourLocals.Views.Shared
 
         public async void UserBusinessList(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new BusinessesView(new UserBusinessViewModel()));
+            if (tokenService.Token != null)
+            {
+                await Navigation.PushAsync(new BusinessesView(new UserBusinessViewModel()));
+            }
+            else
+            {
+                showAlert();
+            }
         }
 
         public async void UserPanel(object sender, EventArgs e)
@@ -43,9 +50,14 @@ namespace MSupportYourLocals.Views.Shared
             }
             else
             {
-                await DisplayAlert("You are not signed in",
-                    "Please login or create an account to add a business advertisement", "OK");
+                showAlert();
             }
+        }
+
+        private async void showAlert()
+        {
+            await DisplayAlert("You are not signed in",
+                "Please login or create an account to add a business advertisement", "OK");
         }
 
     }

@@ -43,7 +43,7 @@
         </CollectionView>
         </ContentView>
         <Button Text="Add product" BackgroundColor="Blue" TextColor="White" FontAttributes="Bold" Clicked="AddProduct"></Button>
-        <Button Text="Change" BackgroundColor="Gold" TextColor="White" FontAttributes="Bold" Clicked="Submit" />
+        <Button x:Name="SubmitButton" Text="Submit" BackgroundColor="Gold" TextColor="White" FontAttributes="Bold" Clicked="Submit" />
         <ContentView
         x:Name="Verification"
         Padding="10,0"

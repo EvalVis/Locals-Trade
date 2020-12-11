@@ -4,7 +4,6 @@ using System.Linq;
 using MSupportYourLocals.Models;
 using MSupportYourLocals.Services;
 using MSupportYourLocals.ViewModels;
-using Newtonsoft.Json;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -25,6 +24,10 @@ namespace MSupportYourLocals.Views
             InitializeComponent();
             BindingContext = businessViewModel;
             business = businessViewModel?.Business;
+            if (business != null)
+            {
+                SubmitButton.Text = "Change";
+            }
             renderWorkdays();
             renderProducts();
         }
@@ -59,7 +62,6 @@ namespace MSupportYourLocals.Views
         {
             if (business == null)
             {
-                System.Diagnostics.Debug.WriteLine("Testinis " + JsonConvert.SerializeObject(Workdays));
                 business = new Business {Header = HeaderEntry.Text, Description = DescriptionEntry.Text, PhoneNumber = PhoneEntry.Text, Products = Products, Workdays = Workdays};
                 await businessService.CreateBusiness(business);
                 await Navigation.PopAsync();
@@ -72,6 +74,8 @@ namespace MSupportYourLocals.Views
 
         public async void Confirm(object sender, EventArgs e)
         {
+            business.Products = Products;
+            business.Workdays = Workdays;
             await businessService.UpdateBusiness(PasswordEntry.Text, business);
             await Navigation.PopAsync();
         }
