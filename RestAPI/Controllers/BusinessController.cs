@@ -54,8 +54,8 @@ namespace RestAPI.Controllers
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [HttpPost("Filtered/{page}")]
-        public ActionResult<PageBusiness> GetFilteredBusinesses(SearchEngine searchEngine, int page = 1)
+        [HttpGet("Filtered/{page}")]
+        public ActionResult<PageBusiness> GetFilteredBusinesses([FromQuery] SearchEngine searchEngine, int page = 1)
         {
             System.Diagnostics.Debug.WriteLine("information we got: " + page + " " + searchEngine?.OpenFrom + " " + searchEngine?.OwnersSurname + " " + searchEngine?.WeekdaySelected?[0]);
             long totalItems = repository.Business.Count();
