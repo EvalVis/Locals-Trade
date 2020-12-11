@@ -34,7 +34,7 @@ namespace RestAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet("All")]
-        public ActionResult<IEnumerable<PageBusiness>> GetBusinesses(int page = 1)
+        public ActionResult<PageBusiness> GetBusinesses(int page = 1)
         {
             long totalItems = repository.Business.Count();
             int totalPages = (int)Math.Ceiling((decimal)totalItems / pageSize);
@@ -55,7 +55,7 @@ namespace RestAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPost("Filtered")]
-        public ActionResult<IEnumerable<Business>> GetFilteredBusinesses(SearchEngine searchEngine, int page = 1)
+        public ActionResult<PageBusiness> GetFilteredBusinesses(SearchEngine searchEngine, int page = 1)
         {
             long totalItems = repository.Business.Count();
             int totalPages = (int)Math.Ceiling((decimal)totalItems / pageSize);
