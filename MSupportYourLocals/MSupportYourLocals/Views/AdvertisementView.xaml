@@ -7,13 +7,16 @@
         <ScrollView>
             <Grid>
                 <StackLayout>
+                <StackLayout>
         <Label Text="Please enter your business header" FontAttributes="Bold" FontSize="Large" />
         <Entry Text="{Binding Business.Header}" x:Name="HeaderEntry" Placeholder="Header" />
         <Label Text="Please enter your business description" FontAttributes="Bold" FontSize="Large" />
         <Entry Text="{Binding Business.Description}" x:Name="DescriptionEntry" Placeholder="Description" />
         <Label Text="Please enter your business phone number" FontAttributes="Bold" FontSize="Large" />
         <Entry Text="{Binding Business.PhoneNumber}" x:Name="PhoneEntry" Placeholder="Phone number" />
-        <CollectionView x:Name="WorkdayCollection">
+                </StackLayout>
+                <ContentView>
+                        <CollectionView x:Name="WorkdayCollection">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout>
@@ -24,9 +27,24 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+            </ContentView>
+                            <ContentView>
+        <CollectionView x:Name="ProductCollection" EmptyView="Your added products will show up here.">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                <StackLayout Margin="20,20,20,20">
+                        <Entry Text="{Binding Name}" Placeholder="Product's name"></Entry>
+                        <Entry Text="{Binding PricePerUnit}" Placeholder="Product's price per unit"></Entry>
+                        <Entry Text="{Binding Unit}" Placeholder="Product's unit"></Entry>
+                        <Entry Text="{Binding Comment}" Placeholder="Comment"></Entry>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        </ContentView>
+        <Button Text="Add product" BackgroundColor="Blue" TextColor="White" FontAttributes="Bold" Clicked="AddProduct"></Button>
         <Button Text="Change" BackgroundColor="Gold" TextColor="White" FontAttributes="Bold" Clicked="Submit" />
-    </StackLayout>
-                <ContentView
+        <ContentView
         x:Name="Verification"
         Padding="10,0"
         AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
@@ -43,6 +61,7 @@
                         </StackLayout>
                     </StackLayout>
                 </ContentView>
+                </StackLayout>
             </Grid>
         </ScrollView>
         </ContentPage.Content>

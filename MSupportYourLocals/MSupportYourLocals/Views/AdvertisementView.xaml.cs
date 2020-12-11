@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using MSupportYourLocals.Models;
 using MSupportYourLocals.Services;
@@ -16,7 +16,8 @@ namespace MSupportYourLocals.Views
         private IBusinessService businessService = DependencyService.Get<IBusinessService>();
         private JsonWebTokenHolder tokenService = DependencyService.Get<JsonWebTokenHolder>();
         private Business business;
-        public List<Workday> Workdays = new List<Workday>();
+        public ObservableCollection<Workday> Workdays = new ObservableCollection<Workday>();
+        public ObservableCollection<Product> Products = new ObservableCollection<Product>();
 
         public AdvertisementView(BusinessViewModel businessViewModel)
         {
@@ -24,6 +25,7 @@ namespace MSupportYourLocals.Views
             BindingContext = businessViewModel;
             business = businessViewModel?.Business;
             renderWorkdays();
+            renderProducts();
         }
 
         private void renderWorkdays()
@@ -31,17 +33,32 @@ namespace MSupportYourLocals.Views
             WorkdayCollection.ItemsSource = Workdays;
             for (int i = 1; i < 8; i++)
             {
-                DateTime? from = business?.Workdays?.FirstOrDefault(w => w.Weekday == i)?.From;
-                DateTime? to = business?.Workdays?.FirstOrDefault(w => w.Weekday == i)?.To;
+                DateTime from = business?.Workdays?.FirstOrDefault(w => w.Weekday == i)?.From ?? new DateTime();
+                DateTime to = business?.Workdays?.FirstOrDefault(w => w.Weekday == i)?.To ?? new DateTime();
                 Workdays.Add(new Workday {From = from, To = to, Weekday = i});
             }
+        }
+
+        private void renderProducts()
+        {
+            ProductCollection.ItemsSource = Products;
+            if (business?.Products == null) return;
+            foreach (var p in business.Products)
+            {
+                Products.Add(p);
+            }
+        }
+
+        public void AddProduct(object sender, EventArgs e)
+        {
+            Products.Add(new Product());
         }
 
         public async void Submit(object sender, EventArgs e)
         {
             if (business == null)
             {
-                business = new Business {Header = HeaderEntry.Text, Description = DescriptionEntry.Text, PhoneNumber = PhoneEntry.Text};
+                business = new Business {Header = HeaderEntry.Text, Description = DescriptionEntry.Text, PhoneNumber = PhoneEntry.Text, Products = Products, Workdays = Workdays};
                 await businessService.CreateBusiness(business);
                 await Navigation.PopAsync();
             }

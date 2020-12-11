@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using RestAPI.Cryptography;
 using RestAPI.Models;
 using RestAPI.Models.BindingTargets;
@@ -120,6 +121,7 @@ namespace RestAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> SaveBusiness(BusinessBindingTarget target)
         {
+            System.Diagnostics.Debug.WriteLine("Gavau " + JsonConvert.SerializeObject(target));
             await repository.SaveBusinessAsync(target.ToBusiness(claimedId));
             return Ok();
         }
