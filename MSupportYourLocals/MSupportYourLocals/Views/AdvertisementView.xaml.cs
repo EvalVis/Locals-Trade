@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using MSupportYourLocals.Models;
 using MSupportYourLocals.Services;
 using MSupportYourLocals.ViewModels;
@@ -14,12 +16,25 @@ namespace MSupportYourLocals.Views
         private IBusinessService businessService = DependencyService.Get<IBusinessService>();
         private JsonWebTokenHolder tokenService = DependencyService.Get<JsonWebTokenHolder>();
         private Business business;
+        public List<Workday> Workdays = new List<Workday>();
 
         public AdvertisementView(BusinessViewModel businessViewModel)
         {
             InitializeComponent();
             BindingContext = businessViewModel;
             business = businessViewModel?.Business;
+            renderWorkdays();
+        }
+
+        private void renderWorkdays()
+        {
+            WorkdayCollection.ItemsSource = Workdays;
+            for (int i = 1; i < 8; i++)
+            {
+                DateTime? from = business?.Workdays?.FirstOrDefault(w => w.Weekday == i)?.From;
+                DateTime? to = business?.Workdays?.FirstOrDefault(w => w.Weekday == i)?.To;
+                Workdays.Add(new Workday {From = from, To = to, Weekday = i});
+            }
         }
 
         public async void Submit(object sender, EventArgs e)
