@@ -20,7 +20,7 @@ namespace MSupportYourLocals.Views.Shared
 
         private async void Search(object sender, EventArgs e)
         {
-
+            bool[] checks =  {Monday.IsChecked, Tuesday.IsChecked, Wednesday.IsChecked, Thursday.IsChecked, Friday.IsChecked, Saturday.IsChecked, Sunday.IsChecked};
         }
 
 
