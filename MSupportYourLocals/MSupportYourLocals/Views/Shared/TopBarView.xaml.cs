@@ -32,7 +32,7 @@ namespace MSupportYourLocals.Views.Shared
             }
             else
             {
-                showAlert();
+                ShowAlert();
             }
         }
 
@@ -50,11 +50,11 @@ namespace MSupportYourLocals.Views.Shared
             }
             else
             {
-                showAlert();
+                ShowAlert();
             }
         }
 
-        private async void showAlert()
+        private async void ShowAlert()
         {
             await DisplayAlert("You are not signed in",
                 "Please login or create an account to add a business advertisement", "OK");

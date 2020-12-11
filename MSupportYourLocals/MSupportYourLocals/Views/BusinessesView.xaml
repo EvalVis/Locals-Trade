@@ -8,7 +8,6 @@
         <ScrollView>
             <Grid x:Name="Grid">
                 <StackLayout x:Name="Stack">
-                    <shared:SearchView x:Name="Search"></shared:SearchView>
                     <CollectionView x:Name="BusinessList" ItemsSource="{Binding Businesses}" SelectionMode="Single" SelectionChanged="BusinessSelected">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>

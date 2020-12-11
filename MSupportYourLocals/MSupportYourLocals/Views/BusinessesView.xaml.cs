@@ -21,13 +21,26 @@ namespace MSupportYourLocals.Views
         private IBusinessService businessService = DependencyService.Get<IBusinessService>();
         private IFeedbackService feedbackService = DependencyService.Get<IFeedbackService>();
 
+        public BusinessesView(string ownersSurname, string businessInfo, int searchIn, bool[] checks, DateTime? openFrom, DateTime? openTo, BusinessesViewModel businessesViewModel)
+        {
+            InitializeComponent();
+            BindingContext = businessesViewModel;
+            int currentPage = businessesViewModel?.CurrentPage ?? 1;
+            int totalPages = businessesViewModel?.TotalPages ?? 1;
+            SearchView searchView = new SearchView(ownersSurname, businessInfo, searchIn, checks, openFrom, openTo);
+            Stack.Children.Add(searchView);
+            Stack.Children.Add(new PageView(currentPage, totalPages, searchView));
+        }
+
         public BusinessesView(BusinessesViewModel businessesViewModel)
         {
             InitializeComponent();
             BindingContext = businessesViewModel;
             int currentPage = businessesViewModel?.CurrentPage ?? 1;
             int totalPages = businessesViewModel?.TotalPages ?? 1;
-            Stack.Children.Add(new PageView(currentPage, totalPages));
+            SearchView searchView = new SearchView(null, null, 0, null, null, null);
+            Stack.Children.Add(searchView);
+            Stack.Children.Add(new PageView(currentPage, totalPages, searchView));
         }
 
         public BusinessesView(UserBusinessViewModel userBusinessViewModel)
@@ -35,7 +48,6 @@ namespace MSupportYourLocals.Views
             InitializeComponent();
             BindingContext = userBusinessViewModel;
             personal = true;
-            Stack.Children.Remove(Search);
         }
 
 
