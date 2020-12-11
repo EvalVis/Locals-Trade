@@ -57,6 +57,7 @@ namespace RestAPI.Controllers
         [HttpPost("Filtered/{page}")]
         public ActionResult<PageBusiness> GetFilteredBusinesses(SearchEngine searchEngine, int page = 1)
         {
+            System.Diagnostics.Debug.WriteLine("information we got: " + page + " " + searchEngine?.OpenFrom + " " + searchEngine?.OwnersSurname + " " + searchEngine?.WeekdaySelected?[0]);
             long totalItems = repository.Business.Count();
             int totalPages = (int)Math.Ceiling((decimal)totalItems / pageSize);
             IEnumerable<Business> filteredBusinesses = searchEngine.FilterBusinesses(page, pageSize, repository);

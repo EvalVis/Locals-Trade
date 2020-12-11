@@ -39,7 +39,9 @@ namespace MSupportYourLocals.Services
             HttpResponseMessage response = await httpClient.GetAsync($"/api/Business/Filtered/{page}" + query);
             if (response.StatusCode == HttpStatusCode.OK)
             {
+                System.Diagnostics.Debug.WriteLine(" Still here");
                 var result = await response.Content.ReadAsStringAsync();
+                System.Diagnostics.Debug.WriteLine(" Still here 3");
                 System.Diagnostics.Debug.WriteLine("the string " + result);
                 PageBusiness pageBusiness = JsonConvert.DeserializeObject<PageBusiness>(result);
                 System.Diagnostics.Debug.WriteLine(pageBusiness.TotalPages, pageBusiness?.Businesses?[0].Header);
