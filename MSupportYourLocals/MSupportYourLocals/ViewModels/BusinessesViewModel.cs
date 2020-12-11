@@ -30,7 +30,7 @@ namespace MSupportYourLocals.ViewModels
 
         public BusinessesViewModel()
         {
-            Task.Run(async () => await GetBusinesses());
+            Task.Run(async () => await GetBusinesses()).Wait();
         }
 
         public async Task GetBusinesses()
