@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace RestAPI.Models.BindingTargets
 {
@@ -21,8 +22,8 @@ namespace RestAPI.Models.BindingTargets
             PhoneNumber = PhoneNumber,
             Header = Header,
             Picture = Picture,
-            Workdays = ToWorkdays(),
-            Products = ToProducts()
+            Workdays = ToWorkdays().ToList(),
+            Products = ToProducts().ToList()
         };
 
         public IEnumerable<TimeSheet> ToWorkdays()

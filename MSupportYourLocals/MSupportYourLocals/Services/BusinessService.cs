@@ -47,8 +47,13 @@ namespace MSupportYourLocals.Services
 
         public async Task CreateBusiness(Business business)
         {
+            var businessBindingTarget = new
+            {
+                Description = business.Description, Header = business.Header, PhoneNumber = business.PhoneNumber,
+                Longitude = business.Longitude, Latitude = business.Latitude, WorkdayTargets = business.Workdays, ProductTargets = business.Products
+            };
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.Token);
-            HttpResponseMessage response = await httpClient.PostAsJsonAsync("/api/Business", business);
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync("/api/Business", businessBindingTarget);
         }
 
         public async Task UpdateBusiness(string password, Business business)
