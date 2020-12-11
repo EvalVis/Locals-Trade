@@ -16,9 +16,11 @@ namespace RestAPI.Models
         public DateTime OpenTo { get; set; }
 
 
-        public IEnumerable<Business> FilterBusinesses(IServiceRepository repository)
+        public IEnumerable<Business> FilterBusinesses(int page, int pageSize, IServiceRepository repository)
         {
-            return repository.Business.Include(b => b.User).Include(b => b.Workdays).Include(b => b.Products);
+            return repository.Business.Include(b => b.User).
+                Include(b => b.Workdays).Include(b => b.Products).OrderByDescending(b => b.BusinessID).
+                Skip((page - 1) * pageSize).Take(pageSize);
                 //Where(b => BusinessConditionsMet(b) && UserConditionsMet(b.User) && ChosenWeekday(b.Workdays) && ChosenTimeInterval(b.Workdays))
         }
 

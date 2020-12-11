@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ namespace RestAPI.Controllers
     {
         private IServiceRepository repository;
         private long claimedId;
+        private int pageSize = 2;
 
         public BusinessController(IServiceRepository repo, IHttpContextAccessor accessor)
         {
@@ -32,12 +34,12 @@ namespace RestAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet("All")]
-        public ActionResult<IEnumerable<Business>> GetBusinesses()
+        public ActionResult<IEnumerable<Business>> GetBusinesses(int page = 1)
         {
             IEnumerable<Business> businesses = repository.Business.
                 Include(b => b.User).
                 Include(b => b.Products).
-                Include(b => b.Workdays);
+                Include(b => b.Workdays).OrderByDescending(b => b.BusinessID).Skip((page - 1) * pageSize).Take(pageSize);
             if (!businesses.Any()) return NoContent();
             foreach (var b in businesses)
             {
@@ -50,9 +52,9 @@ namespace RestAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPost("Filtered")]
-        public ActionResult<IEnumerable<Business>> GetFilteredBusinesses(SearchEngine searchEngine)
+        public ActionResult<IEnumerable<Business>> GetFilteredBusinesses(SearchEngine searchEngine, int page = 1)
         {
-            IEnumerable<Business> filteredBusinesses = searchEngine.FilterBusinesses(repository);
+            IEnumerable<Business> filteredBusinesses = searchEngine.FilterBusinesses(page, pageSize, repository);
             foreach (var b in filteredBusinesses)
             {
                 b.EliminateDepth();
