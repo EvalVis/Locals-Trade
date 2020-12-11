@@ -4,6 +4,7 @@ using System.Linq;
 using MSupportYourLocals.Models;
 using MSupportYourLocals.Services;
 using MSupportYourLocals.ViewModels;
+using Newtonsoft.Json;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -33,8 +34,8 @@ namespace MSupportYourLocals.Views
             WorkdayCollection.ItemsSource = Workdays;
             for (int i = 1; i < 8; i++)
             {
-                DateTime from = business?.Workdays?.FirstOrDefault(w => w.Weekday == i)?.From ?? new DateTime();
-                DateTime to = business?.Workdays?.FirstOrDefault(w => w.Weekday == i)?.To ?? new DateTime();
+                DateTime? from = business?.Workdays?.FirstOrDefault(w => w.Weekday == i)?.From;
+                DateTime? to = business?.Workdays?.FirstOrDefault(w => w.Weekday == i)?.To;
                 Workdays.Add(new Workday {From = from, To = to, Weekday = i});
             }
         }
@@ -58,6 +59,7 @@ namespace MSupportYourLocals.Views
         {
             if (business == null)
             {
+                System.Diagnostics.Debug.WriteLine("Testinis " + JsonConvert.SerializeObject(Workdays));
                 business = new Business {Header = HeaderEntry.Text, Description = DescriptionEntry.Text, PhoneNumber = PhoneEntry.Text, Products = Products, Workdays = Workdays};
                 await businessService.CreateBusiness(business);
                 await Navigation.PopAsync();

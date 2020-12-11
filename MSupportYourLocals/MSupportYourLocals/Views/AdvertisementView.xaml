@@ -21,8 +21,8 @@
                 <DataTemplate>
                     <StackLayout>
                     <Label Text="{Binding WeekdayName}" FontSize="Large" />
-                    <Entry Text="{Binding FromTime}" Placeholder="Workday's start" />
-                    <Entry Text="{Binding ToTime}" Placeholder="Workday's end" />
+                    <Entry Text="{Binding From, StringFormat='{}{0:hh\\:mm}'}" Placeholder="Workday's start" />
+                    <Entry Text="{Binding To, StringFormat='{}{0:hh\\:mm}'}" Placeholder="Workday's end" />
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
