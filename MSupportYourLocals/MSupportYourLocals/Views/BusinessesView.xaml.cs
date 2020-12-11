@@ -25,7 +25,6 @@ namespace MSupportYourLocals.Views
         {
             InitializeComponent();
             BindingContext = businessesViewModel;
-            personal = false;
         }
 
         public BusinessesView(UserBusinessViewModel userBusinessViewModel)
@@ -33,6 +32,7 @@ namespace MSupportYourLocals.Views
             InitializeComponent();
             BindingContext = userBusinessViewModel;
             personal = true;
+            Stack.Children.Remove(Search);
         }
 
 

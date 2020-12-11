@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StackLayout xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MSupportYourLocals.Views.Shared.SearchView">
+
+    <Entry x:Name="OwnerEntry" Placeholder="Owner's surname" />
+    <Entry x:Name="SearchEntry" Placeholder="Text to search" />
+    <Picker x:Name="SearchOptionsPicker"></Picker>
+    <Label Text="Monday"></Label>
+    <CheckBox x:Name="Monday" IsChecked="true"></CheckBox>
+    <Label Text="Tuesday"></Label>
+    <CheckBox x:Name="Tuesday" IsChecked="true"></CheckBox>
+    <Label Text="Wednesday"></Label>
+    <CheckBox x:Name="Wednesday" IsChecked="true"></CheckBox>
+    <Label Text="Thursday"></Label>
+    <CheckBox x:Name="Thursday" IsChecked="true"></CheckBox>
+    <Label Text="Friday"></Label>
+    <CheckBox x:Name="Friday" IsChecked="true"></CheckBox>
+    <Label Text="Saturday"></Label>
+    <CheckBox x:Name="Saturday" IsChecked="true"></CheckBox>
+    <Label Text="Sunday"></Label>
+    <CheckBox x:Name="Sunday" IsChecked="true"></CheckBox>
+    <TimePicker x:Name="FromPicker"></TimePicker>
+    <TimePicker x:Name="ToPicker"></TimePicker>
+    <Button Text="Search" BackgroundColor="Blue" TextColor="White" FontAttributes="Bold" Clicked="Search" />
+
+</StackLayout>
