@@ -9,7 +9,7 @@
         <Entry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" />
         <Button Text="Sign in" BackgroundColor="YellowGreen" TextColor="White" FontAttributes="Bold" Clicked="Login"></Button>
         <Button Text="Sign up" BackgroundColor="Goldenrod" TextColor="White" FontAttributes="Bold" Clicked="SignUp"></Button>
-        <Button Text="Skip" BackgroundColor="MediumTurquoise" TextColor="White" Clicked="Skipped"></Button>
+        <Button Text="Continue" BackgroundColor="MediumTurquoise" TextColor="White" Clicked="Continue"></Button>
     </StackLayout>
 
 </ContentPage>

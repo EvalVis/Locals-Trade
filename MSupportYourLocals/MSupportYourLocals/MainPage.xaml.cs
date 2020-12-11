@@ -24,7 +24,7 @@ namespace MSupportYourLocals {
             await Navigation.PushAsync(new RegisterUserView());
         }
 
-        public async void Skipped(Object sender, EventArgs e)
+        public async void Continue(Object sender, EventArgs e)
         {
             await Navigation.PushAsync(new BusinessesView(new BusinessesViewModel()));
         }

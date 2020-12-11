@@ -11,23 +11,22 @@
 
     <ContentPage.Content>
         <ScrollView>
-            <RelativeLayout>
-                <ContentView>
-                    <StackLayout HorizontalOptions="FillAndExpand" Margin="0" Padding="0">
+        <Grid>
+            <StackLayout>
+                <StackLayout>
                         <Label Text="{Binding Path=Business.Header}" FontSize="Large" TextColor="Black"></Label>
                     <Label Text="{Binding Business.User.FullName}" FontSize="Large" TextColor="Brown"></Label>
                     <Label Text="{Binding Business.Description}" FontSize="Medium" TextColor="ForestGreen"></Label>
                     <Label Text="{Binding Business.PhoneNumber}" FontSize="Medium" TextColor="Crimson"></Label>
                     </StackLayout>
-                </ContentView>
                 <ContentView>
                     <CollectionView ItemsSource="{Binding Business.Workdays}" SelectionMode="None">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <StackLayout HorizontalOptions="FillAndExpand" Margin="0" Padding="0">
+                                <StackLayout Margin="20,20,20,20">
                                         <Label Text="{Binding WeekdayName}" FontSize="Small" TextColor="IndianRed"></Label>
-                                        <Label Text="{Binding FromTime}" FontSize="Small" TextColor="Gainsboro"></Label>
-                                        <Label Text="{Binding ToTime}" FontSize="Small" TextColor="Gainsboro"></Label>
+                                        <Label Text="{Binding From}" FontSize="Small" TextColor="Gainsboro"></Label>
+                                        <Label Text="{Binding To}" FontSize="Small" TextColor="Gainsboro"></Label>
                                     </StackLayout>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
@@ -37,7 +36,7 @@
                     <CollectionView ItemsSource="{Binding Business.Products}" SelectionMode="None">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <StackLayout HorizontalOptions="FillAndExpand" Margin="0" Padding="0">
+                                <StackLayout Margin="20,20,20,20">
                                     <Label Text="{Binding Name}" FontSize="Small" TextColor="MediumTurquoise"></Label>
                                     <Label Text="{Binding PricePerUnit}" FontSize="Small" TextColor="MediumSpringGreen"></Label>
                                     <Label Text="{Binding Unit}" FontSize="Small" TextColor="Gold"></Label>
@@ -47,7 +46,8 @@
                         </CollectionView.ItemTemplate>
                     </CollectionView>
                 </ContentView>
-            </RelativeLayout>
+            </StackLayout>
+            </Grid>
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>
