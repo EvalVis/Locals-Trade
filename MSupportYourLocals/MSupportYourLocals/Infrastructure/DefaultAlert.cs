@@ -11,5 +11,10 @@ namespace MSupportYourLocals.Infrastructure
             await page.DisplayAlert("Something went wrong.", "Please try again.", "OK");
         }
 
+        public static async Task DisplaySuccess(this Page page, string message)
+        {
+            await page.DisplayAlert("Success", message, "OK");
+        }
+
     }
 }
