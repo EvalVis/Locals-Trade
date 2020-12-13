@@ -40,13 +40,20 @@ namespace MSupportYourLocals.Views.Shared
         public async void UserPanel(object sender, EventArgs e)
         {
             User user = await userService.GetUser();
-            if (user == null)
+            if (tokenService.Token != null)
             {
-                await this.DisplayFailure();
+                if (user == null)
+                {
+                    await this.DisplayFailure();
+                }
+                else
+                {
+                    await Navigation.PushAsync(new UserPanelView(new UserViewModel(user)));
+                }
             }
             else
             {
-                await Navigation.PushAsync(new UserPanelView(new UserViewModel(user)));
+                ShowAlert();
             }
         }
 
@@ -65,7 +72,7 @@ namespace MSupportYourLocals.Views.Shared
         private async void ShowAlert()
         {
             await DisplayAlert("You are not signed in",
-                "Please login or create an account to add a business advertisement", "OK");
+                "Please login or create an account to get access.", "OK");
         }
 
     }
