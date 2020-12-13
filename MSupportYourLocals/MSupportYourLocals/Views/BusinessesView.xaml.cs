@@ -110,22 +110,31 @@ namespace MSupportYourLocals.Views
             string password = PasswordEntry.Text;
             if (!string.IsNullOrEmpty(password))
             {
-                await DeleteBusiness(password);
+                bool success = await DeleteBusiness(password);
+                if (success)
+                {
+                    Controls.IsVisible = false;
+                    Verification.IsVisible = false;
+                }
             }
-            Controls.IsVisible = false;
-            Verification.IsVisible = false;
+            else
+            {
+                await DisplayAlert("Verification needed", "Please enter your password", "OK");
+            }
         }
 
-        private async Task DeleteBusiness(string password)
+        private async Task<bool> DeleteBusiness(string password)
         {
             bool success = await businessService.DeleteBusiness(password, chosenBusiness.BusinessId);
             if (success)
             {
                 await this.DisplaySuccess("Business successfully deleted.");
+                return true;
             }
             else
             {
                 await this.DisplayFailure();
+                return false;
             }
         }
 
