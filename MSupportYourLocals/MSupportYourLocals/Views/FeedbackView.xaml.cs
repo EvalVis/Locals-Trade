@@ -36,7 +36,11 @@ namespace MSupportYourLocals.Views
         {
             Confirmation.IsVisible = false;
             bool success = await feedbackService.DeleteAllFeedbacks(businessId);
-            if (!success)
+            if (success)
+            {
+                await this.DisplaySuccess("Every single feedback successfully deleted");
+            }
+            else
             {
                 await this.DisplayFailure();
             }
@@ -46,7 +50,11 @@ namespace MSupportYourLocals.Views
         {
             Confirmation.IsVisible = false;
             bool success = await feedbackService.DeleteFeedback(chosenFeedback.ID);
-            if (!success)
+            if (success)
+            {
+                await this.DisplaySuccess("Feedback successfully deleted");
+            }
+            else
             {
                 await this.DisplayFailure();
             }

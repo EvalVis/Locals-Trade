@@ -19,6 +19,7 @@ namespace MSupportYourLocals {
             bool success = await userService.Login(EmailEntry.Text, PasswordEntry.Text);
             if (success)
             {
+                await this.DisplaySuccess("Successfully logged in.");
                 await Navigation.PushAsync(new BusinessesView(new BusinessesViewModel(1)));
             }
             else

@@ -8,7 +8,7 @@ namespace MSupportYourLocals.Infrastructure
 
         public static async Task DisplayFailure(this Page page)
         {
-            await page.DisplayAlert("Something went wrong.", "Please try again.", "OK");
+            await page.DisplayAlert("Something went wrong", "Please try again.", "OK");
         }
 
         public static async Task DisplaySuccess(this Page page, string message)

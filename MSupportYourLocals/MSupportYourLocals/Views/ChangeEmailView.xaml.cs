@@ -22,6 +22,7 @@ namespace MSupportYourLocals.Views
             bool success = await userService.PatchEmail(PasswordEntry.Text, NewEmailEntry.Text);
             if (success)
             {
+                await this.DisplaySuccess("Successfully changed email");
                 await Navigation.PopAsync();
             }
             else

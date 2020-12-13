@@ -67,6 +67,7 @@ namespace MSupportYourLocals.Views
                 bool success = await businessService.CreateBusiness(business);
                 if (success)
                 {
+                    await this.DisplaySuccess("Business successfully created.");
                     await Navigation.PopAsync();
                 }
                 else
@@ -87,6 +88,7 @@ namespace MSupportYourLocals.Views
             bool success = await businessService.UpdateBusiness(PasswordEntry.Text, business);
             if (success)
             {
+                await this.DisplaySuccess("Business successfully updated.");
                 await Navigation.PopAsync();
             }
             else

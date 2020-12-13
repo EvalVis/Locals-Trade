@@ -24,10 +24,10 @@ namespace MSupportYourLocals.Views
         {
             if (!string.IsNullOrEmpty(FeedbackTextEntry.Text))
             {
-                System.Diagnostics.Debug.WriteLine(businessId + " Id yra toks");
                 bool success = await feedbackService.SendFeedback(NameEntry.Text, FeedbackTextEntry.Text, businessId);
                 if (success)
                 {
+                    await this.DisplaySuccess("Feedback successfully sent.");
                     await Navigation.PopAsync();
                 }
                 else

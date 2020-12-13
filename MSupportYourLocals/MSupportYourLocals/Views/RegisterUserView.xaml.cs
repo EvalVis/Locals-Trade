@@ -31,6 +31,7 @@ namespace MSupportYourLocals.Views
             bool success = await userService.Register(target);
             if (success)
             {
+                await this.DisplaySuccess("Account successfully created. You can now log in.");
                 await Navigation.PopAsync();
             }
             else

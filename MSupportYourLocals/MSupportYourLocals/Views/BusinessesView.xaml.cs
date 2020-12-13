@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using MSupportYourLocals.Infrastructure;
 using MSupportYourLocals.Models;
 using MSupportYourLocals.Services;
 using MSupportYourLocals.ViewModels;
@@ -118,9 +119,13 @@ namespace MSupportYourLocals.Views
         private async Task DeleteBusiness(string password)
         {
             bool success = await businessService.DeleteBusiness(password, chosenBusiness.BusinessId);
-            if (!success)
+            if (success)
             {
-                await DisplayAlert("Something went wrong.","Please try again.", "OK");
+                await this.DisplaySuccess("Business successfully deleted.");
+            }
+            else
+            {
+                await this.DisplayFailure();
             }
         }
 

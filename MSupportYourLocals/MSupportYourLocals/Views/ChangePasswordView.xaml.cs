@@ -22,6 +22,7 @@ namespace MSupportYourLocals.Views
             bool success = await userService.PatchPassword(CurrentPasswordEntry.Text, NewPasswordEntry.Text);
             if (success)
             {
+                await this.DisplaySuccess("Successfully changed password.");
                 await Navigation.PopAsync();
             }
             else
