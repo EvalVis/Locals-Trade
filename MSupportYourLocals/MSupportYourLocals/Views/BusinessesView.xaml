@@ -14,7 +14,8 @@
                             <StackLayout HorizontalOptions="FillAndExpand" Margin="0" Padding="0">
                                 <Label Text="{Binding Header}" FontSize="Large" TextColor="Black"></Label>
                                 <Label Text="{Binding User.FullName}" FontSize="Large" TextColor="DarkMagenta"></Label>
-                            </StackLayout>
+                                <Label Text="{Binding ConcatenatedProducts}" FontSize="Large" TextColor="Peru"></Label>
+                                </StackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>

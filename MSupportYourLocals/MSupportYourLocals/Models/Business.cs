@@ -13,5 +13,14 @@ namespace MSupportYourLocals.Models
         public string Header { get; set; }
         public ObservableCollection<Product> Products { get; set; } = new ObservableCollection<Product>();
         public ObservableCollection<Workday> Workdays { get; set; } = new ObservableCollection<Workday>();
+        public string ConcatenatedProducts { get; private set; }
+
+        public void ConcatProducts()
+        {
+            foreach (var p in Products)
+            {
+                ConcatenatedProducts += (p.Name + "\n");
+            }
+        }
     }
 }

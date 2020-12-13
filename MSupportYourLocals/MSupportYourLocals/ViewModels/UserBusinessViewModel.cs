@@ -35,5 +35,14 @@ namespace MSupportYourLocals.ViewModels
         {
             businesses = await businessService.GetUserBusinesses();
         }
+
+        public void ConcatAllProducts()
+        {
+            foreach (var b in Businesses)
+            {
+                b?.ConcatProducts();
+            }
+        }
+
     }
 }

@@ -61,5 +61,13 @@ namespace MSupportYourLocals.ViewModels
             TotalPages = pageBusiness?.TotalPages ?? 1;
         }
 
+        public void ConcatAllProducts()
+        {
+            foreach (var b in Businesses)
+            {
+                b?.ConcatProducts();
+            }
+        }
+
     }
 }

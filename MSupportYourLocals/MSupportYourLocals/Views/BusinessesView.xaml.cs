@@ -25,6 +25,7 @@ namespace MSupportYourLocals.Views
         public BusinessesView(string ownersSurname, string businessInfo, int searchIn, bool[] checks, DateTime? openFrom, DateTime? openTo, BusinessesViewModel businessesViewModel)
         {
             InitializeComponent();
+            businessesViewModel?.ConcatAllProducts();
             BindingContext = businessesViewModel;
             int currentPage = businessesViewModel?.CurrentPage ?? 1;
             int totalPages = businessesViewModel?.TotalPages ?? 1;
@@ -36,6 +37,7 @@ namespace MSupportYourLocals.Views
         public BusinessesView(BusinessesViewModel businessesViewModel)
         {
             InitializeComponent();
+            businessesViewModel?.ConcatAllProducts();
             BindingContext = businessesViewModel;
             int currentPage = businessesViewModel?.CurrentPage ?? 1;
             int totalPages = businessesViewModel?.TotalPages ?? 1;
@@ -47,6 +49,7 @@ namespace MSupportYourLocals.Views
         public BusinessesView(UserBusinessViewModel userBusinessViewModel)
         {
             InitializeComponent();
+            userBusinessViewModel?.ConcatAllProducts();
             BindingContext = userBusinessViewModel;
             personal = true;
         }
