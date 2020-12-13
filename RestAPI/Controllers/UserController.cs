@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using RestAPI.Models;
-using RestAPI.Models.Repositories;
 using RestAPI.Cryptography;
+using RestAPI.Models;
 using RestAPI.Models.BindingTargets;
+using RestAPI.Models.Repositories;
 
 namespace RestAPI.Controllers
 {
@@ -99,10 +99,10 @@ namespace RestAPI.Controllers
             if (login.Email == null || login.Password == null) return BadRequest();
             User user = await repository.Users.FirstOrDefaultAsync(u => u.Email == login.Email);
             if (user != null)
-            { 
-                bool match = new HashCalculator().IsGoodPass(user.Passhash, login.Password); 
-                if (match) 
-                { 
+            {
+                bool match = new HashCalculator().IsGoodPass(user.Passhash, login.Password);
+                if (match)
+                {
                     var token = jsonWebToken.Authenticate(user.UserID);
                     if (jsonWebToken == null)
                     {

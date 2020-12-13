@@ -5,13 +5,16 @@ using MSupportYourLocals.ViewModels;
 using MSupportYourLocals.Views;
 using Xamarin.Forms;
 
-namespace MSupportYourLocals {
-    public partial class MainPage : ContentPage {
+namespace MSupportYourLocals
+{
+    public partial class MainPage : ContentPage
+    {
 
         private IUserService userService = DependencyService.Get<IUserService>();
         private JsonWebTokenHolder tokenService = DependencyService.Get<JsonWebTokenHolder>();
 
-        public MainPage() {
+        public MainPage()
+        {
             InitializeComponent();
             Setup();
         }

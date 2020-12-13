@@ -45,7 +45,7 @@ namespace RestAPI.Models.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task Patch<T> (JsonPatchDocument<T> document, T entity) where T: class
+        public async Task Patch<T>(JsonPatchDocument<T> document, T entity) where T : class
         {
             document.ApplyTo(entity);
             await context.SaveChangesAsync();

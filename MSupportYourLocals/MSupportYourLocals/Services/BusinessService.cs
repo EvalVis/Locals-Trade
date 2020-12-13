@@ -23,7 +23,7 @@ namespace MSupportYourLocals.Services
                 PageBusiness pageBusiness = JsonConvert.DeserializeObject<PageBusiness>(result);
                 System.Diagnostics.Debug.WriteLine(pageBusiness.TotalPages, pageBusiness.Businesses[0].Header);
                 return pageBusiness;
-            } 
+            }
             return null;
         }
 
@@ -77,8 +77,13 @@ namespace MSupportYourLocals.Services
         {
             var businessBindingTarget = new
             {
-                Description = business.Description, Header = business.Header, PhoneNumber = business.PhoneNumber,
-                Longitude = business.Longitude, Latitude = business.Latitude, WorkdayTargets = business.Workdays, ProductTargets = business.Products
+                Description = business.Description,
+                Header = business.Header,
+                PhoneNumber = business.PhoneNumber,
+                Longitude = business.Longitude,
+                Latitude = business.Latitude,
+                WorkdayTargets = business.Workdays,
+                ProductTargets = business.Products
             };
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.Token);
             HttpResponseMessage response = await httpClient.PostAsJsonAsync("/api/Business", businessBindingTarget);
@@ -92,7 +97,7 @@ namespace MSupportYourLocals.Services
         public async Task<bool> UpdateBusiness(string password, Business business)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.Token);
-            var updateBusiness = new {Password = password, Business = business};
+            var updateBusiness = new { Password = password, Business = business };
             HttpResponseMessage response = await httpClient.PutAsJsonAsync("/api/Business", updateBusiness);
             if (response.StatusCode == HttpStatusCode.OK)
             {

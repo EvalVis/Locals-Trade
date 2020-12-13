@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
 
 namespace Support_Your_Locals.Controllers
 {
@@ -38,7 +38,7 @@ namespace Support_Your_Locals.Controllers
         [HttpPost]
         public void AddFeedback(string senderName, string text, long businessId)
         {
-            Feedback feedback = new Feedback {SenderName = senderName, Text = text, BusinessID = businessId};
+            Feedback feedback = new Feedback { SenderName = senderName, Text = text, BusinessID = businessId };
             repository.AddFeedback(feedback);
             FeedbackEvent?.Invoke(feedback);
         }
@@ -71,13 +71,13 @@ namespace Support_Your_Locals.Controllers
                 DateTime from = day.From;
                 DateTime to = day.To;
                 if (TimeSheetRegisterViewModel.Invalid(from, to)) continue;
-                TimeSheet workday = new TimeSheet { From = day.From, To = day.To, Weekday = day.Weekday, Business = business};
+                TimeSheet workday = new TimeSheet { From = day.From, To = day.To, Weekday = day.Weekday, Business = business };
                 business.Workdays.Add(workday);
             }
 
             foreach (var pr in businessRegisterModel.Products)
             {
-                Product product = new Product {Name = pr.Name, PricePerUnit = pr.PricePerUnit, Unit = pr.Unit, Comment = pr.Comment, Picture = pr.Picture};
+                Product product = new Product { Name = pr.Name, PricePerUnit = pr.PricePerUnit, Unit = pr.Unit, Comment = pr.Comment, Picture = pr.Picture };
                 business.Products.Add(product);
             }
             repository.AddBusiness(business);

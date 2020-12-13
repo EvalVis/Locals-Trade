@@ -26,7 +26,7 @@ namespace MSupportYourLocals.Services
 
         public async Task<bool> SendFeedback(string senderName, string text, long businessId)
         {
-            var feedbackBindingTarget = new { SenderName = senderName, Text = text, BusinessID = businessId};
+            var feedbackBindingTarget = new { SenderName = senderName, Text = text, BusinessID = businessId };
             HttpResponseMessage response = await httpClient.PostAsJsonAsync("/api/Feedback", feedbackBindingTarget);
             if (response.StatusCode == HttpStatusCode.OK)
             {

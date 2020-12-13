@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
+﻿using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -20,7 +16,8 @@ using RestAPI.Controllers;
 using RestAPI.Models;
 using RestAPI.Models.Repositories;
 
-namespace RestAPI {
+namespace RestAPI
+{
     public class Startup
     {
 
@@ -62,7 +59,7 @@ namespace RestAPI {
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddSwaggerGen(s =>
             {
-                s.SwaggerDoc("v1", new OpenApiInfo {Title = "RestAPI for Support Your Locals", Version = "v1"});
+                s.SwaggerDoc("v1", new OpenApiInfo { Title = "RestAPI for Support Your Locals", Version = "v1" });
                 s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = @"JWT Authorization header using the Bearer scheme. Enter: Bearer [space] and then your token in the text input below.",
@@ -89,8 +86,10 @@ namespace RestAPI {
         }
 
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
-            if (env.IsDevelopment()) {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
                 app.UseDeveloperExceptionPage();
             }
             app.UseHsts();

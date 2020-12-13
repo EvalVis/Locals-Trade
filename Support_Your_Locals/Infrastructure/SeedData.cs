@@ -29,7 +29,7 @@ namespace Support_Your_Locals.Infrastructure
 
         private static User CreateUser(string name, string surname, int year, int month, int day, string email, string passhash)
         {
-            return new User {Name = name, Surname = surname, BirthDate = new DateTime(year, month, day), Email = email, Passhash = passhash};
+            return new User { Name = name, Surname = surname, BirthDate = new DateTime(year, month, day), Email = email, Passhash = passhash };
         }
 
         private static Business CreateBusiness(string product, string description, string longitude, string latitude, string phone, string header)
@@ -46,7 +46,7 @@ namespace Support_Your_Locals.Infrastructure
 
         private static Product CreateProduct(string name, decimal unitPrice, string unit, string comment)
         {
-            return new Product {Name = name, PricePerUnit = unitPrice, Unit = unit, Comment = comment};
+            return new Product { Name = name, PricePerUnit = unitPrice, Unit = unit, Comment = comment };
         }
 
         private static TimeSheet CreateWorkday(int fh, int fm, int th, int tm, int day)
@@ -73,13 +73,13 @@ namespace Support_Your_Locals.Infrastructure
             User u10 = CreateUser("Kazys", "Keistuolis", 1994, 04, 12, "vievaldas@gmail.com", hashCalculator.PassHash("greitkelis"));
             User u11 = CreateUser("Rasa", "Išplaukusi", 2000, 01, 03, "vievaldas@gmail.com", hashCalculator.PassHash("popkornas"));
 
-            Business b1 = CreateBusiness("Traktoriai", "Traktorių parduotuvė", "25.274633", "54.699603", "+37064575620","10% nuolaida žieminėms padangoms");
+            Business b1 = CreateBusiness("Traktoriai", "Traktorių parduotuvė", "25.274633", "54.699603", "+37064575620", "10% nuolaida žieminėms padangoms");
             Business b2 = CreateBusiness("Automobiliai", "Daužti automobiliai už prieinamą kainą", "25.268811", "54.693882", "+37064215675", "Įsigykite automobilius be rėmo, greit neliks");
             Business b3 = CreateBusiness("Saldainiai", "Įvairūs", "25.269173", "54.688853", "+37064215201", "Saldainių parduotuvė");
             Business b4 = CreateBusiness("Išdaigos", "Smagūs niekučiai", "25.281194", "54.681308", "+37064512012", "Išpardavimas išdaigininkams");
             Business b5 = CreateBusiness("Automobilių remontas", "Nuo 7:00 iki 8:00 ryto remontuoju už dyką", "25.214340", "54.379052", "+37064512456", "Automobilių remontas");
             Business b6 = CreateBusiness("Nusirašinėjimas", "Rašau referatus, rašinius ir t.t.", "25.391008", "54.290225", "+37064752660", "Nenorit daryt mokyklinio projekto? Susisiekit, padarysiu už jus!");
-            Business b7 = CreateBusiness("Piešiniai", "Galiu daryti portretus, natiurmortą, peisažą ir t.t.", "25.359637", "54.306365", "+37064233450","Piešiniai už (beveik) dyką!");
+            Business b7 = CreateBusiness("Piešiniai", "Galiu daryti portretus, natiurmortą, peisažą ir t.t.", "25.359637", "54.306365", "+37064233450", "Piešiniai už (beveik) dyką!");
             Business b8 = CreateBusiness("Dėvėtos kojinės", "Paprastai labai kvepia", "25.304485", "54.630629", "+37064512478", "Yra ir smirdančių");
             Business b9 = CreateBusiness("Labdara seneliams", "Paaukokite senelių namuose gyvenantiems senjorams", "24.489809", "55.565052", "+37062199630", "Padarykite gerą darbą vieno mygtuko paspaudimu!");
 
@@ -147,7 +147,7 @@ namespace Support_Your_Locals.Infrastructure
             b8.Workdays.Add(t12);
             b8.Workdays.Add(t13);
 
-            return new User[] {u1, u2, u3, u4, u5, u6, u7, u8, u9, u10, u11};
+            return new User[] { u1, u2, u3, u4, u5, u6, u7, u8, u9, u10, u11 };
         }
 
     }

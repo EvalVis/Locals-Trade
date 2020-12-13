@@ -10,7 +10,7 @@ namespace MSupportYourLocals.Views.Shared
     public partial class SearchView : StackLayout
     {
 
-        private List<string> searchOptions = new List<string> {"Search in header", "Search in description", "Search in header and description"};
+        private List<string> searchOptions = new List<string> { "Search in header", "Search in description", "Search in header and description" };
 
         public SearchView(string ownersSurname, string businessInfo, int searchIn, bool[] checks, DateTime? openFrom, DateTime? openTo)
         {
@@ -42,7 +42,7 @@ namespace MSupportYourLocals.Views.Shared
             int searchIn = SearchOptionsPicker.SelectedIndex;
             DateTime openFrom = new DateTime(2020, 01, 01, FromPicker.Time.Hours, FromPicker.Time.Minutes, 0);
             DateTime openTo = new DateTime(2020, 01, 01, ToPicker.Time.Hours, ToPicker.Time.Minutes, 0);
-            bool[] checks =  {Monday.IsChecked, Tuesday.IsChecked, Wednesday.IsChecked, Thursday.IsChecked, Friday.IsChecked, Saturday.IsChecked, Sunday.IsChecked};
+            bool[] checks = { Monday.IsChecked, Tuesday.IsChecked, Wednesday.IsChecked, Thursday.IsChecked, Friday.IsChecked, Saturday.IsChecked, Sunday.IsChecked };
             await Navigation.PushAsync(new BusinessesView(new BusinessesViewModel(1, ownersSurname, businessInfo,
                 searchIn, checks, openFrom, openTo)));
         }
@@ -75,7 +75,7 @@ namespace MSupportYourLocals.Views.Shared
                     return FromPicker.Time;
                 case 11:
                     return ToPicker.Time;
-                default: 
+                default:
                     return null;
             }
         }

@@ -47,7 +47,7 @@ namespace RestAPI.Controllers
             {
                 b.EliminateDepth();
             }
-            PageBusiness pageBusiness = new PageBusiness {TotalPages = totalPages, Businesses = businesses};
+            PageBusiness pageBusiness = new PageBusiness { TotalPages = totalPages, Businesses = businesses };
             return Ok(pageBusiness);
         }
 

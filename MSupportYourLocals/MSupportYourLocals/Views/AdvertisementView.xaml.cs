@@ -40,7 +40,7 @@ namespace MSupportYourLocals.Views
             {
                 DateTime? from = business?.Workdays?.FirstOrDefault(w => w.Weekday == i)?.From;
                 DateTime? to = business?.Workdays?.FirstOrDefault(w => w.Weekday == i)?.To;
-                Workdays.Add(new Workday {From = from, To = to, Weekday = i});
+                Workdays.Add(new Workday { From = from, To = to, Weekday = i });
             }
         }
 
@@ -63,7 +63,7 @@ namespace MSupportYourLocals.Views
         {
             if (business == null)
             {
-                business = new Business {Header = HeaderEntry.Text, Description = DescriptionEntry.Text, PhoneNumber = PhoneEntry.Text, Products = Products, Workdays = Workdays};
+                business = new Business { Header = HeaderEntry.Text, Description = DescriptionEntry.Text, PhoneNumber = PhoneEntry.Text, Products = Products, Workdays = Workdays };
                 bool success = await businessService.CreateBusiness(business);
                 if (success)
                 {

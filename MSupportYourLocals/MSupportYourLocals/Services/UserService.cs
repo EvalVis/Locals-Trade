@@ -39,8 +39,8 @@ namespace MSupportYourLocals.Services
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.Token);
             HttpResponseMessage response = await httpClient.GetAsync("/api/User/Current");
             if (response.StatusCode == HttpStatusCode.OK)
-            { 
-                var result = await response.Content.ReadAsStringAsync(); 
+            {
+                var result = await response.Content.ReadAsStringAsync();
                 User user = JsonConvert.DeserializeObject<User>(result);
                 return user;
             }
@@ -62,7 +62,7 @@ namespace MSupportYourLocals.Services
         public async Task<bool> PatchEmail(string password, string email)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.Token);
-            var emailPatch = new {Password = password, NewEmail = email};
+            var emailPatch = new { Password = password, NewEmail = email };
             HttpResponseMessage response = await httpClient.PatchAsync("/api/User/email", emailPatch);
             if (response.StatusCode == HttpStatusCode.OK)
             {

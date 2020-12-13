@@ -21,7 +21,7 @@ namespace RestAPI.Models
             return repository.Business.Include(b => b.User).
                 Include(b => b.Workdays).Include(b => b.Products).OrderByDescending(b => b.BusinessID).
                 Skip((page - 1) * pageSize).Take(pageSize);
-                //Where(b => BusinessConditionsMet(b) && UserConditionsMet(b.User) && ChosenWeekday(b.Workdays) && ChosenTimeInterval(b.Workdays))
+            //Where(b => BusinessConditionsMet(b) && UserConditionsMet(b.User) && ChosenWeekday(b.Workdays) && ChosenTimeInterval(b.Workdays))
         }
 
         private bool UserConditionsMet(User user)

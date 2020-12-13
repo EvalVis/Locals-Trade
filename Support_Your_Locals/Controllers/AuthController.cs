@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Support_Your_Locals.Cryptography;
@@ -45,7 +40,7 @@ namespace Support_Your_Locals.Controllers
                 register.AlreadyExists = exists;
                 if (!exists)
                 {
-                    
+
                     userRepository.AddUser(new User
                     {
                         Name = register.Name,
@@ -104,6 +99,6 @@ namespace Support_Your_Locals.Controllers
             await HttpContext.SignOutAsync();
             return Redirect("/");
         }
-        
+
     }
 }

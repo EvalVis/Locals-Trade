@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -8,7 +7,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using RestAPI.Cryptography;
 using RestAPI.Infrastructure;
 using RestAPI.Models;
 using RestAPI.Models.BindingTargets;
@@ -83,8 +81,8 @@ namespace RestAPI.Controllers
             if (business.UserID != claimedId)
             {
                 return Unauthorized();
-            } 
-            await repository.RemoveFeedbacksAsync(feedbacks); 
+            }
+            await repository.RemoveFeedbacksAsync(feedbacks);
             return Ok();
         }
 

@@ -32,7 +32,7 @@ namespace RestAPI.Models.BindingTargets
             {
                 if (!t.InvalidTime())
                 {
-                    yield return new TimeSheet {From = t.From, To = t.To, Weekday = t.Weekday};
+                    yield return new TimeSheet { From = t.From, To = t.To, Weekday = t.Weekday };
                 }
             }
         }
@@ -41,7 +41,7 @@ namespace RestAPI.Models.BindingTargets
         {
             foreach (var t in ProductTargets)
             {
-                yield return new Product { Name = t.Name, PricePerUnit = t.PricePerUnit, Unit = t.Unit, Comment = t.Comment, Picture = t.Picture};
+                yield return new Product { Name = t.Name, PricePerUnit = t.PricePerUnit, Unit = t.Unit, Comment = t.Comment, Picture = t.Picture };
             }
         }
 

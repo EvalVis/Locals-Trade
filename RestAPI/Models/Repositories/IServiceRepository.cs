@@ -12,7 +12,7 @@ namespace RestAPI.Models.Repositories
         public IQueryable<Product> Products { get; }
         public IQueryable<Feedback> Feedbacks { get; }
         public Task SaveFeedbackAsync(Feedback feedback);
-        public Task Patch<T>(JsonPatchDocument<T> document, T entity) where T: class;
+        public Task Patch<T>(JsonPatchDocument<T> document, T entity) where T : class;
         public Task SaveBusinessAsync(Business business);
         public Task RemoveBusinessAsync(Business business);
         public Task UpdateBusinessAsync(Business targetBusiness, Business business);
