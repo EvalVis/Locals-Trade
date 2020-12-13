@@ -1,5 +1,4 @@
 ﻿using System;
-using MSupportYourLocals.Infrastructure;
 using MSupportYourLocals.Models;
 using MSupportYourLocals.Services;
 using MSupportYourLocals.ViewModels;
@@ -40,21 +39,7 @@ namespace MSupportYourLocals.Views.Shared
         public async void UserPanel(object sender, EventArgs e)
         {
             User user = await userService.GetUser();
-            if (tokenService.Token != null)
-            {
-                if (user == null)
-                {
-                    await this.DisplayFailure();
-                }
-                else
-                {
-                    await Navigation.PushAsync(new UserPanelView(new UserViewModel(user)));
-                }
-            }
-            else
-            {
-                ShowAlert();
-            }
+            await Navigation.PushAsync(new UserPanelView(new UserViewModel(user)));
         }
 
         public async void AddAdvertisement(Object sender, EventArgs e)

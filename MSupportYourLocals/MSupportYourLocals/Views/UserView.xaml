@@ -43,7 +43,7 @@
                     AbsoluteLayout.LayoutFlags="All"
                     BackgroundColor="#C0808080">
 
-                    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                    <StackLayout HorizontalOptions="Center" VerticalOptions="End">
                         <StackLayout
                             Orientation="Vertical">
                             <Button Margin="20,0,20,0" Text="Change email" BackgroundColor="Aqua" TextColor="White" FontAttributes="Bold" Clicked="ChangeEmail" />
