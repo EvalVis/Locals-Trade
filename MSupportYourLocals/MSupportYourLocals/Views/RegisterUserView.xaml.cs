@@ -1,4 +1,5 @@
 ﻿using System;
+using MSupportYourLocals.Infrastructure;
 using MSupportYourLocals.Models;
 using MSupportYourLocals.Services;
 using Xamarin.Forms;
@@ -27,8 +28,15 @@ namespace MSupportYourLocals.Views
                 Email = EmailEntry.Text,
                 Password = PasswordEntry.Text
             };
-            await userService.Register(target);
-            // await Navigation.PushAsync(new RegisterUserView());
+            bool success = await userService.Register(target);
+            if (success)
+            {
+                await Navigation.PopAsync();
+            }
+            else
+            {
+                await this.DisplayFailure();
+            }
         }
     }
 }

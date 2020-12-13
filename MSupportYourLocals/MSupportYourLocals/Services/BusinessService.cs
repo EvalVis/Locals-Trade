@@ -62,13 +62,18 @@ namespace MSupportYourLocals.Services
             return null;
         }
 
-        public async Task DeleteBusiness(string password, long businessId)
+        public async Task<bool> DeleteBusiness(string password, long businessId)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.Token);
             HttpResponseMessage response = await httpClient.DeleteAsync($"/api/Business/{businessId}?password={password}");
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return true;
+            }
+            return false;
         }
 
-        public async Task CreateBusiness(Business business)
+        public async Task<bool> CreateBusiness(Business business)
         {
             var businessBindingTarget = new
             {
@@ -77,13 +82,23 @@ namespace MSupportYourLocals.Services
             };
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.Token);
             HttpResponseMessage response = await httpClient.PostAsJsonAsync("/api/Business", businessBindingTarget);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return true;
+            }
+            return false;
         }
 
-        public async Task UpdateBusiness(string password, Business business)
+        public async Task<bool> UpdateBusiness(string password, Business business)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.Token);
             var updateBusiness = new {Password = password, Business = business};
             HttpResponseMessage response = await httpClient.PutAsJsonAsync("/api/Business", updateBusiness);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return true;
+            }
+            return false;
         }
 
     }

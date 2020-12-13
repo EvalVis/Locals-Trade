@@ -35,13 +35,21 @@ namespace MSupportYourLocals.Views
         public async Task ConfirmedDeleteAll()
         {
             Confirmation.IsVisible = false;
-            await feedbackService.DeleteAllFeedbacks(businessId);
+            bool success = await feedbackService.DeleteAllFeedbacks(businessId);
+            if (!success)
+            {
+                await this.DisplayFailure();
+            }
         }
 
         public async Task ConfirmedDeleteOne()
         {
             Confirmation.IsVisible = false;
-            await feedbackService.DeleteFeedback(chosenFeedback.ID);
+            bool success = await feedbackService.DeleteFeedback(chosenFeedback.ID);
+            if (!success)
+            {
+                await this.DisplayFailure();
+            }
         }
 
         public async void Cancel(object sender, EventArgs e)

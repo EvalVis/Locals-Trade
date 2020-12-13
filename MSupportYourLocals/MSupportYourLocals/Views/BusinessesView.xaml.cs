@@ -117,7 +117,11 @@ namespace MSupportYourLocals.Views
 
         private async Task DeleteBusiness(string password)
         {
-            await businessService.DeleteBusiness(password, chosenBusiness.BusinessId);
+            bool success = await businessService.DeleteBusiness(password, chosenBusiness.BusinessId);
+            if (!success)
+            {
+                await DisplayAlert("Something went wrong.","Please try again.", "OK");
+            }
         }
 
         private async void EditBusiness(object sender, EventArgs e)

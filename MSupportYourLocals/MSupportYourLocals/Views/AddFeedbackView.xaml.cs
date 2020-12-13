@@ -1,4 +1,5 @@
 ﻿using System;
+using MSupportYourLocals.Infrastructure;
 using MSupportYourLocals.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -24,7 +25,15 @@ namespace MSupportYourLocals.Views
             if (!string.IsNullOrEmpty(FeedbackTextEntry.Text))
             {
                 System.Diagnostics.Debug.WriteLine(businessId + " Id yra toks");
-                await feedbackService.SendFeedback(NameEntry.Text, FeedbackTextEntry.Text, businessId);
+                bool success = await feedbackService.SendFeedback(NameEntry.Text, FeedbackTextEntry.Text, businessId);
+                if (success)
+                {
+                    await Navigation.PopAsync();
+                }
+                else
+                {
+                    await this.DisplayFailure();
+                }
             }
         }
 

@@ -10,8 +10,8 @@ namespace MSupportYourLocals.Services
         Task<PageBusiness> GetBusinesses(int page);
         Task<PageBusiness> GetFilteredBusinesses(string ownersSurname, string businessInfo, int searchIn, bool[] weekdaySelected, DateTime openFrom, DateTime openTo, int page);
         Task<ObservableCollection<Business>> GetUserBusinesses();
-        Task DeleteBusiness(string password, long businessId);
-        Task CreateBusiness(Business business);
-        Task UpdateBusiness(string password, Business business);
+        Task<bool> DeleteBusiness(string password, long businessId);
+        Task<bool> CreateBusiness(Business business);
+        Task<bool> UpdateBusiness(string password, Business business);
     }
 }

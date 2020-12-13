@@ -1,4 +1,5 @@
 ﻿using System;
+using MSupportYourLocals.Infrastructure;
 using MSupportYourLocals.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -18,8 +19,15 @@ namespace MSupportYourLocals.Views
 
         public async void Confirm(object sender, EventArgs e)
         {
-            await userService.PatchPassword(CurrentPasswordEntry.Text, NewPasswordEntry.Text);
-            await Navigation.PopAsync();
+            bool success = await userService.PatchPassword(CurrentPasswordEntry.Text, NewPasswordEntry.Text);
+            if (success)
+            {
+                await Navigation.PopAsync();
+            }
+            else
+            {
+                await this.DisplayFailure();
+            }
         }
 
 

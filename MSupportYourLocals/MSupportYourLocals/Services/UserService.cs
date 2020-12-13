@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using MSupportYourLocals.Infrastructure.Extensions;
 using MSupportYourLocals.Models;
@@ -12,19 +11,26 @@ namespace MSupportYourLocals.Services
     public class UserService : Service, IUserService
     {
 
-        public async Task Login(string email, string password)
+        public async Task<bool> Login(string email, string password)
         {
             var login = new { Email = email, Password = password };
             HttpResponseMessage response = await httpClient.PostAsJsonAsync("/api/User/SignIn", login);
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 tokenService.Token = await response.Content.ReadAsStringAsync();
+                return true;
             }
+            return false;
         }
 
-        public async Task Register(UserBindingTarget target)
+        public async Task<bool> Register(UserBindingTarget target)
         {
             HttpResponseMessage response = await httpClient.PostAsJsonAsync("/api/User/SignUp", target);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return true;
+            }
+            return false;
         }
 
         public async Task<User> GetUser()
@@ -41,18 +47,28 @@ namespace MSupportYourLocals.Services
             return null;
         }
 
-        public async Task PatchPassword(string currentPassword, string newPassword)
+        public async Task<bool> PatchPassword(string currentPassword, string newPassword)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.Token);
             var passwordPatch = new { CurrentPassword = currentPassword, NewPassword = newPassword };
             HttpResponseMessage response = await httpClient.PatchAsync("/api/User/password", passwordPatch);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return true;
+            }
+            return false;
         }
 
-        public async Task PatchEmail(string password, string email)
+        public async Task<bool> PatchEmail(string password, string email)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.Token);
             var emailPatch = new {Password = password, NewEmail = email};
             HttpResponseMessage response = await httpClient.PatchAsync("/api/User/email", emailPatch);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return true;
+            }
+            return false;
         }
 
     }

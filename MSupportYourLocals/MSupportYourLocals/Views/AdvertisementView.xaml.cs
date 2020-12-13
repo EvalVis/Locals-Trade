@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using MSupportYourLocals.Infrastructure;
 using MSupportYourLocals.Models;
 using MSupportYourLocals.Services;
 using MSupportYourLocals.ViewModels;
@@ -63,8 +64,15 @@ namespace MSupportYourLocals.Views
             if (business == null)
             {
                 business = new Business {Header = HeaderEntry.Text, Description = DescriptionEntry.Text, PhoneNumber = PhoneEntry.Text, Products = Products, Workdays = Workdays};
-                await businessService.CreateBusiness(business);
-                await Navigation.PopAsync();
+                bool success = await businessService.CreateBusiness(business);
+                if (success)
+                {
+                    await Navigation.PopAsync();
+                }
+                else
+                {
+                    await this.DisplayFailure();
+                }
             }
             else
             {
@@ -76,8 +84,15 @@ namespace MSupportYourLocals.Views
         {
             business.Products = Products;
             business.Workdays = Workdays;
-            await businessService.UpdateBusiness(PasswordEntry.Text, business);
-            await Navigation.PopAsync();
+            bool success = await businessService.UpdateBusiness(PasswordEntry.Text, business);
+            if (success)
+            {
+                await Navigation.PopAsync();
+            }
+            else
+            {
+                await this.DisplayFailure();
+            }
         }
 
         public void Cancel(object sender, EventArgs e)
