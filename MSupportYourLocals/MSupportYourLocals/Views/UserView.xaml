@@ -48,6 +48,7 @@
                             Orientation="Vertical">
                             <Button Margin="20,0,20,0" Text="Change email" BackgroundColor="Aqua" TextColor="White" FontAttributes="Bold" Clicked="ChangeEmail" />
                             <Button Margin="20,0,20,0" Text="Change password" BackgroundColor="IndianRed" TextColor="White" FontAttributes="Bold" Clicked="ChangePassword" />
+                            <Button Margin="20,0,20,0" Text="Logout" BackgroundColor="DeepPink" TextColor="White" FontAttributes="Bold" Clicked="Logout" />
                         </StackLayout>
                     </StackLayout>
                 </ContentView>
