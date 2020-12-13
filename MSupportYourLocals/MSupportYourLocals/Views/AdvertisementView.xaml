@@ -44,16 +44,17 @@
         </ContentView>
         <Button Text="Add product" BackgroundColor="Blue" TextColor="White" FontAttributes="Bold" Clicked="AddProduct"></Button>
         <Button x:Name="SubmitButton" Text="Submit" BackgroundColor="Gold" TextColor="White" FontAttributes="Bold" Clicked="Submit" />
-        <ContentView
-        x:Name="Verification"
-        Padding="10,0"
-        AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-        AbsoluteLayout.LayoutFlags="All"
-        BackgroundColor="#C0808080"
-        IsVisible="false">
-                    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                </StackLayout>
+                <ContentView
+                                  x:Name="Verification"
+                                  Padding="10,0"
+                                  AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                                  AbsoluteLayout.LayoutFlags="All"
+                                  BackgroundColor="#C0808080"
+                                  IsVisible="false">
+                    <StackLayout HorizontalOptions="Center" VerticalOptions="End">
                         <StackLayout
-                Orientation="Vertical">
+                            Orientation="Vertical">
                             <Label Text="Please enter your password to confirm the update." FontAttributes="Bold" FontSize="Large"></Label>
                             <Entry Margin="20,0,20,0" x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" />
                             <Button Margin="20,0,20,0" Text="Confirm" BackgroundColor="Blue" TextColor="White" FontAttributes="Bold" Clicked="Confirm" />
@@ -61,8 +62,7 @@
                         </StackLayout>
                     </StackLayout>
                 </ContentView>
-                </StackLayout>
             </Grid>
         </ScrollView>
-        </ContentPage.Content>
+    </ContentPage.Content>
 </ContentPage>
