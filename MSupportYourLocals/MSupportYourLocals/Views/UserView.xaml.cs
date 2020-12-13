@@ -48,7 +48,7 @@ namespace MSupportYourLocals.Views
             await Navigation.PushAsync(new ChangePasswordView());
         }
 
-        public async void Logout()
+        public async void Logout(object sender, EventArgs e)
         {
             tokenService.Logout();
             await Navigation.PushAsync(new MainPage());

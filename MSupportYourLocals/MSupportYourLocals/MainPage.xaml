@@ -3,13 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MSupportYourLocals.MainPage">
 
-    <StackLayout Padding="20" Spacing="50" VerticalOptions="Center">
-        <Label Text="Please login" FontAttributes="Bold" FontSize="Large" HorizontalOptions="Center"/>
+    <StackLayout x:Name="Stack" Padding="20" Spacing="50" VerticalOptions="Center">
+        <Label x:Name="LoginLabel" Text="Please login" FontAttributes="Bold" FontSize="Large" HorizontalOptions="Center"/>
         <Entry x:Name="EmailEntry" Placeholder="Email" />
         <Entry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" />
-        <Button Text="Sign in" BackgroundColor="YellowGreen" TextColor="White" FontAttributes="Bold" Clicked="Login"></Button>
-        <Button Text="Sign up" BackgroundColor="Goldenrod" TextColor="White" FontAttributes="Bold" Clicked="SignUp"></Button>
-        <Button Text="Continue" BackgroundColor="MediumTurquoise" TextColor="White" Clicked="Continue"></Button>
+        <Button x:Name="SignInButton" Text="Sign in" BackgroundColor="YellowGreen" TextColor="White" FontAttributes="Bold" Clicked="Login"></Button>
+        <Button x:Name="SignUpButton" Text="Sign up" BackgroundColor="Goldenrod" TextColor="White" FontAttributes="Bold" Clicked="SignUp"></Button>
+        <Label x:Name="SignedInLabel" Text="You are logged in" FontAttributes="Bold" FontSize="Large" HorizontalOptions="Center"/>
+        <Button x:Name="ContinueButton" Text="Continue" BackgroundColor="MediumTurquoise" TextColor="White" Clicked="Continue"></Button>
+        <Button x:Name="LogoutButton" Text="Log out" BackgroundColor="MediumTurquoise" TextColor="White" Clicked="Logout"></Button>
     </StackLayout>
 
 </ContentPage>

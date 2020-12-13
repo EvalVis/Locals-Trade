@@ -9,12 +9,31 @@ namespace MSupportYourLocals {
     public partial class MainPage : ContentPage {
 
         private IUserService userService = DependencyService.Get<IUserService>();
+        private JsonWebTokenHolder tokenService = DependencyService.Get<JsonWebTokenHolder>();
 
         public MainPage() {
             InitializeComponent();
+            Setup();
         }
 
-        public async void Login(Object sender, EventArgs e)
+        public void Setup()
+        {
+            if (tokenService.Token != null)
+            {
+                Stack.Children.Remove(LoginLabel);
+                Stack.Children.Remove(EmailEntry);
+                Stack.Children.Remove(PasswordEntry);
+                Stack.Children.Remove(SignInButton);
+                Stack.Children.Remove(SignUpButton);
+            }
+            else
+            {
+                Stack.Children.Remove(SignedInLabel);
+                Stack.Children.Remove(LogoutButton);
+            }
+        }
+
+        public async void Login(object sender, EventArgs e)
         {
             bool success = await userService.Login(EmailEntry.Text, PasswordEntry.Text);
             if (success)
@@ -28,14 +47,20 @@ namespace MSupportYourLocals {
             }
         }
 
-        public async void SignUp(Object sender, EventArgs e)
+        public async void SignUp(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new RegisterUserView());
         }
 
-        public async void Continue(Object sender, EventArgs e)
+        public async void Continue(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new BusinessesView(new BusinessesViewModel(1)));
+        }
+
+        public async void Logout(object sender, EventArgs e)
+        {
+            tokenService.Logout();
+            await Navigation.PushAsync(new MainPage());
         }
 
     }
