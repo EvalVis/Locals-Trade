@@ -137,10 +137,10 @@
     }).addTo(mymap);
     let layerGroup = L.layerGroup().addTo(mymap);
 
-    const latitude = Number("@Model.Latitude");
-    const longitude = Number("@Model.Longitude");
+    const latitude = Number("@Model?.Latitude");
+    const longitude = Number("@Model?.Longitude");
     if (latitude && longitude) {
-        var geocodeService = L.esri.Geocoding.geocodeService();
+        let geocodeService = L.esri.Geocoding.geocodeService();
         geocodeService.reverse().latlng([latitude, longitude]).run(function (error, result) {
             if (error) {
                 return;
