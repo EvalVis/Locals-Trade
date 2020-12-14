@@ -157,7 +157,24 @@ namespace RestAPI.Controllers
             }
             if (new HashCalculator().IsGoodPass(user.Passhash, business.Password))
             {
-                await repository.UpdateBusinessAsync(targetBusiness, business.Business);
+                foreach (var p in business.Business.Products)
+                {
+                    Product product = await repository.Products.FirstOrDefaultAsync(pr => pr.ProductID == p.ProductID);
+                    if (product != null && product.BusinessID != business.Business.BusinessID)
+                    {
+                        return Unauthorized();
+                    }
+                }
+
+                foreach (var w in business.Business.Workdays)
+                {
+                    TimeSheet workday = await repository.Workdays.FirstOrDefaultAsync(wo => wo.TimeSheetID == w.TimeSheetID);
+                    if (workday != null && workday.BusinessID != business.Business.BusinessID)
+                    {
+                        return Unauthorized();
+                    }
+                }
+                await repository.UpdateBusinessAsync(business.Business);
                 return Ok();
             }
             return Unauthorized();

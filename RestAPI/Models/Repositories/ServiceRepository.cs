@@ -12,6 +12,7 @@ namespace RestAPI.Models.Repositories
 
         public IQueryable<User> Users => context.Users;
         public IQueryable<Business> Business => context.Business;
+        public IQueryable<TimeSheet> Workdays => context.Workdays;
 
         public IQueryable<Product> Products => context.Products;
         public IQueryable<Feedback> Feedbacks => context.Feedbacks;
@@ -51,9 +52,9 @@ namespace RestAPI.Models.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task UpdateBusinessAsync(Business targetBusiness, Business business)
+        public async Task UpdateBusinessAsync(Business business)
         {
-            context.Entry(targetBusiness).CurrentValues.SetValues(business);
+            //TODO Update
             await context.SaveChangesAsync();
         }
 
