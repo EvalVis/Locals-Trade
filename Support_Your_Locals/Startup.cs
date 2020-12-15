@@ -41,6 +41,7 @@ namespace Support_Your_Locals
             services.AddDbContext<ServiceDbContext>(option => option.UseSqlServer(connectionStringBuilder.ConnectionString));
             services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddScoped<HashCalculator>();
+            services.AddScoped<ILegacyServiceRepository, LegacyServiceRepository>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
             services.AddDistributedMemoryCache();

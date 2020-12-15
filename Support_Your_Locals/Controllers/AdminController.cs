@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
@@ -15,38 +14,50 @@ namespace Support_Your_Locals.Controllers
     public class AdminController : Controller
     {
 
-        private IServiceRepository repository;
         private IConfiguration configuration;
-        public AdminController(IServiceRepository repo, IConfiguration config)
+        private ILegacyServiceRepository repository;
+
+        public AdminController(ILegacyServiceRepository repo, IConfiguration config)
         {
-            repository = repo;
             configuration = config;
+            repository = repo;
+
         }
         [HttpGet]
         [Authorize(Roles = "Administrator")]
         public ActionResult Index()
         {
+            var businesses = repository.GetBusinesses();
+            var usersBusinesses = businesses.GroupBy(business => business.User);
+            var users = repository.GetUsers().Where(notAdmin);
             return View(new AdminViewModel()
             {
-                Businesses = repository.Business.Include(b => b.User).Include(b => b.Products),
-                Users = repository.Users.Where(notAdmin),
-                TotalBusiness = repository.Business.Count(),
-                TotalProducts = repository.Products.Count(),
-                TotalUsers = repository.Users.Where(notAdmin).Count()
+                Businesses = businesses,
+                UsersBusinesses = usersBusinesses,
+                Users = repository.GetUsers().Where(notAdmin),
+                TotalBusiness = businesses.Count(),
+                TotalProducts = repository.GetProducts().Count(),
+                TotalUsers = users.Count(),
             });
         }
 
         [Authorize(Roles = "Administrator")]
         public ActionResult DeleteBusiness(long id)
         {
-            repository.DeleteBusiness(new Models.Business { BusinessID = id });
+            repository.DeleteBusiness(id);
             return RedirectToAction("Index");
         }
 
         [Authorize(Roles = "Administrator")]
         public ActionResult DeleteUser(long id)
         {
-            repository.DeleteUser(new Models.User { UserID = id });
+            repository.DeleteUser(id);
+            return RedirectToAction("Index");
+        }
+
+        [Authorize(Roles = "Administrator")]
+        public ActionResult Reasign(long id, long targetUserId)
+        {
             return RedirectToAction("Index");
         }
 

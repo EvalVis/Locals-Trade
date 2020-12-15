@@ -20,8 +20,8 @@
     </table>
 </div>
 <div class="businesses">
-    <table class="table" onclick="enable('businesses-table')" style="cursor:pointer">
-        <caption>Complete business list</caption>
+    <table class="table">
+        <caption onclick="enable('businesses-table')" style="cursor:pointer">Complete business list</caption>
         <tbody id="businesses-table" style="display:none;">
             @foreach (var business in Model.Businesses)
             {
@@ -38,8 +38,8 @@
 </div>
 
 <div class="users">
-    <table class="table" onclick="enableMultiple(['users-table-header','users-table'])" style="cursor:pointer">
-        <caption>Complete user list</caption>
+    <table class="table">
+        <caption  onclick="enableMultiple(['users-table-header','users-table'])" style="cursor:pointer">Complete user list</caption>
         <thead id="users-table-header" style="display:none;">
             <tr>
                 <th>Email</th>
@@ -49,9 +49,11 @@
             </tr>
         </thead>
         <tbody id="users-table" style="display:none;">
-            @foreach (var user in Model.Users)
+            @foreach (var userBusinesses in Model.UsersBusinesses)
             {
-                <tr>
+                var @user = userBusinesses.Key;
+                <tr style="color: white; background-color: #27303d">
+                    <td onclick="enableMultiple(@Html.Raw(Json.Serialize(@userBusinesses.Select(business => business.BusinessID))))" style="cursor:pointer">List businesses</td>
                     <td>@user.Email</td>
                     <td>@user.Name</td>
                     <td>@user.Surname</td>
@@ -60,6 +62,13 @@
                                  new { onclick = "return confirm('Are you sure you wish to remove this user permanently?');" })
                     </td>
                 </tr>
+                @foreach (var business in @userBusinesses)
+                {
+                    <tr id="@business.BusinessID" style="display:none;">
+                        <td colspan="2">@business.Header</td>
+                        <td colspan="3">@business.Description</td>
+                    </tr>
+                }
             }
         </tbody>
     </table>
@@ -72,6 +81,6 @@
     }
 
     function enableMultiple(ids) {
-        ids.forEach(id => enable(id))
+        ids.forEach(id => enable(id));
     }
 </script>
