@@ -164,6 +164,9 @@ body {
 .ind {
     font-size: 100%;
 }
+.timebuss {
+    font-size: 90%;
+}
 
 @media (max-width: 480px) {
     .form h1 {
@@ -189,5 +192,7 @@ body {
     .ind {
         font-size: 80%;
     }
-
+    .timebuss {
+        font-size: 80%;
+    }
 }
