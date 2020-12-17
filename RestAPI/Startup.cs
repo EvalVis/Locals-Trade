@@ -13,6 +13,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using RestAPI.Controllers;
+using RestAPI.Cryptography;
+using RestAPI.Infrastructure;
 using RestAPI.Models;
 using RestAPI.Models.Repositories;
 
@@ -104,6 +106,7 @@ namespace RestAPI
             });
             app.UseSwagger();
             app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "RestAPI"));
+            SeedData.EnsurePopulated(app, new HashCalculator());
         }
     }
 }
