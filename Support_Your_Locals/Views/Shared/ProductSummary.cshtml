@@ -37,10 +37,11 @@
     <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
     <a class="next" onclick="plusSlides(1)">&#10095;</a>
     <div class="modal-content">
+
         @foreach (var p in Model)
         {
             <div class="mySlides">
-                <img src="@p.Picture" style="width:100%">
+                <img src="@p.Picture" style="width:100%;">
             </div>
         }
 
@@ -51,7 +52,7 @@
         @foreach (var p in Model)
         {
             <div class="column">
-                <img class="demo cursor" src="@p.Picture" style="height:100px" onclick="currentSlide(@(imgcount++))" alt="Product: @p.Name<br />Unit price: @p.PricePerUnit<br />Unit: @p.Unit<br />Comment: @p.Comment">
+                <img class="demo cursor" src="@p.Picture" onclick="currentSlide(@(imgcount++))" alt="Product: @p.Name<br />Unit price: @p.PricePerUnit<br />Unit: @p.Unit<br />Comment: @p.Comment">
             </div>
         }
     </div>
