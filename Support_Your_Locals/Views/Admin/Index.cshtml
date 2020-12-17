@@ -74,6 +74,43 @@
     </table>
 </div>
 
+
+<div class="questions">
+    <table class="table">
+        <caption onclick="enableMultiple(['questions-table-header','questions-table'])" style="cursor:pointer">Questions for administrator</caption>
+        <thead id="questions-table-header" style="display:none;">
+            <tr>
+                <th>Email</th>
+                <th>Question</th>
+                <th>Is answered</th>
+                <th>Response</th>
+            </tr>
+        </thead>
+        <tbody id="questions-table" style="display:none;">
+            @foreach (var question in Model.Questions)
+            {
+            <tr>
+                <td>@question.Email</td>
+                <td>@question.Text</td>
+                <td>@(question.IsAnswered ? "Answered" : "Not answered")</td>
+                <td>
+                    @if (!question.IsAnswered)
+                    {
+
+                        @Html.ActionLink("Answer", "AnswerQuestion", new { id = @question.QuestionId, email = question.Email })
+                    }
+                    else
+                    {
+                        @question.Response
+                    }
+                 </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
 <script>
     function enable(id) {
         const element = document.getElementById(id);

@@ -12,5 +12,6 @@ namespace Support_Your_Locals.Models.ViewModels
         public IEnumerable<User> Users { get; set; }
 
         public IEnumerable<IGrouping<User, Business>> UsersBusinesses { get; set; }
+        public IEnumerable<Question> Questions { get; set; }
     }
 }

@@ -169,5 +169,71 @@ namespace Support_Your_Locals.Models.Repositories
                 BusinessID = row.Field<long>("BusinessID"),
             }).ToList();
         }
+
+        public List<Question> GetQuestions()
+        {
+            SqlDataAdapter adapter = new SqlDataAdapter();
+            SqlConnection connection = new SqlConnection(connectionString);
+            DataSet ds = new DataSet();
+            try
+            {
+                connection.Open();
+                adapter.SelectCommand = new SqlCommand("Select QuestionId, Email, Text, IsAnswered, Response FROM dbo.Questions", connection);
+                adapter.Fill(ds);
+            }
+            finally
+            {
+                connection.Close();
+                adapter.Dispose();
+            }
+
+            return ds.Tables[0].Select().Select(row => new Question()
+            {
+                QuestionId = row.Field<long>("QuestionId"),
+                Email = row.Field<string>("Email"),
+                Text = row.Field<string>("Text"),
+                IsAnswered = row.Field<bool>("IsAnswered"),
+                Response = row.Field<string>("Response"),
+            }).ToList();
+        }
+
+        public void AddQuestion(string email, string text)
+        {
+
+            SqlDataAdapter adapter = new SqlDataAdapter();
+            SqlConnection connection = new SqlConnection(connectionString);
+            try
+            {
+                connection.Open();
+                adapter.InsertCommand = new SqlCommand("insert into dbo.Questions (Email, Text, IsAnswered) values (@Email, @Text, 0)", connection);
+                adapter.InsertCommand.Parameters.Add("@Email", System.Data.SqlDbType.VarChar).Value = email;
+                adapter.InsertCommand.Parameters.Add("@Text", System.Data.SqlDbType.VarChar).Value = text;
+                adapter.InsertCommand.ExecuteNonQuery();
+            }
+            finally
+            {
+                connection.Close();
+                adapter.Dispose();
+            }
+        }
+
+        public void AnswerQuestion(long questionId, string response)
+        {
+            SqlDataAdapter adapter = new SqlDataAdapter();
+            SqlConnection connection = new SqlConnection(connectionString);
+            try
+            {
+                connection.Open();
+                adapter.UpdateCommand = new SqlCommand("update dbo.Questions set IsAnswered = 1, Response = @Response where QuestionId = @Id", connection);
+                adapter.UpdateCommand.Parameters.Add("@Id", System.Data.SqlDbType.BigInt).Value = questionId;
+                adapter.UpdateCommand.Parameters.Add("@Response", System.Data.SqlDbType.VarChar).Value = response;
+                adapter.UpdateCommand.ExecuteNonQuery();
+            }
+            finally
+            {
+                connection.Close();
+                adapter.Dispose();
+            }
+        }
     }
 }

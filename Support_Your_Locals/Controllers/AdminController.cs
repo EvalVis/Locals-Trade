@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Support_Your_Locals.Infrastructure;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,14 +16,15 @@ namespace Support_Your_Locals.Controllers
     public class AdminController : Controller
     {
 
+        public static event EventHandler<ResponseEventArgs> ResponseEvent;
+
         private IConfiguration configuration;
         private ILegacyServiceRepository repository;
 
-        public AdminController(ILegacyServiceRepository repo, IConfiguration config)
+        public AdminController(ILegacyServiceRepository repository, IConfiguration configuration)
         {
-            configuration = config;
-            repository = repo;
-
+            this.configuration = configuration;
+            this.repository = repository;
         }
         [HttpGet]
         [Authorize(Roles = "Administrator")]
@@ -29,6 +32,7 @@ namespace Support_Your_Locals.Controllers
         {
             var businesses = repository.GetBusinesses();
             var usersBusinesses = businesses.GroupBy(business => business.User);
+            var questions = repository.GetQuestions().OrderBy(question => question.IsAnswered);
             var users = repository.GetUsers().Where(notAdmin);
             return View(new AdminViewModel()
             {
@@ -38,6 +42,7 @@ namespace Support_Your_Locals.Controllers
                 TotalBusiness = businesses.Count(),
                 TotalProducts = repository.GetProducts().Count(),
                 TotalUsers = users.Count(),
+                Questions = questions,
             });
         }
 
@@ -56,8 +61,23 @@ namespace Support_Your_Locals.Controllers
         }
 
         [Authorize(Roles = "Administrator")]
-        public ActionResult Reasign(long id, long targetUserId)
+        [HttpGet]
+        public ActionResult AnswerQuestion(long id, string email)
         {
+            return View(new AnswerQuestionViewModel()
+            {
+                QuestionId = id,
+                Email = email,
+            });
+        }
+
+
+        [Authorize(Roles = "Administrator")]
+        [HttpPost]
+        public ActionResult AnswerQuestion(AnswerQuestionViewModel model)
+        {
+            ResponseEvent(this, new ResponseEventArgs(model.Email, model.AnwserText));
+            repository.AnswerQuestion(model.QuestionId, model.AnwserText);
             return RedirectToAction("Index");
         }
 
