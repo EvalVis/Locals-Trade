@@ -24,9 +24,9 @@
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                 <StackLayout Margin="20,20,20,20">
-                                        <Label Text="{Binding WeekdayName}" FontSize="Small" TextColor="IndianRed"></Label>
-                                        <Label Text="{Binding From, StringFormat='{}{0:hh\\:mm}'}" FontSize="Small" TextColor="Gainsboro"></Label>
-                                        <Label Text="{Binding To, StringFormat='{}{0:hh\\:mm}'}" FontSize="Small" TextColor="Gainsboro"></Label>
+                                        <Label Text="{Binding WeekdayName}" FontAttributes="Bold" FontSize="Large" TextColor="IndianRed"></Label>
+                                        <Label Text="{Binding From, StringFormat='{}{0:hh\\:mm}'}" FontSize="Large"></Label>
+                                        <Label Text="{Binding To, StringFormat='{}{0:hh\\:mm}'}" FontSize="Large"></Label>
                                     </StackLayout>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
@@ -37,10 +37,10 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout Margin="20,20,20,20">
-                                    <Label Text="{Binding Name}" FontSize="Small" TextColor="MediumTurquoise"></Label>
-                                    <Label Text="{Binding PricePerUnit}" FontSize="Small" TextColor="MediumSpringGreen"></Label>
-                                    <Label Text="{Binding Unit}" FontSize="Small" TextColor="Gold"></Label>
-                                    <Label Text="{Binding Comment}" FontSize="Small" TextColor="Blue"></Label>
+                                    <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="Large" TextColor="MediumTurquoise"></Label>
+                                    <Label Text="{Binding PricePerUnit}" FontSize="Large" TextColor="MediumSpringGreen"></Label>
+                                    <Label Text="{Binding Unit}" FontSize="Large" TextColor="Gold"></Label>
+                                    <Label Text="{Binding Comment}" FontAttributes="Italic" FontSize="Large" TextColor="Blue"></Label>
                                 </StackLayout>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
