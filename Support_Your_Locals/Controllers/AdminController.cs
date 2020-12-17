@@ -76,7 +76,7 @@ namespace Support_Your_Locals.Controllers
         [HttpPost]
         public ActionResult AnswerQuestion(AnswerQuestionViewModel model)
         {
-            ResponseEvent(this, new ResponseEventArgs(model.Email, model.AnwserText));
+            ResponseEvent?.Invoke(this, new ResponseEventArgs(model.Email, model.AnwserText));
             repository.AnswerQuestion(model.QuestionId, model.AnwserText);
             return RedirectToAction("Index");
         }

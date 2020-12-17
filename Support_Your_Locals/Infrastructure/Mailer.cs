@@ -114,6 +114,7 @@ namespace Support_Your_Locals.Infrastructure
         public void Mute()
         {
             BusinessController.FeedbackEvent -= SendMail;
+            AdminController.ResponseEvent -= AnswerQuestion;
         }
 
     }
