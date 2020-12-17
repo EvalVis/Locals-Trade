@@ -12,7 +12,7 @@ namespace RestAPI.Models.Repositories
 
         public IQueryable<User> Users => context.Users;
         public IQueryable<Business> Business => context.Business;
-        public IQueryable<TimeSheet> Workdays => context.Workdays;
+        public IQueryable<TimeSheet> Workdays => context.TimeSheets;
 
         public IQueryable<Product> Products => context.Products;
         public IQueryable<Feedback> Feedbacks => context.Feedbacks;
