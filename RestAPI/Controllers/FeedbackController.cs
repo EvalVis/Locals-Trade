@@ -58,11 +58,16 @@ namespace RestAPI.Controllers
             return Unauthorized();
         }
 
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> SaveFeedback(FeedbackBindingTarget feedbackBindingTarget)
         {
             Feedback feedback = feedbackBindingTarget.ToFeedback();
+            Business business = await repository.Business.FirstOrDefaultAsync(b => b.BusinessID == feedback.BusinessID);
+            if (business == null) return NotFound();
             await repository.SaveFeedbackAsync(feedback);
             new Mailer(repository, configuration).SendMail(feedback);
             return Ok();

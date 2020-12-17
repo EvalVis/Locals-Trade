@@ -31,13 +31,17 @@ namespace RestAPI.Controllers
         }
 
         [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet("All/{page}")]
         public ActionResult<PageBusiness> GetBusinesses(int page = 1)
         {
             long totalItems = repository.Business.Count();
             int totalPages = (int)Math.Ceiling((decimal)totalItems / pageSize);
+            if (page < 1) return BadRequest();
+            if (page > totalPages) return NotFound();
             IEnumerable<Business> businesses = repository.Business.
                 Include(b => b.User).
                 Include(b => b.Products).
@@ -54,12 +58,16 @@ namespace RestAPI.Controllers
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("Filtered/{page}")]
         public ActionResult<PageBusiness> GetFilteredBusinesses([FromQuery] SearchEngine searchEngine, int page = 1)
         {
             System.Diagnostics.Debug.WriteLine("information we got: " + page + " " + searchEngine?.OpenFrom + " " + searchEngine?.OwnersSurname + " " + searchEngine?.WeekdaySelected?[0]);
             long totalItems = repository.Business.Count();
             int totalPages = (int)Math.Ceiling((decimal)totalItems / pageSize);
+            if (page < 1) return BadRequest();
+            if (page > totalPages) return NotFound();
             IEnumerable<Business> filteredBusinesses = searchEngine.FilterBusinesses(page, pageSize, repository);
             foreach (var b in filteredBusinesses)
             {
@@ -90,9 +98,11 @@ namespace RestAPI.Controllers
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("{id}")]
         public async Task<ActionResult<Business>> Business(long id)
         {
+            if (id < 1) return BadRequest();
             Business business = await repository.Business.
                 Include(b => b.Workdays).Include(b => b.Products).Include(b => b.User).
                 FirstOrDefaultAsync(b => b.BusinessID == id);
@@ -108,7 +118,7 @@ namespace RestAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> RemoveBusiness(string password, long id)
         {
-            if (id < 1) return BadRequest();
+            if (id < 1 || string.IsNullOrEmpty(password)) return BadRequest();
             Business business = await repository.Business.FirstOrDefaultAsync(b => b.BusinessID == id);
             if (business == null)
             {
@@ -127,6 +137,7 @@ namespace RestAPI.Controllers
             return Unauthorized();
         }
 
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         public async Task<ActionResult> SaveBusiness(BusinessBindingTarget target)
         {
