@@ -16,10 +16,12 @@
         }
         else
         {
-            <form method="post">
-                <button asp-controller="Auth" asp-action="SignOut" class="btn btn-primary">Sign Out</button>
-            </form>
-              <span style="float:right;text-align:right;margin-left: 80px;">Welcome @User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value!</span>
+            <a asp-controller="Auth" asp-action="SignOut" class="btn btn-primary btn-sm">Sign out</a>
+            <span style="float:right;text-align:right;margin-left: 80px;">Welcome @User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value!</span>
+        }
+        @if (User.IsInRole("Administrator"))
+        {
+            <a asp-controller="Admin" asp-action="Index" class="navbar-brand ml-2">Admin panel</a>
         }
         <a asp-controller="Business" asp-action="AddAdvertisement" class="navbar-brand ml-2 navbuttons">Add advertisement</a>
 

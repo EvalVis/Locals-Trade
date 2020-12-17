@@ -1,0 +1,77 @@
+﻿@model AdminViewModel
+
+@{
+    Layout = "_AdminPageLayout";
+}
+
+<div class="stats">
+    <table class="table">
+        <caption>Product statistics</caption>
+        <tr>
+            <th>Total users</th>
+            <th>Total businesses</th>
+            <th>Total products</th>
+        </tr>
+        <tr>
+            <td>@Model.TotalUsers</td>
+            <td>@Model.TotalBusiness</td>
+            <td>@Model.TotalUsers</td>
+        </tr>
+    </table>
+</div>
+<div class="businesses">
+    <table class="table" onclick="enable('businesses-table')" style="cursor:pointer">
+        <caption>Complete business list</caption>
+        <tbody id="businesses-table" style="display:none;">
+            @foreach (var business in Model.Businesses)
+            {
+                <tr>
+                    <td>
+                        <partial name="BusinessSummary" model="business" />
+                        @Html.ActionLink("Remove", "DeleteBusiness", new { id = @business.BusinessID },
+                         new { onclick = "return confirm('Are you sure you wish to remove this business permanently?');" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="users">
+    <table class="table" onclick="enableMultiple(['users-table-header','users-table'])" style="cursor:pointer">
+        <caption>Complete user list</caption>
+        <thead id="users-table-header" style="display:none;">
+            <tr>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="users-table" style="display:none;">
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td>@user.Email</td>
+                    <td>@user.Name</td>
+                    <td>@user.Surname</td>
+                    <td>
+                        @Html.ActionLink("Remove", "DeleteUser", new { id = @user.UserID },
+                                 new { onclick = "return confirm('Are you sure you wish to remove this user permanently?');" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function enable(id) {
+        const element = document.getElementById(id);
+        element.style.display = element.style.display === "none" ? "table-row-group" : "none";
+    }
+
+    function enableMultiple(ids) {
+        ids.forEach(id => enable(id))
+    }
+</script>
