@@ -137,6 +137,7 @@ namespace RestAPI.Controllers
             return Unauthorized();
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         public async Task<ActionResult> SaveBusiness(BusinessBindingTarget target)
