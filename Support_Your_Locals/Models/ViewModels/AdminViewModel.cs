@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Support_Your_Locals.Models.ViewModels
 {
@@ -9,5 +10,8 @@ namespace Support_Your_Locals.Models.ViewModels
         public int TotalUsers { get; set; }
         public IEnumerable<Business> Businesses { get; set; }
         public IEnumerable<User> Users { get; set; }
+
+        public IEnumerable<IGrouping<User, Business>> UsersBusinesses { get; set; }
+        public IEnumerable<Question> Questions { get; set; }
     }
 }
