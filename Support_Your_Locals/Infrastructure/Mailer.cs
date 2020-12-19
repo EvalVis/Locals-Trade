@@ -39,6 +39,7 @@ namespace Support_Your_Locals.Infrastructure
                 };
             });
             BusinessController.FeedbackEvent += SendMail;
+            AdminController.ResponseEvent += AnswerQuestion;
         }
 
 
@@ -85,10 +86,35 @@ namespace Support_Your_Locals.Infrastructure
                 }
             });
         }
+        public void AnswerQuestion(object sender, ResponseEventArgs responseEvent)
+        {
+            MailMessage message = new MailMessage();
+            message.Subject = "LocalsTrade: Response to a question";
+            message.Body = responseEvent.Response;
+            message.IsBodyHtml = false;
+            message.From = new MailAddress("localstradebox@gmail.com", "Locals Trade box");
+            message.To.Add(new MailAddress(responseEvent.Email, responseEvent.Email));
+            
+            SmtpClient protocol = smtp.Value;
+            Task.Run(() =>
+            {
+                try
+                {
+                    protocol.Send(message);
+                }
+                catch (SmtpException e)
+                {
+                    Debug.WriteLine($"Failed to send email with smtp. The message: \"{responseEvent.Response}\" was being sent to {responseEvent.Email}. " +
+                                    $"Exception code: {e.StatusCode}. " +
+                                    $"Detailed exception info: {e}");
+                }
+            });
+        }
 
         public void Mute()
         {
             BusinessController.FeedbackEvent -= SendMail;
+            AdminController.ResponseEvent -= AnswerQuestion;
         }
 
     }
