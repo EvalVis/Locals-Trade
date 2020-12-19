@@ -64,11 +64,10 @@ namespace RestAPI.Controllers
         public ActionResult<PageBusiness> GetFilteredBusinesses([FromQuery] SearchEngine searchEngine, int page = 1)
         {
             System.Diagnostics.Debug.WriteLine("information we got: " + page + " " + searchEngine?.OpenFrom + " " + searchEngine?.OwnersSurname + " " + searchEngine?.WeekdaySelected?[0]);
-            long totalItems = repository.Business.Count();
+            if (page < 1 || searchEngine.WeekdaySelected.Length != 7) return BadRequest();
+            IEnumerable<Business> filteredBusinesses = searchEngine.FilterBusinesses(page, pageSize, repository, out int totalItems);
             int totalPages = (int)Math.Ceiling((decimal)totalItems / pageSize);
-            if (page < 1) return BadRequest();
             if (page > totalPages) return NotFound();
-            IEnumerable<Business> filteredBusinesses = searchEngine.FilterBusinesses(page, pageSize, repository);
             foreach (var b in filteredBusinesses)
             {
                 b.EliminateDepth();
