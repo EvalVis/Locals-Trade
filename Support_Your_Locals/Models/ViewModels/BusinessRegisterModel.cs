@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
 
 namespace Support_Your_Locals.Models.ViewModels
 {
@@ -17,8 +16,8 @@ namespace Support_Your_Locals.Models.ViewModels
         public string Header {get; set;}
         public string Longitude { get; set; }
         public string Latitude { get; set; }
-        public IFormFile Picture { get; set; }
-        public TimeSheetRegisterViewModel[] Workdays { get; set; } = new TimeSheetRegisterViewModel[7];
+        public string Picture { get; set; }
+        public TimeSheet[] Workdays { get; set; } = new TimeSheet[7];
         public List<Product> Products { get; set; } = new List<Product>();
 
         public BusinessRegisterModel()
