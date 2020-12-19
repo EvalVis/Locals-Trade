@@ -15,6 +15,6 @@ namespace RestAPI.Models.BindingTargets
         [StringLength(1000, ErrorMessage = "Comment too large. Please enter up to 1000 symbols")]
         public string Comment { get; set; }
         public string Picture { get; set; }
-        public Product ToProduct => new Product { Name = Name, PricePerUnit = PricePerUnit, Unit = Unit, Comment = Comment, Picture = Picture };
+        public Product ToProduct() => new Product { Name = Name, PricePerUnit = PricePerUnit, Unit = Unit, Comment = Comment, Picture = Picture };
     }
 }
