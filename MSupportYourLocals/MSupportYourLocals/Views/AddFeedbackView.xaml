@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MSupportYourLocals.Views.AddFeedbackView">
+    <ContentPage.Content>
+        <StackLayout Padding="20" Spacing="50" VerticalOptions="Center">
+            <Label Text="Your feedback" FontAttributes="Bold" FontSize="Large" HorizontalOptions="Center"/>
+            <Entry x:Name="NameEntry" Placeholder="Your name" />
+            <Entry x:Name="FeedbackTextEntry" Placeholder="You can say what do you think here" />
+            <Button Text="Send" BackgroundColor="YellowGreen" TextColor="White" FontAttributes="Bold" Clicked="Send"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

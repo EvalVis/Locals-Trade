@@ -8,7 +8,7 @@ namespace Support_Your_Locals.Models
 {
     public class SearchResponse
     {
-        [FromQuery(Name="os")]
+        [FromQuery(Name = "os")]
         public string OwnersSurname { get; set; }
         [FromQuery(Name = "bi")]
         public string BusinessInfo { get; set; }
@@ -24,7 +24,7 @@ namespace Support_Your_Locals.Models
         [FromQuery(Name= "t")]
         public DateTime OpenTo { get; set; } = new DateTime(1999, 12, 06, 18, 00, 00);
         private delegate bool Filter<T>(T item);
-      
+
         public string ToQuery()
         {
             return $"/?os={OwnersSurname}&bi={BusinessInfo}&si={SearchIn}&w={WeekSelected}&f={OpenFrom.TimeOfDay}&t={OpenTo.TimeOfDay}";
@@ -44,17 +44,17 @@ namespace Support_Your_Locals.Models
 
         public IEnumerable<Business> FilterBusinesses(IEnumerable<Business> businesses)
         {
-            Filter<User> ownersFilter = delegate(User user)
+            Filter<User> ownersFilter = delegate (User user)
             {
                 return (string.IsNullOrEmpty(OwnersSurname) || user.Surname.ToLower().Contains(OwnersSurname.ToLower()));
             };
-            Filter<Business> businessFilter = delegate(Business business)
+            Filter<Business> businessFilter = delegate (Business business)
             {
                 return string.IsNullOrEmpty(BusinessInfo) || (SearchIn == 0 && ChosenHeader(business))
                         && (SearchIn == 1 && ChosenDescription(business)) ||
                         (SearchIn == 2 && ChosenHeader(business) && ChosenDescription(business));
             };
-            Filter<IEnumerable<TimeSheet>> timeFilter = delegate(IEnumerable<TimeSheet> workdays)
+            Filter<IEnumerable<TimeSheet>> timeFilter = delegate (IEnumerable<TimeSheet> workdays)
             {
                 return workdays.All(w => (w.From.TimeOfDay <= OpenFrom.TimeOfDay
                                           && w.To.TimeOfDay <= OpenTo.TimeOfDay) || !WeekdaySelected[w.Weekday - 1]);

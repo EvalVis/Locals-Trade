@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MSupportYourLocals.Views.Shared.PageView">
+
+    <StackLayout>
+        <Button Text="Back" BackgroundColor="YellowGreen" TextColor="White" FontAttributes="Bold" Clicked="Back"></Button>
+        <Entry x:Name="PageEntry"></Entry>
+        <Label x:Name="TotalPagesLabel"></Label>
+        <Button Text="Forward" BackgroundColor="YellowGreen" TextColor="White" FontAttributes="Bold" Clicked="Forward"></Button>
+        <Button Text="Go" BackgroundColor="YellowGreen" TextColor="White" FontAttributes="Bold" Clicked="Go"></Button>
+    </StackLayout>
+
+</ContentView>

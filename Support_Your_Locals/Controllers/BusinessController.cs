@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Support_Your_Locals.Models;
@@ -16,8 +18,6 @@ namespace Support_Your_Locals.Controllers
 {
     public class BusinessController : Controller
     {
-        //public delegate void FeedbackHandler(Feedback feedback);
-        //public static event FeedbackHandler FeedbackEvent;
         public static event EventHandler<FeedbackEventArgs> FeedbackEvent;
 
         private IServiceRepository repository;
@@ -44,7 +44,7 @@ namespace Support_Your_Locals.Controllers
         [HttpPost]
         public void AddFeedback(string senderName, string text, long businessId)
         {
-            Feedback feedback = new Feedback {SenderName = senderName, Text = text, BusinessID = businessId};
+            Feedback feedback = new Feedback { SenderName = senderName, Text = text, BusinessID = businessId };
             repository.AddFeedback(feedback);
             FeedbackEvent(this, new FeedbackEventArgs(feedback));
         }

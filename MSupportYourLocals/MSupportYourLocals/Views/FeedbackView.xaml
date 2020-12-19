@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MSupportYourLocals.Views.FeedbackView">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Delete all"
+                     Order="Primary"
+                     Priority="0" Clicked="DeleteAll" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <ScrollView>
+            <Grid>
+                <CollectionView x:Name="FeedbackList" ItemsSource="{Binding Feedbacks}" SelectionMode="Single" SelectionChanged="FeedbackSelected">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout HorizontalOptions="FillAndExpand" Margin="0" Padding="0">
+                                <Label Text="{Binding SenderName}" FontSize="Large" TextColor="Black"></Label>
+                                <Label Text="{Binding Text}" FontSize="Large" TextColor="DarkMagenta"></Label>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <ContentView
+                    x:Name="Controls"
+                    Padding="10,0"
+                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                    AbsoluteLayout.LayoutFlags="All"
+                    BackgroundColor="#C0808080"
+                    IsVisible="false">
+
+                    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                        <StackLayout
+                            Orientation="Vertical">
+                            <Button Margin="20,0,20,0" Text="Delete" BackgroundColor="Red" TextColor="White" FontAttributes="Bold" Clicked="Delete" />
+                            <Button Margin="20,0,20,0" Text="Close" BackgroundColor="Blue" TextColor="White" FontAttributes="Bold" Clicked="Cancel" />
+                        </StackLayout>
+                    </StackLayout>
+                </ContentView>
+
+                <ContentView
+                    x:Name="Confirmation"
+                    Padding="10,0"
+                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                    AbsoluteLayout.LayoutFlags="All"
+                    BackgroundColor="#C0808080"
+                    IsVisible="false">
+
+                    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                        <StackLayout
+                            Orientation="Vertical">
+                            <Label Margin="20,20,20,0" Text="Are you sure you want to delete this feedback?" FontAttributes="Bold" FontSize="Large" />
+                            <Button Margin="20,0,20,0" Text="Confirm" BackgroundColor="Red" TextColor="White" FontAttributes="Bold" Clicked="ConfirmDelete" />
+                            <Button Margin="20,0,20,0" Text="Cancel" BackgroundColor="LawnGreen" TextColor="White" FontAttributes="Bold" Clicked="CancelDelete" />
+                        </StackLayout>
+                    </StackLayout>
+                </ContentView>
+            </Grid>
+        </ScrollView>
+    </ContentPage.Content>
+
+</ContentPage>
