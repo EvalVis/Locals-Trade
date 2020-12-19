@@ -23,18 +23,6 @@ namespace MSupportYourLocals.Views
         private IFeedbackService feedbackService = DependencyService.Get<IFeedbackService>();
         private UserBusinessViewModel userBusinessViewModel;
 
-        public BusinessesView(string ownersSurname, string businessInfo, int searchIn, bool[] checks, DateTime? openFrom, DateTime? openTo, BusinessesViewModel businessesViewModel)
-        {
-            InitializeComponent();
-            businessesViewModel?.ConcatAllProducts();
-            BindingContext = businessesViewModel;
-            int currentPage = businessesViewModel?.CurrentPage ?? 1;
-            int totalPages = businessesViewModel?.TotalPages ?? 1;
-            SearchView searchView = new SearchView(ownersSurname, businessInfo, searchIn, checks, openFrom, openTo);
-            Stack.Children.Add(searchView);
-            Stack.Children.Add(new PageView(currentPage, totalPages, searchView));
-        }
-
         public BusinessesView(BusinessesViewModel businessesViewModel)
         {
             InitializeComponent();
@@ -42,7 +30,8 @@ namespace MSupportYourLocals.Views
             BindingContext = businessesViewModel;
             int currentPage = businessesViewModel?.CurrentPage ?? 1;
             int totalPages = businessesViewModel?.TotalPages ?? 1;
-            SearchView searchView = new SearchView(null, null, 0, null, null, null);
+            SearchView searchView = new SearchView(businessesViewModel.OwnersSurname, businessesViewModel.BusinessInfo,
+                businessesViewModel.SearchIn, businessesViewModel.WeekdaySelected, businessesViewModel.OpenFrom, businessesViewModel.OpenTo);
             Stack.Children.Add(searchView);
             Stack.Children.Add(new PageView(currentPage, totalPages, searchView));
         }

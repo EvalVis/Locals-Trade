@@ -21,6 +21,12 @@ namespace MSupportYourLocals.ViewModels
         private ObservableCollection<Business> businesses;
         public int TotalPages;
         public int CurrentPage;
+        public string OwnersSurname;
+        public string BusinessInfo;
+        public int SearchIn;
+        public bool[] WeekdaySelected = new bool[7];
+        public DateTime OpenFrom;
+        public DateTime OpenTo;
 
         public ObservableCollection<Business> Businesses
         {
@@ -35,6 +41,9 @@ namespace MSupportYourLocals.ViewModels
         public BusinessesViewModel(int currentPage)
         {
             CurrentPage = currentPage;
+            OpenFrom = new DateTime(2020, 10, 10, 7, 0, 0);
+            OpenTo = new DateTime(2020, 10, 10, 18, 30, 0);
+            for (int i = 0; i < 7; i++) WeekdaySelected[i] = true;
             Task.Run(async () => await GetBusinesses()).Wait();
         }
 
@@ -42,13 +51,18 @@ namespace MSupportYourLocals.ViewModels
             bool[] weekdaySelected, DateTime openFrom, DateTime openTo)
         {
             CurrentPage = currentPage;
-            Task.Run(async () => await GetFilteredBusinesses(ownersSurname, businessInfo, searchIn, weekdaySelected, openFrom, openTo)).Wait();
+            OwnersSurname = ownersSurname;
+            businessInfo = BusinessInfo;
+            SearchIn = searchIn;
+            WeekdaySelected = weekdaySelected;
+            OpenFrom = openFrom;
+            OpenTo = openTo;
+            Task.Run(async () => await GetFilteredBusinesses()).Wait();
         }
 
-        public async Task GetFilteredBusinesses(string ownersSurname, string businessInfo, int searchIn,
-            bool[] weekdaySelected, DateTime openFrom, DateTime openTo)
+        public async Task GetFilteredBusinesses()
         {
-            PageBusiness pageBusiness = await businessService.GetFilteredBusinesses(ownersSurname, businessInfo, searchIn, weekdaySelected, openFrom, openTo, CurrentPage);
+            PageBusiness pageBusiness = await businessService.GetFilteredBusinesses(OwnersSurname, BusinessInfo, SearchIn, WeekdaySelected, OpenFrom, OpenTo, CurrentPage);
             businesses = pageBusiness?.Businesses ?? new ObservableCollection<Business>();
             businesses = SortByWeekday.Sort(businesses);
             TotalPages = pageBusiness?.TotalPages ?? 1;

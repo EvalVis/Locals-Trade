@@ -17,8 +17,8 @@ namespace MSupportYourLocals.Views.Shared
         private int searchIn;
         private string businessInfo;
         private bool[] checks = new bool[7];
-        private DateTime? realDateFrom;
-        private DateTime? realDateTo;
+        private DateTime openFrom;
+        private DateTime openTo;
 
         public PageView(int currentPage, int totalPages, SearchView searchView)
         {
@@ -35,7 +35,7 @@ namespace MSupportYourLocals.Views.Shared
             Parse();
             if (currentPage - 1 < 1) currentPage = totalPages + 1;
             else if (currentPage - 1 > totalPages) currentPage = 2;
-            await Navigation.PushAsync(new BusinessesView(ownersSurname, businessInfo, searchIn, checks, realDateFrom, realDateTo, new BusinessesViewModel(currentPage - 1)));
+            await Navigation.PushAsync(new BusinessesView(new BusinessesViewModel(currentPage - 1, ownersSurname, businessInfo, searchIn, checks, openFrom, openTo)));
         }
 
         private async void Go(object sender, EventArgs e)
@@ -45,7 +45,7 @@ namespace MSupportYourLocals.Views.Shared
             if (targetPage == 0) targetPage = 1;
             if (targetPage < 1) targetPage = 1;
             else if (targetPage > totalPages) targetPage = totalPages;
-            await Navigation.PushAsync(new BusinessesView(ownersSurname, businessInfo, searchIn, checks, realDateFrom, realDateTo, new BusinessesViewModel(targetPage)));
+            await Navigation.PushAsync(new BusinessesView(new BusinessesViewModel(targetPage, ownersSurname, businessInfo, searchIn, checks, openFrom, openTo)));
         }
 
         private async void Forward(object sender, EventArgs e)
@@ -53,7 +53,7 @@ namespace MSupportYourLocals.Views.Shared
             Parse();
             if (currentPage + 1 < 1) currentPage = totalPages - 1;
             else if (currentPage + 1 > totalPages) currentPage = 0;
-            await Navigation.PushAsync(new BusinessesView(ownersSurname, businessInfo, searchIn, checks, realDateFrom, realDateTo, new BusinessesViewModel(currentPage + 1)));
+            await Navigation.PushAsync(new BusinessesView(new BusinessesViewModel(currentPage + 1, ownersSurname, businessInfo, searchIn, checks, openFrom, openTo)));
         }
 
         private void Parse()
@@ -68,14 +68,12 @@ namespace MSupportYourLocals.Views.Shared
             bool.TryParse(searchView.GetItems<bool>(7).ToString(), out checks[4]);
             bool.TryParse(searchView.GetItems<bool>(8).ToString(), out checks[5]);
             bool.TryParse(searchView.GetItems<bool>(9).ToString(), out checks[6]);
-            DateTime.TryParse(searchView.GetItems<DateTime>(10).ToString(), out DateTime openFrom);
-            DateTime.TryParse(searchView.GetItems<DateTime>(11).ToString(), out DateTime openTo);
-            realDateFrom = openFrom;
-            realDateTo = openTo;
+            DateTime.TryParse(searchView.GetItems<DateTime>(10).ToString(), out openFrom);
+            DateTime.TryParse(searchView.GetItems<DateTime>(11).ToString(), out openTo);
             if (openFrom.Equals(openTo))
             {
-                realDateFrom = null;
-                realDateTo = null;
+                openFrom = new DateTime(2020, 10, 10, 7, 0, 0);
+                openTo = new DateTime(2020, 10, 10, 18, 30, 0);
             }
         }
 
