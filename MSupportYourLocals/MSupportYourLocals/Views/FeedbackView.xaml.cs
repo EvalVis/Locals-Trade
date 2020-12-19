@@ -18,12 +18,14 @@ namespace MSupportYourLocals.Views
         private Feedback chosenFeedback;
         private long businessId;
         private ActionEnum action;
+        private FeedbackViewModel feedbackViewModel;
 
         public FeedbackView(long businessId, FeedbackViewModel feedbackViewModel)
         {
             InitializeComponent();
             BindingContext = feedbackViewModel;
             this.businessId = businessId;
+            this.feedbackViewModel = feedbackViewModel;
         }
 
         public void DeleteAll(object sender, EventArgs e)
@@ -38,6 +40,8 @@ namespace MSupportYourLocals.Views
             bool success = await feedbackService.DeleteAllFeedbacks(businessId);
             if (success)
             {
+                feedbackViewModel?.Feedbacks.Clear();
+                FeedbackList.ItemsSource = feedbackViewModel?.Feedbacks;
                 await this.DisplaySuccess("Every single feedback successfully deleted");
             }
             else
@@ -52,6 +56,8 @@ namespace MSupportYourLocals.Views
             bool success = await feedbackService.DeleteFeedback(chosenFeedback.ID);
             if (success)
             {
+                feedbackViewModel?.Feedbacks.Remove(chosenFeedback);
+                FeedbackList.ItemsSource = feedbackViewModel?.Feedbacks;
                 await this.DisplaySuccess("Feedback successfully deleted");
             }
             else

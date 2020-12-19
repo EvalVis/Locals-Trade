@@ -15,7 +15,6 @@ namespace MSupportYourLocals.Views
     {
 
         private IBusinessService businessService = DependencyService.Get<IBusinessService>();
-        private JsonWebTokenHolder tokenService = DependencyService.Get<JsonWebTokenHolder>();
         private Business business;
         public ObservableCollection<Workday> Workdays = new ObservableCollection<Workday>();
         public ObservableCollection<Product> Products = new ObservableCollection<Product>();

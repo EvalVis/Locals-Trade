@@ -21,6 +21,7 @@ namespace MSupportYourLocals.Views
 
         private IBusinessService businessService = DependencyService.Get<IBusinessService>();
         private IFeedbackService feedbackService = DependencyService.Get<IFeedbackService>();
+        private UserBusinessViewModel userBusinessViewModel;
 
         public BusinessesView(string ownersSurname, string businessInfo, int searchIn, bool[] checks, DateTime? openFrom, DateTime? openTo, BusinessesViewModel businessesViewModel)
         {
@@ -51,6 +52,7 @@ namespace MSupportYourLocals.Views
             InitializeComponent();
             userBusinessViewModel?.ConcatAllProducts();
             BindingContext = userBusinessViewModel;
+            this.userBusinessViewModel = userBusinessViewModel;
             personal = true;
         }
 
@@ -109,13 +111,13 @@ namespace MSupportYourLocals.Views
 
         public async void VerifyAction(object sender, EventArgs e)
         {
-            BusinessList.SelectedItem = null;
             string password = PasswordEntry.Text;
             if (!string.IsNullOrEmpty(password))
             {
                 bool success = await DeleteBusiness(password);
                 if (success)
                 {
+                    BusinessList.SelectedItem = null;
                     Controls.IsVisible = false;
                     Verification.IsVisible = false;
                 }
@@ -131,6 +133,8 @@ namespace MSupportYourLocals.Views
             bool success = await businessService.DeleteBusiness(password, chosenBusiness.BusinessId);
             if (success)
             {
+                userBusinessViewModel?.Businesses?.Remove(chosenBusiness);
+                BusinessList.ItemsSource = userBusinessViewModel?.Businesses;
                 await this.DisplaySuccess("Business successfully deleted.");
                 return true;
             }

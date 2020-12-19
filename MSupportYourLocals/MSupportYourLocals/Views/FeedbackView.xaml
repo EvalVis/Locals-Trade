@@ -12,7 +12,7 @@
     <ContentPage.Content>
         <ScrollView>
             <Grid>
-                <CollectionView ItemsSource="{Binding Feedbacks}" SelectionMode="Single" SelectionChanged="FeedbackSelected">
+                <CollectionView x:Name="FeedbackList" ItemsSource="{Binding Feedbacks}" SelectionMode="Single" SelectionChanged="FeedbackSelected">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <StackLayout HorizontalOptions="FillAndExpand" Margin="0" Padding="0">
