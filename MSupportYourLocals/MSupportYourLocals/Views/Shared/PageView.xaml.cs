@@ -69,7 +69,7 @@ namespace MSupportYourLocals.Views.Shared
             bool.TryParse(searchView.GetItems<bool>(8).ToString(), out checks[5]);
             bool.TryParse(searchView.GetItems<bool>(9).ToString(), out checks[6]);
             DateTime.TryParse(searchView.GetItems<DateTime>(10).ToString(), out DateTime openFrom);
-            DateTime.TryParse(searchView.GetItems<DateTime>(10).ToString(), out DateTime openTo);
+            DateTime.TryParse(searchView.GetItems<DateTime>(11).ToString(), out DateTime openTo);
             realDateFrom = openFrom;
             realDateTo = openTo;
             if (openFrom.Equals(openTo))
