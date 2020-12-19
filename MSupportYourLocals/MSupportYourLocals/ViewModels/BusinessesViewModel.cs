@@ -14,8 +14,6 @@ namespace MSupportYourLocals.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public event EventHandler BusinessReceived;
-
         private IBusinessService businessService = DependencyService.Get<IBusinessService>();
 
         private ObservableCollection<Business> businesses;

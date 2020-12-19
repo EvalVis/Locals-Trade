@@ -33,8 +33,10 @@ namespace MSupportYourLocals.Views.Shared
         private async void Back(object sender, EventArgs e)
         {
             Parse();
+            int cPage = currentPage;//prevent navigating if the page is the same.
             if (currentPage - 1 < 1) currentPage = totalPages + 1;
             else if (currentPage - 1 > totalPages) currentPage = 2;
+            if (currentPage - 1 == cPage) return;
             await Navigation.PushAsync(new BusinessesView(new BusinessesViewModel(currentPage - 1, ownersSurname, businessInfo, searchIn, checks, openFrom, openTo)));
         }
 
@@ -45,14 +47,17 @@ namespace MSupportYourLocals.Views.Shared
             if (targetPage == 0) targetPage = 1;
             if (targetPage < 1) targetPage = 1;
             else if (targetPage > totalPages) targetPage = totalPages;
+            if (targetPage == currentPage) return;
             await Navigation.PushAsync(new BusinessesView(new BusinessesViewModel(targetPage, ownersSurname, businessInfo, searchIn, checks, openFrom, openTo)));
         }
 
         private async void Forward(object sender, EventArgs e)
         {
             Parse();
+            int cPage = currentPage;//prevent navigating if the page is the same.
             if (currentPage + 1 < 1) currentPage = totalPages - 1;
             else if (currentPage + 1 > totalPages) currentPage = 0;
+            if (currentPage + 1 == cPage) return; 
             await Navigation.PushAsync(new BusinessesView(new BusinessesViewModel(currentPage + 1, ownersSurname, businessInfo, searchIn, checks, openFrom, openTo)));
         }
 
