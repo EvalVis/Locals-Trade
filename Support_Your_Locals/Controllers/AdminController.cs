@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Support_Your_Locals.Infrastructure;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,68 +15,38 @@ namespace Support_Your_Locals.Controllers
     public class AdminController : Controller
     {
 
-        public static event EventHandler<ResponseEventArgs> ResponseEvent;
-
+        private IServiceRepository repository;
         private IConfiguration configuration;
-        private ILegacyServiceRepository repository;
-
-        public AdminController(ILegacyServiceRepository repository, IConfiguration configuration)
+        public AdminController(IServiceRepository repo, IConfiguration config)
         {
-            this.configuration = configuration;
-            this.repository = repository;
+            repository = repo;
+            configuration = config;
         }
         [HttpGet]
         [Authorize(Roles = "Administrator")]
         public ActionResult Index()
         {
-            var businesses = repository.GetBusinesses();
-            var usersBusinesses = businesses.GroupBy(business => business.User);
-            var questions = repository.GetQuestions().OrderBy(question => question.IsAnswered);
-            var users = repository.GetUsers().Where(notAdmin);
             return View(new AdminViewModel()
             {
-                Businesses = businesses,
-                UsersBusinesses = usersBusinesses,
-                Users = repository.GetUsers().Where(notAdmin),
-                TotalBusiness = businesses.Count(),
-                TotalProducts = repository.GetProducts().Count(),
-                TotalUsers = users.Count(),
-                Questions = questions,
+                Businesses = repository.Business.Include(b => b.User).Include(b => b.Products),
+                Users = repository.Users.Where(notAdmin),
+                TotalBusiness = repository.Business.Count(),
+                TotalProducts = repository.Products.Count(),
+                TotalUsers = repository.Users.Where(notAdmin).Count()
             });
         }
 
         [Authorize(Roles = "Administrator")]
         public ActionResult DeleteBusiness(long id)
         {
-            repository.DeleteBusiness(id);
+            repository.DeleteBusiness(new Models.Business { BusinessID = id });
             return RedirectToAction("Index");
         }
 
         [Authorize(Roles = "Administrator")]
         public ActionResult DeleteUser(long id)
         {
-            repository.DeleteUser(id);
-            return RedirectToAction("Index");
-        }
-
-        [Authorize(Roles = "Administrator")]
-        [HttpGet]
-        public ActionResult AnswerQuestion(long id, string email)
-        {
-            return View(new AnswerQuestionViewModel()
-            {
-                QuestionId = id,
-                Email = email,
-            });
-        }
-
-
-        [Authorize(Roles = "Administrator")]
-        [HttpPost]
-        public ActionResult AnswerQuestion(AnswerQuestionViewModel model)
-        {
-            ResponseEvent?.Invoke(this, new ResponseEventArgs(model.Email, model.AnwserText));
-            repository.AnswerQuestion(model.QuestionId, model.AnwserText);
+            repository.DeleteUser(new Models.User { UserID = id });
             return RedirectToAction("Index");
         }
 
