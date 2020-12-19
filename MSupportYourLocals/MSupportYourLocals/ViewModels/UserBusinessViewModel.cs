@@ -33,7 +33,7 @@ namespace MSupportYourLocals.ViewModels
 
         public async Task GetBusinesses()
         {
-            businesses = await businessService.GetUserBusinesses();
+            businesses = await businessService.GetUserBusinesses() ?? new ObservableCollection<Business>();
         }
 
         public void ConcatAllProducts()

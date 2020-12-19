@@ -19,9 +19,7 @@ namespace MSupportYourLocals.Services
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var result = await response.Content.ReadAsStringAsync();
-                System.Diagnostics.Debug.WriteLine("the string " + result);
                 PageBusiness pageBusiness = JsonConvert.DeserializeObject<PageBusiness>(result);
-                System.Diagnostics.Debug.WriteLine(pageBusiness.TotalPages, pageBusiness.Businesses[0].Header);
                 return pageBusiness;
             }
             return null;
@@ -40,9 +38,7 @@ namespace MSupportYourLocals.Services
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var result = await response.Content.ReadAsStringAsync();
-                System.Diagnostics.Debug.WriteLine("the string " + result);
                 PageBusiness pageBusiness = JsonConvert.DeserializeObject<PageBusiness>(result);
-                System.Diagnostics.Debug.WriteLine(pageBusiness.TotalPages, pageBusiness?.Businesses?[0].Header);
                 return pageBusiness;
             }
             return null;

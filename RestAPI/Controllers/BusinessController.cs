@@ -63,7 +63,6 @@ namespace RestAPI.Controllers
         [HttpGet("Filtered/{page}")]
         public ActionResult<PageBusiness> GetFilteredBusinesses([FromQuery] SearchEngine searchEngine, int page = 1)
         {
-            System.Diagnostics.Debug.WriteLine("information we got: " + page + " " + searchEngine?.OpenFrom + " " + searchEngine?.OwnersSurname + " " + searchEngine?.WeekdaySelected?[0]);
             if (page < 1 || searchEngine.WeekdaySelected.Length != 7) return BadRequest();
             IEnumerable<Business> filteredBusinesses = searchEngine.FilterBusinesses(page, pageSize, repository, out int totalItems);
             int totalPages = (int)Math.Ceiling((decimal)totalItems / pageSize);

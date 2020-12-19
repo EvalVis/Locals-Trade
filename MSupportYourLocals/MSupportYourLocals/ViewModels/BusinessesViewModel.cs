@@ -14,6 +14,8 @@ namespace MSupportYourLocals.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public event EventHandler BusinessReceived;
+
         private IBusinessService businessService = DependencyService.Get<IBusinessService>();
 
         private ObservableCollection<Business> businesses;
@@ -47,7 +49,7 @@ namespace MSupportYourLocals.ViewModels
             bool[] weekdaySelected, DateTime openFrom, DateTime openTo)
         {
             PageBusiness pageBusiness = await businessService.GetFilteredBusinesses(ownersSurname, businessInfo, searchIn, weekdaySelected, openFrom, openTo, CurrentPage);
-            businesses = pageBusiness?.Businesses;
+            businesses = pageBusiness?.Businesses ?? new ObservableCollection<Business>();
             businesses = SortByWeekday.Sort(businesses);
             TotalPages = pageBusiness?.TotalPages ?? 1;
         }
@@ -56,7 +58,7 @@ namespace MSupportYourLocals.ViewModels
         public async Task GetBusinesses()
         {
             PageBusiness pageBusiness = await businessService.GetBusinesses(CurrentPage);
-            businesses = pageBusiness?.Businesses;
+            businesses = pageBusiness?.Businesses ?? new ObservableCollection<Business>();
             businesses = SortByWeekday.Sort(businesses);
             TotalPages = pageBusiness?.TotalPages ?? 1;
         }
