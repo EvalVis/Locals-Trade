@@ -8,8 +8,10 @@ using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using System.IO;
 using Microsoft.AspNetCore.Http;
 using Support_Your_Locals.Infrastructure;
+
 
 namespace Support_Your_Locals.Controllers
 {
@@ -72,14 +74,23 @@ namespace Support_Your_Locals.Controllers
         [HttpPost]
         public async Task<ActionResult> AddAdvertisement(BusinessRegisterModel businessRegisterModel)
         {
+
+            MemoryStream imageMemoryStream = new MemoryStream();
+            businessRegisterModel.Picture.CopyTo(imageMemoryStream);
+
             //TODO: validation
             if (businessRegisterModel.BusinessId < 0) Redirect("/");
             if (businessRegisterModel.BusinessId == 0)
             {
-                Business business = new Business(businessRegisterModel, userID);
-                repository.AddBusiness(business);
-                return Redirect("/");
-            }
+                // Exception here
+                Header = businessRegisterModel.Header,
+                Description = businessRegisterModel.Description,
+                UserID = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value),
+                PhoneNumber = businessRegisterModel.PhoneNumber,
+                Latitude = businessRegisterModel.Latitude,
+                Longitude = businessRegisterModel.Longitude,
+                PictureData = imageMemoryStream.ToArray(),
+            };
             Business dbBusiness = await repository.Business
                 .Include(b => b.Workdays).Include(b => b.Products)
                 .FirstOrDefaultAsync(b => b.BusinessID == businessRegisterModel.BusinessId);
