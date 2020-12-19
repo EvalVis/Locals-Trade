@@ -23,7 +23,7 @@ namespace RestAPI.Controllers
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
                 Subject = new ClaimsIdentity(
-                new Claim[] {new Claim(ClaimTypes.NameIdentifier, id.ToString()) }),
+                new[] { new Claim(ClaimTypes.NameIdentifier, id.ToString()) }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
             };

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MSupportYourLocals.Views.ChangeEmailView">
+
+
+    <StackLayout>
+        <Label Text="Please enter your password" FontAttributes="Bold" FontSize="Large" />
+        <Entry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" />
+        <Label Text="Please enter your new email" FontAttributes="Bold" FontSize="Large" />
+        <Entry x:Name="NewEmailEntry" Placeholder="New Email" />
+        <Button Text="Change" BackgroundColor="Red" TextColor="White" FontAttributes="Bold" Clicked="Confirm" />
+    </StackLayout>
+
+</ContentPage>

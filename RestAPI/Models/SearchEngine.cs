@@ -16,21 +16,44 @@ namespace RestAPI.Models
         public DateTime OpenTo { get; set; }
 
 
-        public IEnumerable<Business> FilterBusinesses(IServiceRepository repository)
+        public IEnumerable<Business> FilterBusinesses(int page, int pageSize, IServiceRepository repository, out int totalItems)
         {
-            return repository.Business.Include(b => b.User).Include(b => b.Workdays).Include(b => b.Products);
-                //Where(b => BusinessConditionsMet(b) && UserConditionsMet(b.User) && ChosenWeekday(b.Workdays) && ChosenTimeInterval(b.Workdays))
-        }
-
-        private bool UserConditionsMet(User user)
-        {
-            if (!string.IsNullOrEmpty(OwnersSurname)) return ChosenOwnersSurname(user);
-            return true;
+            if (string.IsNullOrWhiteSpace(OwnersSurname))
+            {
+                OwnersSurname = null;
+            }
+            else {
+                OwnersSurname = OwnersSurname.ToLower();
+            }
+            if(string.IsNullOrWhiteSpace(BusinessInfo))
+            {
+                BusinessInfo = null;
+            }
+            else
+            {
+                BusinessInfo = BusinessInfo.ToLower();
+            }
+            string selectedW = null;
+            for(int i = 0; i < 7; i++)
+            {
+                if(WeekdaySelected[i])
+                {
+                    selectedW += ("" + (i + 1));
+                }
+            }
+            var filtered = repository.Business.Include(b => b.User).
+                Include(b => b.Workdays).Include(b => b.Products).OrderByDescending(b => b.BusinessID).
+                Where(b => OwnersSurname == null || b.User.Surname.ToLower() == OwnersSurname).
+                Where(b => selectedW == null || b.Workdays.Any(w => selectedW.Contains(w.Weekday.ToString()))).
+                Where(b => b.Workdays.All(w => OpenFrom.TimeOfDay <= w.From.TimeOfDay && OpenTo.TimeOfDay >= w.To.TimeOfDay)).ToList();
+            IEnumerable<Business> extraFilter = filtered.Where(b => BusinessConditionsMet(b));
+            totalItems = extraFilter.Count();
+            return extraFilter.Skip((page - 1) * pageSize).Take(pageSize);
         }
 
         private bool BusinessConditionsMet(Business business)
         {
-            if (!string.IsNullOrEmpty(BusinessInfo))
+            if (!string.IsNullOrWhiteSpace(BusinessInfo))
             {
                 if (SearchIn == 0)
                 {
@@ -52,22 +75,7 @@ namespace RestAPI.Models
 
         private bool ChosenDescription(Business business)
         {
-            return business.Description.ToLower().Contains(BusinessInfo.ToLower()); // OK, BusinessInfo is Description if search in description is ticked.
-        }
-
-        private bool ChosenWeekday(IEnumerable<TimeSheet> timeSheets)
-        {
-            return timeSheets.Count(t => WeekdaySelected[t.Weekday - 1]) > 0;
-        }
-
-        private bool ChosenOwnersSurname(User user)
-        {
-            return user.Surname.ToLower().Contains(OwnersSurname.ToLower());
-        }
-
-        private bool ChosenTimeInterval(IEnumerable<TimeSheet> timeSheets)
-        {
-            return timeSheets.All(t => t.From.TimeOfDay <= OpenFrom.TimeOfDay && t.To.TimeOfDay <= OpenTo.TimeOfDay);
+            return business.Description.ToLower().Contains(BusinessInfo.ToLower());
         }
 
     }

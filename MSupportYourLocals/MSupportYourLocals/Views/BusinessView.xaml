@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MSupportYourLocals.Views.BusinessView">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Write a feedback"
+                     Order="Primary"
+                     Priority="0" Clicked="OpenFeedbackWindow" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <ScrollView>
+        <Grid>
+            <StackLayout>
+                <StackLayout>
+                        <Label Text="{Binding Path=Business.Header}" FontSize="Large" TextColor="Black"></Label>
+                    <Label Text="{Binding Business.User.FullName}" FontSize="Large" TextColor="Brown"></Label>
+                    <Label Text="{Binding Business.Description}" FontSize="Medium" TextColor="ForestGreen"></Label>
+                    <Label Text="{Binding Business.PhoneNumber}" FontSize="Medium" TextColor="Crimson"></Label>
+                    </StackLayout>
+                <ContentView>
+                    <CollectionView ItemsSource="{Binding Business.Workdays}" SelectionMode="None">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                <StackLayout Margin="20,20,20,20">
+                                        <Label Text="{Binding WeekdayName}" FontAttributes="Bold" FontSize="Large" TextColor="IndianRed"></Label>
+                                        <Label Text="{Binding From, StringFormat='{}{0:hh\\:mm}'}" FontSize="Large"></Label>
+                                        <Label Text="{Binding To, StringFormat='{}{0:hh\\:mm}'}" FontSize="Large"></Label>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                </ContentView>
+                <ContentView>
+                    <CollectionView ItemsSource="{Binding Business.Products}" SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Margin="20,20,20,20">
+                                    <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="Large" TextColor="MediumTurquoise"></Label>
+                                    <Label Text="{Binding PricePerUnit}" FontSize="Large" TextColor="MediumSpringGreen"></Label>
+                                    <Label Text="{Binding Unit}" FontSize="Large" TextColor="Gold"></Label>
+                                    <Label Text="{Binding Comment}" FontAttributes="Italic" FontSize="Large" TextColor="Blue"></Label>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </ContentView>
+            </StackLayout>
+            </Grid>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

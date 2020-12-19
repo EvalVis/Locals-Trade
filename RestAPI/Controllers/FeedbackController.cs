@@ -26,7 +26,7 @@ namespace RestAPI.Controllers
 
         public FeedbackController(IServiceRepository repo, IHttpContextAccessor accessor, IConfiguration config)
         {
-            claimedId = long.Parse(accessor.HttpContext.User.Claims.FirstOrDefault(type => type.Value == ClaimTypes.NameIdentifier)?.Value ?? "0");
+            claimedId = long.Parse(accessor.HttpContext.User.Claims.FirstOrDefault(type => type.Type == ClaimTypes.NameIdentifier)?.Value ?? "0");
             repository = repo;
             configuration = config;
         }
@@ -45,8 +45,8 @@ namespace RestAPI.Controllers
             {
                 return NotFound();
             }
-           // if (business.UserID == claimedId)
-            //{
+            if (business.UserID == claimedId)
+            {
                 IEnumerable<Feedback> feedbacks = repository.Feedbacks.Where(f => f.BusinessID == businessId);
                 foreach (var f in feedbacks)
                 {
@@ -54,17 +54,57 @@ namespace RestAPI.Controllers
                 }
                 if (!feedbacks.Any()) return NoContent();
                 return Ok(feedbacks);
-            //}
-            //return Unauthorized();
+            }
+            return Unauthorized();
         }
 
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> SaveFeedback(FeedbackBindingTarget feedbackBindingTarget)
         {
             Feedback feedback = feedbackBindingTarget.ToFeedback();
+            Business business = await repository.Business.FirstOrDefaultAsync(b => b.BusinessID == feedback.BusinessID);
+            if (business == null) return NotFound();
             await repository.SaveFeedbackAsync(feedback);
             new Mailer(repository, configuration).SendMail(feedback);
+            return Ok();
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpDelete("All/{businessId}")]
+        public async Task<IActionResult> DeleteAllFeedbacks(long businessId)
+        {
+            if (businessId < 1) return BadRequest();
+            Business business = await repository.Business.Include(b => b.Feedbacks).FirstOrDefaultAsync(b => b.BusinessID == businessId);
+            IEnumerable<Feedback> feedbacks = business.Feedbacks;
+            User user = business.User;
+            if (business.UserID != claimedId)
+            {
+                return Unauthorized();
+            }
+            await repository.RemoveFeedbacksAsync(feedbacks);
+            return Ok();
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpDelete("One/{feedbackId}")]
+        public async Task<IActionResult> DeleteFeedback(long feedbackId)
+        {
+            if (feedbackId < 1) return BadRequest();
+            Feedback feedback = await repository.Feedbacks.Include(f => f.Business).FirstOrDefaultAsync(f => f.ID == feedbackId);
+            Business business = feedback.Business;
+            if (business.UserID != claimedId)
+            {
+                return Unauthorized();
+            }
+            await repository.RemoveFeedbackAsync(feedback);
             return Ok();
         }
 

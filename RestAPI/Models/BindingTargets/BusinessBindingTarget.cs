@@ -1,13 +1,21 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace RestAPI.Models.BindingTargets
 {
     public class BusinessBindingTarget
     {
+        [Required(ErrorMessage = "Please enter a description")]
+        [StringLength(10000, MinimumLength = 50, ErrorMessage = "The length of the description must be between 50 and 10000 symbols.")]
         public string Description { get; set; }
         public string Longitude { get; set; }
         public string Latitude { get; set; }
+        [Required(ErrorMessage = "Please enter a phone number")]
+        [Phone (ErrorMessage = "Invalid phone number")]
         public string PhoneNumber { get; set; }
+        [Required(ErrorMessage = "Please enter a header")]
+        [StringLength(100, ErrorMessage = "The length of the header must be up to 100 symbols.")]
         public string Header { get; set; }
         public string Picture { get; set; }
         public List<TimeSheetBindingTarget> WorkdayTargets { get; set; } = new List<TimeSheetBindingTarget>();
@@ -21,8 +29,8 @@ namespace RestAPI.Models.BindingTargets
             PhoneNumber = PhoneNumber,
             Header = Header,
             Picture = Picture,
-            Workdays = ToWorkdays(),
-            Products = ToProducts()
+            Workdays = ToWorkdays().ToList(),
+            Products = ToProducts().ToList()
         };
 
         public IEnumerable<TimeSheet> ToWorkdays()
@@ -31,7 +39,7 @@ namespace RestAPI.Models.BindingTargets
             {
                 if (!t.InvalidTime())
                 {
-                    yield return new TimeSheet {From = t.From, To = t.To, Weekday = t.Weekday};
+                    yield return new TimeSheet { From = t.From, To = t.To, Weekday = t.Weekday };
                 }
             }
         }
@@ -40,7 +48,7 @@ namespace RestAPI.Models.BindingTargets
         {
             foreach (var t in ProductTargets)
             {
-                yield return new Product { Name = t.Name, PricePerUnit = t.PricePerUnit, Unit = t.Unit, Comment = t.Comment, Picture = t.Picture};
+                yield return new Product { Name = t.Name, PricePerUnit = t.PricePerUnit, Unit = t.Unit, Comment = t.Comment, Picture = t.Picture };
             }
         }
 

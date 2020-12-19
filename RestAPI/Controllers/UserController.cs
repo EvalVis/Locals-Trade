@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using RestAPI.Models;
-using RestAPI.Models.Repositories;
 using RestAPI.Cryptography;
+using RestAPI.Models;
 using RestAPI.Models.BindingTargets;
+using RestAPI.Models.Repositories;
 
 namespace RestAPI.Controllers
 {
@@ -24,7 +24,7 @@ namespace RestAPI.Controllers
 
         public UserController(IServiceRepository repo, JsonWebToken token, IHttpContextAccessor accessor)
         {
-            claimedId = long.Parse(accessor.HttpContext.User.Claims.FirstOrDefault(type => type.Value == ClaimTypes.NameIdentifier)?.Value ?? "0");
+            claimedId = long.Parse(accessor.HttpContext.User.Claims.FirstOrDefault(type => type.Type == ClaimTypes.NameIdentifier)?.Value ?? "0");
             repository = repo;
             jsonWebToken = token;
         }
@@ -32,15 +32,16 @@ namespace RestAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [HttpPatch("email/{email}")]
-        public async Task<IActionResult> PatchEmail(string password, string newEmail)
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPatch("email")]
+        public async Task<IActionResult> PatchEmail(EmailPatch patch)
         {
             JsonPatchDocument<User> document = new JsonPatchDocument<User>();
-            document.Replace(u => u.Email, newEmail);
+            document.Replace(u => u.Email, patch.NewEmail);
             User user = await repository.Users.FirstOrDefaultAsync(u => u.UserID == claimedId);
             if (user != null)
             {
-                if (new HashCalculator().IsGoodPass(user.Passhash, password))
+                if (new HashCalculator().IsGoodPass(user.Passhash, patch.Password))
                 {
                     await repository.Patch(document, user);
                     return Ok();
@@ -50,19 +51,20 @@ namespace RestAPI.Controllers
             return NotFound();
         }
 
-        [HttpPatch("password/{email}")]
+        [HttpPatch("password")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> PatchPassword(string currentPassword, string newPassword)
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> PatchPassword(PasswordPatch patch)
         {
-            string hashed = new HashCalculator().PassHash(newPassword);
+            string hashed = new HashCalculator().PassHash(patch.NewPassword);
             JsonPatchDocument<User> document = new JsonPatchDocument<User>();
             document.Replace(u => u.Passhash, hashed);
             User user = await repository.Users.FirstOrDefaultAsync(u => u.UserID == claimedId);
             if (user != null)
             {
-                if (new HashCalculator().IsGoodPass(user.Passhash, currentPassword))
+                if (new HashCalculator().IsGoodPass(user.Passhash, patch.CurrentPassword))
                 {
                     await repository.Patch(document, user);
                     return Ok();
@@ -73,12 +75,14 @@ namespace RestAPI.Controllers
         }
 
         [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [HttpPost("SignUp")]
         public async Task<IActionResult> SignUp(UserBindingTarget target)
         {
-            if (!repository.Users.Any(u => u.Email == target.Email))
+            if (target == null) return BadRequest();
+            if (!repository.Users.Any(u => u.Email == target.Email)) // TODO: SET EMAIL UNIQUE.
             {
                 await repository.SaveUserAsync(target.ToUser());
                 return Ok();
@@ -92,15 +96,15 @@ namespace RestAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPost("SignIn")]
-        public async Task<IActionResult> SignIn(string email, string password)
+        public async Task<IActionResult> SignIn(Login login)
         {
-            if (email == null || password == null) return BadRequest();
-            User user = await repository.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (login.Email == null || login.Password == null) return BadRequest();
+            User user = await repository.Users.FirstOrDefaultAsync(u => u.Email == login.Email);
             if (user != null)
-            { 
-                bool match = new HashCalculator().IsGoodPass(user.Passhash, password); 
-                if (match) 
-                { 
+            {
+                bool match = new HashCalculator().IsGoodPass(user.Passhash, login.Password);
+                if (match)
+                {
                     var token = jsonWebToken.Authenticate(user.UserID);
                     if (jsonWebToken == null)
                     {
@@ -111,6 +115,14 @@ namespace RestAPI.Controllers
                 return Unauthorized();
             }
             return NotFound();
+        }
+
+        [HttpGet("Current")]
+        public async Task<IActionResult> GetUser()
+        {
+            User user = await repository.Users.FirstOrDefaultAsync(u => u.UserID == claimedId);
+            user.Passhash = null;
+            return Ok(user);
         }
 
     }
