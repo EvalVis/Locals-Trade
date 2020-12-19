@@ -41,8 +41,8 @@ namespace Support_Your_Locals.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("PictureData")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("Picture")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("UserID")
                         .HasColumnType("bigint");
