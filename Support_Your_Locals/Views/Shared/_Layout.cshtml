@@ -5,6 +5,54 @@
     <title>Support Your Locals</title>
     <link href="/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/style.css" />
+    <script crossorigin="anonymous"
+            src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+    <style>
+     .open-button {
+      background-color: #555;
+      color: white;
+      border: none;
+      cursor: pointer;
+      opacity: 0.8;
+      position: fixed;
+      bottom: 23px;
+      right: 28px;
+      height: 30px;
+      width: 100px;
+    }
+
+    /* The popup chat - hidden by default */
+    .chat-popup {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      right: 15px;
+      border: 3px solid #f1f1f1;
+      z-index: 9;
+    }
+
+    /* Add styles to the form container */
+    .form-container {
+      width: 350px;
+      padding: 10px;
+      background-color: white;
+    }
+
+    .form-container .cancel {
+      background-color: #4797c6;
+      color: white;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      height: 30px;
+      font-size: 15px;
+      opacity: 0.8;
+    }
+
+    .form-container .btn:hover, .open-button:hover {
+      opacity: 1;
+    }
+    </style>
 </head>
 <body>
     <div class="bg-dark text-white p-2">
@@ -16,10 +64,12 @@
         }
         else
         {
-            <form method="post">
-                <button asp-controller="Auth" asp-action="SignOut" class="btn btn-primary">Sign Out</button>
-            </form>
-              <span style="float:right;text-align:right;margin-left: 80px;">Welcome @User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value!</span>
+            <a asp-controller="Auth" asp-action="SignOut" class="btn btn-primary btn-sm">Sign out</a>
+            <span style="float:right;text-align:right;margin-left: 80px;">Welcome @User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value!</span>
+        }
+        @if (User.IsInRole("Administrator"))
+        {
+            <a asp-controller="Admin" asp-action="Index" class="navbar-brand ml-2">Admin panel</a>
         }
         <a asp-controller="Business" asp-action="AddAdvertisement" class="navbar-brand ml-2 navbuttons">Add advertisement</a>
 
@@ -32,6 +82,48 @@
             <vc:search-business></vc:search-business>
         </div>
     </div>
+    
+    <button class="open-button" onclick="openForm()">Chat</button>
+    <div class="chat-popup" id="myChat">
+        <div class="form-container">
+            <div id="webchat" role="main" style="height: 300px;"></div>
+            <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+        </div>
+    </div>
+
+
+    <script>
+        function openForm() {
+            document.getElementById("myChat").style.display = "block";
+        }
+
+        function closeForm() {
+            document.getElementById("myChat").style.display = "none";
+        }
+
+        const store = window.WebChat.createStore({}, ({ dispatch }) => next => action => {
+            if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
+                dispatch({
+                    type: 'WEB_CHAT/SEND_EVENT',
+                    payload: {
+                        name: 'webchat/join',
+                        value: { language: window.navigator.language }
+                    }
+                });
+            }
+
+            return next(action);
+        });
+        window.WebChat.renderWebChat(
+            {
+                directLine: window.WebChat.createDirectLine({
+                    token: 'i3GCrZHi4ug.2VTgDSIdnTTFHJOhfmm1aGcA4EGSwxUv2-ljF4oqk6k'
+                }),
+                store,
+            },
+            document.getElementById('webchat')
+        );
+    </script>
     <div>
         @RenderBody()
     </div>

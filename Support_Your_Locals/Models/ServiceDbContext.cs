@@ -15,6 +15,7 @@ namespace Support_Your_Locals.Models
         public DbSet<TimeSheet> TimeSheets { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<Question> Questions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,6 +28,7 @@ namespace Support_Your_Locals.Models
                 .HasForeignKey(p => p.BusinessID).IsRequired().OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Feedback>().HasOne(f => f.Business).WithMany(b => b.Feedbacks)
                 .HasForeignKey(f => f.BusinessID).IsRequired().OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Question>();
             base.OnModelCreating(modelBuilder);
         }
 

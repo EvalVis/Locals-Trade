@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Support_Your_Locals.Cryptography;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
@@ -17,12 +18,14 @@ namespace Support_Your_Locals.Controllers
 
         private IServiceRepository userRepository;
         private HashCalculator hashCalculator;
+        private IConfiguration configuration;
         public byte[] salt = new byte[16];
 
-        public AuthController(IServiceRepository repo, HashCalculator hashCalc)
+        public AuthController(IServiceRepository repo, HashCalculator hashCalc, IConfiguration config)
         {
             userRepository = repo;
             hashCalculator = hashCalc;
+            configuration = config;
         }
 
         [HttpGet]
@@ -75,9 +78,10 @@ namespace Support_Your_Locals.Controllers
                         var claims = new List<Claim>
                         {
                             new Claim(ClaimTypes.Name, user.Name),
-                            new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString())
+                            new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()),
+                            new Claim(ClaimTypes.Role, isAdmin(login.Email) ? "Administrator": "User"),
                         };
-                        var identity = new ClaimsIdentity(claims, "SignIn");
+                        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                         var principal = new ClaimsPrincipal(identity);
                         var props = new AuthenticationProperties();
                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
@@ -93,7 +97,14 @@ namespace Support_Your_Locals.Controllers
             return View();
         }
 
-        [HttpPost]
+
+        private bool isAdmin(string email)
+        {
+            var adminEmails = configuration.GetSection("Admin:AdminEmails").Get<List<string>>();
+            return adminEmails.Contains(email);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> SignOut()
         {
             await HttpContext.SignOutAsync();

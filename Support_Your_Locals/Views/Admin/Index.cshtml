@@ -1,0 +1,123 @@
+﻿@model AdminViewModel
+
+@{
+    Layout = "_AdminPageLayout";
+}
+
+<div class="stats">
+    <table class="table">
+        <caption>Product statistics</caption>
+        <tr>
+            <th>Total users</th>
+            <th>Total businesses</th>
+            <th>Total products</th>
+        </tr>
+        <tr>
+            <td>@Model.TotalUsers</td>
+            <td>@Model.TotalBusiness</td>
+            <td>@Model.TotalUsers</td>
+        </tr>
+    </table>
+</div>
+<div class="businesses">
+    <table class="table">
+        <caption onclick="enable('businesses-table')" style="cursor:pointer">Complete business list</caption>
+        <tbody id="businesses-table" style="display:none;">
+            @foreach (var business in Model.Businesses)
+            {
+                <tr>
+                    <td>
+                        <partial name="BusinessSummary" model="business" />
+                        @Html.ActionLink("Remove", "DeleteBusiness", new { id = @business.BusinessID },
+                         new { onclick = "return confirm('Are you sure you wish to remove this business permanently?');" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="users">
+    <table class="table">
+        <caption  onclick="enableMultiple(['users-table-header','users-table'])" style="cursor:pointer">Complete user list</caption>
+        <thead id="users-table-header" style="display:none;">
+            <tr>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="users-table" style="display:none;">
+            @foreach (var userBusinesses in Model.UsersBusinesses)
+            {
+                var @user = userBusinesses.Key;
+                <tr style="color: white; background-color: #27303d">
+                    <td onclick="enableMultiple(@Html.Raw(Json.Serialize(@userBusinesses.Select(business => business.BusinessID))))" style="cursor:pointer">List businesses</td>
+                    <td>@user.Email</td>
+                    <td>@user.Name</td>
+                    <td>@user.Surname</td>
+                    <td>
+                        @Html.ActionLink("Remove", "DeleteUser", new { id = @user.UserID },
+                                 new { onclick = "return confirm('Are you sure you wish to remove this user permanently?');" })
+                    </td>
+                </tr>
+                @foreach (var business in @userBusinesses)
+                {
+                    <tr id="@business.BusinessID" style="display:none;">
+                        <td colspan="2">@business.Header</td>
+                        <td colspan="3">@business.Description</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<div class="questions">
+    <table class="table">
+        <caption onclick="enableMultiple(['questions-table-header','questions-table'])" style="cursor:pointer">Questions for administrator</caption>
+        <thead id="questions-table-header" style="display:none;">
+            <tr>
+                <th>Email</th>
+                <th>Question</th>
+                <th>Is answered</th>
+                <th>Response</th>
+            </tr>
+        </thead>
+        <tbody id="questions-table" style="display:none;">
+            @foreach (var question in Model.Questions)
+            {
+            <tr>
+                <td>@question.Email</td>
+                <td>@question.Text</td>
+                <td>@(question.IsAnswered ? "Answered" : "Not answered")</td>
+                <td>
+                    @if (!question.IsAnswered)
+                    {
+
+                        @Html.ActionLink("Answer", "AnswerQuestion", new { id = @question.QuestionId, email = question.Email })
+                    }
+                    else
+                    {
+                        @question.Response
+                    }
+                 </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+    function enable(id) {
+        const element = document.getElementById(id);
+        element.style.display = element.style.display === "none" ? "table-row-group" : "none";
+    }
+
+    function enableMultiple(ids) {
+        ids.forEach(id => enable(id));
+    }
+</script>

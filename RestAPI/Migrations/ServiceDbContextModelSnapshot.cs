@@ -41,8 +41,8 @@ namespace RestAPI.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Picture")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("PictureData")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<long>("UserID")
                         .HasColumnType("bigint");
@@ -110,7 +110,7 @@ namespace RestAPI.Migrations
                 });
 
             modelBuilder.Entity("RestAPI.Models.TimeSheet", b =>
-                {
+			    {
                     b.Property<long>("TimeSheetID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
@@ -133,6 +133,29 @@ namespace RestAPI.Migrations
                     b.HasIndex("BusinessID");
 
                     b.ToTable("TimeSheets");
+                });
+            modelBuilder.Entity("Support_Your_Locals.Models.Question", b =>
+                {
+                    b.Property<long>("QuestionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsAnswered")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Response")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("QuestionId");
+
+                    b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("RestAPI.Models.User", b =>

@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Support_Your_Locals.Cryptography;
 using Support_Your_Locals.Infrastructure;
 using Support_Your_Locals.Models;
@@ -27,17 +30,31 @@ namespace Support_Your_Locals
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ServiceDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            var connectionStringBuilder = new SqlConnectionStringBuilder
+            {
+                DataSource = Configuration["Database:DataSource"],
+                InitialCatalog = Configuration["Database:Name"],
+                UserID = Configuration["Database:Username"],
+                Password = Configuration["Database:Password"],
+                MultipleActiveResultSets = true,
+                TrustServerCertificate = true,
+            };
+            services.AddDbContext<ServiceDbContext>(option => option.UseSqlServer(connectionStringBuilder.ConnectionString));
             services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddScoped<HashCalculator>();
+            services.AddScoped<ILegacyServiceRepository, LegacyServiceRepository>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddRazorPages();
             services.AddDistributedMemoryCache();
             services.AddSession();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddServerSideBlazor();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
                     options.LoginPath = "/Auth/SignIn";
                 });
+            services.AddSwaggerGen(s => s.SwaggerDoc("v1", new OpenApiInfo { Title = "Support Your Locals", Version = "v1" }));
 
         }
 
@@ -75,13 +92,18 @@ namespace Support_Your_Locals
             {
                 endpoints.MapControllerRoute("productPage", "{product}/page{page:int}", new { Controller = "Home", action = "Index" });
                 endpoints.MapControllerRoute("page", "page{page:int}", new { Controller = "Home", action = "Index", page = 1 });
-                endpoints.MapControllerRoute("product", "{product}",
-                    new { Controller = "Home", action = "Index", page = 1 });
-                endpoints.MapControllerRoute("pagination", "Businesses/page{page}",
-                    new { Controller = "Home", action = "Index", page = 1 });
+                endpoints.MapControllerRoute("product", "{product}", new { Controller = "Home", action = "Index", page = 1 });
+                endpoints.MapControllerRoute("advertisement", "business/{businessId:long}", new {Controller = "Business", action = "Index"});
+                endpoints.MapControllerRoute("addAdvertisement", "business/edit/{businessId:long}", 
+                    new {Controller = "Business", action = "AddAdvertisement"});
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapRazorPages();
+                endpoints.MapBlazorHub();
+                endpoints.MapFallbackToPage("/user/{*catchall}", "/User/Index");
             });
             SeedData.EnsurePopulated(app, new HashCalculator());
+            app.UseSwagger();
+            app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "Support Your Locals"));
         }
     }
 }
