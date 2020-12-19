@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Support_Your_Locals.Infrastructure;
+using System.IO;
 
 namespace Support_Your_Locals.Controllers
 {

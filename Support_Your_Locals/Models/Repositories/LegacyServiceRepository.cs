@@ -26,7 +26,7 @@ namespace Support_Your_Locals.Models.Repositories
             try
             {
                 connection.Open();
-                adapter.SelectCommand = new SqlCommand("Select BusinessId, UserId, Description, Header, Picture, PhoneNumber, Latitude, Longitude FROM dbo.Business", connection);
+                adapter.SelectCommand = new SqlCommand("Select BusinessId, UserId, Description, Header, PictureData, PhoneNumber, Latitude, Longitude FROM dbo.Business", connection);
                 adapter.Fill(ds);
             }
             finally
@@ -44,7 +44,7 @@ namespace Support_Your_Locals.Models.Repositories
                 PhoneNumber = row.Field<string>("PhoneNumber"),
                 Latitude = row.Field<string>("Latitude"),
                 Longitude = row.Field<string>("Longitude"),
-                Picture = row.Field<string>("Longitude"),
+                PictureData = row.Field<byte[]>("PictureData"),
                 User = GetUser(row.Field<long>("UserId")),
             }).ToList();
         }

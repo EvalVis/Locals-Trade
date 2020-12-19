@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 using System.Linq;
 using Support_Your_Locals.Models.ViewModels;
 
@@ -15,7 +18,16 @@ namespace Support_Your_Locals.Models
         public string Latitude { get; set; }
         public string PhoneNumber { get; set; }
         public string Header { get; set; }
-        public string Picture { get; set; }
+        [NotMapped]
+        public string Picture
+        {
+            get
+            {
+                string imageBase64Data = Convert.ToBase64String(PictureData ?? File.ReadAllBytes("Content/Images/business-icon.png"));
+                return string.Format("data:image/jpg;base64,{0}", imageBase64Data);
+            }
+        }
+        public byte[] PictureData { get; set; }
         public List<TimeSheet> Workdays { get; set; } = new List<TimeSheet>();
         public List<Product> Products { get; set; } = new List<Product>();
         public List<Feedback> Feedbacks { get; set; } = new List<Feedback>();
@@ -27,6 +39,9 @@ namespace Support_Your_Locals.Models
 
         public Business(BusinessRegisterModel registerModel, long userID)
         {
+            MemoryStream imageMemoryStream = new MemoryStream();
+            registerModel.Picture.CopyTo(imageMemoryStream);
+
             BusinessID = registerModel.BusinessId; // danger zone.
             UserID = userID;
             Description = registerModel.Description;
@@ -34,19 +49,22 @@ namespace Support_Your_Locals.Models
             Latitude = registerModel.Latitude;
             PhoneNumber = registerModel.PhoneNumber;
             Header = registerModel.Header;
-            Picture = registerModel.Picture;
+            PictureData = imageMemoryStream.ToArray();
             inspectWorkdaysValidity(registerModel);
             Products = registerModel.Products;
         }
 
         public void UpdateBusiness(BusinessRegisterModel registerModel)
         {
+            MemoryStream imageMemoryStream = new MemoryStream();
+            registerModel.Picture.CopyTo(imageMemoryStream);
+
             Description = registerModel.Description;
             Longitude = registerModel.Longitude;
             Latitude = registerModel.Latitude;
             PhoneNumber = registerModel.PhoneNumber;
             Header = registerModel.Header;
-            Picture = registerModel.Picture;
+            PictureData = imageMemoryStream.ToArray();
             inspectWorkdaysValidity(registerModel);
             Products = registerModel.Products;
         }

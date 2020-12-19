@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace Support_Your_Locals.Models.ViewModels
 {
@@ -16,7 +18,7 @@ namespace Support_Your_Locals.Models.ViewModels
         public string Header {get; set;}
         public string Longitude { get; set; }
         public string Latitude { get; set; }
-        public string Picture { get; set; }
+        public IFormFile Picture { get; set; }
         public TimeSheet[] Workdays { get; set; } = new TimeSheet[7];
         public List<Product> Products { get; set; } = new List<Product>();
 
@@ -33,7 +35,7 @@ namespace Support_Your_Locals.Models.ViewModels
             Header = business.Header;
             Longitude = business.Longitude;
             Latitude = business.Latitude;
-            Picture = business.Picture;
+            Picture = new FormFile(new MemoryStream(business.PictureData), 0, business.PictureData.Length, "picture", "picture");
             Products = business.Products;
             foreach (TimeSheet workday in business.Workdays)
             { 
