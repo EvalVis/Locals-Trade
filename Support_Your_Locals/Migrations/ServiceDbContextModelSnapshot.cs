@@ -109,30 +109,6 @@ namespace Support_Your_Locals.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Support_Your_Locals.Models.Question", b =>
-                {
-                    b.Property<long>("QuestionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsAnswered")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Response")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("QuestionId");
-
-                    b.ToTable("Questions");
-                });
-
             modelBuilder.Entity("Support_Your_Locals.Models.TimeSheet", b =>
                 {
                     b.Property<long>("TimeSheetID")

@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using Support_Your_Locals.Cryptography;
 using Support_Your_Locals.Infrastructure;
 using Support_Your_Locals.Models;
@@ -42,7 +41,6 @@ namespace Support_Your_Locals
             services.AddDbContext<ServiceDbContext>(option => option.UseSqlServer(connectionStringBuilder.ConnectionString));
             services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddScoped<HashCalculator>();
-            services.AddScoped<ILegacyServiceRepository, LegacyServiceRepository>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
             services.AddDistributedMemoryCache();
@@ -54,7 +52,6 @@ namespace Support_Your_Locals
                 {
                     options.LoginPath = "/Auth/SignIn";
                 });
-            services.AddSwaggerGen(s => s.SwaggerDoc("v1", new OpenApiInfo { Title = "Support Your Locals", Version = "v1" }));
 
         }
 
@@ -102,8 +99,6 @@ namespace Support_Your_Locals
                 endpoints.MapFallbackToPage("/user/{*catchall}", "/User/Index");
             });
             SeedData.EnsurePopulated(app, new HashCalculator());
-            app.UseSwagger();
-            app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "Support Your Locals"));
         }
     }
 }
