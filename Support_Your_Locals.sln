@@ -1,5 +1,4 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -19,8 +18,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSupportYourLocals", "MSupportYourLocals\MSupportYourLocals\MSupportYourLocals.csproj", "{500A44E8-1F89-4B57-A66B-116D922304CD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalsTradeBot", "LocalsTradeBot\LocalsTradeBot.csproj", "{0D4C02F8-B47E-46A1-A106-AE8031DBD5D5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalsTradeBot", "LocalsTradeBot\LocalsTradeBot.csproj", "{0D4C02F8-B47E-46A1-A106-AE8031DBD5D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
