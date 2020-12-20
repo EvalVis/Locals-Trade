@@ -52,24 +52,36 @@ namespace RestAPI.Models
             {
                 BusinessInfo = BusinessInfo.ToLower();
             }
-            string selectedW = null;
-            for(int i = 0; i < 7; i++)
-            {
-                if(WeekdaySelected[i])
-                {
-                    selectedW += ("" + (i + 1));
-                }
-            }
             var filtered = repository.Business.Include(b => b.User).
                 Include(b => b.Workdays).Include(b => b.Products).OrderByDescending(b => b.BusinessID).
                 Where(b => OwnersSurname == null || b.User.Surname.ToLower() == OwnersSurname).
                 Where(b => ProductName == null || b.Products.Any(p => p.Name == ProductName)).
                 Where(b => (PriceFrom == null || PriceTo == null) || b.Products.Any(p => p.PricePerUnit >= PriceFrom.Value && p.PricePerUnit <= PriceTo.Value)).
-                Where(b => selectedW == null || b.Workdays.All(w => selectedW.Contains(w.Weekday.ToString()))).
-                Where(b => (OpenFrom == null || OpenTo == null) || b.Workdays.All(w => OpenFrom.Value.TimeOfDay <= w.From.TimeOfDay && OpenTo.Value.TimeOfDay >= w.To.TimeOfDay)).ToList();
-            IEnumerable<Business> extraFilter = filtered.Where(b => BusinessConditionsMet(b) && GoodRange(b));
+                ToList();
+            IEnumerable<Business> extraFilter = filtered.Where(b => BusinessConditionsMet(b) && GoodRange(b)).Where(b => GoodWeekdays(b.Workdays));
             totalItems = extraFilter.Count();
             return extraFilter.Skip((page - 1) * pageSize).Take(pageSize);
+        }
+
+        private bool GoodWeekdays(IEnumerable<TimeSheet> workdays)
+        {
+            for(int i = 0; i < 7; i++)
+            {
+                if (WeekdaySelected[i])
+                {
+                    TimeSheet day = workdays.FirstOrDefault(w => w.Weekday == i + 1);
+                    if(day == null)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        if (OpenFrom == null || OpenTo == null) continue;
+                        if (OpenFrom.Value.TimeOfDay > day.From.TimeOfDay || OpenTo.Value.TimeOfDay < day.To.TimeOfDay) return false;
+                    }
+                }
+            }
+            return true;
         }
 
         private bool GoodRange(Business business)
