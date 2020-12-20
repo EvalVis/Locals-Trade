@@ -6,6 +6,9 @@ using RestAPI.Models.Repositories;
 
 namespace RestAPI.Models
 {
+    /// <summary>
+    /// In case some of the properties are not included in the request query, filter always return true for that part.
+    /// </summary>
     public class SearchEngine
     {
         public string OwnersSurname { get; set; }
