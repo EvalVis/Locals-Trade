@@ -71,7 +71,7 @@ namespace RestAPI.Controllers
             {
                 b.EliminateDepth();
             }
-            if (!filteredBusinesses.Any()) return NoContent();
+            if (totalItems == 0) return NoContent();
             PageBusiness filteredPageBusiness = new PageBusiness { TotalPages = totalPages, Businesses = filteredBusinesses };
             return Ok(filteredPageBusiness);
         }
