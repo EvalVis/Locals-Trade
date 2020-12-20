@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using RestAPI.Models.Repositories;
@@ -74,12 +75,12 @@ namespace RestAPI.Models
         private bool GoodRange(Business business)
         {
             if (Latitude == null || Longitude == null || DistanceKM == null) return true;
-            double.TryParse(business.Longitude, out double bLo);
-            double.TryParse(business.Latitude, out double bLa);
+            double.TryParse(business.Longitude, NumberStyles.Any, CultureInfo.InvariantCulture, out double bLo);
+            double.TryParse(business.Latitude, NumberStyles.Any, CultureInfo.InvariantCulture, out double bLa);
             double bLon = ToRadians(bLo);
             double bLat = ToRadians(bLa);
-            double requesterLon = ToRadians(Latitude.Value);
-            double requesterLat = ToRadians(Longitude.Value);
+            double requesterLat = ToRadians(Latitude.Value);
+            double requesterLon = ToRadians(Longitude.Value);
             double difLon = bLon - requesterLon;
             double difLat = bLat - requesterLat;
             double calc = Math.Pow(Math.Sin(difLat / 2), 2) + Math.Cos(requesterLat) * Math.Cos(bLat) * Math.Pow(Math.Sin(difLon / 2), 2);
