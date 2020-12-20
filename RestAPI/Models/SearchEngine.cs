@@ -20,7 +20,9 @@ namespace RestAPI.Models
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
         public double? DistanceKM { get; set; }
-        public string productName { get; set; }
+        public string ProductName { get; set; }
+        public decimal? PriceFrom { get; set; }
+        public decimal? PriceTo { get; set; }
 
 
         public IEnumerable<Business> FilterBusinesses(int page, int pageSize, IServiceRepository repository, out int totalItems)
@@ -51,7 +53,8 @@ namespace RestAPI.Models
             var filtered = repository.Business.Include(b => b.User).
                 Include(b => b.Workdays).Include(b => b.Products).OrderByDescending(b => b.BusinessID).
                 Where(b => OwnersSurname == null || b.User.Surname.ToLower() == OwnersSurname).
-                Where(b => productName == null || b.Products.Any(p => p.Name == productName)).
+                Where(b => ProductName == null || b.Products.Any(p => p.Name == ProductName)).
+                Where(b => (PriceFrom == null || PriceTo == null) || b.Products.Any(p => p.PricePerUnit >= PriceFrom.Value && p.PricePerUnit <= PriceTo.Value)).
                 Where(b => selectedW == null || b.Workdays.Any(w => selectedW.Contains(w.Weekday.ToString()))).
                 Where(b => (OpenFrom == null || OpenTo == null) || b.Workdays.All(w => OpenFrom.Value.TimeOfDay <= w.From.TimeOfDay && OpenTo.Value.TimeOfDay >= w.To.TimeOfDay)).ToList();
             IEnumerable<Business> extraFilter = filtered.Where(b => BusinessConditionsMet(b) && GoodRange(b));
