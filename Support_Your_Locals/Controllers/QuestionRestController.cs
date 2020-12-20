@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Net.Http;
 using Microsoft.AspNetCore.Mvc;
 using Support_Your_Locals.Models.Repositories;
 
@@ -25,7 +24,7 @@ namespace Support_Your_Locals.Controllers
             {
                 return BadRequest();
             }
-           this.repository.AddQuestion(question.Email, question.Text);
+           repository.AddQuestion(question.Email, question.Text);
 
            return Ok();
         }

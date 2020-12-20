@@ -44,7 +44,7 @@ namespace Support_Your_Locals.Models
             Filter<IEnumerable<TimeSheet>> timeFilter = delegate (IEnumerable<TimeSheet> workdays)
             {
                 return workdays.All(w => w.From.TimeOfDay <= OpenFrom.TimeOfDay
-                                          && w.To.TimeOfDay <= OpenTo.TimeOfDay) || workdays.Any(w => WeekdaySelected[w.Weekday - 1]);
+                                          && w.To.TimeOfDay <= OpenTo.TimeOfDay) && workdays.Any(w => WeekdaySelected[w.Weekday - 1]);
             };
             return businesses.Where(b => ownersFilter(b.User) && businessFilter(b) && timeFilter(b.Workdays));
         }

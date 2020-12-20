@@ -58,6 +58,8 @@ namespace Support_Your_Locals.Controllers
                     return View("Errors/Forbidden");
                 case "404":
                     return View("Errors/NotFound");
+                default:
+                    break;
             }
             return View("Errors/InternalError");
         }

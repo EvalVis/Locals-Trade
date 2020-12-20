@@ -8,11 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Support_Your_Locals.Infrastructure;
-using System.IO;
 
 namespace Support_Your_Locals.Controllers
 {
@@ -26,7 +23,7 @@ namespace Support_Your_Locals.Controllers
         public BusinessController(IServiceRepository repo, IHttpContextAccessor accessor)
         {
             repository = repo;
-            long.TryParse(accessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value, out userID);
+            long.TryParse(accessor?.HttpContext?.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value, out userID);
         }
 
         [HttpGet]
