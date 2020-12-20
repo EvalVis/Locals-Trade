@@ -61,6 +61,11 @@ namespace Support_Your_Locals
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.Use(async (context, next) =>
+            {
+                System.Diagnostics.Debug.WriteLine("The path: " + context.Request.Path.ToString());
+                await next();
+            });
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -90,12 +95,8 @@ namespace Support_Your_Locals
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute("productPage", "{product}/page{page:int}", new { Controller = "Home", action = "Index" });
-                endpoints.MapControllerRoute("page", "page{page:int}", new { Controller = "Home", action = "Index", page = 1 });
-                endpoints.MapControllerRoute("product", "{product}", new { Controller = "Home", action = "Index", page = 1 });
                 endpoints.MapControllerRoute("advertisement", "business/{businessId:long}", new {Controller = "Business", action = "Index"});
-                endpoints.MapControllerRoute("addAdvertisement", "business/edit/{businessId:long}", 
-                    new {Controller = "Business", action = "AddAdvertisement"});
+                endpoints.MapControllerRoute("addAdvertisement", "business/edit/{businessId:long}", new {Controller = "Business", action = "AddAdvertisement"});
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
                 endpoints.MapBlazorHub();
