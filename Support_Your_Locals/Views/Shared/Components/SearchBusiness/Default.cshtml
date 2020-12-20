@@ -1,6 +1,6 @@
 ﻿@model BusinessListViewModel
 
-<form id="searchForm" asp-action="Index" asp-controller="Home" onsubmit="setQuery()">
+<form asp-action="Index" asp-controller="Home">
     <h4 class="text-center">Search for a business</h4>
     <div class="form-group">
         <label asp-for="SearchResponse.OwnersSurname">By owner's surname</label>
@@ -33,35 +33,6 @@
     </div>
     <button type="submit" class="btn btn-primary">Search</button>
 </form>
-
-<script>
-    var header = "@nameof(SearchResponse)";
-    var ownersSurname = header + "_" + "@nameof(SearchResponse.OwnersSurname)";
-    var businessInfo = header + "_" + "@nameof(SearchResponse.BusinessInfo)";
-    var searchIn = header + "_" + "@nameof(SearchResponse.SearchIn)";
-    var weekdaySelected = header + "_" + "@nameof(SearchResponse.WeekdaySelected)";
-    var openFrom = header + "_" + "@nameof(SearchResponse.OpenFrom)";
-    var openTo = header + "_" + "@nameof(SearchResponse.OpenTo)";
-
-    function setQuery() {
-        var os = "os=" + document.getElementById(ownersSurname).value;
-        var bi = "bi=" + document.getElementById(businessInfo).value;
-        var si = "si=" + document.getElementById(searchIn).value;
-        var w = "w=";
-        for (var i = 0; i < 7; i++) {
-            var current = weekdaySelected + "_" + i + "_";
-            var value = document.getElementById(current).checked;
-            var numericChar = value ? '1' : '0';
-            w += numericChar;
-        }
-        var f = "f=" + document.getElementById(openFrom).value;
-        var t = "t=" + document.getElementById(openTo).value;
-
-        var query = "/?" + os + "&" + bi + "&" + si + "&" + w + "&" + f + "&" + t;
-        document.forms["searchForm"].action = document.forms["searchForm"].action + query;
-        return true;
-    }
-</script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>

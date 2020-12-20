@@ -28,9 +28,8 @@ namespace Support_Your_Locals.Controllers
         [Route("Index")]
         [Route("{product}")]
         [Route("{product}/page{page:int}")]
-        public ViewResult Index([FromQuery] SearchResponse searchResponse, string product, int page = 1)
+        public ViewResult Index(SearchResponse searchResponse, string product, int page = 1)
         {
-            searchResponse.SetWeekdaySelected();
             IEnumerable<Business> businesses = repository.Business
                 .Where(b => product == null || b.Products.Any(p => p.Name == product)).
                 Include(b => b.User).Include(b => b.Workdays).Include(b => b.Products);
