@@ -21,13 +21,11 @@ namespace Support_Your_Locals.Controllers
             PageSize = int.Parse(configuration["Pages:pagesSize"]);
         }
 
-        [Route("page{page:int}")]
-        [Route("/")]
+        [Route("Home/Index/{product}/page{page:int}")]
+        [Route("Home/Index/{product}")]
+        [Route("Home/Index/page{page:int}")]
         [Route("Home/Index")]
-        [Route("Home")]
-        [Route("Index")]
-        [Route("{product}")]
-        [Route("{product}/page{page:int}")]
+        [Route("/")]
         public ViewResult Index(SearchResponse searchResponse, string product, int page = 1)
         {
             IEnumerable<Business> businesses = repository.Business

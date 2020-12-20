@@ -8,7 +8,7 @@
     @foreach (string product in Model.Item2)
     {
         <a class="btn btn-block @(product == Model.Item1 ? "btn-primary" : "btn-outline-secondary")"
-           asp-action="Index" asp-controller="Home" asp-route-product="@product" asp-route-page="1">@product</a>
+           asp-action="Index" asp-controller="Home" asp-route-product="@product">@product</a>
     }
 </div>
 
