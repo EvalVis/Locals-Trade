@@ -19,7 +19,7 @@ namespace Support_Your_Locals.Models
 
         public string ToQuery()
         {
-            var query = $"/?ownersSurname={OwnersSurname}&businessInfo={BusinessInfo}&searchIn={SearchIn}&";
+            var query = $"?ownersSurname={OwnersSurname}&businessInfo={BusinessInfo}&searchIn={SearchIn}&";
             for(int i = 0; i < WeekdaySelected?.Length; i++)
             {
                 query += $"WeekdaySelected[{i}]={WeekdaySelected?[i]}&";

@@ -21,6 +21,7 @@ namespace Support_Your_Locals.Controllers
             PageSize = int.Parse(configuration["Pages:pagesSize"]);
         }
 
+        [Route("Home/Index/page{page:int}/{product}")]
         [Route("Home/Index/{product}/page{page:int}")]
         [Route("Home/Index/{product}")]
         [Route("Home/Index/page{page:int}")]
