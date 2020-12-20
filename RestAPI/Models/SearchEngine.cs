@@ -10,13 +10,13 @@ namespace RestAPI.Models
     {
         public string OwnersSurname { get; set; }
         public string BusinessInfo { get; set; }
-        public int SearchIn { get; set; }
+        public int? SearchIn { get; set; }
         public bool[] WeekdaySelected { get; set; } = new bool[7];
-        public DateTime OpenFrom { get; set; }
-        public DateTime OpenTo { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
-        public double DistanceKM { get; set; }
+        public DateTime? OpenFrom { get; set; }
+        public DateTime? OpenTo { get; set; }
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
+        public double? DistanceKM { get; set; }
 
 
         public IEnumerable<Business> FilterBusinesses(int page, int pageSize, IServiceRepository repository, out int totalItems)
@@ -48,7 +48,7 @@ namespace RestAPI.Models
                 Include(b => b.Workdays).Include(b => b.Products).OrderByDescending(b => b.BusinessID).
                 Where(b => OwnersSurname == null || b.User.Surname.ToLower() == OwnersSurname).
                 Where(b => selectedW == null || b.Workdays.Any(w => selectedW.Contains(w.Weekday.ToString()))).
-                Where(b => b.Workdays.All(w => OpenFrom.TimeOfDay <= w.From.TimeOfDay && OpenTo.TimeOfDay >= w.To.TimeOfDay)).ToList();
+                Where(b => (OpenFrom == null || OpenTo == null) || b.Workdays.All(w => OpenFrom.Value.TimeOfDay <= w.From.TimeOfDay && OpenTo.Value.TimeOfDay >= w.To.TimeOfDay)).ToList();
             IEnumerable<Business> extraFilter = filtered.Where(b => BusinessConditionsMet(b) && GoodRange(b));
             totalItems = extraFilter.Count();
             return extraFilter.Skip((page - 1) * pageSize).Take(pageSize);
@@ -56,29 +56,30 @@ namespace RestAPI.Models
 
         private bool GoodRange(Business business)
         {
+            if (Latitude == null || Longitude == null || DistanceKM == null) return true;
             double.TryParse(business.Longitude, out double bLo);
             double.TryParse(business.Latitude, out double bLa);
             double bLon = ToRadians(bLo);
             double bLat = ToRadians(bLa);
-            double requesterLon = ToRadians(Latitude);
-            double requesterLat = ToRadians(Longitude);
+            double requesterLon = ToRadians(Latitude.Value);
+            double requesterLat = ToRadians(Longitude.Value);
             double difLon = bLon - requesterLon;
             double difLat = bLat - requesterLat;
             double calc = Math.Pow(Math.Sin(difLat / 2), 2) + Math.Cos(requesterLat) * Math.Cos(bLat) * Math.Pow(Math.Sin(difLon / 2), 2);
             double calculated = 2 * Math.Asin(Math.Sqrt(calc));
             double r = 6371;
-            return (calculated * r) <= DistanceKM;
+            return (calculated * r) <= DistanceKM.Value;
         }
 
         private bool BusinessConditionsMet(Business business)
         {
-            if (!string.IsNullOrWhiteSpace(BusinessInfo))
+            if (!string.IsNullOrWhiteSpace(BusinessInfo) && SearchIn != null)
             {
-                if (SearchIn == 0)
+                if (SearchIn.Value == 0)
                 {
                     if (!ChosenHeader(business)) return false;
                 }
-                else if (SearchIn == 1)
+                else if (SearchIn.Value == 1)
                 {
                     if (!ChosenDescription(business)) return false;
                 }
