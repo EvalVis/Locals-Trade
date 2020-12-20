@@ -62,16 +62,16 @@ namespace Support_Your_Locals.Infrastructure
         private static User[] CreateTestMaterial(ServiceDbContext context, HashCalculator hashCalculator)
         {
             User u1 = CreateUser("Evaldas", "Visockas", 1999, 12, 06, "vievaldas@gmail.com", hashCalculator.PassHash("lydeka"));
-            User u2 = CreateUser("Šarūnas", "Teisutis", 1996, 04, 02, "vievaldas@gmail.com", hashCalculator.PassHash("tigras"));
-            User u3 = CreateUser("Kazys", "Bruolė", 1950, 01, 02, "vievaldas@gmail.com", hashCalculator.PassHash("katinas"));
-            User u4 = CreateUser("Birutė", "Išdykėlė", 2001, 01, 15, "vievaldas@gmail.com", hashCalculator.PassHash("miau"));
-            User u5 = CreateUser("Lapinas", "Baronas", 2005, 10, 15, "vievaldas@gmail.com", hashCalculator.PassHash("uosis"));
-            User u6 = CreateUser("Konradas", "Rado", 2018, 06, 05, "vievaldas@gmail.com", hashCalculator.PassHash("cimbaliukas"));
-            User u7 = CreateUser("Vaiva", "Vaivorykštė", 1961, 07, 02, "vievaldas@gmail.com", hashCalculator.PassHash("paprika"));
-            User u8 = CreateUser("Vaidas", "Grinius", 2004, 03, 06, "vievaldas@gmail.com", hashCalculator.PassHash("lapinas"));
-            User u9 = CreateUser("Laputė", "Laisvuolė", 1930, 02, 15, "vievaldas@gmail.com", hashCalculator.PassHash("kaziukas"));
-            User u10 = CreateUser("Kazys", "Keistuolis", 1994, 04, 12, "vievaldas@gmail.com", hashCalculator.PassHash("greitkelis"));
-            User u11 = CreateUser("Rasa", "Išplaukusi", 2000, 01, 03, "vievaldas@gmail.com", hashCalculator.PassHash("popkornas"));
+            User u2 = CreateUser("Šarūnas", "Teisutis", 1996, 04, 02, "testinis1422@gmail.com", hashCalculator.PassHash("tigras"));
+            User u3 = CreateUser("Kazys", "Bruolė", 1950, 01, 02, "senovinis5478@gmail.com", hashCalculator.PassHash("katinas"));
+            User u4 = CreateUser("Birutė", "Išdykėlė", 2001, 01, 15, "atsitiktinis3456@gmail.com", hashCalculator.PassHash("miau"));
+            User u5 = CreateUser("Lapinas", "Baronas", 2005, 10, 15, "lapinas3456@gmail.com", hashCalculator.PassHash("uosis"));
+            User u6 = CreateUser("Konradas", "Rado", 2018, 06, 05, "konradas5423@gmail.com", hashCalculator.PassHash("cimbaliukas"));
+            User u7 = CreateUser("Vaiva", "Vaivorykštė", 1961, 07, 02, "vaiva7423@gmail.com", hashCalculator.PassHash("paprika"));
+            User u8 = CreateUser("Vaidas", "Grinius", 2004, 03, 06, "vaidas12354672@gmail.com", hashCalculator.PassHash("lapinas"));
+            User u9 = CreateUser("Laputė", "Laisvuolė", 1930, 02, 15, "lapute422068@gmail.com", hashCalculator.PassHash("kaziukas"));
+            User u10 = CreateUser("Kazys", "Keistuolis", 1994, 04, 12, "keistuolis4122315@gmail.com", hashCalculator.PassHash("greitkelis"));
+            User u11 = CreateUser("Rasa", "Išplaukusi", 2000, 01, 03, "isplaukusi423456@gmail.com", hashCalculator.PassHash("popkornas"));
 
             Business b1 = CreateBusiness("Traktoriai", "Traktorių parduotuvė", "25.274633", "54.699603", "+37064575620", "10% nuolaida žieminėms padangoms");
             Business b2 = CreateBusiness("Automobiliai", "Daužti automobiliai už prieinamą kainą", "25.268811", "54.693882", "+37064215675", "Įsigykite automobilius be rėmo, greit neliks");
