@@ -19,7 +19,6 @@ namespace Support_Your_Locals.Controllers
         private IServiceRepository userRepository;
         private HashCalculator hashCalculator;
         private IConfiguration configuration;
-        public byte[] salt = new byte[16];
 
         public AuthController(IServiceRepository repo, HashCalculator hashCalc, IConfiguration config)
         {
@@ -73,7 +72,7 @@ namespace Support_Your_Locals.Controllers
                 User user = await userRepository.Users.FirstOrDefaultAsync(b => b.Email == login.Email);
                 if (user != null)
                 {
-                    if (hashCalculator.IsGoodPass(user.Passhash, login.Passhash, salt))
+                    if (hashCalculator.IsGoodPass(user.Passhash, login.Passhash))
                     {
                         var claims = new List<Claim>
                         {
