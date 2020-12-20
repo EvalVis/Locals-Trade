@@ -14,10 +14,19 @@ namespace RestAPI.Models
         public string OwnersSurname { get; set; }
         public string BusinessInfo { get; set; }
         public int? SearchIn { get; set; }
+        /// <summary>
+        /// Only objects that satisfy all array's true bools go throught.
+        /// </summary>
         public bool[] WeekdaySelected { get; set; } = new bool[7];
         public DateTime? OpenFrom { get; set; }
         public DateTime? OpenTo { get; set; }
+        /// <summary>
+        /// Requester's latitude.
+        /// </summary>
         public double? Latitude { get; set; }
+        /// <summary>
+        /// Requester's longitude.
+        /// </summary>
         public double? Longitude { get; set; }
         public double? DistanceKM { get; set; }
         public string ProductName { get; set; }
@@ -55,7 +64,7 @@ namespace RestAPI.Models
                 Where(b => OwnersSurname == null || b.User.Surname.ToLower() == OwnersSurname).
                 Where(b => ProductName == null || b.Products.Any(p => p.Name == ProductName)).
                 Where(b => (PriceFrom == null || PriceTo == null) || b.Products.Any(p => p.PricePerUnit >= PriceFrom.Value && p.PricePerUnit <= PriceTo.Value)).
-                Where(b => selectedW == null || b.Workdays.Any(w => selectedW.Contains(w.Weekday.ToString()))).
+                Where(b => selectedW == null || b.Workdays.All(w => selectedW.Contains(w.Weekday.ToString()))).
                 Where(b => (OpenFrom == null || OpenTo == null) || b.Workdays.All(w => OpenFrom.Value.TimeOfDay <= w.From.TimeOfDay && OpenTo.Value.TimeOfDay >= w.To.TimeOfDay)).ToList();
             IEnumerable<Business> extraFilter = filtered.Where(b => BusinessConditionsMet(b) && GoodRange(b));
             totalItems = extraFilter.Count();
