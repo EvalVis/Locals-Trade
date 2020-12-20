@@ -79,7 +79,7 @@ namespace Support_Your_Locals.Controllers
                         {
                             new Claim(ClaimTypes.Name, user.Name),
                             new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()),
-                            new Claim(ClaimTypes.Role, isAdmin(login.Email) ? "Administrator": "User"),
+                            //new Claim(ClaimTypes.Role, isAdmin(login.Email) ? "Administrator": "User"),
                         };
                         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                         var principal = new ClaimsPrincipal(identity);
@@ -97,12 +97,12 @@ namespace Support_Your_Locals.Controllers
             return View();
         }
 
-
+        /*
         private bool isAdmin(string email)
         {
             var adminEmails = configuration.GetSection("Admin:AdminEmails").Get<List<string>>();
             return adminEmails.Contains(email);
-        }
+        }*/
 
         [HttpGet]
         public async Task<IActionResult> SignOut()
