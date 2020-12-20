@@ -55,12 +55,16 @@ namespace RestAPI.Models
             var filtered = repository.Business.Include(b => b.User).
                 Include(b => b.Workdays).Include(b => b.Products).OrderByDescending(b => b.BusinessID).
                 Where(b => OwnersSurname == null || b.User.Surname.ToLower() == OwnersSurname).
-                Where(b => ProductName == null || b.Products.Any(p => p.Name == ProductName)).
-                Where(b => (PriceFrom == null || PriceTo == null) || b.Products.Any(p => p.PricePerUnit >= PriceFrom.Value && p.PricePerUnit <= PriceTo.Value)).
                 ToList();
-            IEnumerable<Business> extraFilter = filtered.Where(b => BusinessConditionsMet(b) && GoodRange(b)).Where(b => GoodWeekdays(b.Workdays));
+            IEnumerable<Business> extraFilter = filtered.
+                Where(b => BusinessConditionsMet(b) && GoodRange(b)).Where(b => GoodWeekdays(b.Workdays)).Where(b => GoodProducts(b.Products));
             totalItems = extraFilter.Count();
             return extraFilter.Skip((page - 1) * pageSize).Take(pageSize);
+        }
+
+        private bool GoodProducts(IEnumerable<Product> products)
+        {
+            return products.Where(p => ProductName == null || p.Name == ProductName).Any(p => PriceFrom == null || PriceTo == null || p.PricePerUnit >= PriceFrom.Value && p.PricePerUnit <= PriceTo.Value);
         }
 
         private bool GoodWeekdays(IEnumerable<TimeSheet> workdays)
