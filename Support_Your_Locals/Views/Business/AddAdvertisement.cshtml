@@ -83,9 +83,12 @@
                     </div>
                     <div class="formbuss">
                         <div id="products">
-                            @if (Model?.Products != null) {
-                                for (int i = 0; i < Model.Products.Count; i++) {
-                                    if (Model.Products[i] != null) {
+                            @if (Model?.Products != null)
+                            {
+                                for (int i = 0; i < Model.Products.Count; i++)
+                                {
+                                    if (Model.Products[i] != null)
+                                    {
                                         <label asp-for="Products[i].Name">Product</label>
                                         <input asp-for="Products[i].Name" />
                                         <label asp-for="Products[i].PricePerUnit">Unit price</label>
@@ -102,22 +105,23 @@
                             }
                         </div>
                     </div>
-                    @for (var i = 0; i < 7; i++)
-                    {
-                        ViewBag.DayInd = i;
-                        <partial name="TimePicker" for="Workdays[i]" />
-                    }
+                    <table style="width:100%;table-layout: fixed;">
+                        @for (var i = 0; i < 7; i++)
+                        {
+                            ViewBag.DayInd = i;
+                            <partial name="TimePicker" for="Workdays[i]" />
+                        }
+                    </table>
+                        <input type="hidden" id="longitude" asp-for="Longitude" />
+                        <input type="hidden" id="latitude" asp-for="Latitude" />
+                        <label>Please choose location</label>
+                        <div id="mapid"></div>
 
-                    <input type="hidden" id="longitude" asp-for="Longitude" />
-                    <input type="hidden" id="latitude" asp-for="Latitude" />
-                    <label>Please choose location</label>
-                    <div id="mapid"></div>
-
-                    <div class="form-group">
-                        <label asp-for="Picture">Please enter your picture url</label>
-                        <input type="file" asp-for="Picture" class="form-control" />
-                    </div>
-                    <button type="submit" class="btn btn-primary">Advertise business</button>
+                        <div class="form-group">
+                            <label asp-for="Picture">Please enter your picture url</label>
+                            <input type="file" asp-for="Picture" class="form-control" />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Advertise business</button>
                 </form>
             </div>
         </div>

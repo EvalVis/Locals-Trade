@@ -10,19 +10,21 @@
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
 <link href="/lib/datetimepicker/css/jquery.datetimepicker.min.css" rel="stylesheet" />
 
-<div class="row">
-    <label class="col">@DayNames.days[dayIndex]</label>
-    <input type="hidden" asp-for="Weekday" value="@(dayIndex + 1)"  />
-    <label class="col" asp-for="From">From</label>
-    <input type="text" asp-for="From" id="@pickerFrom" class="form-control col" readonly="readonly"/>
-    <label class="col" asp-for="To">To</label>
-    <input type="text" asp-for="To" id="@pickerTo" class="form-control col" readonly="readonly"/>
-</div>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="/lib/datetimepicker/js/jquery.datetimepicker.full.min.js"></script>
-<script>
+<label class="col">@DayNames.days[dayIndex]</label>
+<input type="hidden" asp-for="Weekday" value="@(dayIndex + 1)" />
+<table style="width:100%;table-layout: fixed;">
+    <tr align="center" valign="middle">
+        <td><label class="col" asp-for="From">From</label></td>
+        <td><input type="text" asp-for="From" id="@pickerFrom" class="form-control col" readonly="readonly" /></td>
+        <td><label class="col" asp-for="To">To</label></td>
+        <td><input type="text" asp-for="To" id="@pickerTo" class="form-control col" readonly="readonly" /></td>
+    </tr>
+</table>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="/lib/datetimepicker/js/jquery.datetimepicker.full.min.js"></script>
+    <script>
     var stepTime = 10;
     $('#picker' + @dayIndex).datetimepicker({
         timepicker: true,
@@ -46,18 +48,4 @@
             });
         }
     });
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded',
-        function () {
-            var from = document.getElementById("@pickerFrom");
-            var to = document.getElementById("@pickerTo");
-            if (from.value === "00:00") {
-                from.value = "";
-            }
-            if (to.value === "00:00") {
-                to.value = "";
-            }
-            }, false);
-</script>
+    </script>
