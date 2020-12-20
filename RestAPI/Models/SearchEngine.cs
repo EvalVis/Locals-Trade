@@ -14,6 +14,9 @@ namespace RestAPI.Models
         public bool[] WeekdaySelected { get; set; } = new bool[7];
         public DateTime OpenFrom { get; set; }
         public DateTime OpenTo { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public double DistanceKM { get; set; }
 
 
         public IEnumerable<Business> FilterBusinesses(int page, int pageSize, IServiceRepository repository, out int totalItems)
@@ -46,9 +49,25 @@ namespace RestAPI.Models
                 Where(b => OwnersSurname == null || b.User.Surname.ToLower() == OwnersSurname).
                 Where(b => selectedW == null || b.Workdays.Any(w => selectedW.Contains(w.Weekday.ToString()))).
                 Where(b => b.Workdays.All(w => OpenFrom.TimeOfDay <= w.From.TimeOfDay && OpenTo.TimeOfDay >= w.To.TimeOfDay)).ToList();
-            IEnumerable<Business> extraFilter = filtered.Where(b => BusinessConditionsMet(b));
+            IEnumerable<Business> extraFilter = filtered.Where(b => BusinessConditionsMet(b) && GoodRange(b));
             totalItems = extraFilter.Count();
             return extraFilter.Skip((page - 1) * pageSize).Take(pageSize);
+        }
+
+        private bool GoodRange(Business business)
+        {
+            double.TryParse(business.Longitude, out double bLo);
+            double.TryParse(business.Latitude, out double bLa);
+            double bLon = ToRadians(bLo);
+            double bLat = ToRadians(bLa);
+            double requesterLon = ToRadians(Latitude);
+            double requesterLat = ToRadians(Longitude);
+            double difLon = bLon - requesterLon;
+            double difLat = bLat - requesterLat;
+            double calc = Math.Pow(Math.Sin(difLat / 2), 2) + Math.Cos(requesterLat) * Math.Cos(bLat) * Math.Pow(Math.Sin(difLon / 2), 2);
+            double calculated = 2 * Math.Asin(Math.Sqrt(calc));
+            double r = 6371;
+            return (calculated * r) <= DistanceKM;
         }
 
         private bool BusinessConditionsMet(Business business)
@@ -76,6 +95,11 @@ namespace RestAPI.Models
         private bool ChosenDescription(Business business)
         {
             return business.Description.ToLower().Contains(BusinessInfo.ToLower());
+        }
+
+        private double ToRadians(double deg)
+        {
+            return (deg * Math.PI) / 180;
         }
 
     }
