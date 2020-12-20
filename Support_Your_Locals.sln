@@ -1,10 +1,9 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+Microsoft Visual Studio Solution File, Format Version 12.00
+
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Support_Your_Locals", "Support_Your_Locals\Support_Your_Locals.csproj", "{00F11BAE-5269-4430-81FA-49565C33473E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Support_Your_Locals.Tests", "Support_Your_Locals.Tests\Support_Your_Locals.Tests.csproj", "{CBA557BF-E0AF-417B-AF95-49C6F26190F3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7AA8AC50-4CFD-4CCE-889D-DF91FCC5ADBC}"
 	ProjectSection(SolutionItems) = preProject
@@ -17,7 +16,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSupportYourLocals.Android"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSupportYourLocals.iOS", "MSupportYourLocals\MSupportYourLocals.iOS\MSupportYourLocals.iOS.csproj", "{5082914A-F3A4-471B-ABF7-BD80605A2238}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSupportYourLocals", "MSupportYourLocals\MSupportYourLocals\MSupportYourLocals.csproj", "{500A44E8-1F89-4B57-A66B-116D922304CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSupportYourLocals", "MSupportYourLocals\MSupportYourLocals\MSupportYourLocals.csproj", "{500A44E8-1F89-4B57-A66B-116D922304CD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalsTradeBot", "LocalsTradeBot\LocalsTradeBot.csproj", "{0D4C02F8-B47E-46A1-A106-AE8031DBD5D5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalsTradeBot", "LocalsTradeBot\LocalsTradeBot.csproj", "{0D4C02F8-B47E-46A1-A106-AE8031DBD5D5}"
 EndProject
@@ -43,18 +44,6 @@ Global
 		{00F11BAE-5269-4430-81FA-49565C33473E}.Release|iPhone.Build.0 = Release|Any CPU
 		{00F11BAE-5269-4430-81FA-49565C33473E}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{00F11BAE-5269-4430-81FA-49565C33473E}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{CBA557BF-E0AF-417B-AF95-49C6F26190F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CBA557BF-E0AF-417B-AF95-49C6F26190F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CBA557BF-E0AF-417B-AF95-49C6F26190F3}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{CBA557BF-E0AF-417B-AF95-49C6F26190F3}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{CBA557BF-E0AF-417B-AF95-49C6F26190F3}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{CBA557BF-E0AF-417B-AF95-49C6F26190F3}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{CBA557BF-E0AF-417B-AF95-49C6F26190F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CBA557BF-E0AF-417B-AF95-49C6F26190F3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CBA557BF-E0AF-417B-AF95-49C6F26190F3}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{CBA557BF-E0AF-417B-AF95-49C6F26190F3}.Release|iPhone.Build.0 = Release|Any CPU
-		{CBA557BF-E0AF-417B-AF95-49C6F26190F3}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{CBA557BF-E0AF-417B-AF95-49C6F26190F3}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{79418CE3-2B72-4F92-A457-5F661C9E23C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{79418CE3-2B72-4F92-A457-5F661C9E23C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79418CE3-2B72-4F92-A457-5F661C9E23C5}.Debug|iPhone.ActiveCfg = Debug|Any CPU

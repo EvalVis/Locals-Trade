@@ -6,10 +6,12 @@ namespace Support_Your_Locals.Cryptography
     public class HashCalculator
     {
 
+        private byte[] salt = new byte[16];
+
         public string PassHash(string password)
         {
-            byte[] salt;
-            new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
+            if (password == null) password = "";
+            new RNGCryptoServiceProvider().GetBytes(salt);
             var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 100000);
             byte[] hash = pbkdf2.GetBytes(20);
             byte[] hashBytes = new byte[36];
@@ -18,8 +20,10 @@ namespace Support_Your_Locals.Cryptography
             return Convert.ToBase64String(hashBytes);
         }
 
-        public bool IsGoodPass(string userpass, string loginpass, byte[] salt)
+        public bool IsGoodPass(string userpass, string loginpass)
         {
+            if (userpass == null) userpass = "";
+            if (loginpass == null) loginpass = "";
             bool goodpass = false;
             string savedPasswordHash = userpass;
             byte[] hashBytes = Convert.FromBase64String(savedPasswordHash);
