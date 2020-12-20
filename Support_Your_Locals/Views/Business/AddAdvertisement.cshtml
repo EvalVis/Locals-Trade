@@ -105,13 +105,14 @@
                             }
                         </div>
                     </div>
-                    <table style="width:100%;table-layout: fixed;">
+                    
                         @for (var i = 0; i < 7; i++)
                         {
                             ViewBag.DayInd = i;
+
                             <partial name="TimePicker" for="Workdays[i]" />
                         }
-                    </table>
+                    
                         <input type="hidden" id="longitude" asp-for="Longitude" />
                         <input type="hidden" id="latitude" asp-for="Latitude" />
                         <label>Please choose location</label>
