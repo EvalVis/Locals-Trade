@@ -70,15 +70,15 @@
                 <h1>Add business advertisement</h1>
                 <form id="addAdvertisement" asp-action="AddAdvertisement" method="post" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label asp-for="Header">Header</label>
+                        <label asp-for="Header">Header<span style="color:darkred">*</span></label>
                         <input asp-for="Header" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label asp-for="Description">Description</label>
+                        <label asp-for="Description">Description<span style="color:darkred">*</span></label>
                         <textarea asp-for="Description" class="form-control"> </textarea>
                     </div>
                     <div class="form-group">
-                        <label asp-for="PhoneNumber">Phone number</label>
+                        <label asp-for="PhoneNumber">Phone number<span style="color:darkred">*</span></label>
                         <input asp-for="PhoneNumber" class="form-control">
                     </div>
                     <div class="formbuss">

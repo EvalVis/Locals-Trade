@@ -17,27 +17,27 @@
                 <h1>Sign Up</h1>
                 <form asp-action="SignUp" method="post">
                     <div class="form-group">
-                        <label asp-for="Email">Email</label>
+                        <label asp-for="Email">Email <span style="color:darkred">*</span></label>
                         <input asp-for="Email" class="form-control">
                         <span asp-validation-for="Email"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Name">Name</label>
+                        <label asp-for="Name">Name <span style="color:darkred">*</span></label>
                         <input asp-for="Name" class="form-control">
                         <span asp-validation-for="Name"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Surname">Surname</label>
+                        <label asp-for="Surname">Surname <span style="color:darkred">*</span></label>
                         <input asp-for="Surname" class="form-control">
                         <span asp-validation-for="Surname"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="BirthDate">BirthDate</label>
+                        <label asp-for="BirthDate">BirthDate <span style="color:darkred">*</span></label>
                         @Html.TextBox("BirthDate", Model, new { type = "date" })
                         <span asp-validation-for="BirthDate"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Password">Password</label>
+                        <label asp-for="Password">Password <span style="color:darkred">*</span></label>
                         <input type="password" asp-for="Password" class="form-control">
                         <span asp-validation-for="Password"></span>
                     </div>
