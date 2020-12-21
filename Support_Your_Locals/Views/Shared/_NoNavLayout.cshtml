@@ -60,7 +60,6 @@
 <body>
     <div class="bg-dark text-white p-2 nav">
         <a class="nicetitle navbar-brand ml-2" style="color: #bbe1fa;" href="../">Local Support</a>
-
         @if (!User.Identity.IsAuthenticated)
         {
             <a asp-controller="Auth" asp-action="SignIn" class="navbar-brand ml-2">Sign In</a>
@@ -83,13 +82,14 @@
         }
         @if (User.IsInRole("Administrator"))
         {
-            <a asp-controller="Admin" asp-action="Index" class="navbar-brand ml-2 navbuttons" >Admin panel</a>
+            <a asp-controller="Admin" asp-action="Index" class="navbar-brand ml-2 navbuttons">Admin panel</a>
         }
         <a asp-controller="Business" asp-action="AddAdvertisement" class="navbar-brand ml-2 navbuttons">Add advertisement</a>
         <a asp-controller="FAQ" asp-action="Index" class="navbar-brand ml-2 navbuttons">FAQ</a>
+
     </div>
 
-<div class="container">
+<div>
     @RenderBody()
 </div>
 </body>
