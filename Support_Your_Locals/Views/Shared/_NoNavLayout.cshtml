@@ -83,9 +83,10 @@
         }
         @if (User.IsInRole("Administrator"))
         {
-            <a asp-controller="Admin" asp-action="Index" class="navbar-brand ml-2">Admin panel</a>
+            <a asp-controller="Admin" asp-action="Index" class="navbar-brand ml-2 navbuttons" >Admin panel</a>
         }
         <a asp-controller="Business" asp-action="AddAdvertisement" class="navbar-brand ml-2 navbuttons">Add advertisement</a>
+        <a asp-controller="FAQ" asp-action="Index" class="navbar-brand ml-2 navbuttons">FAQ</a>
     </div>
 
 <div class="container">
