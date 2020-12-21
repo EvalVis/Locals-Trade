@@ -5,58 +5,100 @@
     <title>Support Your Locals</title>
     <link href="/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/style.css" />
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script crossorigin="anonymous"
             src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
     <style>
-     .open-button {
-      background-color: #555;
-      color: white;
-      border: none;
-      cursor: pointer;
-      opacity: 0.8;
-      position: fixed;
-      bottom: 23px;
-      right: 28px;
-      height: 30px;
-      width: 100px;
-    }
+        .dropbtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+        }
 
-    /* The popup chat - hidden by default */
-    .chat-popup {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      right: 15px;
-      border: 3px solid #f1f1f1;
-      z-index: 9;
-    }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
 
-    /* Add styles to the form container */
-    .form-container {
-      width: 350px;
-      padding: 10px;
-      background-color: white;
-    }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
 
-    .form-container .cancel {
-      background-color: #4797c6;
-      color: white;
-      border: none;
-      cursor: pointer;
-      width: 100%;
-      height: 30px;
-      font-size: 15px;
-      opacity: 0.8;
-    }
+            .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
 
-    .form-container .btn:hover, .open-button:hover {
-      opacity: 1;
-    }
+                .dropdown-content a:hover {
+                    background-color: #ddd;
+                }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
+
+        .open-button {
+            background-color: #555;
+            color: white;
+            border: none;
+            cursor: pointer;
+            opacity: 0.8;
+            position: fixed;
+            bottom: 23px;
+            right: 28px;
+            height: 30px;
+            width: 100px;
+        }
+
+        /* The popup chat - hidden by default */
+        .chat-popup {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            right: 15px;
+            border: 3px solid #f1f1f1;
+            z-index: 9;
+        }
+
+        /* Add styles to the form container */
+        .form-container {
+            width: 350px;
+            padding: 10px;
+            background-color: white;
+        }
+
+            .form-container .cancel {
+                background-color: #4797c6;
+                color: white;
+                border: none;
+                cursor: pointer;
+                width: 100%;
+                height: 30px;
+                font-size: 15px;
+                opacity: 0.8;
+            }
+
+            .form-container .btn:hover, .open-button:hover {
+                opacity: 1;
+            }
     </style>
 </head>
 <body>
-    <div class="bg-dark text-white p-2">
-        <a class="nicetitle" style="font-size: 20px; color: #bbe1fa" href="../">Support Your Locals</a>
+    <div class="bg-dark text-white p-2 nav">
+        <a class="nicetitle navbar-brand ml-2" style="color: #bbe1fa;" href="../">Local Support</a>
         @if (!User.Identity.IsAuthenticated)
         {
             <a asp-controller="Auth" asp-action="SignIn" class="navbar-brand ml-2">Sign In</a>
@@ -64,23 +106,35 @@
         }
         else
         {
-            <a asp-controller="Auth" asp-action="SignOut" class="btn btn-primary btn-sm">Sign out</a>
-            <span style="float:right;text-align:right;margin-left: 80px;">Welcome @User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value!</span>
+
+            <div class="dropdown">
+                <a class="navbar-brand ml-2">Welcome @User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value! <i class='fas fa-angle-down'></i></a>
+                <div class="dropdown-content" style="float: left; text-align: center;">
+                    <a href="../user/businesses">Your businesses</a>
+                    <a href="../user/usersettings">User settings</a>
+                    <form method="get" style="display: inline;">
+                        <button asp-controller="Auth" asp-action="SignOut" class="btn btn-info">Sign Out</button>
+                    </form>
+                </div>
+            </div>
+
         }
         @if (User.IsInRole("Administrator"))
         {
-            <a asp-controller="Admin" asp-action="Index" class="navbar-brand ml-2">Admin panel</a>
+            <a asp-controller="Admin" asp-action="Index" class="navbar-brand ml-2 navbuttons">Admin panel</a>
         }
         <a asp-controller="Business" asp-action="AddAdvertisement" class="navbar-brand ml-2 navbuttons">Add advertisement</a>
+        <a asp-controller="FAQ" asp-action="Index" class="navbar-brand ml-2 navbuttons">FAQ</a>
 
     </div>
-    <div class="row m-1 p-1">
+    <div class="row m-1 p-1 ind">
         <div id="categories" class="col-4">
             <vc:navigation-menu></vc:navigation-menu>
         </div>
         <div>
             <vc:search-business></vc:search-business>
         </div>
+        @RenderBody()
     </div>
     
     <button class="open-button" onclick="openForm()">Chat</button>
@@ -125,7 +179,7 @@
         );
     </script>
     <div>
-        @RenderBody()
+        
     </div>
 </body>
 </html>

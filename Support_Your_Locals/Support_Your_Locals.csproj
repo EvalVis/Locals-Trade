@@ -22,4 +22,8 @@
   <ItemGroup>
     <Folder Include="Content\Images\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\css\img1.PNG" />
+    <None Include="wwwroot\css\img2.PNG" />
+  </ItemGroup>
 </Project>

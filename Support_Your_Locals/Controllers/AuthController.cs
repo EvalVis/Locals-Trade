@@ -96,7 +96,7 @@ namespace Support_Your_Locals.Controllers
             return View();
         }
 
-
+        
         private bool isAdmin(string email)
         {
             var adminEmails = configuration.GetSection("Admin:AdminEmails").Get<List<string>>();

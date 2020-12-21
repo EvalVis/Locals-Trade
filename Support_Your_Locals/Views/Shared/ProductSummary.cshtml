@@ -12,7 +12,6 @@
         text-align: left;
         padding: 8px;
     }
-
 </style>
 
 <table>
@@ -21,7 +20,6 @@
         <th>Unit price</th>
         <th>Unit</th>
         <th>Comment</th>
-        <th>Picture</th>
     </tr>
     @foreach (var p in Model)
     {
@@ -30,7 +28,32 @@
             <td>@p.PricePerUnit</td>
             <td>@p.Unit</td>
             <td>@p.Comment</td>
-            <td><img src="@p.Picture" width ="100" height="100"/></td>
         </tr>
     }
 </table>
+
+<div id="myModal" class="modal">
+    <span class="close cursor" onclick="closeModal()">&times;</span>
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    <div class="modal-content">
+
+        @foreach (var p in Model)
+        {
+            <div class="mySlides">
+                <img src="@p.Picture" style="width:100%;">
+            </div>
+        }
+
+        <div class="caption-container">
+            <p id="caption"></p>
+        </div>
+        @{int imgcount = 1;}
+        @foreach (var p in Model)
+        {
+            <div class="column">
+                <img class="demo cursor" src="@p.Picture" onclick="currentSlide(@(imgcount++))" alt="Product: @p.Name<br />Unit price: @p.PricePerUnit<br />Unit: @p.Unit<br />Comment: @p.Comment">
+            </div>
+        }
+    </div>
+</div>
