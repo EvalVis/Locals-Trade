@@ -12,9 +12,9 @@ namespace Support_Your_Locals.Models
         public int SearchIn { get; set; }
         public bool[] WeekdaySelected { get; set; } = new bool[7];
         [DataType(DataType.Time)]
-        public DateTime OpenFrom { get; set; } = new DateTime(1999, 12, 06, 7, 00, 00);
+        public DateTime OpenFrom { get; set; } = new DateTime(1999, 12, 06, 0, 00, 00);
         [DataType(DataType.Time)]
-        public DateTime OpenTo { get; set; } = new DateTime(1999, 12, 06, 18, 30, 00);
+        public DateTime OpenTo { get; set; } = new DateTime(1999, 12, 06, 23, 59, 00);
         private delegate bool Filter<T>(T item);
 
         public string ToQuery()
