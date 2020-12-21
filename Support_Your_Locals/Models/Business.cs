@@ -39,9 +39,6 @@ namespace Support_Your_Locals.Models
 
         public Business(BusinessRegisterModel registerModel, long userID)
         {
-            MemoryStream imageMemoryStream = new MemoryStream();
-            registerModel.Picture.CopyTo(imageMemoryStream);
-
             BusinessID = registerModel.BusinessId; // danger zone.
             UserID = userID;
             Description = registerModel.Description;
@@ -49,9 +46,14 @@ namespace Support_Your_Locals.Models
             Latitude = registerModel.Latitude;
             PhoneNumber = registerModel.PhoneNumber;
             Header = registerModel.Header;
-            PictureData = imageMemoryStream.ToArray();
             inspectWorkdaysValidity(registerModel);
             Products = registerModel.Products;
+            if(registerModel.Picture != null)
+            {
+                MemoryStream imageMemoryStream = new MemoryStream();
+                registerModel?.Picture?.CopyTo(imageMemoryStream);
+                PictureData = imageMemoryStream.ToArray();
+            }
         }
 
         public void UpdateBusiness(BusinessRegisterModel registerModel)
