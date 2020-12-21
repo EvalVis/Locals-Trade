@@ -27,6 +27,7 @@ namespace Support_Your_Locals.Controllers
         [Route("Home/Index/page{page:int}")]
         [Route("Home/Index")]
         [Route("/")]
+        [HttpGet]
         public ViewResult Index(SearchResponse searchResponse, string product, int page = 1)
         {
             IEnumerable<Business> businesses = repository.Business
