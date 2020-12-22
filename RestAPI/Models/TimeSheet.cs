@@ -11,5 +11,12 @@ namespace RestAPI.Models
         public long BusinessID { get; set; }
         public Business Business { get; set; }
 
+        public void Update(TimeSheet workday)
+        {
+            From = workday.From;
+            To = workday.To;
+            Weekday = workday.Weekday;
+        }
+
     }
 }

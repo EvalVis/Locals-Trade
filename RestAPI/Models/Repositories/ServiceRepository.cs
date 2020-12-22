@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.EntityFrameworkCore;
 
 namespace RestAPI.Models.Repositories
 {
@@ -54,7 +55,32 @@ namespace RestAPI.Models.Repositories
 
         public async Task UpdateBusinessAsync(Business business)
         {
-            //TODO Update
+            Business dbBusiness = await context.Business.FirstOrDefaultAsync(b => b.BusinessID == business.BusinessID);
+            dbBusiness.Update(business);
+            foreach(var w in business.Workdays)
+            {
+                if (w.TimeSheetID == 0) context.TimeSheets.Add(w);
+                else if(w.TimeSheetID > 0)
+                {
+                    TimeSheet dbWorkday = await context.TimeSheets.FirstOrDefaultAsync(workday => workday.TimeSheetID == w.TimeSheetID);
+                    if(dbWorkday != null)
+                    {
+                        dbWorkday.Update(w);
+                    }
+                }
+            }
+            foreach(var p in business.Products)
+            {
+                if (p.ProductID == 0) context.Products.Add(p);
+                else if(p.ProductID > 0)
+                {
+                    Product dbProduct = await context.Products.FirstOrDefaultAsync(product => product.ProductID == p.ProductID);
+                    if(dbProduct != null)
+                    {
+                        dbProduct.Update(p);
+                    }
+                }
+            }
             await context.SaveChangesAsync();
         }
 

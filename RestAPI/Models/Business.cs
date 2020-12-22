@@ -34,5 +34,14 @@ namespace RestAPI.Models
             foreach (var f in Feedbacks) f.Business = null;
         }
 
+        public void Update(Business business)
+        {
+            Description = business.Description;
+            Longitude = business.Longitude;
+            Latitude = business.Latitude;
+            PhoneNumber = business.PhoneNumber;
+            Header = business.Header;
+        }
+
     }
 }

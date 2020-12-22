@@ -10,5 +10,14 @@
         public string Picture { get; set; }
         public long BusinessID { get; set; }
         public Business Business { get; set; }
+
+        public void Update(Product product)
+        {
+            Name = product.Name;
+            PricePerUnit = product.PricePerUnit;
+            Unit = product.Unit;
+            Comment = product.Comment;
+        }
+
     }
 }
