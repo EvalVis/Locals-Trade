@@ -76,8 +76,6 @@ namespace MSupportYourLocals.Services
                 Description = business.Description,
                 Header = business.Header,
                 PhoneNumber = business.PhoneNumber,
-                Longitude = business.Longitude,
-                Latitude = business.Latitude,
                 WorkdayTargets = business.Workdays,
                 ProductTargets = business.Products
             };
