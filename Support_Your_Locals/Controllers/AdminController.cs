@@ -31,19 +31,33 @@ namespace Support_Your_Locals.Controllers
         public ActionResult Index()
         {
             var businesses = repository.GetBusinesses();
-            var usersBusinesses = businesses.GroupBy(business => business.User);
-            var questions = repository.GetQuestions().OrderBy(question => question.IsAnswered);
-            var users = repository.GetUsers().Where(notAdmin);
+            var users = repository.GetUsers()
+                .Where(notAdmin)
+                .GroupJoin(businesses, user => user.UserID, business => business.UserID, (user, businesses) =>
+                {
+                    user.Businesses = businesses.ToList();
+                    return user;
+                })
+                .OrderBy(user => user.Businesses.Count);
+
+            var userWithMostBusinesess = users.Aggregate<User, (int, User), User>((0, null), 
+                (biggestUser, next) => biggestUser.Item1 < next.Businesses.Count ? (next.Businesses.Count, next) : biggestUser, 
+                biggestUser => biggestUser.Item2);
+
+            var questions = repository.GetQuestions()
+                .OrderBy(question => question.IsAnswered)
+                .GroupBy(question => question.Email);
+
             return View(new AdminViewModel()
             {
                 Businesses = businesses,
-                UsersBusinesses = usersBusinesses,
-                Users = repository.GetUsers().Where(notAdmin),
+                Users = users,
                 TotalBusiness = businesses.Count(),
                 TotalProducts = repository.GetProducts().Count(),
                 TotalUsers = users.Count(),
                 Questions = questions,
-            });
+                UserWithMostBusinesess = userWithMostBusinesess,
+            }); ;
         }
 
         [Authorize(Roles = "Administrator")]

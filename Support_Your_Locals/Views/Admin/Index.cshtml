@@ -11,11 +11,13 @@
             <th>Total users</th>
             <th>Total businesses</th>
             <th>Total products</th>
+            <th> User with most businesses</th>
         </tr>
         <tr>
             <td>@Model.TotalUsers</td>
             <td>@Model.TotalBusiness</td>
             <td>@Model.TotalUsers</td>
+            <td>@Model.UserWithMostBusinesess.Email (@Model.UserWithMostBusinesess.Businesses.Count)</td>
         </tr>
     </table>
 </div>
@@ -49,11 +51,17 @@
             </tr>
         </thead>
         <tbody id="users-table" style="display:none;">
-            @foreach (var userBusinesses in Model.UsersBusinesses)
+            @foreach (var user in Model.Users)
             {
-                var @user = userBusinesses.Key;
                 <tr style="color: white; background-color: #27303d">
-                    <td onclick="enableMultiple(@Html.Raw(Json.Serialize(@userBusinesses.Select(business => business.BusinessID))))" style="cursor:pointer">List businesses</td>
+                    @if (user.Businesses.Count == 0) 
+                    { 
+                    <td >User does not have businesses</td>
+                    }
+                    else
+                    {
+                    <td onclick="enableMultiple(@Html.Raw(Json.Serialize(user.Businesses.Select(business => business.BusinessID))))" style="cursor:pointer">List businesses</td>
+                    }
                     <td>@user.Email</td>
                     <td>@user.Name</td>
                     <td>@user.Surname</td>
@@ -62,7 +70,7 @@
                                  new { onclick = "return confirm('Are you sure you wish to remove this user permanently?');" })
                     </td>
                 </tr>
-                @foreach (var business in @userBusinesses)
+                @foreach (var business in user.Businesses)
                 {
                     <tr id="@business.BusinessID" style="display:none;">
                         <td colspan="2">@business.Header</td>
@@ -75,39 +83,45 @@
 </div>
 
 
-<div class="questions">
-    <table class="table">
-        <caption onclick="enableMultiple(['questions-table-header','questions-table'])" style="cursor:pointer">Questions for administrator</caption>
-        <thead id="questions-table-header" style="display:none;">
-            <tr>
-                <th>Email</th>
-                <th>Question</th>
-                <th>Is answered</th>
-                <th>Response</th>
-            </tr>
-        </thead>
-        <tbody id="questions-table" style="display:none;">
-            @foreach (var question in Model.Questions)
-            {
-            <tr>
-                <td>@question.Email</td>
-                <td>@question.Text</td>
-                <td>@(question.IsAnswered ? "Answered" : "Not answered")</td>
-                <td>
-                    @if (!question.IsAnswered)
-                    {
+<div class="questions" >
+    <div style="background-color:#10131a; padding: 10px; cursor:pointer"><h3 style="color: white" onclick="enableMultiple(['questions'])">Questions for administrator</h3></div>
+    <div id="questions" style="display: none">
+        @foreach (var questionsByEmail in Model.Questions)
+        {
+        var email = questionsByEmail.Key;
+        <div style="width: 100vw">    
+            <div style="margin: 15px">
+                <h3 style="float: left">
+                    @email
+                </h3>
+                <span style="float: right; cursor:pointer">Show questions</span>
+            </div>
+            <table class="table" style="margin: 15px;">
+                <tbody id="@email" style="color: #bad7fb; background-color: #10131a">
 
-                        @Html.ActionLink("Answer", "AnswerQuestion", new { id = @question.QuestionId, email = question.Email })
-                    }
-                    else
+                    @foreach (var question in questionsByEmail)
                     {
-                        @question.Response
+                        <tr>
+                            <td>@question.Text</td>
+                            <td>@(question.IsAnswered ? "Answered" : "Not answered")</td>
+                            <td>
+                                @if (!question.IsAnswered)
+                                {
+
+                                    @Html.ActionLink("Answer", "AnswerQuestion", new { id = @question.QuestionId, email = question.Email })
+                                }
+                                else
+                                {
+                                    @question.Response
+                                }
+                            </td>
+                        </tr>
                     }
-                 </td>
-            </tr>
-            }
-        </tbody>
-    </table>
+                </tbody>
+            </table>
+        </div>
+        }
+    </div>
 </div>
 
 
