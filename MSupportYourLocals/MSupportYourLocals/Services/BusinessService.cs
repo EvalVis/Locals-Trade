@@ -16,12 +16,14 @@ namespace MSupportYourLocals.Services
         public async Task<PageBusiness> GetBusinesses(int page)
         {
             HttpResponseMessage response = await httpClient.GetAsync($"/api/Business/All/{page}");
+            System.Diagnostics.Debug.WriteLine($"What we got: {response.RequestMessage.RequestUri}");
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var result = await response.Content.ReadAsStringAsync();
                 PageBusiness pageBusiness = JsonConvert.DeserializeObject<PageBusiness>(result);
                 return pageBusiness;
             }
+            System.Diagnostics.Debug.WriteLine($"What we got: {response.StatusCode}");
             return null;
         }
 
