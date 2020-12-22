@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
+using LocalsTradeBot.Client;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 
@@ -15,21 +16,33 @@ namespace LocalsTradeBot.Bots
     public class EchoBot : ActivityHandler
     {
         private readonly BotState _conversationState;
+        private readonly LocalAppClient _client;
 
         public EchoBot(ConversationState conversationState)
         {
             _conversationState = conversationState;
+            _client = new LocalAppClient();
         }
 
         public class Conversation
         {
-            public enum CurrentConversationState
+
+            public string Email { get; set; }
+            public string Question { get; set; }
+            public CurrentConversationState State { get; set; } = CurrentConversationState.Question;
+
+            public void reset()
             {
-              Question,
-              Email
+                State = CurrentConversationState.Question;
+                Email = null;
+                Question = null;
             }
 
-            public CurrentConversationState State { get; set; } = CurrentConversationState.Question;
+            public enum CurrentConversationState
+            {
+                Question,
+                Email
+            }
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
@@ -43,7 +56,7 @@ namespace LocalsTradeBot.Bots
             await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken);
         }
 
-        private static async Task FillOutUserProfileAsync(Conversation conversation, ITurnContext turnContext, CancellationToken cancellationToken)
+        private async Task FillOutUserProfileAsync(Conversation conversation, ITurnContext turnContext, CancellationToken cancellationToken)
         {
             var input = turnContext.Activity.Text?.Trim();
             string message;
@@ -51,17 +64,27 @@ namespace LocalsTradeBot.Bots
             switch (conversation.State)
             {
                 case Conversation.CurrentConversationState.Question:
-                    var responseMessage = "Thank you for your question. The question will be answered by administrator as soon as possible. " +
-                        "Please enter an email address to whom we will send a response";
-                    await turnContext.SendActivityAsync(responseMessage, null, null, cancellationToken);
-                    conversation.State = Conversation.CurrentConversationState.Email;
-                    break;
+                    if(ValidateQuestion(input, out var question, out message))
+                    {
+                        var responseMessage = "Thank you for your question. The question will be answered by administrator as soon as possible. " +
+                       "Please enter an email address to whom we will send a response";
+                        await turnContext.SendActivityAsync(responseMessage, null, null, cancellationToken);
+                        conversation.State = Conversation.CurrentConversationState.Email;
+                        conversation.Question = question;
+                        break;
+                    }
+                    else 
+                    {
+                        await turnContext.SendActivityAsync(message ?? "I'm sorry, I didn't understand that.", null, null, cancellationToken);
+                        break;
+                    }
                 case Conversation.CurrentConversationState.Email:
                     if (ValidateEmail(input, out var email, out message))
                     {
                         await turnContext.SendActivityAsync("Thank you! We will send response to given email in 5 business days. Have a nice day!", null, null, cancellationToken);
+                        await _client.CreateQuestion(email, conversation.Question);
+                        conversation.reset();
                         await turnContext.SendActivityAsync("Do you have any more questions?", null, null, cancellationToken);
-                        conversation.State = Conversation.CurrentConversationState.Question;
                         break;
                     }
                     else
@@ -70,6 +93,22 @@ namespace LocalsTradeBot.Bots
                         break;
                     }
             }
+        }
+        private static bool ValidateQuestion(string input, out string question, out string message)
+        {
+            question = null;
+            message = null;
+
+            if (input.Trim().Length == 0)
+            {
+                message = "Please enter not empty question";
+            }
+            else
+            {
+                question = input.Trim();
+            }
+
+            return message is null;
         }
 
         private static bool ValidateEmail(string input, out string email, out string message)
