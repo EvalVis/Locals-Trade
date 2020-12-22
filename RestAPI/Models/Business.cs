@@ -37,8 +37,14 @@ namespace RestAPI.Models
         public void Update(Business business)
         {
             Description = business.Description;
-            Longitude = business.Longitude;
-            Latitude = business.Latitude;
+            if (business.Longitude != null)
+            {
+                Longitude = business.Longitude;
+            }
+            if (business.Latitude != null)
+            {
+                Latitude = business.Latitude;
+            }
             PhoneNumber = business.PhoneNumber;
             Header = business.Header;
         }
