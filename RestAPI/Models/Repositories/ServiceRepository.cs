@@ -59,11 +59,14 @@ namespace RestAPI.Models.Repositories
             dbBusiness.Update(business);
             foreach(var w in business.Workdays)
             {
-                if (w.TimeSheetID == 0) context.TimeSheets.Add(w);
-                else if(w.TimeSheetID > 0)
+                if (w.TimeSheetID == 0)
+                {
+                    context.TimeSheets.Add(w);
+                }
+                else if (w.TimeSheetID > 0)
                 {
                     TimeSheet dbWorkday = await context.TimeSheets.FirstOrDefaultAsync(workday => workday.TimeSheetID == w.TimeSheetID);
-                    if(dbWorkday != null)
+                    if (dbWorkday != null)
                     {
                         dbWorkday.Update(w);
                     }
@@ -71,11 +74,14 @@ namespace RestAPI.Models.Repositories
             }
             foreach(var p in business.Products)
             {
-                if (p.ProductID == 0) context.Products.Add(p);
-                else if(p.ProductID > 0)
+                if (p.ProductID == 0)
+                {
+                    context.Products.Add(p);
+                }
+                else if (p.ProductID > 0)
                 {
                     Product dbProduct = await context.Products.FirstOrDefaultAsync(product => product.ProductID == p.ProductID);
-                    if(dbProduct != null)
+                    if (dbProduct != null)
                     {
                         dbProduct.Update(p);
                     }
