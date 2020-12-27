@@ -22,7 +22,7 @@ namespace RestAPI.Controllers
     {
         private IServiceRepository repository;
         private long claimedId;
-        private int pageSize = 2;
+        private int pageSize = 10;
 
         public BusinessController(IServiceRepository repo, IHttpContextAccessor accessor)
         {
