@@ -147,6 +147,63 @@ namespace Support_Your_Locals.Infrastructure
             b8.Workdays.Add(t12);
             b8.Workdays.Add(t13);
 
+            Business b10 = CreateBusiness("Wild berries", "Selling some kind of wild berries", "25.235131", "54.758748", "+37062199630", "Wild berries");
+            Product p10_0 = CreateProduct("Blackberry", 15, "1 Kilo", "Fresh forest blackberries");
+            Product p10_1 = CreateProduct("Fragaria", 8, "1 Kilo", "Sweet, medium sized fragarias");
+            TimeSheet t10_0 = CreateWorkday(8, 0, 18, 0, 3);
+
+            u6.Businesses.Add(b10);
+            b10.Products.Add(p10_0);
+            b10.Products.Add(p10_1);
+            b10.Workdays.Add(t10_0);
+
+            Business b11 = CreateBusiness("Berries", "Selling berries from my garden", "25.266962", "54.792729", "+37062199630", "Berries");
+            Product p11_0 = CreateProduct("Strawberry", 4, "1 Kilo", "Frozen strawberries");
+            Product p11_1 = CreateProduct("Raspberry", 7, "1 Kilo", "Juicy raspberries");
+            TimeSheet t11_0 = CreateWorkday(10, 30, 17, 0, 2);
+            TimeSheet t11_1 = CreateWorkday(8, 45, 18, 30, 4);
+
+
+            u6.Businesses.Add(b11);
+            b11.Products.Add(p11_0);
+            b11.Products.Add(p11_1);
+            b11.Workdays.Add(t11_0);
+            b11.Workdays.Add(t11_1);
+
+            Business b12 = CreateBusiness("Services", "I can weld, electrical work", "25.298652", "54.783504", "+37062199111", "Services");
+            Product p12_0 = CreateProduct("Welding", 20, "1 hour", "Can weld metal things");
+            Product p12_1 = CreateProduct("Electrical work", 17, "1 hour", "All that connected to electrical work in home");
+            TimeSheet t12_0 = CreateWorkday(8, 30, 22, 0, 1);
+
+            u10.Businesses.Add(b12);
+            b12.Products.Add(p12_0);
+            b12.Products.Add(p12_1);
+            b12.Workdays.Add(t12_0);
+
+            Business b13 = CreateBusiness("Farming work", "I can plow", "25.298652", "54.783504", "+37062199111", "Farming work");
+            Product p13_0 = CreateProduct("Plowing", 30, "1 ar", "Plow your ground");
+            TimeSheet t13_0 = CreateWorkday(8, 30, 22, 0, 1);
+
+            u10.Businesses.Add(b13);
+            b13.Products.Add(p13_0);
+            b13.Workdays.Add(t13_0);
+
+            Business b14 = CreateBusiness("Sewing", "You can order clothes to sew", "54.737149", "25.277352", "+37062199222", "Sewing");
+            Product p14_0 = CreateProduct("Sewing", 18, "1 cm2", "Order unique clothes");
+            TimeSheet t14_0 = CreateWorkday(8, 30, 22, 0, 1);
+
+            u9.Businesses.Add(b14);
+            b14.Products.Add(p14_0);
+            b14.Workdays.Add(t14_0);
+
+            Business b15 = CreateBusiness("Knitting", "You can order knited clothes", "54.737149", "25.277352", "+37062199222", "Knitting");
+            Product p15_0 = CreateProduct("Knitting", 28, "1 cm2", "Order unique clothes");
+            TimeSheet t15_0 = CreateWorkday(8, 30, 22, 0, 1);
+
+            u9.Businesses.Add(b15);
+            b15.Products.Add(p15_0);
+            b15.Workdays.Add(t15_0);
+
             return new User[] { u1, u2, u3, u4, u5, u6, u7, u8, u9, u10, u11 };
         }
 
