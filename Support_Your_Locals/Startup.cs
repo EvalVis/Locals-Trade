@@ -30,7 +30,7 @@ namespace Support_Your_Locals
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ServiceDbContext>(option => option.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddDbContext<ServiceDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); 
             services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddScoped<HashCalculator>();
             services.AddScoped<ILegacyServiceRepository, LegacyServiceRepository>();
