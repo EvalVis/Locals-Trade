@@ -204,6 +204,14 @@ namespace Support_Your_Locals.Infrastructure
             b15.Products.Add(p15_0);
             b15.Workdays.Add(t15_0);
 
+            Business b16 = CreateBusiness("Clothes", "Selling used clothes for symbolic price", "54.708795", "25.226498", "+37062199222", "Clothes");
+            Product p16_0 = CreateProduct("Clothes", 1, "1 Clothe", "I can give some discount if you buy more");
+            TimeSheet t16_0 = CreateWorkday(8, 30, 22, 0, 1);
+
+            u8.Businesses.Add(b16);
+            b16.Products.Add(p16_0);
+            b16.Workdays.Add(t16_0);
+
             return new User[] { u1, u2, u3, u4, u5, u6, u7, u8, u9, u10, u11 };
         }
 
