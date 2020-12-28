@@ -10,7 +10,7 @@
         <th>Address for delivery</th>
         <th>Client's comment</th>
         <th>Date ordered</th>
-        <th></th>
+        <th>Write an email to a client</th>
     </tr>
         @foreach(var element in OrdersAndStatus)
         {
@@ -26,8 +26,7 @@
                 <td>@order.DateAdded</td>
                 <td>
                     @if(status) {
-                    <label>Write an email to a client</label>
-                    <input type="text" @onchange="@(e => letter = e.Value.ToString())" />
+                    <textarea @onchange="@(e => letter = e.Value.ToString())" />
                     <button type="button" class="btn btn-secondary" @onclick="@(args =>
                                                                                 {
                                                                                     OrdersAndStatus[OrdersAndStatus.FindIndex(ind => ind.Equals(element))] = Tuple.Create(order, false);
