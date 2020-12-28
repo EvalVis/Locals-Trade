@@ -41,7 +41,10 @@
             @if(authorized)
             {
                 string order = "addOrder" + orderPosition;
-                string formId = order + "form";
+                string sendButton = order + "sendButton";
+                string formId = sendButton + "form";
+                string sentId = sendButton + "sent";
+                string unsentId = sendButton + "unsent";
         <td>
             <button id="@order" type="button" class="btn btn-secondary" onclick="revealForm(this)">Order</button>
             <form hidden id="@formId">
@@ -58,10 +61,10 @@
                     <textarea name="@nameof(Order.Comment)" class="form-control"></textarea>
                 </div>
                 <input type="hidden" name="@nameof(Order.UserId)" value="@ViewBag.userID" />
-                <button id="orderButton" class="btn btn-primary">Submit</button>
+                <button id="@sendButton" class="btn btn-primary">Submit</button>
             </form>
-            <label id="orderSent" hidden style="color: rgb(51, 255, 162)">Order successfully added.</label>
-            <label id="orderUnsent" hidden style="color: rgb(255, 0, 0)">Something went wrong. Failed to add an order.</label>
+            <label id="@sentId" hidden style="color: rgb(51, 255, 162)">Order successfully added.</label>
+            <label id="@unsentId" hidden style="color: rgb(255, 0, 0)">Something went wrong. Failed to add an order.</label>
         </td>
                 orderPosition++;
             }
@@ -96,18 +99,24 @@
 </div>
 
 <script>
-    $('#orderButton').click(function () {
+    $('#addOrder0sendButton').click(function () {
+        var form = "#" + this.id + "form";
+        alert(this.id);
+        var sent = this.id + "sent";
+        var unsent = this.id + "unsent";
+        var test = $(form).serialize();
+        alert(test);
         $.ajax({
             type: "POST",
-            url: "/Business/AddFeedback",
-            data: $("#addFeedback").serialize(),
+            url: "/Business/AddOrder",
+            data: $("#" + form).serialize(),
             success: function () {
-                document.getElementById("addFeedback").style.display = "none";
-                document.getElementById("addFeedback").reset();
-                document.getElementById("feedbackSent").hidden = false;
+                document.getElementById(form).style.display = "none";
+                document.getElementById(form).reset();
+                document.getElementById(sent).hidden = false;
             },
             error: function () {
-                document.getElementById("feedbackUnsent").hidden = false;
+                document.getElementById(unsent).hidden = false;
             }
         });
         return false;
@@ -116,9 +125,8 @@
 
 <script>
     function revealForm(order) {
-        var form = order.id + 'form';
+        var form = order.id + 'sendButtonform';
         document.getElementById(form).hidden = false;
-        var button = order.id + '';
-        document.getElementById(button).style.display = "none";
+        document.getElementById(order.id).style.display = "none";
     }
 </script>
