@@ -10,21 +10,27 @@
         <th>Address for delivery</th>
         <th>Client's comment</th>
         <th>Date ordered</th>
+        <th></th>
     </tr>
     @if (Product?.Orders != null)
     {
-    @foreach (var order in Product?.Orders)
-    {
-        decimal sum = order.Amount * Product.PricePerUnit;
-        <tr>
-            <td>@Product.Name</td>
-            <td>@order.Amount</td>
-            <td>@sum</td>
-            <td>@order.Address</td>
-            <td>@order.Comment</td>
-            <td>@order.DateAdded</td>
-        </tr>
-    }
+        @foreach (var order in Product?.Orders)
+        {
+            decimal sum = order.Amount * Product.PricePerUnit;
+            <tr>
+                <td>@Product.Name</td>
+                <td>@order.Amount</td>
+                <td>@sum</td>
+                <td>@order.Address</td>
+                <td>@order.Comment</td>
+                <td>@order.DateAdded</td>
+                <td>
+                    <label>Write an email to a client</label>
+                    <input type="text" @onchange="@(e => letter = e.Value.ToString())" />
+                    <button type="button" class="btn btn-secondary" @onclick="@(args => Send(order.UserId))">Send email</button>
+                </td>
+            </tr>
+        }
     }
 </table>
 
@@ -32,8 +38,14 @@
 
     [Inject]
     public IServiceRepository Repository { get; set; }
+    [Inject]
+    public IConfiguration Configuration { get; set; }
 
     public Product Product { get; set; }
+
+    private List<bool> Sent { get; set; }
+
+    private string letter { get; set; }
 
     [Parameter]
     public long ProductId { get; set; }
@@ -41,6 +53,19 @@
     protected override void OnParametersSet()
     {
         Product = Repository.Products.Include(o => o.Orders).FirstOrDefault(p => p.ProductID == ProductId);
+    }
+
+    private void Send(long userId)
+    {
+        if (!string.IsNullOrWhiteSpace(letter) && Product?.Orders != null)
+        {
+            User user = Repository.Users.FirstOrDefault(u => u.UserID == userId);
+            if (user != null && user.Email != null)
+            {
+                new Mailer(Configuration).SendMail(letter, user.Email);
+            }
+        }
+        letter = null;
     }
 
 }

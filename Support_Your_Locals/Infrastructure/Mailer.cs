@@ -87,7 +87,34 @@ namespace Support_Your_Locals.Infrastructure
                 }
             });
         }
-		
+
+        public void SendMail(string letter, string toEmail)
+        {
+            MailMessage message = new MailMessage();
+            message.Subject = "LocalsTrade: Potential courier";
+            message.Body = $"Hello. We have to inform you, that you have a potential delivery man. Here is what he/she writes to you: \"{letter}\" Have a good day.";
+            message.IsBodyHtml = false;
+
+            message.From = new MailAddress("localstradebox@gmail.com", "Locals Trade box");
+
+            message.To.Add(new MailAddress(toEmail, toEmail));
+            Task.Run(() =>
+            {
+                try
+                {
+                    protocol.Send(message);
+                }
+                catch (SmtpFailedRecipientException e)
+                {
+                    Debug.WriteLine("Failed to send an email: " + e.StackTrace);
+                }
+                catch (SmtpException e)
+                {
+                    Debug.WriteLine("Failed to send email with smtp: " + e.StackTrace);
+                }
+            });
+        }
+
         public void AnswerQuestion(AnswerQuestionViewModel answer)
         {
             MailMessage message = new MailMessage();
