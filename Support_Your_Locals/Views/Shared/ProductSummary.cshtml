@@ -1,5 +1,9 @@
 ﻿@model List<Product>
 
+@{
+    bool authorized = ViewBag?.loggedIn ?? false;
+}
+
 <style>
     table {
         font-family: arial, sans-serif;
@@ -20,6 +24,7 @@
         <th>Unit price</th>
         <th>Unit</th>
         <th>Comment</th>
+        <th></th>
     </tr>
     @foreach (var p in Model)
     {
@@ -28,6 +33,10 @@
             <td>@p.PricePerUnit</td>
             <td>@p.Unit</td>
             <td>@p.Comment</td>
+            @if(authorized)
+            {
+                <td><button type="button" class="btn btn-secondary">Order</button></td>
+            }
         </tr>
     }
 </table>
