@@ -30,7 +30,11 @@ namespace RestAPI.Models
             }
 
             foreach (var w in Workdays) w.Business = null;
-            foreach (var p in Products) p.Business = null;
+            foreach (var p in Products)
+            {
+                p.Business = null;
+                p.EliminateDepth();
+            }
             foreach (var f in Feedbacks) f.Business = null;
         }
 
