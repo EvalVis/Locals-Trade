@@ -42,7 +42,7 @@
             <td>@p.PricePerUnit</td>
             <td>@p.Unit</td>
             <td>@p.Comment</td>
-            <td><a></a></td>
+            <td><a href="orders/@p.ProductID">Check orders</a></td>
             @if(authorized)
             {
                 string order = "addOrder" + orderPosition;
