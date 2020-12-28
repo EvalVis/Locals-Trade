@@ -47,6 +47,18 @@ namespace Support_Your_Locals.Controllers
             FeedbackEvent(this, new FeedbackEventArgs(feedback));
         }
 
+        [HttpPost]
+        public ActionResult AddOrder(int amount, string address, string comment)
+        {
+            if(userID < 1)
+            {
+                return Unauthorized();
+            }
+            Order order = new Order { Amount = amount, Address = address, Comment = comment, UserId = userID, DateAdded = DateTime.Now };
+            repository.AddOrder(order);
+            return Ok();
+        }
+
         [Authorize]
         [HttpGet]
         public async Task<ActionResult> AddAdvertisement(long businessId)
