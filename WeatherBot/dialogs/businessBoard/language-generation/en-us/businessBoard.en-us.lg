@@ -1,0 +1,46 @@
+[import](common.lg)
+
+# SendActivity_dlyXaQ()
+- Something went wrong when trying to retrieve business board.
+# SendActivity_TZaXTB()
+[HeroCard
+title = ${dialog.foreach.value.header}
+subtitle = ${dialog.foreach.value.user.name} ${dialog.foreach.value.user.surname}
+buttons = ${ImBackCardAction("Visit", "Visit " + turn.temp)} | ${ImBackCardAction("Write a feedback", "Feedback " + turn.temp)}
+]
+#ImBackCardAction (title, value)
+[CardAction
+Type = imBack
+Title = ${title}
+Value = ${value}
+]
+# TextInput_Prompt_OzQVGg()
+[Activity
+Text = Do you want to search, or just check the latest news?
+SuggestedActions = Search | Latest
+]
+
+# TextInput_Prompt_vB9Ixn()
+[Activity
+Text = Please enter business owner's surname:
+SuggestedActions = Skip
+]
+# TextInput_Prompt_bzEqVh()
+[Activity
+Text = Please enter the text you are searching for
+SuggestedActions = Skip
+]
+# TextInput_Prompt_wJgf6P()
+[Activity
+Text = Where to search?
+SuggestedActions = ${ImBackCardAction("In header", "0")} | ${ImBackCardAction("In description", "1")} | ${ImBackCardAction("In header and description", "2")}
+]
+# TextInput_Prompt_IGbGGr()
+[Activity
+Text = Please enter the product you are searching for
+SuggestedActions = Skip
+]
+# NumberInput_Prompt_JO7Qrx()
+- Please enter your product's minimal price
+# NumberInput_Prompt_uDB3WE()
+- Please enter your product's maximum price
