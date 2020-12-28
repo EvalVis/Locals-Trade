@@ -10,7 +10,7 @@ using Support_Your_Locals.Models;
 namespace Support_Your_Locals.Migrations
 {
     [DbContext(typeof(ServiceDbContext))]
-    [Migration("20201228105524_Orders")]
+    [Migration("20201228130944_Orders")]
     partial class Orders
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -5,10 +5,6 @@
     <UserSecretsId>c36d2e2d-fc71-4f6f-a8c3-044e4b1ea2a3</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Migrations\20201217165158_UniqueEmails.cs" />
-    <Compile Remove="Migrations\20201217165158_UniqueEmails.Designer.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0">
