@@ -155,5 +155,16 @@ namespace RestAPI.Infrastructure
             return new User[] { u1, u2, u3, u4, u5, u6, u7, u8, u9, u10, u11 };
         }
 
+
+        private static void AddOrders(ServiceDbContext context)
+        {
+            Order o1 = CreateOrder(10, "Aguonų g. 24", "Urgent", DateTime.Now.AddDays(-1), 1, 1);
+            Order o2 = CreateOrder(5, "Lydos g. 5", "Please apply green colour", DateTime.Now, 1, 10);
+            Order o3 = CreateOrder(7, "M. K. Čiurlionio g. 4-2", "It's for my aunt, so make it good", DateTime.Now.AddMinutes(-5), 1, 9);
+            Order o4 = CreateOrder(1, "Tilto g. 27", "Please make the delivery price 50 euros or less", DateTime.Now.AddSeconds(35), 1, 1);
+            Order o5 = CreateOrder(2, "A. Juozapavičiaus g. 2", "Not interested in 1 year old cars or older", DateTime.Now.AddSeconds(17), 1, 10);
+            context.Orders.AddRange(new Order[] { o1, o2, o3, o4, o5 });
+        }
+
     }
 }
