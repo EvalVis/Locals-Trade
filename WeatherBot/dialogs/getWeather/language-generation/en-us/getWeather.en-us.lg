@@ -1,0 +1,55 @@
+[import](common.lg)
+
+# SendActivity_eNu0MH()
+- Let's check the weather.
+# TextInput_Prompt_KGSAzr()
+[Activity
+    Text = What is your zip code?
+    SuggestedActions = help | cancel
+]
+# TextInput_UnrecognizedPrompt_KGSAzr()
+- Sorry, I do not understand '${this.value}'. Please specify a 5 digit zip code in the format 12345.
+# TextInput_InvalidPrompt_KGSAzr()
+- Sorry, '${this.value}' is not valid. I'm looking for a 5 digit number as zip code. Please specify a 5 digit zip code in the format 12345.
+# TextInput_DefaultValueResponse_KGSAzr()
+- 98052
+# SendActivity_jAMBrJ()
+- I got an error: ${dialog.api_response.content.message}
+
+# DescribeWeather(weather)
+- IF: ${weather.weather=="Clouds"}
+    - It is cloudy
+- ELSEIF: ${weather.weather=="Thunderstorm"}
+    - There's a thunderstorm
+- ELSEIF: ${weather.weather=="Drizzle"}
+    - It is drizzling
+- ELSEIF: ${weather.weather=="Rain"}
+    - It is raining
+- ELSEIF: ${weather.weather=="Snow"}
+    - There's snow
+- ELSEIF: ${weather.weather=="Clear"}
+    - The sky is clear
+- ELSEIF: ${weather.weather=="Mist"}
+    - There's a mist in the air
+- ELSEIF: ${weather.weather=="Smoke"}
+    - There's smoke in the air
+- ELSEIF: ${weather.weather=="Haze"}
+    - There's a haze
+- ELSEIF: ${weather.weather=="Dust"}
+    - There's a dust in the air
+- ELSEIF: ${weather.weather=="Fog"}
+    - It's foggy
+- ELSEIF: ${weather.weather=="Ash"}
+    - There's ash in the air
+- ELSEIF: ${weather.weather=="Squall"}
+    - There's a squall
+- ELSEIF: ${weather.weather=="Tornado"}
+    - There's a tornado happening
+- ELSE:
+    - ${weather.weather}
+# SendActivity_Q3Lu3Z()
+[ThumbnailCard
+    title = Weather for ${dialog.weather.city}
+    text = ${DescribeWeather(dialog.weather)} and ${dialog.weather.temp}&deg;
+    image = ${dialog.weather.icon}
+]

@@ -1,0 +1,8 @@
+{
+  "$kind": "Microsoft.LuisRecognizer",
+  "id": "LUIS_businessBoard",
+  "applicationId": "=settings.luis.businessBoard_en_us_lu.appId",
+  "version": "=settings.luis.businessBoard_en_us_lu.version",
+  "endpoint": "=settings.luis.endpoint",
+  "endpointKey": "=settings.luis.endpointKey"
+}
