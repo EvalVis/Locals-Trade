@@ -35,7 +35,7 @@ namespace Support_Your_Locals.Controllers
                 .Include(b => b.Feedbacks)
                 .FirstOrDefaultAsync(b => b.BusinessID == businessId);
             if (business == null) return NotFound();
-            ViewBag.loggedIn = (userID > 0);
+            ViewBag.userID = userID;
             return View(business);
         }
 

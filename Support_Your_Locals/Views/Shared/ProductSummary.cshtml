@@ -1,7 +1,11 @@
 ﻿@model List<Product>
 
 @{
-    bool authorized = ViewBag?.loggedIn ?? false;
+    bool authorized = false;
+    if(ViewBag?.userID != null && ViewBag?.userID > 0)
+    {
+        authorized = true;
+    }
     int orderPosition = 0;
 }
 
@@ -36,9 +40,29 @@
             <td>@p.Comment</td>
             @if(authorized)
             {
-                string order = "order" + orderPosition;
-                string button = "orderButton" + orderPosition;
-                <td id="@order"><button id="@button" type="button" class="btn btn-secondary" onclick="loadForm(this)">Order</button></td>
+                string order = "addOrder" + orderPosition;
+                string formId = order + "form";
+        <td>
+            <button id="@order" type="button" class="btn btn-secondary" onclick="revealForm(this)">Order</button>
+            <form hidden id="@formId">
+                <div class="form-group">
+                    <label>Please enter the amount</label>
+                    <input type="number" name="@nameof(Order.Amount)" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Please enter the delivery address</label>
+                    <input type="text" name="@nameof(Order.Address)" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>If you want, please add a comment</label>
+                    <textarea name="@nameof(Order.Comment)" class="form-control"></textarea>
+                </div>
+                <input type="hidden" name="@nameof(Order.UserId)" value="@ViewBag.userID" />
+                <button id="orderButton" class="btn btn-primary">Submit</button>
+            </form>
+            <label id="orderSent" hidden style="color: rgb(51, 255, 162)">Order successfully added.</label>
+            <label id="orderUnsent" hidden style="color: rgb(255, 0, 0)">Something went wrong. Failed to add an order.</label>
+        </td>
                 orderPosition++;
             }
         </tr>
@@ -91,8 +115,10 @@
 </script>
 
 <script>
-    function loadForm(order) {
-        alert(order.id);
-        //var container = document.getElementById('products');
+    function revealForm(order) {
+        var form = order.id + 'form';
+        document.getElementById(form).hidden = false;
+        var button = order.id + '';
+        document.getElementById(button).style.display = "none";
     }
 </script>
