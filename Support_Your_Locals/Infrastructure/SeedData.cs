@@ -188,7 +188,7 @@ namespace Support_Your_Locals.Infrastructure
             b13.Products.Add(p13_0);
             b13.Workdays.Add(t13_0);
 
-            Business b14 = CreateBusiness("Sewing", "You can order clothes to sew", "54.737149", "25.277352", "+37062199222", "Sewing");
+            Business b14 = CreateBusiness("Sewing", "You can order clothes to sew", "25.277352", "54.737149", "+37062199222", "Sewing");
             Product p14_0 = CreateProduct("Sewing", 18, "1 cm2", "Order unique clothes");
             TimeSheet t14_0 = CreateWorkday(8, 30, 22, 0, 1);
 
@@ -196,7 +196,7 @@ namespace Support_Your_Locals.Infrastructure
             b14.Products.Add(p14_0);
             b14.Workdays.Add(t14_0);
 
-            Business b15 = CreateBusiness("Knitting", "You can order knited clothes", "54.737149", "25.277352", "+37062199222", "Knitting");
+            Business b15 = CreateBusiness("Knitting", "You can order knited clothes", "25.277352", "54.737149", "+37062199222", "Knitting");
             Product p15_0 = CreateProduct("Knitting", 28, "1 cm2", "Order unique clothes");
             TimeSheet t15_0 = CreateWorkday(8, 30, 22, 0, 1);
 
@@ -204,13 +204,232 @@ namespace Support_Your_Locals.Infrastructure
             b15.Products.Add(p15_0);
             b15.Workdays.Add(t15_0);
 
-            Business b16 = CreateBusiness("Clothes", "Selling used clothes for symbolic price", "54.708795", "25.226498", "+37062199222", "Clothes");
+            Business b16 = CreateBusiness("Clothes", "Selling used clothes for symbolic price", "25.226498", "54.708795", "+37062199222", "Clothes");
             Product p16_0 = CreateProduct("Clothes", 1, "1 Clothe", "I can give some discount if you buy more");
             TimeSheet t16_0 = CreateWorkday(8, 30, 22, 0, 1);
 
             u8.Businesses.Add(b16);
             b16.Products.Add(p16_0);
             b16.Workdays.Add(t16_0);
+
+            Business b17 = CreateBusiness("Dairy", "Selling home made dairy products", "25.506973", "54.676054", "+37062199333", "Dairy");
+            Product p17_0 = CreateProduct("Milk", 1, "1 Liter", "Fresh cow milk");
+            Product p17_1 = CreateProduct("Curd", 1, "200 Grams", "Loose curd");
+            TimeSheet t17_0 = CreateWorkday(8, 30, 12, 0, 1);
+            TimeSheet t17_1 = CreateWorkday(8, 30, 12, 0, 2);
+            TimeSheet t17_2 = CreateWorkday(8, 30, 12, 0, 3);
+            TimeSheet t17_3 = CreateWorkday(8, 30, 12, 0, 4);
+            TimeSheet t17_4 = CreateWorkday(8, 30, 12, 0, 5);
+            TimeSheet t17_5 = CreateWorkday(8, 30, 12, 0, 6);
+            TimeSheet t17_6 = CreateWorkday(8, 30, 12, 0, 7);
+
+
+            u7.Businesses.Add(b17);
+            b17.Products.Add(p17_0);
+            b17.Products.Add(p17_1);
+            b17.Workdays.Add(t17_0);
+            b17.Workdays.Add(t17_1);
+            b17.Workdays.Add(t17_2);
+            b17.Workdays.Add(t17_3);
+            b17.Workdays.Add(t17_4);
+            b17.Workdays.Add(t17_5);
+            b17.Workdays.Add(t17_6);
+
+            Business b18 = CreateBusiness("Eggs", "Selling chicken eggs", "25.326122", "54.638121", "+37062199222", "Eggs");
+            Product p18_0 = CreateProduct("Chicken eggs", 3, "10 eggs", "Chickens were feeded without compound feedingstuffs");
+            TimeSheet t18_0 = CreateWorkday(8, 30, 22, 0, 1);
+
+            u8.Businesses.Add(b18);
+            b18.Products.Add(p18_0);
+            b18.Workdays.Add(t18_0);
+
+            Business b19 = CreateBusiness("Dairy", "Selling home made goat dairy products", "25.506973", "54.676054", "+37062199333", "Dairy");
+            Product p19_0 = CreateProduct("Milk", 4, "1 Liter", "Fresh goat milk");
+            Product p19_1 = CreateProduct("Cheese", 5, "200 Grams", "Goat cheese. Good with bread");
+            TimeSheet t19_0 = CreateWorkday(9, 30, 12, 0, 1);
+            TimeSheet t19_1 = CreateWorkday(9, 30, 12, 0, 2);
+            TimeSheet t19_2 = CreateWorkday(9, 30, 12, 0, 3);
+            TimeSheet t19_3 = CreateWorkday(9, 30, 12, 0, 4);
+            TimeSheet t19_4 = CreateWorkday(9, 30, 12, 0, 5);
+            TimeSheet t19_5 = CreateWorkday(9, 30, 12, 0, 6);
+            TimeSheet t19_6 = CreateWorkday(9, 30, 12, 0, 7);
+
+
+            u8.Businesses.Add(b19);
+            b19.Products.Add(p19_0);
+            b19.Products.Add(p19_1);
+            b19.Workdays.Add(t19_0);
+            b19.Workdays.Add(t19_1);
+            b19.Workdays.Add(t19_2);
+            b19.Workdays.Add(t19_3);
+            b19.Workdays.Add(t19_4);
+            b19.Workdays.Add(t19_5);
+            b19.Workdays.Add(t19_6);
+
+            Business b20 = CreateBusiness("Bread", "Selling home made bread from my own wheat", "25.301730", "54.636929", "+37062199333", "Bread");
+            Product p20_0 = CreateProduct("Bread", 3, "500 Grams", "Rectangle shaped bread");
+            TimeSheet t20_0 = CreateWorkday(8, 30, 22, 0, 1);
+
+            u8.Businesses.Add(b20);
+            b20.Products.Add(p20_0);
+            b20.Workdays.Add(t20_0);
+
+            Business b21 = CreateBusiness("Goat", "Selling 1 year old goat", "25.301730", "54.636929", "+37062199333", "Goat");
+            Product p21_0 = CreateProduct("Goat", 50, "1 animal", "Gives 3liters of milk");
+            TimeSheet t21_0 = CreateWorkday(8, 30, 22, 0, 1);
+
+            u8.Businesses.Add(b21);
+            b21.Products.Add(p21_0);
+            b21.Workdays.Add(t21_0);
+
+            Business b22 = CreateBusiness("Cat", "Giving cat for symbolic price", "25.262359", "54.639473", "+37062199331", "Cat");
+            Product p22 = CreateProduct("Cat", 1, "1 animal", "Small cat");
+            TimeSheet t22 = CreateWorkday(8, 30, 22, 0, 1);
+
+            u1.Businesses.Add(b22);
+            b22.Products.Add(p22);
+            b22.Workdays.Add(t22);
+
+            Business b23 = CreateBusiness("Dog", "Selling 1 year German Shepherd", "25.205261", "54.665214", "+37062199332", "Dog");
+            Product p23 = CreateProduct("German Shepherd", 150, "1 animal", "Needs new home");
+            TimeSheet t23 = CreateWorkday(8, 30, 22, 0, 1);
+
+            u2.Businesses.Add(b23);
+            b23.Products.Add(p23);
+            b23.Workdays.Add(t23);
+
+            Business b24 = CreateBusiness("Lizard", "Selling 1.5 year old green lizard", "25.249167", "54.708795", "+37062199330", "Lizard");
+            Product p24_0 = CreateProduct("Lizard", 150, "1 animal", "It is 1.23 meters long");
+            TimeSheet t24_0 = CreateWorkday(8, 30, 22, 0, 1);
+
+            u3.Businesses.Add(b24);
+            b24.Products.Add(p24_0);
+            b24.Workdays.Add(t24_0);
+
+            Business b25 = CreateBusiness("Guinea pig", "Selling newborn white guinea pigs", "25.301730", "54.636929", "+37062199334", "Guinea pig");
+            Product p25_0 = CreateProduct("Guinea pig", 50, "1 animal", "Newborn Guinea pigs");
+
+            u4.Businesses.Add(b25);
+            b25.Products.Add(p25_0);
+            b25.Workdays.Add(t21_0);
+
+            Business b26 = CreateBusiness("Smartphone service", "Fixing your phones", "25.309975", "54.706812", "+37062199355", "Repair job");
+            Product p26_0 = CreateProduct("Broken glass", 100, "1 screen", "Price depends on selected phone");
+
+            u4.Businesses.Add(b26);
+            b26.Products.Add(p26_0);
+            b26.Workdays.Add(t21_0);
+
+
+            Business b27 = CreateBusiness("Watch service", "Fixing your watches", "25.309975", "54.706812", "+37062199355", "Repair job");
+            Product p27_0 = CreateProduct("Fix watch", 100, "unit", "Price depends by work");
+
+            u4.Businesses.Add(b27);
+            b27.Products.Add(p27_0);
+            b27.Workdays.Add(t21_0);
+
+
+            Business b28 = CreateBusiness("Laptop service", "Fixing your laptops", "25.300356", "54.678635", "+37062199356", "Repair job");
+            Product p28_0 = CreateProduct("Laptop", 200, "unit", "Price depends on work dificulty");
+
+            u5.Businesses.Add(b28);
+            b28.Products.Add(p28_0);
+            b28.Workdays.Add(t21_0);
+
+
+            Business b29 = CreateBusiness("Smartphone glass service", "Fast applying screen protecting glass", "25.257756", "54.679627", "+37062199356", "Repair job");
+            Product p29_0 = CreateProduct("Apply job", 5, "1 glass", "Applying protective glass on your phone in 2 minutes. Dont forget to bring your glass.");
+
+            u5.Businesses.Add(b29);
+            b29.Products.Add(p29_0);
+            b29.Workdays.Add(t21_0);
+
+
+            Business b30 = CreateBusiness("Tire installation", "Fast changing car tires", "25.253633", "54.711374", "+37062199374", "Repair job");
+            Product p30_0 = CreateProduct("Tire installation", 40, "1 tire", "Price depends on selected tire");
+
+            u5.Businesses.Add(b30);
+            b30.Products.Add(p30_0);
+            b30.Workdays.Add(t21_0);
+
+
+            Business b31 = CreateBusiness("Oil change", "Fast changing engine oil", "25.228210", "54.702249", "+37062199355", "Repair job");
+            Product p31_0 = CreateProduct("Oil change", 30, "one service", "Price includes only work");
+
+            u6.Businesses.Add(b31);
+            b31.Products.Add(p31_0);
+            b31.Workdays.Add(t21_0);
+
+
+            Business b32 = CreateBusiness("Quail eggs", "Fixing your phones", "25.309975", "54.706812", "+37062199358", "Eggs");
+            Product p32_0 = CreateProduct("Quail eggs", 5, "60 eggs", "Small ones");
+
+            u7.Businesses.Add(b32);
+            b32.Products.Add(p32_0);
+            b32.Workdays.Add(t21_0);
+
+
+            Business b33 = CreateBusiness("Kvass", "Fresh bread kvass", "25.258030", "54.698995", "+37062199359", "Drink");
+            Product p33_0 = CreateProduct("Kvass", 4, "1 liter", "Refreshing taste");
+
+            u8.Businesses.Add(b33);
+            b33.Products.Add(p33_0);
+            b33.Workdays.Add(t21_0);
+
+
+            Business b34 = CreateBusiness("Vine", "Home made vine from apples", "25.180800", "54.725810", "+37062199388", "Drink");
+            Product p34_0 = CreateProduct("Apple vine", 30, "1 bottle", "It is hold for 10 years");
+
+            u9.Businesses.Add(b34);
+            b34.Products.Add(p34_0);
+            b34.Workdays.Add(t21_0);
+
+
+            Business b35 = CreateBusiness("Apple juice", "Amazing apple juice", "25.180800", "54.725810", "+37062199388", "Drink");
+            Product p35_0 = CreateProduct("Bag of apple juice", 8, "5 liters", "Can hold 1 year if not opened");
+
+            u9.Businesses.Add(b35);
+            b35.Products.Add(p35_0);
+            b35.Workdays.Add(t21_0);
+
+
+            Business b36 = CreateBusiness("Walnuts", "This season walnuts", "25.088591", "54.778514", "+37062199301", "Nuts");
+            Product p36_0 = CreateProduct("Walnuts", 10, "1 kilo", "Nuts from lithuanian garden");
+
+            u11.Businesses.Add(b36);
+            b36.Products.Add(p36_0);
+            b36.Workdays.Add(t21_0);
+
+
+            Business b37 = CreateBusiness("Math tutor", "Teaching math to pass exams", "25.249243", "54.692726", "+37062199222", "Tutor");
+            Product p37_0 = CreateProduct("Lesson", 20, "1 hour", "For highschool graders");
+
+            u1.Businesses.Add(b37);
+            b37.Products.Add(p37_0);
+            b37.Workdays.Add(t21_0);
+
+
+            Business b38 = CreateBusiness("Chemistry tutor", "Profesional help for good results on exam", "25.262642", "54.680421", "+37062199374", "Tutor");
+            Product p38_0 = CreateProduct("Lesson", 30, "1 hour", "For highschool graders");
+
+            u2.Businesses.Add(b38);
+            b38.Products.Add(p38_0);
+            b38.Workdays.Add(t21_0);
+
+
+            Business b39 = CreateBusiness("Biology tutor", "Try to pass exams and help to understand topics better", "25.276590", "54.750784", "+37062199365", "Tutor");
+            Product p39_0 = CreateProduct("Lesson", 30, "1 hour", "For highschool graders");
+
+            u3.Businesses.Add(b39);
+            b39.Products.Add(p39_0);
+            b39.Workdays.Add(t21_0);
+
+            Business b40 = CreateBusiness("English tutor", "Help to prepare for exams", "25.241432", "54.807413", "+37062199332", "Tutor");
+            Product p40_0 = CreateProduct("Lesson", 25, "1 hour", "For highschool graders");
+
+            u4.Businesses.Add(b40);
+            b40.Products.Add(p40_0);
+            b40.Workdays.Add(t21_0);
 
             return new User[] { u1, u2, u3, u4, u5, u6, u7, u8, u9, u10, u11 };
         }
