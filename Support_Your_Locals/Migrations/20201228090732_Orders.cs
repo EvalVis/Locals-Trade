@@ -72,7 +72,7 @@ namespace Support_Your_Locals.Migrations
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<long>(nullable: false),
-                    Count = table.Column<int>(nullable: false),
+                    Amount = table.Column<int>(nullable: false),
                     Address = table.Column<string>(nullable: true),
                     Comment = table.Column<string>(nullable: true),
                     DateAdded = table.Column<DateTime>(nullable: false)
