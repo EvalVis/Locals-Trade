@@ -71,17 +71,5 @@ namespace RestAPI.Models.Repositories
             await context.SaveChangesAsync();
         }
 
-        public void AddOrder(Order order)
-        {
-            context.Add(order);
-            context.SaveChanges();
-        }
-
-        public void RemoveOrder(Order order)
-        {
-            context.Remove(order);
-            context.SaveChanges();
-        }
-
     }
 }

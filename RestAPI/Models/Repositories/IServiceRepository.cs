@@ -21,7 +21,5 @@ namespace RestAPI.Models.Repositories
         public Task SaveUserAsync(User user);
         public Task RemoveFeedbacksAsync(IEnumerable<Feedback> feedbacks);
         public Task RemoveFeedbackAsync(Feedback feedback);
-        public void AddOrder(Order order);
-        public void RemoveOrder(Order order);
     }
 }
