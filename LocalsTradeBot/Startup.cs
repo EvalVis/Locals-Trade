@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Adapters.Facebook;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +32,8 @@ namespace LocalsTradeBot
             // Create the Bot Framework Adapter with error handling enabled.
             services.AddSingleton<IStorage, MemoryStorage>();
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
+            services.AddSingleton<FacebookAdapter, FacebookAdapterWithErrorHandler>();
+
             services.AddSingleton<ConversationState>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
