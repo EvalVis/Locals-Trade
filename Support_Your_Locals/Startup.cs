@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,8 +16,6 @@ namespace Support_Your_Locals
 {
     public class Startup
     {
-
-        private Mailer mailer;
 
         public Startup(IConfiguration configuration)
         {
@@ -72,13 +69,6 @@ namespace Support_Your_Locals
             app.UseStaticFiles();
             app.UseSession();
             app.UseRouting();
-
-            app.Use(async (context, next) =>
-            {
-                mailer?.Mute();
-                mailer = new Mailer(app, Configuration);
-                await next();
-            });
 
             app.UseAuthentication();
             app.UseAuthorization();

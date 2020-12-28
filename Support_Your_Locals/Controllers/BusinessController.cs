@@ -10,19 +10,21 @@ using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Support_Your_Locals.Infrastructure;
+using Microsoft.Extensions.Configuration;
 
 namespace Support_Your_Locals.Controllers
 {
     public class BusinessController : Controller
     {
-        public static event EventHandler<FeedbackEventArgs> FeedbackEvent;
 
         private IServiceRepository repository;
+        private IConfiguration configuration;
         private long userID;
 
-        public BusinessController(IServiceRepository repo, IHttpContextAccessor accessor)
+        public BusinessController(IServiceRepository repo, IHttpContextAccessor accessor, IConfiguration config)
         {
             repository = repo;
+            configuration = config;
             long.TryParse(accessor?.HttpContext?.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value, out userID);
         }
 
@@ -44,7 +46,7 @@ namespace Support_Your_Locals.Controllers
         {
             Feedback feedback = new Feedback { SenderName = senderName, Text = text, BusinessID = businessId };
             repository.AddFeedback(feedback);
-            FeedbackEvent(this, new FeedbackEventArgs(feedback));
+            new Mailer(repository, configuration).SendMail(feedback);
         }
 
         [HttpPost]
