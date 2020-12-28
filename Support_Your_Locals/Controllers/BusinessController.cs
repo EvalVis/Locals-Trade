@@ -50,13 +50,13 @@ namespace Support_Your_Locals.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddOrder(int amount, string address, string comment)
+        public ActionResult AddOrder(int amount, string address, string comment, long productId)
         {
             if(userID < 1)
             {
                 return Unauthorized();
             }
-            Order order = new Order { Amount = amount, Address = address, Comment = comment, UserId = userID, DateAdded = DateTime.Now };
+            Order order = new Order { Amount = amount, Address = address, Comment = comment, UserId = userID, ProductId = productId, DateAdded = DateTime.Now };
             repository.AddOrder(order);
             return Ok();
         }

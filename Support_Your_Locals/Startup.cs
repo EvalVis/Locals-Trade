@@ -81,6 +81,7 @@ namespace Support_Your_Locals
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
                 endpoints.MapBlazorHub();
+                endpoints.MapFallbackToPage("/orders/{*catchall}", "/Orders/Index");
                 endpoints.MapFallbackToPage("/user/{*catchall}", "/User/Index");
             });
             SeedData.EnsurePopulated(app, new HashCalculator());

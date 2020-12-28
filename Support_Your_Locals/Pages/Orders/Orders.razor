@@ -1,0 +1,32 @@
+﻿@page "/orders/{productId:long}"
+
+<table class="table table-sm table-bordered table-striped">
+    <tr>
+        <th>Product</th>
+        <th>Amount</th>
+    </tr>
+    @foreach (var order in Product?.Orders)
+    {
+        <tr>
+            <td>Nieko kol kas</td>
+            <td>@order.Amount</td>
+        </tr>
+    }
+</table>
+
+@code {
+
+    [Inject]
+    public IServiceRepository Repository { get; set; }
+
+    public Product Product { get; set; }
+
+    [Parameter]
+    public long ProductId { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        Product = Repository.Products.Include(o => o.Orders).FirstOrDefault(p => p.ProductID == ProductId);
+    }
+
+}

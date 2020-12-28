@@ -30,6 +30,10 @@
         <th>Unit</th>
         <th>Comment</th>
         <th></th>
+        @if (authorized)
+        {
+            <th></th>
+        }
     </tr>
     @foreach (var p in Model)
     {
@@ -38,6 +42,7 @@
             <td>@p.PricePerUnit</td>
             <td>@p.Unit</td>
             <td>@p.Comment</td>
+            <td><a></a></td>
             @if(authorized)
             {
                 string order = "addOrder" + orderPosition;
@@ -61,6 +66,7 @@
                     <textarea name="@nameof(Order.Comment)" class="form-control"></textarea>
                 </div>
                 <input type="hidden" name="@nameof(Order.UserId)" value="@ViewBag.userID" />
+                <input type="hidden" name="@nameof(Order.ProductId)" value="@p.ProductID" />
                 <button id="@sendButton" class="btn btn-primary">Submit</button>
             </form>
             <label id="@sentId" hidden style="color: rgb(51, 255, 162)">Order successfully added.</label>
