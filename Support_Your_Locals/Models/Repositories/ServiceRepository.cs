@@ -11,6 +11,7 @@ namespace Support_Your_Locals.Models.Repositories
         public IQueryable<Business> Business => context.Business;
 
         public IQueryable<Product> Products => context.Products;
+        public IQueryable<Order> Orders => context.Orders;
 
         public ServiceRepository(ServiceDbContext ctx)
         {
@@ -54,6 +55,18 @@ namespace Support_Your_Locals.Models.Repositories
         public void DeleteUser(User user)
         {
             context.Remove(user);
+            context.SaveChanges();
+        }
+
+        public void AddOrder(Order order)
+        {
+            context.Add(order);
+            context.SaveChanges();
+        }
+
+        public void RemoveOrder(Order order)
+        {
+            context.Remove(order);
             context.SaveChanges();
         }
 

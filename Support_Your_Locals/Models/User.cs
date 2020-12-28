@@ -12,6 +12,7 @@ namespace Support_Your_Locals.Models
         public string Email { get; set; }
         public string Passhash { get; set; }
         public List<Business> Businesses { get; set; } = new List<Business>();
+        public List<Order> Orders { get; set; }
 
         public override bool Equals(object obj)
         {

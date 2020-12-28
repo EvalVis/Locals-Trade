@@ -16,10 +16,13 @@ namespace Support_Your_Locals.Models
         public DbSet<Product> Products { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<Question> Questions { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+            modelBuilder.Entity<Order>().HasOne(o => o.User).
+                WithMany(u => u.Orders).HasForeignKey(o => o.UserId).IsRequired().OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<TimeSheet>().HasOne(t => t.Business).
                 WithMany(b => b.Workdays).HasForeignKey(t => t.BusinessID).IsRequired().OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Business>().HasOne(b => b.User).WithMany(u => u.Businesses).HasForeignKey(b => b.UserID)
