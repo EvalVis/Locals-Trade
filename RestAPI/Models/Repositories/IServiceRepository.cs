@@ -12,6 +12,7 @@ namespace RestAPI.Models.Repositories
         public IQueryable<TimeSheet> Workdays { get; }
         public IQueryable<Product> Products { get; }
         public IQueryable<Feedback> Feedbacks { get; }
+        public IQueryable<Order> Orders { get; }
         public Task SaveFeedbackAsync(Feedback feedback);
         public Task Patch<T>(JsonPatchDocument<T> document, T entity) where T : class;
         public Task SaveBusinessAsync(Business business);
@@ -20,5 +21,7 @@ namespace RestAPI.Models.Repositories
         public Task SaveUserAsync(User user);
         public Task RemoveFeedbacksAsync(IEnumerable<Feedback> feedbacks);
         public Task RemoveFeedbackAsync(Feedback feedback);
+        public void AddOrder(Order order);
+        public void RemoveOrder(Order order);
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace RestAPI.Models
+﻿using System.Collections.Generic;
+
+namespace RestAPI.Models
 {
     public class Product
     {
@@ -10,5 +12,6 @@
         public string Picture { get; set; }
         public long BusinessID { get; set; }
         public Business Business { get; set; }
+        public List<Order> Orders { get; set; }
     }
 }

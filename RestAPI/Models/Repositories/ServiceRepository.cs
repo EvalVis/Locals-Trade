@@ -16,6 +16,7 @@ namespace RestAPI.Models.Repositories
 
         public IQueryable<Product> Products => context.Products;
         public IQueryable<Feedback> Feedbacks => context.Feedbacks;
+        public IQueryable<Order> Orders => context.Orders;
 
         public ServiceRepository(ServiceDbContext ctx)
         {
@@ -68,6 +69,18 @@ namespace RestAPI.Models.Repositories
         {
             context.Remove(feedback);
             await context.SaveChangesAsync();
+        }
+
+        public void AddOrder(Order order)
+        {
+            context.Add(order);
+            context.SaveChanges();
+        }
+
+        public void RemoveOrder(Order order)
+        {
+            context.Remove(order);
+            context.SaveChanges();
         }
 
     }

@@ -12,6 +12,7 @@ namespace RestAPI.Models
         public string Email { get; set; }
         public string Passhash { get; set; }
         public List<Business> Businesses { get; set; } = new List<Business>();
+        public List<Order> Orders { get; set; }
 
     }
 }
