@@ -98,21 +98,23 @@
     </div>
 </div>
 
+@{ int count = 0;}
+@foreach (var p in Model)
+{
 <script>
-    $('#addOrder0sendButton').click(function () {
+    var button = "#addOrder" + @count + "sendButton";
+    $(button).click(function () {
+        var form1 = this.id + "form";
         var form = "#" + this.id + "form";
-        alert(this.id);
         var sent = this.id + "sent";
         var unsent = this.id + "unsent";
-        var test = $(form).serialize();
-        alert(test);
         $.ajax({
             type: "POST",
             url: "/Business/AddOrder",
-            data: $("#" + form).serialize(),
+            data: $(form).serialize(),
             success: function () {
-                document.getElementById(form).style.display = "none";
-                document.getElementById(form).reset();
+                document.getElementById(form1).style.display = "none";
+                document.getElementById(form1).reset();
                 document.getElementById(sent).hidden = false;
             },
             error: function () {
@@ -122,6 +124,8 @@
         return false;
     });
 </script>
+    count++;
+}
 
 <script>
     function revealForm(order) {
