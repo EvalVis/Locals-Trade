@@ -46,8 +46,6 @@ namespace RestAPI.Controllers
             {
                 return NotFound();
             }
-           // new Mailer(configuration).
-            //return Ok();
         }
 
 
