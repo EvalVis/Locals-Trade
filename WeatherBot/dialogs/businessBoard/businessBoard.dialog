@@ -1,0 +1,288 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "LbmXEf",
+    "name": "businessBoard",
+    "description": "Shows businesses created by users."
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "qUyWto"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "OzQVGg"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "prompt": "${TextInput_Prompt_OzQVGg()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "property": "dialog.choice",
+          "outputFormat": "=trim (this.value)"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "gegMQv"
+          },
+          "condition": "dialog.choice == \"Latest\"",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "vB9Ixn"
+              },
+              "disabled": false,
+              "maxTurnCount": 3,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "prompt": "${TextInput_Prompt_vB9Ixn()}",
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "defaultValueResponse": "",
+              "property": "dialog.surname"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "P48ZUx"
+              },
+              "condition": "dialog.surname == \"Skip\"",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "ViBzcU"
+                  },
+                  "property": "dialog.query",
+                  "value": "= dialog.query + \"&ownersSurname=\" + dialog.surname"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "bzEqVh"
+              },
+              "disabled": false,
+              "maxTurnCount": 3,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "prompt": "${TextInput_Prompt_bzEqVh()}",
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "defaultValueResponse": "",
+              "property": "dialog.searchInfo"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "5o6jym"
+              },
+              "condition": "dialog.searchInfo == \"Skip\"",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "ajkhtj"
+                  },
+                  "property": "dialog.query",
+                  "value": "= dialog.query + \"&businessInfo=\" + dialog.searchInfo"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "wJgf6P"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "prompt": "${TextInput_Prompt_wJgf6P()}",
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "defaultValueResponse": "",
+                  "outputFormat": "= if(this.value == \"Skip\" , 0, this.value)",
+                  "property": "dialog.searchIn"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "NIyAzX"
+                  },
+                  "property": "dialog.query",
+                  "value": "= dialog.query + \"&searchIn=\" + dialog.searchIn"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "IGbGGr"
+              },
+              "disabled": false,
+              "maxTurnCount": 3,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "prompt": "${TextInput_Prompt_IGbGGr()}",
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "defaultValueResponse": "",
+              "property": "dialog.productName"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "MfOuC7"
+              },
+              "condition": "dialog.productName == \"Skip\"",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "64CrgU"
+                  },
+                  "property": "dialog.query",
+                  "value": "= dialog.query + \"&productName=\" + dialog.productName"
+                },
+                {
+                  "$kind": "Microsoft.NumberInput",
+                  "$designer": {
+                    "id": "JO7Qrx"
+                  },
+                  "defaultLocale": "en-us",
+                  "disabled": false,
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "prompt": "${NumberInput_Prompt_JO7Qrx()}",
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "defaultValueResponse": "",
+                  "property": "dialog.priceFrom"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "XxyREA"
+                  },
+                  "property": "dialog.query",
+                  "value": "= dialog.query + \"&priceFrom=\" + dialog.priceFrom"
+                },
+                {
+                  "$kind": "Microsoft.NumberInput",
+                  "$designer": {
+                    "id": "uDB3WE"
+                  },
+                  "defaultLocale": "en-us",
+                  "disabled": false,
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "prompt": "${NumberInput_Prompt_uDB3WE()}",
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "defaultValueResponse": "",
+                  "property": "dialog.priceTo"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Sx3ecj"
+                  },
+                  "property": "dialog.query",
+                  "value": "= dialog.query + \"&priceTo=\" + dialog.priceTo"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "qT5jVN"
+          },
+          "property": "dialog.page",
+          "value": "1"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "j64362"
+          },
+          "method": "GET",
+          "url": "https://localhost:44311/api/Business/Filtered/${dialog.page}?${dialog.query}",
+          "resultProperty": "dialog.api_response",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "JjB6Qd"
+          },
+          "condition": "dialog.api_response.statusCode == 200",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "RXj88v"
+              },
+              "property": "dialog.data",
+              "value": "= dialog.api_response.content"
+            },
+            {
+              "$kind": "Microsoft.Foreach",
+              "$designer": {
+                "id": "F6NaO7"
+              },
+              "index": "dialog.foreach.index",
+              "value": "dialog.foreach.value",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "LOGNB0"
+                  },
+                  "property": "turn.temp",
+                  "value": "=string(dialog.foreach.value.businessID)"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "TZaXTB"
+                  },
+                  "activity": "${SendActivity_TZaXTB()}"
+                }
+              ],
+              "itemsProperty": "dialog.data.businesses"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "dlyXaQ"
+              },
+              "activity": "${SendActivity_dlyXaQ()}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "businessBoard.lg",
+  "recognizer": "businessBoard.lu.qna",
+  "id": "businessBoard"
+}

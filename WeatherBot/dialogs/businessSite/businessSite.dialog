@@ -1,0 +1,111 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "2xxtHn",
+    "name": "businessSite",
+    "description": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "4rAlhl"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "Mnvn8Q"
+          },
+          "method": "GET",
+          "url": "https://localhost:44311/api/Business/${@id}",
+          "resultProperty": "dialog.api_response",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "IKUxDf"
+          },
+          "condition": "dialog.api_response.statusCode == 200",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "zKDifT"
+              },
+              "activity": "${SendActivity_zKDifT()}"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "p7iVKm"
+              },
+              "property": "dialog.data",
+              "value": "= dialog.api_response.content"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "pcW8Mj"
+              },
+              "activity": "${SendActivity_pcW8Mj()}"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "xIEelf"
+              },
+              "activity": "${SendActivity_xIEelf()}"
+            },
+            {
+              "$kind": "Microsoft.Foreach",
+              "$designer": {
+                "id": "Psx7Js"
+              },
+              "index": "dialog.foreach.index",
+              "value": "dialog.foreach.value",
+              "itemsProperty": "dialog.data.workdays",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "ISAD3p"
+                  },
+                  "activity": "${SendActivity_ISAD3p()}"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.Foreach",
+              "$designer": {
+                "id": "I5DfQV"
+              },
+              "index": "dialog.foreach.index",
+              "value": "dialog.foreach.value",
+              "itemsProperty": "dialog.data.products",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "eAlzRt"
+                  },
+                  "activity": "${SendActivity_eAlzRt()}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "businessSite.lg",
+  "recognizer": "businessSite.lu.qna",
+  "id": "businessSite"
+}

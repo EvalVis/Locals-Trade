@@ -1,0 +1,111 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "7Me0l0",
+    "name": "writeFeedback",
+    "description": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "7xMtfV"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "v0p3MU"
+          },
+          "property": "dialog.bId",
+          "value": "=@id"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "FrIrZ8"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "prompt": "${TextInput_Prompt_FrIrZ8()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "property": "dialog.senderName",
+          "outputFormat": "=trim(this.value)"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "1iM86j"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "prompt": "${TextInput_Prompt_1iM86j()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "property": "dialog.text",
+          "outputFormat": "=trim(this.value)"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "zuZYU5"
+          },
+          "activity": "${SendActivity_zuZYU5()}"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "Ke1Myb"
+          },
+          "method": "POST",
+          "url": "https://localhost:44311/api/Feedback",
+          "body": {
+            "senderName": "${dialog.senderName}",
+            "text": "${dialog.text}",
+            "businessID": "${dialog.bId}"
+          },
+          "resultProperty": "dialog.api_response"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "v4Ag2x"
+          },
+          "condition": "dialog.api_response.statusCode == 200",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "4KXrGk"
+              },
+              "activity": "${SendActivity_4KXrGk()}"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "10uMlc"
+              },
+              "activity": "${SendActivity_10uMlc()}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "writeFeedback.lg",
+  "recognizer": "writeFeedback.lu.qna",
+  "id": "writeFeedback"
+}

@@ -1,0 +1,15 @@
+[import](common.lg)
+
+# TextInput_Prompt_FrIrZ8()
+[Activity
+Text = Please enter your name:
+SuggestedActions = Anonymous
+]
+# TextInput_Prompt_1iM86j()
+- Please write your feedback:
+# SendActivity_zuZYU5()
+- Sending...
+# SendActivity_4KXrGk()
+- Failed to send feedback.
+# SendActivity_10uMlc()
+- Feedback successfully sent.

@@ -1,0 +1,40 @@
+[import](common.lg)
+
+# SendActivity_zKDifT()
+- Something went wrong when trying to retrieve business info.
+# SendActivity_xIEelf()
+[ThumbnailCard
+title = ${dialog.data.header}
+subtitle = ${dialog.data.user.name} ${dialog.data.user.surname}
+text = ${dialog.data.description}
+]
+# SendActivity_pcW8Mj()
+- Sending more information about this business:
+# SendActivity_eAlzRt()
+[HeroCard
+title= ${dialog.foreach.value.name}
+subtitle= ${dialog.foreach.value.comment}
+text = ${dialog.foreach.value.pricePerUnit} per ${dialog.foreach.value.unit}
+]
+# DescribeDay(day)
+- IF: ${day == 1 || day == "1"}
+    - Monday
+- ELSEIF: ${day == 2 || day == "2"}
+    - Tuesday
+- ELSEIF: ${day == 3 || day == "3"}
+    - Wednesday
+- ELSEIF: ${day == 4 || day == "4"}
+    - Thursday
+- ELSEIF: ${day == 5 || day == "5"}
+    - Friday
+- ELSEIF: ${day == 6 || day == "6"}
+    - Saturday
+- ELSEIF: ${day == 7 || day == "7"}
+    - Sunday
+- ELSE:
+    - I cannot present you the data, because it is incorrent.
+# SendActivity_ISAD3p()
+[HeroCard
+title = ${DescribeDay(dialog.foreach.value.weekday)}
+text = ${formatDateTime(dialog.foreach.value.from, "hh:mm tt")} - ${formatDateTime(dialog.foreach.value.to, "hh:mm tt")}
+]
