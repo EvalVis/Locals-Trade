@@ -49,6 +49,11 @@ namespace RestAPI.Infrastructure
             return new Product { Name = name, PricePerUnit = unitPrice, Unit = unit, Comment = comment };
         }
 
+        private static Order CreateOrder(int amount, string address, string comment, DateTime dateAdded, long userId, long productId)
+        {
+            return new Order { Amount = amount, Address = address, Comment = comment, DateAdded = dateAdded, UserId = userId, ProductId = productId };
+        }
+
         private static TimeSheet CreateWorkday(int fh, int fm, int th, int tm, int day)
         {
             return new TimeSheet
