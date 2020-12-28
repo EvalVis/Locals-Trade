@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +50,23 @@ namespace RestAPI.Controllers
             }
         }
 
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpGet("{productId:long}")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrders(long productId)
+        {
+            if (productId < 1) return BadRequest();
+            Product product = await repository.Products.Include(p => p.Orders).FirstOrDefaultAsync(p => p.ProductID == productId);
+            if(product == null)
+            {
+                return NotFound();
+            }
+            product.EliminateDepth();
+            if (!product.Orders.Any()) return NoContent();
+            return Ok(product.Orders);
 
+        }
     }
 }
