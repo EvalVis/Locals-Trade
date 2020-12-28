@@ -12,10 +12,10 @@
         <th>Date ordered</th>
         <th></th>
     </tr>
-    @if (Product?.Orders != null)
-    {
-        @foreach (var order in Product?.Orders)
+        @foreach(var element in OrdersAndStatus)
         {
+            Order order = element.Item1;
+            bool status = element.Item2;
             decimal sum = order.Amount * Product.PricePerUnit;
             <tr>
                 <td>@Product.Name</td>
@@ -25,13 +25,21 @@
                 <td>@order.Comment</td>
                 <td>@order.DateAdded</td>
                 <td>
+                    @if(status) {
                     <label>Write an email to a client</label>
                     <input type="text" @onchange="@(e => letter = e.Value.ToString())" />
-                    <button type="button" class="btn btn-secondary" @onclick="@(args => Send(order.UserId))">Send email</button>
+                    <button type="button" class="btn btn-secondary" @onclick="@(args =>
+                                                                                {
+                                                                                    OrdersAndStatus[OrdersAndStatus.FindIndex(ind => ind.Equals(element))] = Tuple.Create(order, false);
+                                                                                    Send(order.UserId);
+                                                                                    })">Send email</button>
+                    }
+                    else {
+                    <label>Email sent</label>
+                    }
                 </td>
             </tr>
         }
-    }
 </table>
 
 @code {
@@ -43,7 +51,7 @@
 
     public Product Product { get; set; }
 
-    private List<bool> Sent { get; set; }
+    public List<Tuple<Order, bool>> OrdersAndStatus { get; set; }
 
     private string letter { get; set; }
 
@@ -53,6 +61,15 @@
     protected override void OnParametersSet()
     {
         Product = Repository.Products.Include(o => o.Orders).FirstOrDefault(p => p.ProductID == ProductId);
+        OrdersAndStatus = new List<Tuple<Order, bool>>();
+        if (Product?.Orders != null)
+        {
+            foreach (var order in Product?.Orders)
+            {
+                Tuple<Order, bool> element = Tuple.Create(order, true);
+                OrdersAndStatus.Add(element);
+            }
+        }
     }
 
     private void Send(long userId)
@@ -65,7 +82,7 @@
                 new Mailer(Configuration).SendMail(letter, user.Email);
             }
         }
-        letter = null;
+        letter = "";
     }
 
 }
