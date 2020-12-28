@@ -22,6 +22,7 @@ namespace RestAPI.Infrastructure
             }
             if (!context.Users.Any())
             {
+                AddOrders(context);
                 context.Users.AddRange(CreateTestMaterial(context, hashCalculator));
                 context.SaveChanges();
             }
