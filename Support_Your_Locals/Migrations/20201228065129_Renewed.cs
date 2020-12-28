@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Support_Your_Locals.Migrations
 {
-    public partial class QuestionsUniqueEmails : Migration
+    public partial class Renewed : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

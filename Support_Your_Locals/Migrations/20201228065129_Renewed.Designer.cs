@@ -10,8 +10,8 @@ using Support_Your_Locals.Models;
 namespace Support_Your_Locals.Migrations
 {
     [DbContext(typeof(ServiceDbContext))]
-    [Migration("20201220164027_QuestionsUniqueEmails")]
-    partial class QuestionsUniqueEmails
+    [Migration("20201228065129_Renewed")]
+    partial class Renewed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
