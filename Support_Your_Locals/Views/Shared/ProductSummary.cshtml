@@ -2,6 +2,7 @@
 
 @{
     bool authorized = ViewBag?.loggedIn ?? false;
+    int orderPosition = 0;
 }
 
 <style>
@@ -35,7 +36,10 @@
             <td>@p.Comment</td>
             @if(authorized)
             {
-                <td><button type="button" class="btn btn-secondary">Order</button></td>
+                string order = "order" + orderPosition;
+                string button = "orderButton" + orderPosition;
+                <td id="@order"><button id="@button" type="button" class="btn btn-secondary" onclick="loadForm(this)">Order</button></td>
+                orderPosition++;
             }
         </tr>
     }
@@ -66,3 +70,29 @@
         }
     </div>
 </div>
+
+<script>
+    $('#orderButton').click(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Business/AddFeedback",
+            data: $("#addFeedback").serialize(),
+            success: function () {
+                document.getElementById("addFeedback").style.display = "none";
+                document.getElementById("addFeedback").reset();
+                document.getElementById("feedbackSent").hidden = false;
+            },
+            error: function () {
+                document.getElementById("feedbackUnsent").hidden = false;
+            }
+        });
+        return false;
+    });
+</script>
+
+<script>
+    function loadForm(order) {
+        alert(order.id);
+        //var container = document.getElementById('products');
+    }
+</script>
