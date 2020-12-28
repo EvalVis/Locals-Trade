@@ -16,6 +16,7 @@
         {
             Order order = element.Item1;
             bool status = element.Item2;
+            int index = OrdersAndStatus.FindIndex(ind => ind.Equals(element));
             decimal sum = order.Amount * Product.PricePerUnit;
             <tr>
                 <td>@Product.Name</td>
@@ -26,11 +27,11 @@
                 <td>@order.DateAdded</td>
                 <td>
                     @if(status) {
-                    <textarea @onchange="@(e => letter = e.Value.ToString())" />
+                    <textarea @onchange="@(e => replaceTuple(element, true, e.Value.ToString()))" />
                     <button type="button" class="btn btn-secondary" @onclick="@(args =>
                                                                                 {
-                                                                                    OrdersAndStatus[OrdersAndStatus.FindIndex(ind => ind.Equals(element))] = Tuple.Create(order, false);
-                                                                                    Send(order.UserId);
+                                                                                    Send(order.UserId, OrdersAndStatus[index].Item3);
+                                                                                    replaceTuple(element, false, "");
                                                                                     })">Send email</button>
                     }
                     else {
@@ -50,9 +51,7 @@
 
     public Product Product { get; set; }
 
-    public List<Tuple<Order, bool>> OrdersAndStatus { get; set; }
-
-    private string letter { get; set; }
+    public List<Tuple<Order, bool, string>> OrdersAndStatus { get; set; }
 
     [Parameter]
     public long ProductId { get; set; }
@@ -60,18 +59,18 @@
     protected override void OnParametersSet()
     {
         Product = Repository.Products.Include(o => o.Orders).FirstOrDefault(p => p.ProductID == ProductId);
-        OrdersAndStatus = new List<Tuple<Order, bool>>();
+        OrdersAndStatus = new List<Tuple<Order, bool, string>>();
         if (Product?.Orders != null)
         {
             foreach (var order in Product?.Orders)
             {
-                Tuple<Order, bool> element = Tuple.Create(order, true);
+                Tuple<Order, bool, string> element = Tuple.Create(order, true, "");
                 OrdersAndStatus.Add(element);
             }
         }
     }
 
-    private void Send(long userId)
+    private void Send(long userId, string letter)
     {
         if (!string.IsNullOrWhiteSpace(letter) && Product?.Orders != null)
         {
@@ -81,7 +80,12 @@
                 new Mailer(Configuration).SendMail(letter, user.Email);
             }
         }
-        letter = "";
+    }
+
+    private void replaceTuple(Tuple<Order, bool, string> element, bool status, string letter)
+    {
+        int index = OrdersAndStatus.FindIndex(ind => ind.Equals(element));
+        OrdersAndStatus[index] = Tuple.Create(element.Item1, status, letter);
     }
 
 }
