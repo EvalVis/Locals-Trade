@@ -32,50 +32,21 @@ namespace Support_Your_Locals.Models
         public List<Product> Products { get; set; } = new List<Product>();
         public List<Feedback> Feedbacks { get; set; } = new List<Feedback>();
 
-        public Business()
+        public void CreateBusiness(BusinessRegisterModel registerModel, long userID)
         {
-            
-        }
-
-        public Business(BusinessRegisterModel registerModel, long userID)
-        {
-            BusinessID = registerModel.BusinessId; // danger zone.
             UserID = userID;
             Description = registerModel.Description;
             Longitude = registerModel.Longitude;
             Latitude = registerModel.Latitude;
             PhoneNumber = registerModel.PhoneNumber;
             Header = registerModel.Header;
-            inspectWorkdaysValidity(registerModel);
+            Workdays = registerModel.Workdays.ToList();
             Products = registerModel.Products;
             if(registerModel.Picture != null)
             {
                 MemoryStream imageMemoryStream = new MemoryStream();
                 registerModel?.Picture?.CopyTo(imageMemoryStream);
                 PictureData = imageMemoryStream.ToArray();
-            }
-        }
-
-        public void UpdateBusiness(BusinessRegisterModel registerModel)
-        {
-            MemoryStream imageMemoryStream = new MemoryStream();
-            registerModel.Picture.CopyTo(imageMemoryStream);
-
-            Description = registerModel.Description;
-            Longitude = registerModel.Longitude;
-            Latitude = registerModel.Latitude;
-            PhoneNumber = registerModel.PhoneNumber;
-            Header = registerModel.Header;
-            PictureData = imageMemoryStream.ToArray();
-            inspectWorkdaysValidity(registerModel);
-            Products = registerModel.Products;
-        }
-
-        private void inspectWorkdaysValidity(BusinessRegisterModel registerModel)
-        {
-            foreach (var w in registerModel.Workdays)
-            {
-                if(!w.InvalidTime()) Workdays.Add(w);
             }
         }
 

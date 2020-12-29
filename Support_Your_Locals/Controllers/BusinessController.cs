@@ -74,7 +74,8 @@ namespace Support_Your_Locals.Controllers
         {
             if (ModelState.IsValid)
             {
-                Business business = new Business(businessRegisterModel, userID);
+                Business business = new Business();
+                business.CreateBusiness(businessRegisterModel, userID);
                 repository.AddBusiness(business);
                 return Redirect("/user/businesses");
             }
