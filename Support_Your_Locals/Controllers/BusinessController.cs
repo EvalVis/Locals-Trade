@@ -116,6 +116,21 @@ namespace Support_Your_Locals.Controllers
         [HttpPost]
         public ActionResult EditAdvertisement(BusinessRegisterModel businessRegisterModel)
         {
+            long businessId;
+            long.TryParse(TempData["bId"].ToString(), out businessId);
+            if (businessId < 1)
+            {
+                return BadRequest();
+            }
+            Business dbBusiness = repository.Business.FirstOrDefault(b => b.BusinessID == businessId);
+            if(dbBusiness == null)
+            {
+                return NotFound();
+            }
+            if(dbBusiness.UserID != userID)
+            {
+                return Unauthorized();
+            }
             List<TimeSheet> workdays = new List<TimeSheet>();
             for (int i = 0; i < 7; i++)
             {
@@ -130,15 +145,10 @@ namespace Support_Your_Locals.Controllers
                     }
                 }
             }
-            long businessId = 0;
+
             if(ModelState.IsValid)
             {
                 Business business = new Business();
-                long.TryParse(TempData["bId"].ToString(), out businessId);
-                if(businessId == 0)
-                {
-                    return NotFound();
-                }
                 business.UpdateBusiness(businessId, businessRegisterModel, workdays);
                 repository.UpdateBusiness(business);
                 return Redirect("/user/businesses");
