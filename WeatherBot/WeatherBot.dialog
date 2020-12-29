@@ -155,6 +155,42 @@
           "dialog": "writeFeedback"
         }
       ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "NK57U2",
+        "name": "orders"
+      },
+      "intent": "orders",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "zqWxKX"
+          },
+          "activityProcessed": true,
+          "dialog": "Orders"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "92Oduc",
+        "name": "courierEmail"
+      },
+      "intent": "courierEmail",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "NVXLWb"
+          },
+          "activityProcessed": true,
+          "dialog": "writeCourierEmail"
+        }
+      ]
     }
   ],
   "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
@@ -186,6 +222,14 @@
       {
         "intent": "weather",
         "pattern": "weather"
+      },
+      {
+        "intent": "orders",
+        "pattern": "orders (?<id>.*)"
+      },
+      {
+        "intent": "courierEmail",
+        "pattern": "courierEmail (?<id>.*)"
       }
     ]
   }

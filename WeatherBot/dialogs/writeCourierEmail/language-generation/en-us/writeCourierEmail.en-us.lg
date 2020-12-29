@@ -1,0 +1,8 @@
+[import](common.lg)
+
+# TextInput_Prompt_lXVBkW()
+- Please enter the text you want to send (please provide your contacts to the client in the email so he/she could continue conversation and make a deal with you):
+# SendActivity_brHUJd()
+- Something went wrong.
+# SendActivity_MbkouD()
+- Email successfully sent.

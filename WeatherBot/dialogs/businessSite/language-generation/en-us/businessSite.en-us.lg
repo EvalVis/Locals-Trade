@@ -15,6 +15,13 @@ text = ${dialog.data.description}
 title= ${dialog.foreach.value.name}
 subtitle= ${dialog.foreach.value.comment}
 text = ${dialog.foreach.value.pricePerUnit} per ${dialog.foreach.value.unit}
+buttons = ${ImBackCardAction("Show orders", "Orders " + turn.temp)}
+]
+#ImBackCardAction (title, value)
+[CardAction
+Type = imBack
+Title = ${title}
+Value = ${value}
 ]
 # DescribeDay(day)
 - IF: ${day == 1 || day == "1"}

@@ -22,7 +22,7 @@
             "id": "Mnvn8Q"
           },
           "method": "GET",
-          "url": "https://localhost:44311/api/Business/${@id}",
+          "url": "https://localhost:5001/api/Business/${@id}",
           "resultProperty": "dialog.api_response",
           "responseType": "json"
         },
@@ -91,6 +91,14 @@
               "value": "dialog.foreach.value",
               "itemsProperty": "dialog.data.products",
               "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "O7t2ol"
+                  },
+                  "property": "turn.temp",
+                  "value": "=string(dialog.foreach.value.productId)"
+                },
                 {
                   "$kind": "Microsoft.SendActivity",
                   "$designer": {

@@ -69,7 +69,7 @@
             "id": "Ke1Myb"
           },
           "method": "POST",
-          "url": "https://localhost:44311/api/Feedback",
+          "url": "https://localhost:5001/api/Feedback",
           "body": {
             "senderName": "${dialog.senderName}",
             "text": "${dialog.text}",

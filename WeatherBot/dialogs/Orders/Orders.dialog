@@ -1,0 +1,120 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "7TfxN8",
+    "name": "Orders",
+    "description": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "WewJsr"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "zvtX5Z"
+          },
+          "property": "dialog.pId",
+          "value": "= @id"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "G6eaF9"
+          },
+          "method": "GET",
+          "url": "https://localhost:5001/api/Order/${dialog.pId}",
+          "responseType": "json",
+          "resultProperty": "dialog.api_response"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "4rZetg"
+          },
+          "condition": "dialog.api_response.statusCode == 200",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "CBBntM"
+              },
+              "condition": "dialog.api_response.statusCode == 204",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "fXSAAe"
+                  },
+                  "activity": "${SendActivity_fXSAAe()}"
+                }
+              ],
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "L4F8C7"
+                  },
+                  "activity": "${SendActivity_L4F8C7()}"
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "QT9iEN"
+              },
+              "property": "dialog.data",
+              "value": "= dialog.api_response.content"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "tHEjuH"
+          },
+          "activity": "${SendActivity_tHEjuH()}"
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "VqcIHY"
+          },
+          "index": "dialog.foreach.index",
+          "value": "dialog.foreach.value",
+          "itemsProperty": "dialog.data.orders",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "kon3Jz"
+              },
+              "property": "turn.temp",
+              "value": "= string(dialog.foreach.value.id)"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "NkALRM"
+              },
+              "activity": "${SendActivity_NkALRM()}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "Orders.lg",
+  "recognizer": "Orders.lu.qna",
+  "id": "Orders"
+}
