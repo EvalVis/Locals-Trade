@@ -27,6 +27,15 @@ namespace Support_Your_Locals.Models.ViewModels
             Header = business.Header;
             Longitude = business.Longitude;
             Latitude = business.Latitude;
+            Workdays = new TimeSheet[7];
+            for(int i = 0; i < 7; i++)
+            {
+                int index = business.Workdays.FindIndex(ind => ind.Weekday == (i+1));
+                if (index > -1)
+                {
+                    Workdays[i] = business.Workdays[index];
+                }
+            }
         }
 
     }

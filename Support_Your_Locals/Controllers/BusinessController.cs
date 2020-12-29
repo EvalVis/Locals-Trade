@@ -99,8 +99,13 @@ namespace Support_Your_Locals.Controllers
 
         [Authorize]
         [HttpGet]
-        public ViewResult EditAdvertisement(Business business)
+        public ViewResult EditAdvertisement(long businessId)
         {
+            Business business = repository.Business.Include(w => w.Workdays).FirstOrDefault(b => b.BusinessID == businessId);
+            if(business == null)
+            {
+                business = new Business();
+            }
             BusinessRegisterModel model = new BusinessRegisterModel();
             model.SetModelForUpdate(business);
             TempData["bId"] = business.BusinessID.ToString();

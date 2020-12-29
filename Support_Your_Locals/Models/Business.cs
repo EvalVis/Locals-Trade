@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
-using System.Linq;
 using Support_Your_Locals.Models.ViewModels;
 
 namespace Support_Your_Locals.Models
