@@ -43,8 +43,8 @@ namespace Support_Your_Locals.Models
             };
             Filter<IEnumerable<TimeSheet>> timeFilter = delegate (IEnumerable<TimeSheet> workdays)
             {
-                return (workdays.All(w => w.From.TimeOfDay >= OpenFrom.TimeOfDay
-                                          && w.To.TimeOfDay <= OpenTo.TimeOfDay) && workdays.Any(w => WeekdaySelected[w.Weekday - 1])) || !workdays.Any();
+                return (workdays.All(w => w.From.TimeOfDay <= OpenFrom.TimeOfDay
+                                          && w.To.TimeOfDay >= OpenTo.TimeOfDay) && workdays.Any(w => WeekdaySelected[w.Weekday - 1])) || !workdays.Any() || AllWeekdaysUnchecked();
             };
             return businesses.Where(b => ownersFilter(b.User) && businessFilter(b) && timeFilter(b.Workdays));
         }
@@ -58,6 +58,18 @@ namespace Support_Your_Locals.Models
         private bool ChosenDescription(Business business)
         {
             return business.Description.ToLower().Contains(BusinessInfo.ToLower());
+        }
+
+        private bool AllWeekdaysUnchecked()
+        {
+            for(int i = 0; i < 7; i++)
+            {
+                if(WeekdaySelected[i])
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
     }

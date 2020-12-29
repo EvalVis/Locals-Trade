@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
-using System.Linq;
 using Support_Your_Locals.Models.ViewModels;
 
 namespace Support_Your_Locals.Models
@@ -32,23 +31,17 @@ namespace Support_Your_Locals.Models
         public List<Product> Products { get; set; } = new List<Product>();
         public List<Feedback> Feedbacks { get; set; } = new List<Feedback>();
 
-        public Business()
+        public void CreateBusiness(BusinessRegisterModel registerModel, long userID, List<TimeSheet> workdays)
         {
-            
-        }
-
-        public Business(BusinessRegisterModel registerModel, long userID)
-        {
-            BusinessID = registerModel.BusinessId; // danger zone.
             UserID = userID;
             Description = registerModel.Description;
             Longitude = registerModel.Longitude;
             Latitude = registerModel.Latitude;
             PhoneNumber = registerModel.PhoneNumber;
             Header = registerModel.Header;
-            inspectWorkdaysValidity(registerModel);
+            Workdays = workdays;
             Products = registerModel.Products;
-            if(registerModel.Picture != null)
+            if (registerModel.Picture != null)
             {
                 MemoryStream imageMemoryStream = new MemoryStream();
                 registerModel?.Picture?.CopyTo(imageMemoryStream);
@@ -56,27 +49,15 @@ namespace Support_Your_Locals.Models
             }
         }
 
-        public void UpdateBusiness(BusinessRegisterModel registerModel)
+        public void UpdateBusiness(long businessId, BusinessRegisterModel registerModel, List<TimeSheet> workdays)
         {
-            MemoryStream imageMemoryStream = new MemoryStream();
-            registerModel.Picture.CopyTo(imageMemoryStream);
-
+            BusinessID = businessId;
             Description = registerModel.Description;
             Longitude = registerModel.Longitude;
             Latitude = registerModel.Latitude;
             PhoneNumber = registerModel.PhoneNumber;
             Header = registerModel.Header;
-            PictureData = imageMemoryStream.ToArray();
-            inspectWorkdaysValidity(registerModel);
-            Products = registerModel.Products;
-        }
-
-        private void inspectWorkdaysValidity(BusinessRegisterModel registerModel)
-        {
-            foreach (var w in registerModel.Workdays)
-            {
-                if(!w.InvalidTime()) Workdays.Add(w);
-            }
+            Workdays = workdays;
         }
 
     }

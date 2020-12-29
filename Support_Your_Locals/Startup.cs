@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,8 +16,6 @@ namespace Support_Your_Locals
 {
     public class Startup
     {
-
-        private Mailer mailer;
 
         public Startup(IConfiguration configuration)
         {
@@ -73,13 +70,6 @@ namespace Support_Your_Locals
             app.UseSession();
             app.UseRouting();
 
-            app.Use(async (context, next) =>
-            {
-                mailer?.Mute();
-                mailer = new Mailer(app, Configuration);
-                await next();
-            });
-
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseCookiePolicy();
@@ -87,10 +77,11 @@ namespace Support_Your_Locals
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute("advertisement", "business/{businessId:long}", new {Controller = "Business", action = "Index"});
-                endpoints.MapControllerRoute("addAdvertisement", "business/edit/{businessId:long}", new {Controller = "Business", action = "AddAdvertisement"});
+                endpoints.MapControllerRoute("editAdvertisement", "business/editAdvertisement/{businessId:long}", new {Controller = "Business", action = "EditAdvertisement"});
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
                 endpoints.MapBlazorHub();
+                endpoints.MapFallbackToPage("/orders/{*catchall}", "/Orders/Index");
                 endpoints.MapFallbackToPage("/user/{*catchall}", "/User/Index");
             });
             SeedData.EnsurePopulated(app, new HashCalculator());

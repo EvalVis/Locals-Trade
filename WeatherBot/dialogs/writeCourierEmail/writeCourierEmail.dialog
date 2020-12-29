@@ -1,0 +1,86 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "1RJiNZ",
+    "name": "writeCourierEmail",
+    "description": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "eetzdM"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "zI5pGl"
+          },
+          "property": "dialog.oId",
+          "value": "= @id"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "lXVBkW"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "prompt": "${TextInput_Prompt_lXVBkW()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "property": "dialog.email"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "Bl9Ple"
+          },
+          "method": "POST",
+          "url": "https://localhost:5001/api/Order",
+          "body": {
+            "letter": "${dialog.email}",
+            "orderId": "${dialog.oId}"
+          },
+          "resultProperty": "dialog.api_response"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "OJ3wM3"
+          },
+          "condition": "dialog.api_response.statusCode == 200",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "brHUJd"
+              },
+              "activity": "${SendActivity_brHUJd()}"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "MbkouD"
+              },
+              "activity": "${SendActivity_MbkouD()}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "writeCourierEmail.lg",
+  "recognizer": "writeCourierEmail.lu.qna",
+  "id": "writeCourierEmail"
+}

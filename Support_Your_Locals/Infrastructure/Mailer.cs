@@ -4,11 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Support_Your_Locals.Controllers;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
 
@@ -19,53 +16,57 @@ namespace Support_Your_Locals.Infrastructure
 
         private IServiceRepository repository;
         private IConfiguration config;
+        private SmtpClient protocol;
 
-        private Lazy<SmtpClient> smtp;
-
-        public Mailer(IApplicationBuilder app, IConfiguration configuration)
+        public Mailer(IServiceRepository repo, IConfiguration configuration)
         {
-            repository = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<IServiceRepository>();
+            repository = repo;
             config = configuration;
-            smtp = new Lazy<SmtpClient>(() =>
+            createSmtp();
+        }
+
+        public Mailer(IConfiguration configuration)
+        {
+            config = configuration;
+            createSmtp();
+        }
+
+        private void createSmtp()
+        {
+            protocol = new SmtpClient
             {
-                return new SmtpClient()
-                {
-                    Host = "smtp.gmail.com",
-                    EnableSsl = true,
-                    UseDefaultCredentials = true,
-                    Credentials = new NetworkCredential("localstradebox@gmail.com", config["MailPassword"]),
-                    DeliveryMethod = SmtpDeliveryMethod.Network,
-                    Port = 587
-                };
-            });
-            BusinessController.FeedbackEvent += SendMail;
-            AdminController.ResponseEvent += AnswerQuestion;
+                Host = "smtp.gmail.com",
+                EnableSsl = true,
+                UseDefaultCredentials = true,
+                Credentials = new NetworkCredential("localstradebox@gmail.com", config["MailPassword"]),
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Port = 587
+            };
         }
 
 
-        public void SendMail(object sender, FeedbackEventArgs feedbackEvent)
+        public void SendMail(Feedback feedback)
         {
             MailMessage message = new MailMessage();
             message.Subject = "LocalsTrade: Business feedback";
-            message.Body = $"Hello. You have received a new business feedback: \"{feedbackEvent.Feedback.Text}\", from {feedbackEvent.Feedback.SenderName}";
+            message.Body = $"Hello. You have received a new business feedback: \"{feedback.Text}\", from {feedback.SenderName}";
             message.IsBodyHtml = false;
 
             message.From = new MailAddress("localstradebox@gmail.com", "Locals Trade box");
             string toEmail;
             try
             {
-                toEmail = repository.Business.Where(b => b.BusinessID == feedbackEvent.Feedback.BusinessID).Include(b => b.User)
+                toEmail = repository.Business.Where(b => b.BusinessID == feedback.BusinessID).Include(b => b.User)
                     .First().User.Email;
             }
             catch (Exception e)
             {
                 Debug.WriteLine($"Could not send email: Business somehow does not have an owner or " +
-                                $"{nameof(User.Email)} field is null. Business ID: {feedbackEvent.Feedback.BusinessID}. Detailed exception: {e}");
+                                $"{nameof(User.Email)} field is null. Business ID: {feedback.BusinessID}. Detailed exception: {e}");
                 return;
             }
 
             message.To.Add(new MailAddress(toEmail, toEmail));
-            SmtpClient protocol = smtp.Value;
             Task.Run(() =>
             {
                 try
@@ -74,29 +75,55 @@ namespace Support_Your_Locals.Infrastructure
                 }
                 catch (SmtpFailedRecipientException e)
                 {
-                    Debug.WriteLine($"Failed to send an email (name of the sender: {feedbackEvent.Feedback.SenderName}, message \"{feedbackEvent.Feedback.Text}\") to a recipient {toEmail}. " +
+                    Debug.WriteLine($"Failed to send an email (name of the sender: {feedback.SenderName}, message \"{feedback.Text}\") to a recipient {toEmail}. " +
                                     $"Exception code: {e.StatusCode}. Detailed exception info: {e}");
                 }
                 catch (SmtpException e)
                 {
                     Debug.WriteLine($"Failed to send email with smtp. The name of the sender: " +
-                                    $" {feedbackEvent.Feedback.SenderName}. The message: \"{feedbackEvent.Feedback.Text}\" was being sent to {toEmail}. " +
+                                    $" {feedback.SenderName}. The message: \"{feedback.Text}\" was being sent to {toEmail}. " +
                                     $"Exception code: {e.StatusCode}. " +
                                     $"Detailed exception info: {e}");
                 }
             });
         }
-		
-        public void AnswerQuestion(object sender, ResponseEventArgs responseEvent)
+
+        public void SendMail(string letter, string toEmail)
+        {
+            MailMessage message = new MailMessage();
+            message.Subject = "LocalsTrade: Potential courier";
+            message.Body = $"Hello. We have to inform you, that you have a potential delivery man. Here is what he/she writes to you: \"{letter}\" Have a good day.";
+            message.IsBodyHtml = false;
+
+            message.From = new MailAddress("localstradebox@gmail.com", "Locals Trade box");
+
+            message.To.Add(new MailAddress(toEmail, toEmail));
+            Task.Run(() =>
+            {
+                try
+                {
+                    protocol.Send(message);
+                }
+                catch (SmtpFailedRecipientException e)
+                {
+                    Debug.WriteLine("Failed to send an email: " + e.StackTrace);
+                }
+                catch (SmtpException e)
+                {
+                    Debug.WriteLine("Failed to send email with smtp: " + e.StackTrace);
+                }
+            });
+        }
+
+        public void AnswerQuestion(AnswerQuestionViewModel answer)
         {
             MailMessage message = new MailMessage();
             message.Subject = "LocalsTrade: Response to a question";
-            message.Body = responseEvent.Response;
+            message.Body = answer.AnwserText;
             message.IsBodyHtml = false;
             message.From = new MailAddress("localstradebox@gmail.com", "Locals Trade box");
-            message.To.Add(new MailAddress(responseEvent.Email, responseEvent.Email));
-            
-            SmtpClient protocol = smtp.Value;
+            message.To.Add(new MailAddress(answer.Email, answer.Email));
+
             Task.Run(() =>
             {
                 try
@@ -105,17 +132,11 @@ namespace Support_Your_Locals.Infrastructure
                 }
                 catch (SmtpException e)
                 {
-                    Debug.WriteLine($"Failed to send email with smtp. The message: \"{responseEvent.Response}\" was being sent to {responseEvent.Email}. " +
+                    Debug.WriteLine($"Failed to send email with smtp. The message: \"{answer.AnwserText}\" was being sent to {answer.Email}. " +
                                     $"Exception code: {e.StatusCode}. " +
                                     $"Detailed exception info: {e}");
                 }
             });
-        }
-
-        public void Mute()
-        {
-            BusinessController.FeedbackEvent -= SendMail;
-            AdminController.ResponseEvent -= AnswerQuestion;
         }
 
     }

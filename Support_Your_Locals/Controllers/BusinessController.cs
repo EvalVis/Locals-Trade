@@ -10,19 +10,22 @@ using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Support_Your_Locals.Infrastructure;
+using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 
 namespace Support_Your_Locals.Controllers
 {
     public class BusinessController : Controller
     {
-        public static event EventHandler<FeedbackEventArgs> FeedbackEvent;
 
         private IServiceRepository repository;
+        private IConfiguration configuration;
         private long userID;
 
-        public BusinessController(IServiceRepository repo, IHttpContextAccessor accessor)
+        public BusinessController(IServiceRepository repo, IHttpContextAccessor accessor, IConfiguration config)
         {
             repository = repo;
+            configuration = config;
             long.TryParse(accessor?.HttpContext?.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value, out userID);
         }
 
@@ -35,6 +38,7 @@ namespace Support_Your_Locals.Controllers
                 .Include(b => b.Feedbacks)
                 .FirstOrDefaultAsync(b => b.BusinessID == businessId);
             if (business == null) return NotFound();
+            ViewBag.userID = userID;
             return View(business);
         }
 
@@ -43,51 +47,99 @@ namespace Support_Your_Locals.Controllers
         {
             Feedback feedback = new Feedback { SenderName = senderName, Text = text, BusinessID = businessId };
             repository.AddFeedback(feedback);
-            FeedbackEvent(this, new FeedbackEventArgs(feedback));
+            new Mailer(repository, configuration).SendMail(feedback);
+        }
+
+        [HttpPost]
+        public ActionResult AddOrder(int amount, string address, string comment, long productId)
+        {
+            if(userID < 1)
+            {
+                return Unauthorized();
+            }
+            Order order = new Order { Amount = amount, Address = address, Comment = comment, UserId = userID, ProductId = productId, DateAdded = DateTime.Now };
+            repository.AddOrder(order);
+            return Ok();
         }
 
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult> AddAdvertisement(long businessId)
+        public ViewResult AddAdvertisement()
         {
-            if (businessId > 0)
-            {
-                Business business = await repository.Business.Include(b => b.Workdays)
-                    .Include(b => b.Products)
-                    .FirstOrDefaultAsync(b => b.BusinessID == businessId);
-                if (business != null)
-                { // TODO: Redirect replace with error.
-                    if (business.UserID != userID) return Redirect("/");
-                    BusinessRegisterModel businessRegisterModel = new BusinessRegisterModel(business);
-                    return View(businessRegisterModel);
-                }
-                return Redirect("/");
-            }
             return View();
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult> AddAdvertisement(BusinessRegisterModel businessRegisterModel)
+        public ActionResult AddAdvertisement(BusinessRegisterModel businessRegisterModel)
         {
-            //TODO: validation
-            if (businessRegisterModel.BusinessId < 0) Redirect("/");
-            if (businessRegisterModel.BusinessId == 0)
+            List<TimeSheet> workdays = new List<TimeSheet>();
+            for(int i = 0; i < 7; i++)
             {
-                Business business = new Business(businessRegisterModel, userID);
+                ModelState.Remove($"Workdays[{i}].To");
+                ModelState.Remove($"Workdays[{i}].From");
+                TimeSheet workday = businessRegisterModel.Workdays[i];
+                if(workday != null)
+                {
+                    if(!workday.From.Equals(workday.To))
+                    {
+                        workdays.Add(workday);
+                    }
+                }
+            }
+            if (ModelState.IsValid)
+            {
+                Business business = new Business();
+                business.CreateBusiness(businessRegisterModel, userID, workdays);
                 repository.AddBusiness(business);
-                return Redirect("/");
+                return Redirect("/user/businesses");
             }
-            Business dbBusiness = await repository.Business
-                .Include(b => b.Workdays).Include(b => b.Products)
-                .FirstOrDefaultAsync(b => b.BusinessID == businessRegisterModel.BusinessId);
-            if (dbBusiness.UserID == userID)
-            {
-                dbBusiness.UpdateBusiness(businessRegisterModel);
-                repository.SaveBusiness(dbBusiness);
-            }
-            return Redirect("/");
+            return View();
         }
 
-    }
+        [Authorize]
+        [HttpGet]
+        public ViewResult EditAdvertisement(long businessId)
+        {
+            Business business = repository.Business.Include(w => w.Workdays).FirstOrDefault(b => b.BusinessID == businessId);
+            if(business == null)
+            {
+                business = new Business();
+            }
+            BusinessRegisterModel model = new BusinessRegisterModel();
+            model.SetModelForUpdate(business);
+            TempData["bId"] = business.BusinessID.ToString();
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult EditAdvertisement(BusinessRegisterModel businessRegisterModel)
+        {
+            List<TimeSheet> workdays = new List<TimeSheet>();
+            for (int i = 0; i < 7; i++)
+            {
+                ModelState.Remove($"Workdays[{i}].To");
+                ModelState.Remove($"Workdays[{i}].From");
+                TimeSheet workday = businessRegisterModel.Workdays[i];
+                if (workday != null)
+                {
+                    if (!workday.From.Equals(workday.To))
+                    {
+                        workdays.Add(workday);
+                    }
+                }
+            }
+            if(ModelState.IsValid)
+            {
+                Business business = new Business();
+                long businessId = (long)TempData["bId"];
+                business.UpdateBusiness(businessId, businessRegisterModel, workdays);
+                repository.UpdateBusiness(business);
+                return Redirect("/user/businesses");
+            }
+            return View();
+        }
+
+        }
 }

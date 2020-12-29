@@ -7,7 +7,7 @@
         <th>Sender's name</th>
     <th>Message</th>
     </tr>
-        @foreach (var feedback in Business.Feedbacks)
+        @foreach (var feedback in Business?.Feedbacks)
         {
             <tr>
                 <td>@feedback.SenderName</td>

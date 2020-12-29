@@ -223,7 +223,7 @@
             "id": "j64362"
           },
           "method": "GET",
-          "url": "https://localhost:44311/api/Business/Filtered/${dialog.page}?${dialog.query}",
+          "url": "https://localhost:5001/api/Business/Filtered/${dialog.page}?${dialog.query}",
           "resultProperty": "dialog.api_response",
           "responseType": "json"
         },

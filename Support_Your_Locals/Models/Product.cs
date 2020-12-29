@@ -1,4 +1,6 @@
-﻿namespace Support_Your_Locals.Models
+﻿using System.Collections.Generic;
+
+namespace Support_Your_Locals.Models
 {
     public class Product
     {
@@ -10,5 +12,6 @@
         public string Picture { get; set; }
         public long BusinessID { get; set; }
         public Business Business { get; set; }
+        public List<Order> Orders { get; set; }
     }
 }

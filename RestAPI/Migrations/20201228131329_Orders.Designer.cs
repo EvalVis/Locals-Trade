@@ -10,8 +10,8 @@ using RestAPI.Models;
 namespace RestAPI.Migrations
 {
     [DbContext(typeof(ServiceDbContext))]
-    [Migration("20201217165419_UniqueEmails")]
-    partial class UniqueEmails
+    [Migration("20201228131329_Orders")]
+    partial class Orders
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -77,6 +77,40 @@ namespace RestAPI.Migrations
                     b.HasIndex("BusinessID");
 
                     b.ToTable("Feedbacks");
+                });
+
+            modelBuilder.Entity("RestAPI.Models.Order", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("RestAPI.Models.Product", b =>
@@ -190,6 +224,25 @@ namespace RestAPI.Migrations
                     b.Navigation("Business");
                 });
 
+            modelBuilder.Entity("RestAPI.Models.Order", b =>
+                {
+                    b.HasOne("RestAPI.Models.Product", "Product")
+                        .WithMany("Orders")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("RestAPI.Models.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("RestAPI.Models.Product", b =>
                 {
                     b.HasOne("RestAPI.Models.Business", "Business")
@@ -221,9 +274,16 @@ namespace RestAPI.Migrations
                     b.Navigation("Workdays");
                 });
 
+            modelBuilder.Entity("RestAPI.Models.Product", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
             modelBuilder.Entity("RestAPI.Models.User", b =>
                 {
                     b.Navigation("Businesses");
+
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,5 +1,14 @@
 ﻿@model List<Product>
 
+@{
+    bool authorized = false;
+    if(ViewBag?.userID != null && ViewBag?.userID > 0)
+    {
+        authorized = true;
+    }
+    int orderPosition = 0;
+}
+
 <style>
     table {
         font-family: arial, sans-serif;
@@ -20,6 +29,11 @@
         <th>Unit price</th>
         <th>Unit</th>
         <th>Comment</th>
+        <th></th>
+        @if (authorized)
+        {
+            <th></th>
+        }
     </tr>
     @foreach (var p in Model)
     {
@@ -28,6 +42,38 @@
             <td>@p.PricePerUnit</td>
             <td>@p.Unit</td>
             <td>@p.Comment</td>
+            <td><a href="orders/@p.ProductID">Check orders</a></td>
+            @if(authorized)
+            {
+                string order = "addOrder" + orderPosition;
+                string sendButton = order + "sendButton";
+                string formId = sendButton + "form";
+                string sentId = sendButton + "sent";
+                string unsentId = sendButton + "unsent";
+        <td>
+            <button id="@order" type="button" class="btn btn-secondary" onclick="revealForm(this)">Order</button>
+            <form hidden id="@formId">
+                <div class="form-group">
+                    <label>Please enter the amount</label>
+                    <input type="number" name="@nameof(Order.Amount)" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Please enter the delivery address</label>
+                    <input type="text" name="@nameof(Order.Address)" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>If you want, please add a comment</label>
+                    <textarea name="@nameof(Order.Comment)" class="form-control"></textarea>
+                </div>
+                <input type="hidden" name="@nameof(Order.UserId)" value="@ViewBag.userID" />
+                <input type="hidden" name="@nameof(Order.ProductId)" value="@p.ProductID" />
+                <button id="@sendButton" class="btn btn-primary">Submit</button>
+            </form>
+            <label id="@sentId" hidden style="color: rgb(51, 255, 162)">Order successfully added.</label>
+            <label id="@unsentId" hidden style="color: rgb(255, 0, 0)">Something went wrong. Failed to add an order.</label>
+        </td>
+                orderPosition++;
+            }
         </tr>
     }
 </table>
@@ -57,3 +103,40 @@
         }
     </div>
 </div>
+
+@{ int count = 0;}
+@foreach (var p in Model)
+{
+<script>
+    var button = "#addOrder" + @count + "sendButton";
+    $(button).click(function () {
+        var form1 = this.id + "form";
+        var form = "#" + this.id + "form";
+        var sent = this.id + "sent";
+        var unsent = this.id + "unsent";
+        $.ajax({
+            type: "POST",
+            url: "/Business/AddOrder",
+            data: $(form).serialize(),
+            success: function () {
+                document.getElementById(form1).style.display = "none";
+                document.getElementById(form1).reset();
+                document.getElementById(sent).hidden = false;
+            },
+            error: function () {
+                document.getElementById(unsent).hidden = false;
+            }
+        });
+        return false;
+    });
+</script>
+    count++;
+}
+
+<script>
+    function revealForm(order) {
+        var form = order.id + 'sendButtonform';
+        document.getElementById(form).hidden = false;
+        document.getElementById(order.id).style.display = "none";
+    }
+</script>

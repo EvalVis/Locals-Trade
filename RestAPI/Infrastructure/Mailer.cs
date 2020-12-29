@@ -16,13 +16,24 @@ namespace RestAPI.Infrastructure
 
         private IServiceRepository repository;
         private IConfiguration config;
-        private SmtpClient smtp;
+        private SmtpClient protocol;
 
         public Mailer(IServiceRepository repo, IConfiguration configuration)
         {
             repository = repo;
             config = configuration;
-            smtp = new SmtpClient
+            createSmtp();
+        }
+
+        public Mailer(IConfiguration configuration)
+        {
+            config = configuration;
+            createSmtp();
+        }
+
+        private void createSmtp()
+        {
+            protocol = new SmtpClient
             {
                 Host = "smtp.gmail.com",
                 EnableSsl = true,
@@ -59,7 +70,7 @@ namespace RestAPI.Infrastructure
             {
                 try
                 {
-                    smtp.Send(message);
+                    protocol.Send(message);
                 }
                 catch (SmtpFailedRecipientException e)
                 {
@@ -72,6 +83,33 @@ namespace RestAPI.Infrastructure
                                     $" {feedback.SenderName}. The message: \"{feedback.Text}\" was being sent to {toEmail}. " +
                                     $"Exception code: {e.StatusCode}. " +
                                     $"Detailed exception info: {e}");
+                }
+            });
+        }
+
+        public void SendMail(string letter, string toEmail)
+        {
+            MailMessage message = new MailMessage();
+            message.Subject = "LocalsTrade: Potential courier";
+            message.Body = $"Hello. We have to inform you, that you have a potential delivery man. Here is what he/she writes to you: \"{letter}\" Have a good day.";
+            message.IsBodyHtml = false;
+
+            message.From = new MailAddress("localstradebox@gmail.com", "Locals Trade box");
+
+            message.To.Add(new MailAddress(toEmail, toEmail));
+            Task.Run(() =>
+            {
+                try
+                {
+                    protocol.Send(message);
+                }
+                catch (SmtpFailedRecipientException e)
+                {
+                    Debug.WriteLine("Failed to send an email: " + e.StackTrace);
+                }
+                catch (SmtpException e)
+                {
+                    Debug.WriteLine("Failed to send email with smtp: " + e.StackTrace);
                 }
             });
         }

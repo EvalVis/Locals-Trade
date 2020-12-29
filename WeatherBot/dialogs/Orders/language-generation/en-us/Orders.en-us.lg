@@ -1,0 +1,21 @@
+[import](common.lg)
+
+# SendActivity_fXSAAe()
+- Something went wrong.
+# SendActivity_L4F8C7()
+- No orders are placed now on this product.
+# SendActivity_tHEjuH()
+- Sending you current orders for this product:
+# SendActivity_NkALRM()
+[HeroCard
+title = Date the request was made: ${dialog.foreach.value.dateAdded}. \n\n Delivery address: ${dialog.foreach.value.address}
+subtitle = Amount: ${dialog.foreach.value.amount}, Total price for the amount: ${mul(dialog.foreach.value.amount, dialog.data.pricePerUnit)} 
+text = Costumer's comment: ${dialog.foreach.value.comment}
+buttons = ${ImBackCardAction("Write an email", "CourierEmail " + turn.temp)}
+]
+#ImBackCardAction (title, value)
+[CardAction
+Type = imBack
+Title = ${title}
+Value = ${value}
+]

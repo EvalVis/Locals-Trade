@@ -5,7 +5,6 @@ using Support_Your_Locals.Infrastructure;
 using Support_Your_Locals.Models;
 using Support_Your_Locals.Models.Repositories;
 using Support_Your_Locals.Models.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,8 +14,6 @@ namespace Support_Your_Locals.Controllers
 {
     public class AdminController : Controller
     {
-
-        public static event EventHandler<ResponseEventArgs> ResponseEvent;
 
         private IConfiguration configuration;
         private ILegacyServiceRepository repository;
@@ -90,7 +87,7 @@ namespace Support_Your_Locals.Controllers
         [HttpPost]
         public ActionResult AnswerQuestion(AnswerQuestionViewModel model)
         {
-            ResponseEvent?.Invoke(this, new ResponseEventArgs(model.Email, model.AnwserText));
+            new Mailer(configuration).AnswerQuestion(model);
             repository.AnswerQuestion(model.QuestionId, model.AnwserText);
             return RedirectToAction("Index");
         }
