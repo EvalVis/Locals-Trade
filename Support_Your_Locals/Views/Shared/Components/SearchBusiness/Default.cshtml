@@ -1,6 +1,6 @@
 ﻿@model BusinessListViewModel
 
-<form asp-action="Index" asp-controller="Home">
+<form>
     <h4 class="text-center">Search for a business</h4>
     <div class="form-group">
         <label asp-for="SearchResponse.OwnersSurname">By owner's surname</label>
@@ -44,8 +44,8 @@
 
 <script>
     var stepTime = 10;
-    var fromID = "#" + openFrom;
-    var toID = "#" + openTo;
+    var fromID = "#@nameof(SearchResponse)_@nameof(SearchResponse.OpenFrom)";
+    var toID = "#@nameof(SearchResponse)_@nameof(SearchResponse.OpenTo)";
     $(fromID).datetimepicker({
         timepicker: true,
         datepicker: false,
