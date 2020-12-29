@@ -130,15 +130,21 @@ namespace Support_Your_Locals.Controllers
                     }
                 }
             }
+            long businessId = 0;
             if(ModelState.IsValid)
             {
                 Business business = new Business();
-                long businessId = (long)TempData["bId"];
+                long.TryParse(TempData["bId"].ToString(), out businessId);
+                if(businessId == 0)
+                {
+                    return NotFound();
+                }
                 business.UpdateBusiness(businessId, businessRegisterModel, workdays);
                 repository.UpdateBusiness(business);
                 return Redirect("/user/businesses");
             }
-            return View();
+            TempData["bId"] = businessId.ToString();
+            return View(businessRegisterModel);
         }
 
         }
