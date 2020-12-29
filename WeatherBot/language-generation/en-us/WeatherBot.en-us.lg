@@ -8,3 +8,19 @@
 
 # SendActivity_4PfcAF()
 - Got it
+# ChoiceInput_Prompt_lyiAZF()
+- How can I help you?
+# SendActivity_jN4G5J()
+- You want to create business
+# TextInput_Prompt_Kk3SQU()
+- Please enter your current address to find the nearby businesses.
+# SendActivity_4iBTMk()
+-Failed to search by given address. Please enter the new address. [TODO]
+# SendActivity_slTRdE()
+- You want to search for businesses in ${dialog.api_response.content.data[0].longitude},  ${dialog.api_response.content.data[0].latitude}
+# TextInput_Prompt_mhDGNi()
+- What question do you want to ask?
+# TextInput_Prompt_GAzpt7()
+- Please enter a email to whom admin will respond with an answer
+# SendActivity_0ZT896()
+- Thank you for your question. Administrators will respond to it in 5 business days.
