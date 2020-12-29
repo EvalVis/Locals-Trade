@@ -24,6 +24,8 @@
     }
 </style>
 
+<div asp-validation-summary="All" class="text-danger"></div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var input = document.createElement('input');
@@ -59,8 +61,6 @@
         };
     }, false);
 </script>
-
-<input type="hidden" asp-for="BusinessId"/>
 
 <div class="login-page">
     <div class="form">

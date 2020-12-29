@@ -11,6 +11,7 @@ using Support_Your_Locals.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Support_Your_Locals.Infrastructure;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 
 namespace Support_Your_Locals.Controllers
 {
@@ -72,10 +73,24 @@ namespace Support_Your_Locals.Controllers
         [HttpPost]
         public ActionResult AddAdvertisement(BusinessRegisterModel businessRegisterModel)
         {
+            List<TimeSheet> workdays = new List<TimeSheet>();
+            for(int i = 0; i < 7; i++)
+            {
+                ModelState.Remove($"Workdays[{i}].To");
+                ModelState.Remove($"Workdays[{i}].From");
+                TimeSheet workday = businessRegisterModel.Workdays[i];
+                if(workday != null)
+                {
+                    if(!workday.From.Equals(workday.To))
+                    {
+                        workdays.Add(workday);
+                    }
+                }
+            }
             if (ModelState.IsValid)
             {
                 Business business = new Business();
-                business.CreateBusiness(businessRegisterModel, userID);
+                business.CreateBusiness(businessRegisterModel, userID, workdays);
                 repository.AddBusiness(business);
                 return Redirect("/user/businesses");
             }

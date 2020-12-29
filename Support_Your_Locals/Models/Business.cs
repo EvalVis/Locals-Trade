@@ -32,7 +32,7 @@ namespace Support_Your_Locals.Models
         public List<Product> Products { get; set; } = new List<Product>();
         public List<Feedback> Feedbacks { get; set; } = new List<Feedback>();
 
-        public void CreateBusiness(BusinessRegisterModel registerModel, long userID)
+        public void CreateBusiness(BusinessRegisterModel registerModel, long userID, List<TimeSheet> workdays)
         {
             UserID = userID;
             Description = registerModel.Description;
@@ -40,7 +40,7 @@ namespace Support_Your_Locals.Models
             Latitude = registerModel.Latitude;
             PhoneNumber = registerModel.PhoneNumber;
             Header = registerModel.Header;
-            Workdays = registerModel.Workdays.ToList();
+            Workdays = workdays;
             Products = registerModel.Products;
             if(registerModel.Picture != null)
             {
