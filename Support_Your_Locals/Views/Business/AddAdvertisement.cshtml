@@ -1,6 +1,5 @@
-﻿ @model BusinessRegisterModel
+﻿@model BusinessRegisterModel
 
-@using Microsoft.Extensions.Configuration
 @inject IConfiguration Configuration
 
 @{
@@ -33,7 +32,7 @@
         input.value = 'Add product';
         input.className = 'btn btn-light btn-lg';
 
-        var clickCount = @(Model?.Products?.Count ?? 0);
+        var clickCount = 0;
         var container = document.getElementById('products');
         container.appendChild(input);
 
@@ -83,33 +82,12 @@
                     </div>
                     <div class="formbuss">
                         <div id="products">
-                            @if (Model?.Products != null)
-                            {
-                                for (int i = 0; i < Model.Products.Count; i++)
-                                {
-                                    if (Model.Products[i] != null)
-                                    {
-                                        <label asp-for="Products[i].Name">Product</label>
-                                        <input asp-for="Products[i].Name" />
-                                        <label asp-for="Products[i].PricePerUnit">Unit price</label>
-                                        <input asp-for="Products[i].PricePerUnit" />
-                                        <label asp-for="Products[i].Unit">Unit</label>
-                                        <input asp-for="Products[i].Unit" />
-                                        <label asp-for="Products[i].Comment">Comment</label>
-                                        <input asp-for="Products[i].Comment" />
-                                        <label asp-for="Products[i].Picture">Picture</label>
-                                        <input asp-for="Picture" />
-                                        <hr style="border-top: 3px solid #bbb;">
-                                    }
-                                }
-                            }
                         </div>
                     </div>
                     
                         @for (var i = 0; i < 7; i++)
                         {
                             ViewBag.DayInd = i;
-
                             <partial name="TimePicker" for="Workdays[i]" />
                         }
                     
@@ -119,7 +97,7 @@
                         <div id="mapid"></div>
 
                         <div class="form-group">
-                            <label asp-for="Picture">Please enter your picture url</label>
+                            <label asp-for="Picture">Here you can add your business picture</label>
                             <input type="file" asp-for="Picture" class="form-control" />
                         </div>
                         <button type="submit" class="btn btn-primary">Advertise business</button>
@@ -139,20 +117,6 @@
         accessToken: '@Configuration["Maps:AccessToken"]'
     }).addTo(mymap);
     let layerGroup = L.layerGroup().addTo(mymap);
-
-    const latitude = Number("@Model?.Latitude");
-    const longitude = Number("@Model?.Longitude");
-    if (latitude && longitude) {
-        let geocodeService = L.esri.Geocoding.geocodeService();
-        geocodeService.reverse().latlng([latitude, longitude]).run(function (error, result) {
-            if (error) {
-                return;
-            }
-
-            L.marker(result.latlng).addTo(mymap).addTo(layerGroup);
-        });
-        mymap.setView([latitude, longitude], 13)
-    }
 
     let searchControl = L.esri.Geocoding.geosearch({ useMapBounds: false }).addTo(mymap);
 
