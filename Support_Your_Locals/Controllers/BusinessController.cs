@@ -63,45 +63,22 @@ namespace Support_Your_Locals.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult> AddAdvertisement(long businessId)
+        public ViewResult AddAdvertisement()
         {
-            if (businessId > 0)
-            {
-                Business business = await repository.Business.Include(b => b.Workdays)
-                    .Include(b => b.Products)
-                    .FirstOrDefaultAsync(b => b.BusinessID == businessId);
-                if (business != null)
-                { // TODO: Redirect replace with error.
-                    if (business.UserID != userID) return Redirect("/");
-                    BusinessRegisterModel businessRegisterModel = new BusinessRegisterModel(business);
-                    return View(businessRegisterModel);
-                }
-                return Redirect("/");
-            }
             return View();
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult> AddAdvertisement(BusinessRegisterModel businessRegisterModel)
+        public ActionResult AddAdvertisement(BusinessRegisterModel businessRegisterModel)
         {
-            //TODO: validation
-            if (businessRegisterModel.BusinessId < 0) Redirect("/");
-            if (businessRegisterModel.BusinessId == 0)
+            if (ModelState.IsValid)
             {
                 Business business = new Business(businessRegisterModel, userID);
                 repository.AddBusiness(business);
-                return Redirect("/");
+                return Redirect("/user/businesses");
             }
-            Business dbBusiness = await repository.Business
-                .Include(b => b.Workdays).Include(b => b.Products)
-                .FirstOrDefaultAsync(b => b.BusinessID == businessRegisterModel.BusinessId);
-            if (dbBusiness.UserID == userID)
-            {
-                dbBusiness.UpdateBusiness(businessRegisterModel);
-                repository.SaveBusiness(dbBusiness);
-            }
-            return Redirect("/");
+            return View();
         }
 
     }
