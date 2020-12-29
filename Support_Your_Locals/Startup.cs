@@ -76,6 +76,8 @@ namespace Support_Your_Locals
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute("advertisement", "business/{businessId:long}", new {Controller = "Business", action = "Index"});
+                endpoints.MapControllerRoute("addAdvertisement", "business/edit/{businessId:long}", new {Controller = "Business", action = "AddAdvertisement"});
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
                 endpoints.MapBlazorHub();
