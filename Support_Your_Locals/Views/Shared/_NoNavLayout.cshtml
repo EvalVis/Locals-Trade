@@ -59,7 +59,7 @@
 </style>
 <body>
     <div class="bg-dark text-white p-2 nav">
-        <a class="nicetitle navbar-brand ml-2" style="color: #bbe1fa;" href="../">Local Support</a>
+        <a class="nicetitle navbar-brand ml-2" style="color: #bbe1fa;" href="/">Local Support</a>
         @if (!User.Identity.IsAuthenticated)
         {
             <a asp-controller="Auth" asp-action="SignIn" class="navbar-brand ml-2">Sign In</a>
@@ -71,8 +71,8 @@
             <div class="dropdown">
                 <a class="navbar-brand ml-2">Welcome @User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value! <i class='fas fa-angle-down'></i></a>
                 <div class="dropdown-content" style="float: left; text-align: center;">
-                    <a href="../user/businesses">Your businesses</a>
-                    <a href="../user/usersettings">User settings</a>
+                    <a href="/user/businesses">Your businesses</a>
+                    <a href="/user/usersettings">User settings</a>
                     <form method="get" style="display: inline;">
                         <button asp-controller="Auth" asp-action="SignOut" class="btn btn-info">Sign Out</button>
                     </form>
