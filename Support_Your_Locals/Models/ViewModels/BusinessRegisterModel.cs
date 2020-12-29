@@ -20,5 +20,14 @@ namespace Support_Your_Locals.Models.ViewModels
         public TimeSheet[] Workdays { get; set; } = new TimeSheet[7];
         public List<Product> Products { get; set; } = new List<Product>();
 
+        public void SetModelForUpdate(Business business)
+        {
+            Description = business.Description;
+            PhoneNumber = business.PhoneNumber;
+            Header = business.Header;
+            Longitude = business.Longitude;
+            Latitude = business.Latitude;
+        }
+
     }
 }

@@ -97,5 +97,44 @@ namespace Support_Your_Locals.Controllers
             return View();
         }
 
-    }
+        [Authorize]
+        [HttpGet]
+        public ViewResult EditAdvertisement(Business business)
+        {
+            BusinessRegisterModel model = new BusinessRegisterModel();
+            model.SetModelForUpdate(business);
+            TempData["bId"] = business.BusinessID.ToString();
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult EditAdvertisement(BusinessRegisterModel businessRegisterModel)
+        {
+            List<TimeSheet> workdays = new List<TimeSheet>();
+            for (int i = 0; i < 7; i++)
+            {
+                ModelState.Remove($"Workdays[{i}].To");
+                ModelState.Remove($"Workdays[{i}].From");
+                TimeSheet workday = businessRegisterModel.Workdays[i];
+                if (workday != null)
+                {
+                    if (!workday.From.Equals(workday.To))
+                    {
+                        workdays.Add(workday);
+                    }
+                }
+            }
+            if(ModelState.IsValid)
+            {
+                Business business = new Business();
+                long businessId = (long)TempData["bId"];
+                business.UpdateBusiness(businessId, businessRegisterModel, workdays);
+                repository.UpdateBusiness(business);
+                return Redirect("/user/businesses");
+            }
+            return View();
+        }
+
+        }
 }

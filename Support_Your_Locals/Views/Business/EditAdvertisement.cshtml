@@ -1,0 +1,111 @@
+﻿@model BusinessRegisterModel
+
+@inject IConfiguration Configuration
+
+@{
+    Layout = "_NoNavLayout";
+}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet-src.js"></script>
+
+<!-- Load Esri Leaflet from CDN -->
+<script src="https://unpkg.com/esri-leaflet"></script>
+
+<!-- Esri Leaflet Geocoder -->
+<link rel="stylesheet"
+      href="https://unpkg.com/esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css" />
+<script src="https://unpkg.com/esri-leaflet-geocoder"></script>
+
+<style type="text/css">
+    #mapid {
+        height: 400px;
+        width: 100%;
+    }
+</style>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<div class="login-page">
+    <div class="form">
+        <div>
+            <div>
+                <h1>Add business advertisement</h1>
+                <form id="addAdvertisement" asp-action="AddAdvertisement" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label asp-for="Header">Header<span style="color:darkred">*</span></label>
+                        <input asp-for="Header" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description">Description<span style="color:darkred">*</span></label>
+                        <textarea asp-for="Description" class="form-control"> </textarea>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber">Phone number<span style="color:darkred">*</span></label>
+                        <input asp-for="PhoneNumber" class="form-control">
+                    </div>
+
+                    @for (var i = 0; i < 7; i++)
+                    {
+                        ViewBag.DayInd = i;
+                        <partial name="TimePicker" for="Workdays[i]" />
+                    }
+
+                    <input type="hidden" id="longitude" asp-for="Longitude" />
+                    <input type="hidden" id="latitude" asp-for="Latitude" />
+                    <label>Please choose location</label>
+                    <div id="mapid"></div>
+                    <button type="submit" class="btn btn-primary">Advertise business</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const mymap = L.map('mapid').setView([54.687, 25.279], 14);
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: '@Configuration["Maps:AccessToken"]'
+    }).addTo(mymap);
+    let layerGroup = L.layerGroup().addTo(mymap);
+
+    const latitude = Number("@Model.Latitude");
+    const longitude = Number("@Model.Longitude");
+    if (latitude && longitude) {
+        let geocodeService = L.esri.Geocoding.geocodeService();
+        geocodeService.reverse().latlng([latitude, longitude]).run(function (error, result) {
+            if (error) {
+                return;
+            }
+            L.marker(result.latlng).addTo(mymap).addTo(layerGroup);
+        });
+        mymap.setView([latitude, longitude], 13)
+    }
+
+    let searchControl = L.esri.Geocoding.geosearch({ useMapBounds: false }).addTo(mymap);
+
+    searchControl.on("results", function (data) {
+        layerGroup.clearLayers();
+        for (var i = data.results.length - 1; i >= 0; i--) {
+            setCoordinates(data.results[i].latlng)
+        }
+    });
+
+    function onMapClick(e) {
+        setCoordinates(e.latlng)
+    }
+
+    function setCoordinates(latlng) {
+        layerGroup.clearLayers();
+        L.marker(latlng).addTo(layerGroup);
+        const { lat, lng } = latlng
+        document.getElementById("longitude").value = lng;
+        document.getElementById("latitude").value = lat;
+    }
+
+    mymap.on('click', onMapClick);
+</script>

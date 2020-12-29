@@ -42,12 +42,23 @@ namespace Support_Your_Locals.Models
             Header = registerModel.Header;
             Workdays = workdays;
             Products = registerModel.Products;
-            if(registerModel.Picture != null)
+            if (registerModel.Picture != null)
             {
                 MemoryStream imageMemoryStream = new MemoryStream();
                 registerModel?.Picture?.CopyTo(imageMemoryStream);
                 PictureData = imageMemoryStream.ToArray();
             }
+        }
+
+        public void UpdateBusiness(long businessId, BusinessRegisterModel registerModel, List<TimeSheet> workdays)
+        {
+            BusinessID = businessId;
+            Description = registerModel.Description;
+            Longitude = registerModel.Longitude;
+            Latitude = registerModel.Latitude;
+            PhoneNumber = registerModel.PhoneNumber;
+            Header = registerModel.Header;
+            Workdays = workdays;
         }
 
     }

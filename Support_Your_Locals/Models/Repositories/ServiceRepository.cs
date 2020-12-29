@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Support_Your_Locals.Models.Repositories
 {
@@ -44,6 +45,28 @@ namespace Support_Your_Locals.Models.Repositories
 
         public void SaveBusiness(Business business)
         {
+            context.SaveChanges();
+        }
+
+        public void UpdateBusiness(Business business)
+        {
+            Business dbBusiness = context.Business.Include(w => w.Workdays).FirstOrDefault(b => b.BusinessID == business.BusinessID);
+            if (dbBusiness == null) return;
+            dbBusiness.Description = business.Description;
+            dbBusiness.Longitude = business.Longitude;
+            dbBusiness.Latitude = business.Latitude;
+            dbBusiness.PhoneNumber = business.PhoneNumber;
+            dbBusiness.Header = business.Header;
+            foreach (var w in dbBusiness.Workdays)
+            {
+                context.TimeSheets.Remove(w);
+            }
+            context.SaveChanges();
+            foreach (var w in business.Workdays)
+            {
+                w.TimeSheetID = 0;
+            }
+            dbBusiness.Workdays = business.Workdays;
             context.SaveChanges();
         }
 
