@@ -22,6 +22,7 @@ namespace RestAPI.Controllers
         public OrderController(IServiceRepository repo, IConfiguration config)
         {
             repository = repo;
+            configuration = config;
         }
 
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -41,6 +42,7 @@ namespace RestAPI.Controllers
                 if(user != null)
                 {
                     new Mailer(configuration).SendMail(deliverySuggestion.letter, user.Email);
+                    return Ok();
                 }
                 return NotFound();
             }
@@ -65,7 +67,7 @@ namespace RestAPI.Controllers
             }
             product.EliminateDepth();
             if (!product.Orders.Any()) return NoContent();
-            return Ok(product.Orders);
+            return Ok(product);
 
         }
     }
