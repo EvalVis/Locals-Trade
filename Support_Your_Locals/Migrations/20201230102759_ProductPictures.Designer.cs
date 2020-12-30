@@ -10,8 +10,8 @@ using Support_Your_Locals.Models;
 namespace Support_Your_Locals.Migrations
 {
     [DbContext(typeof(ServiceDbContext))]
-    [Migration("20201228130944_Orders")]
-    partial class Orders
+    [Migration("20201230102759_ProductPictures")]
+    partial class ProductPictures
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -129,8 +129,8 @@ namespace Support_Your_Locals.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Picture")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("PictureData")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<decimal>("PricePerUnit")
                         .HasColumnType("decimal(18,2)");

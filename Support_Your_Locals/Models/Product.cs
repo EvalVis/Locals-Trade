@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 
 namespace Support_Your_Locals.Models
 {
@@ -9,7 +12,16 @@ namespace Support_Your_Locals.Models
         public decimal PricePerUnit { get; set; }
         public string Unit { get; set; }
         public string Comment { get; set; }
-        public string Picture { get; set; }
+        [NotMapped]
+        public string Picture 
+        {
+            get
+            {
+                string imageBase64Data = Convert.ToBase64String(PictureData ?? File.ReadAllBytes("Content/Images/noProductPicture.jpg"));
+                return string.Format("data:image/jpg;base64,{0}", imageBase64Data);
+            }
+        }
+        public byte[] PictureData { get; set; }
         public long BusinessID { get; set; }
         public Business Business { get; set; }
         public List<Order> Orders { get; set; }

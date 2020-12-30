@@ -42,20 +42,20 @@
             var pr = "@nameof(BusinessRegisterModel.Products)";
             var product = document.createElement('div');
 
-            product.innerHTML = '<label for="' + pr + '_' + clickCount + '_@nameof(Product.Name)">Product</label>' +
-                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(Product.Name)" name="' + pr + '[' + clickCount + '].@nameof(Product.Name)" value="" />' +
+            product.innerHTML = '<label for="' + pr + '_' + clickCount + '_@nameof(ProductRegisterModel.Name)">Product</label>' +
+                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(ProductRegisterModel.Name)" name="' + pr + '[' + clickCount + '].@nameof(ProductRegisterModel.Name)" value="" />' +
 
-                '<label for="' + pr + '_' + clickCount + '_@nameof(Product.PricePerUnit)">Unit price</label>' +
-                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(Product.PricePerUnit)" name="' + pr + '[' + clickCount + '].@nameof(Product.PricePerUnit)" value="" />' +
+                '<label for="' + pr + '_' + clickCount + '_@nameof(ProductRegisterModel.PricePerUnit)">Unit price</label>' +
+                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(ProductRegisterModel.PricePerUnit)" name="' + pr + '[' + clickCount + '].@nameof(ProductRegisterModel.PricePerUnit)" value="" />' +
 
-                '<label for="' + pr + '_' + clickCount + '_@nameof(Product.Unit)">Unit</label>' +
-                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(Product.Unit)" name="' + pr + '[' + clickCount + '].@nameof(Product.Unit)" value="" />' +
+                '<label for="' + pr + '_' + clickCount + '_@nameof(ProductRegisterModel.Unit)">Unit</label>' +
+                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(ProductRegisterModel.Unit)" name="' + pr + '[' + clickCount + '].@nameof(ProductRegisterModel.Unit)" value="" />' +
 
-                '<label for="' + pr + '_' + clickCount + '_@nameof(Product.Comment)">Comment</label>' +
-                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(Product.Comment)" name="' + pr + '[' + clickCount + '].@nameof(Product.Comment)" value="" />' +
+                '<label for="' + pr + '_' + clickCount + '_@nameof(ProductRegisterModel.Comment)">Comment</label>' +
+                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(ProductRegisterModel.Comment)" name="' + pr + '[' + clickCount + '].@nameof(ProductRegisterModel.Comment)" value="" />' +
 
-                '<label for="' + pr + '_' + clickCount + '_@nameof(Product.Picture)">Picture</label>' +
-                '<input type="text" id="' + pr + '_' + clickCount + '_@nameof(Product.Picture)" name="' + pr + '[' + clickCount + '].@nameof(Product.Picture)" value="" />' +'<hr style="border-top: 3px solid #bbb;">';
+                '<label for="' + pr + '_' + clickCount + '_@nameof(ProductRegisterModel.Picture)">Picture</label>' +
+                '<input type="file" id="' + pr + '_' + clickCount + '_@nameof(ProductRegisterModel.Picture)" name="' + pr + '[' + clickCount + '].@nameof(ProductRegisterModel.Picture)" value="" />' +'<hr style="border-top: 3px solid #bbb;">';
             container.appendChild(product);
             clickCount++;
         };
@@ -97,7 +97,7 @@
                         <div id="mapid"></div>
 
                         <div class="form-group">
-                            <label asp-for="Picture">Here you can add your business picture</label>
+                            <label asp-for="Picture">Business picture</label>
                             <input type="file" asp-for="Picture" class="form-control" />
                         </div>
                         <button type="submit" class="btn btn-primary">Advertise business</button>

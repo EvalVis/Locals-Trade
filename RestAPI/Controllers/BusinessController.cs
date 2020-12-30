@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using RestAPI.Cryptography;
 using RestAPI.Models;
+using RestAPI.Models.Search;
 using RestAPI.Models.BindingTargets;
 using RestAPI.Models.Repositories;
 
@@ -50,6 +51,7 @@ namespace RestAPI.Controllers
             foreach (var b in businesses)
             {
                 b.EliminateDepth();
+                b.PictureData = null;
             }
             PageBusiness pageBusiness = new PageBusiness { TotalPages = totalPages, Businesses = businesses };
             return Ok(pageBusiness);
@@ -70,6 +72,7 @@ namespace RestAPI.Controllers
             foreach (var b in filteredBusinesses)
             {
                 b.EliminateDepth();
+                b.PictureData = null;
             }
             if (totalItems == 0) return NoContent();
             PageBusiness filteredPageBusiness = new PageBusiness { TotalPages = totalPages, Businesses = filteredBusinesses };
@@ -89,6 +92,7 @@ namespace RestAPI.Controllers
             foreach (var b in businesses)
             {
                 b.EliminateDepth();
+                b.PictureData = null;
             }
             return Ok(businesses);
         }
@@ -106,6 +110,7 @@ namespace RestAPI.Controllers
                 FirstOrDefaultAsync(b => b.BusinessID == id);
             if (business == null) return NotFound();
             business.EliminateDepth();
+            business.PictureData = null;
             return Ok(business);
         }
 
@@ -140,7 +145,6 @@ namespace RestAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> SaveBusiness(BusinessBindingTarget target)
         {
-            System.Diagnostics.Debug.WriteLine("Gavau " + JsonConvert.SerializeObject(target));
             await repository.SaveBusinessAsync(target.ToBusiness(claimedId));
             return Ok();
         }

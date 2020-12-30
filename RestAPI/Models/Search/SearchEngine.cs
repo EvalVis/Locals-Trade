@@ -5,7 +5,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using RestAPI.Models.Repositories;
 
-namespace RestAPI.Models
+namespace RestAPI.Models.Search
 {
     /// <summary>
     /// In case some of the properties are not included in the request query, filter always return true for that part.

@@ -41,8 +41,8 @@ namespace RestAPI.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Picture")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("PictureData")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<long>("UserID")
                         .HasColumnType("bigint");
@@ -127,8 +127,8 @@ namespace RestAPI.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Picture")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("PictureData")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<decimal>("PricePerUnit")
                         .HasColumnType("decimal(18,2)");
@@ -198,6 +198,30 @@ namespace RestAPI.Migrations
                         .HasFilter("[Email] IS NOT NULL");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Support_Your_Locals.Models.Question", b =>
+                {
+                    b.Property<long>("QuestionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsAnswered")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Response")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("QuestionId");
+
+                    b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("RestAPI.Models.Business", b =>

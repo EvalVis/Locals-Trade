@@ -106,7 +106,7 @@ namespace RestAPI
             });
             app.UseSwagger();
             app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "RestAPI"));
-            SeedData.EnsurePopulated(app, new HashCalculator());
+            SeedData.EnsurePopulated(app, new HashCalculator(), new Imager());
         }
     }
 }

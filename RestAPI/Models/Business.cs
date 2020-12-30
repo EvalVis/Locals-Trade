@@ -14,7 +14,7 @@ namespace RestAPI.Models
         public string Latitude { get; set; }
         public string PhoneNumber { get; set; }
         public string Header { get; set; }
-        public string Picture { get; set; }
+        public byte[] PictureData { get; set; }
         public List<TimeSheet> Workdays { get; set; } = new List<TimeSheet>();
         public List<Product> Products { get; set; } = new List<Product>();
         public List<Feedback> Feedbacks { get; set; } = new List<Feedback>();
@@ -24,7 +24,6 @@ namespace RestAPI.Models
             if (User != null)
             {
                 User.Email = null;
-                User.BirthDate = new DateTime(1999, 12, 06);
                 User.Passhash = null;
                 User.Businesses = null;
             }
