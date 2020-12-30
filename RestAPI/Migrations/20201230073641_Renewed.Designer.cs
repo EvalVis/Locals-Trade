@@ -10,8 +10,8 @@ using RestAPI.Models;
 namespace RestAPI.Migrations
 {
     [DbContext(typeof(ServiceDbContext))]
-    [Migration("20201228131329_Orders")]
-    partial class Orders
+    [Migration("20201230073641_Renewed")]
+    partial class Renewed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,8 +43,8 @@ namespace RestAPI.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Picture")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("PictureData")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<long>("UserID")
                         .HasColumnType("bigint");

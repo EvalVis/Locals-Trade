@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,13 +39,8 @@ namespace RestAPI.Controllers
             {
                 return NotFound();
             }
-            /*if(business.PictureData != null)
-            {
-                string imageString = Convert.ToBase64String(business.PictureData);
-                return Ok(business.PictureData);
-            }*/
-            string another = Convert.ToBase64String(System.IO.File.ReadAllBytes("Pictures/business-icon.png"));
-            return Ok(string.Format("data:image/jpg;base64,{0}", another));
+            byte[] b = business.PictureData ?? System.IO.File.ReadAllBytes("Pictures/business-icon.png");
+            return File(b, "image/jpeg");
         }
 
     }
