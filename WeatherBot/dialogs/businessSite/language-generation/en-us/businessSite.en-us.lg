@@ -3,19 +3,21 @@
 # SendActivity_zKDifT()
 - Something went wrong when trying to retrieve business info.
 # SendActivity_xIEelf()
-[ThumbnailCard
+[HeroCard
 title = ${dialog.data.header}
 subtitle = ${dialog.data.user.name} ${dialog.data.user.surname}
 text = ${dialog.data.description}
+image = https://localhost:5001/api/Picture/business/${dialog.data.businessID}
 ]
 # SendActivity_pcW8Mj()
 - Sending more information about this business:
 # SendActivity_eAlzRt()
-[HeroCard
+[ThumbnailCard
 title= ${dialog.foreach.value.name}
 subtitle= ${dialog.foreach.value.comment}
-text = ${dialog.foreach.value.pricePerUnit} per ${dialog.foreach.value.unit}
+text = ${dialog.foreach.value.pricePerUnit}€ per ${dialog.foreach.value.unit}
 buttons = ${ImBackCardAction("Show orders", "Orders " + turn.temp)}
+image = https://localhost:5001/api/Picture/product/${turn.temp}
 ]
 #ImBackCardAction (title, value)
 [CardAction

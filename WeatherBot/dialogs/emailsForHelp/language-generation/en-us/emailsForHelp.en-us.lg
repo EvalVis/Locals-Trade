@@ -1,0 +1,10 @@
+[import](common.lg)
+
+# TextInput_Prompt_HGaVls()
+- Please ask a question:
+# TextInput_Prompt_Fdm6xP()
+- Please enter your email, so we could reply:
+# SendActivity_WQMK5W()
+- Successfully sent.
+# SendActivity_BjNYL4()
+- Something went wrong. Maybe you did not provide your email or sent a blank message?

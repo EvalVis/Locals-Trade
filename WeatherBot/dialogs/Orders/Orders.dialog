@@ -65,6 +65,12 @@
                   "activity": "${SendActivity_L4F8C7()}"
                 }
               ]
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "gBrZEe"
+              }
             }
           ],
           "actions": [

@@ -1,8 +1,8 @@
 {
   "$kind": "Microsoft.AdaptiveDialog",
   "$designer": {
-    "id": "7Me0l0",
-    "name": "writeFeedback",
+    "id": "rR9mMe",
+    "name": "emailsForHelp",
     "description": ""
   },
   "autoEndDialog": true,
@@ -13,105 +13,88 @@
       "$designer": {
         "name": "BeginDialog",
         "description": "",
-        "id": "7xMtfV"
+        "id": "5ZPfHh"
       },
       "actions": [
         {
-          "$kind": "Microsoft.SetProperty",
-          "$designer": {
-            "id": "v0p3MU"
-          },
-          "property": "dialog.bId",
-          "value": "=@id"
-        },
-        {
           "$kind": "Microsoft.TextInput",
           "$designer": {
-            "id": "FrIrZ8"
+            "id": "HGaVls"
           },
           "disabled": false,
           "maxTurnCount": 3,
           "alwaysPrompt": false,
           "allowInterruptions": true,
-          "prompt": "${TextInput_Prompt_FrIrZ8()}",
+          "prompt": "${TextInput_Prompt_HGaVls()}",
           "unrecognizedPrompt": "",
           "invalidPrompt": "",
           "defaultValueResponse": "",
-          "property": "dialog.senderName",
-          "outputFormat": "=trim(this.value)"
+          "outputFormat": "= trim(this.value)",
+          "property": "dialog.message"
         },
         {
           "$kind": "Microsoft.TextInput",
           "$designer": {
-            "id": "1iM86j"
+            "id": "Fdm6xP"
           },
           "disabled": false,
           "maxTurnCount": 3,
           "alwaysPrompt": false,
           "allowInterruptions": true,
-          "prompt": "${TextInput_Prompt_1iM86j()}",
+          "prompt": "${TextInput_Prompt_Fdm6xP()}",
           "unrecognizedPrompt": "",
           "invalidPrompt": "",
           "defaultValueResponse": "",
-          "property": "dialog.text",
-          "outputFormat": "=trim(this.value)"
-        },
-        {
-          "$kind": "Microsoft.SendActivity",
-          "$designer": {
-            "id": "zuZYU5"
-          },
-          "activity": "${SendActivity_zuZYU5()}"
+          "property": "dialog.email"
         },
         {
           "$kind": "Microsoft.HttpRequest",
           "$designer": {
-            "id": "Ke1Myb"
+            "id": "ZMIYEG"
           },
           "method": "POST",
-          "url": "https://localhost:5001/api/Feedback",
+          "url": "https://localhost:5001/api/help",
+          "resultProperty": "dialog.api_response",
           "body": {
-            "senderName": "${dialog.senderName}",
-            "text": "${dialog.text}",
-            "businessID": "${dialog.bId}"
-          },
-          "resultProperty": "dialog.api_response"
+            "email": "${dialog.email}",
+            "message": "${dialog.message}"
+          }
         },
         {
           "$kind": "Microsoft.IfCondition",
           "$designer": {
-            "id": "v4Ag2x"
+            "id": "pjaHbp"
           },
           "condition": "dialog.api_response.statusCode == 200",
-          "elseActions": [
-            {
-              "$kind": "Microsoft.SendActivity",
-              "$designer": {
-                "id": "4KXrGk"
-              },
-              "activity": "${SendActivity_4KXrGk()}"
-            },
-            {
-              "$kind": "Microsoft.EndDialog",
-              "$designer": {
-                "id": "7rg7T2"
-              }
-            }
-          ],
           "actions": [
             {
               "$kind": "Microsoft.SendActivity",
               "$designer": {
-                "id": "10uMlc"
+                "id": "WQMK5W"
               },
-              "activity": "${SendActivity_10uMlc()}"
+              "activity": "${SendActivity_WQMK5W()}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "BjNYL4"
+              },
+              "activity": "${SendActivity_BjNYL4()}"
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "GI3lTr"
+              }
             }
           ]
         }
       ]
     }
   ],
-  "generator": "writeFeedback.lg",
-  "recognizer": "writeFeedback.lu.qna",
-  "id": "writeFeedback"
+  "generator": "emailsForHelp.lg",
+  "recognizer": "emailsForHelp.lu.qna",
+  "id": "emailsForHelp"
 }
