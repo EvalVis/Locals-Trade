@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
+using System.Linq;
 using Support_Your_Locals.Models.ViewModels;
 
 namespace Support_Your_Locals.Models
@@ -40,7 +41,7 @@ namespace Support_Your_Locals.Models
             PhoneNumber = registerModel.PhoneNumber;
             Header = registerModel.Header;
             Workdays = workdays;
-            Products = registerModel.Products;
+            Products = registerModel.ToProducts().ToList();
             if (registerModel.Picture != null)
             {
                 MemoryStream imageMemoryStream = new MemoryStream();

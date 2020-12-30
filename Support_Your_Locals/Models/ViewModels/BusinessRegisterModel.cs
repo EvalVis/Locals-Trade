@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using Microsoft.AspNetCore.Http;
 
 namespace Support_Your_Locals.Models.ViewModels
@@ -18,7 +19,23 @@ namespace Support_Your_Locals.Models.ViewModels
         public string Latitude { get; set; }
         public IFormFile Picture { get; set; }
         public TimeSheet[] Workdays { get; set; } = new TimeSheet[7];
-        public List<Product> Products { get; set; } = new List<Product>();
+        public List<ProductRegisterModel> Products { get; set; } = new List<ProductRegisterModel>();
+
+        public IEnumerable<Product> ToProducts()
+        {
+            foreach(var p in Products)
+            {
+                if (p == null) continue;
+                byte[] PictureData = null;
+                if (p.Picture != null)
+                {
+                    MemoryStream imageMemoryStream = new MemoryStream();
+                    p.Picture.CopyTo(imageMemoryStream);
+                    PictureData = imageMemoryStream.ToArray();
+                }
+                yield return new Product { Name = p.Name, PricePerUnit = p.PricePerUnit, Unit = p.Unit, Comment = p.Comment, PictureData = PictureData };
+            }
+        }
 
         public void SetModelForUpdate(Business business)
         {
