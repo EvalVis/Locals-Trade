@@ -58,7 +58,7 @@ namespace RestAPI.Controllers
             {
                 return NotFound();
             }
-            byte[] b = product.PictureData;
+            byte[] b = product.PictureData ?? new byte[1];
             return File(b, "image/jpeg");
         }
 
