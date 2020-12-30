@@ -84,7 +84,7 @@ namespace Support_Your_Locals
                 endpoints.MapFallbackToPage("/orders/{*catchall}", "/Orders/Index");
                 endpoints.MapFallbackToPage("/user/{*catchall}", "/User/Index");
             });
-            SeedData.EnsurePopulated(app, new HashCalculator());
+            SeedData.EnsurePopulated(app, new HashCalculator(), new Imager());
             app.UseSwagger();
             app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "Support Your Locals"));
         }
