@@ -149,7 +149,7 @@ namespace Support_Your_Locals.Models.Repositories
             try
             {
                 connection.Open();
-                adapter.SelectCommand = new SqlCommand("Select ProductID, Name, PricePerUnit, Unit, Comment, Picture, BusinessID FROM dbo.Products", connection);
+                adapter.SelectCommand = new SqlCommand("Select ProductID, Name, PricePerUnit, Unit, Comment, PictureData, BusinessID FROM dbo.Products", connection);
                 adapter.Fill(ds);
             }
             finally
@@ -165,7 +165,7 @@ namespace Support_Your_Locals.Models.Repositories
                 PricePerUnit = row.Field<decimal>("PricePerUnit"),
                 Unit = row.Field<string>("Unit"),
                 Comment = row.Field<string>("Comment"),
-                Picture = row.Field<string>("Picture"),
+                PictureData = row.Field<byte[]>("PictureData"),
                 BusinessID = row.Field<long>("BusinessID"),
             }).ToList();
         }
