@@ -28,7 +28,6 @@ namespace RestAPI.Models.BindingTargets
             Latitude = Latitude,
             PhoneNumber = PhoneNumber,
             Header = Header,
-            Picture = Picture,
             Workdays = ToWorkdays().ToList(),
             Products = ToProducts().ToList()
         };
