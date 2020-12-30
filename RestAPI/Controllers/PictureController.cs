@@ -27,7 +27,7 @@ namespace RestAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpGet("{id}")]
+        [HttpGet("business/{id}")]
         public async Task<ActionResult> BusinessImage(long id)
         {
             if(id < 1)
