@@ -65,6 +65,8 @@ namespace RestAPI.Models.Search
                 double.TryParse(b.Latitude, NumberStyles.Any, CultureInfo.InvariantCulture, out double cLat);
                 double.TryParse(b.Longitude, NumberStyles.Any, CultureInfo.InvariantCulture, out double cLon);
                 distance += CalculateDistance(lastLat, lastLon, cLat, cLon);
+                lastLat = cLat;
+                lastLon = cLon;
             }
             distance += CalculateDistance(lastLat, lastLon, DestinationLatitude, DestinationLongitude);
             return distance;
