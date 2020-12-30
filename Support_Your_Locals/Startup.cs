@@ -30,7 +30,6 @@ namespace Support_Your_Locals
             services.AddDbContext<ServiceDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); 
             services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddScoped<HashCalculator>();
-            services.AddScoped<Imager>();
             services.AddScoped<ILegacyServiceRepository, LegacyServiceRepository>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
