@@ -1,0 +1,126 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "0ZJPKV",
+    "name": "printBusinessBoard",
+    "description": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "odN2zu"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "bSVmUu"
+          },
+          "method": "GET",
+          "url": "https://localhost:5001/api/Business/Filtered/${user.page}?${user.query}",
+          "resultProperty": "dialog.api_response",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "wrbLVK"
+          },
+          "condition": "dialog.api_response.statusCode == 200",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "LRDZ2I"
+              },
+              "property": "dialog.data",
+              "value": "= dialog.api_response.content"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "1dMoia"
+              },
+              "property": "user.totalPages",
+              "value": "= int(dialog.data.totalPages)"
+            },
+            {
+              "$kind": "Microsoft.Foreach",
+              "$designer": {
+                "id": "BtobFo"
+              },
+              "index": "dialog.foreach.index",
+              "value": "dialog.foreach.value",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "0VO9UV"
+                  },
+                  "property": "turn.temp",
+                  "value": "=string(dialog.foreach.value.businessID)"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "aZy24P"
+                  },
+                  "activity": "${SendActivity_aZy24P()}"
+                }
+              ],
+              "itemsProperty": "dialog.data.businesses"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "rMIhsz"
+              },
+              "condition": "dialog.api_response.statusCode == 204 || dialog.api_response.statusCode == 404",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "kzuMNE"
+                  },
+                  "activity": "${SendActivity_kzuMNE()}"
+                }
+              ],
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "ln7ZTs"
+                  },
+                  "activity": "${SendActivity_ln7ZTs()}"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "8VuWih"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "wvID07"
+          },
+          "activity": "${SendActivity_wvID07()}"
+        }
+      ]
+    }
+  ],
+  "generator": "printBusinessBoard.lg",
+  "recognizer": "printBusinessBoard.lu.qna",
+  "id": "printBusinessBoard"
+}

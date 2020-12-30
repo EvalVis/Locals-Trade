@@ -32,7 +32,7 @@
           "disabled": false,
           "maxTurnCount": 3,
           "alwaysPrompt": false,
-          "allowInterruptions": false,
+          "allowInterruptions": true,
           "prompt": "${TextInput_Prompt_lXVBkW()}",
           "unrecognizedPrompt": "",
           "invalidPrompt": "",
@@ -65,6 +65,12 @@
                 "id": "brHUJd"
               },
               "activity": "${SendActivity_brHUJd()}"
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "KrG0j6"
+              }
             }
           ],
           "actions": [

@@ -191,6 +191,290 @@
           "dialog": "writeCourierEmail"
         }
       ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "6rsptH",
+        "name": "ask"
+      },
+      "intent": "ask",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "fzsj5h"
+          },
+          "activityProcessed": true,
+          "dialog": "emailsForHelp"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "xWK2uk",
+        "name": "previousPage"
+      },
+      "intent": "previousPage",
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "8SVmXO"
+          },
+          "condition": "user.page == null",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "eHyqZG"
+              },
+              "activity": "${SendActivity_eHyqZG()}"
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "l0GpE0"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "EcgFnh"
+          },
+          "condition": "int(user.page) > 1",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "aH2PGw"
+              },
+              "property": "user.page",
+              "value": "= int(user.page) - 1"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "A41XdO"
+              },
+              "activityProcessed": true,
+              "dialog": "printBusinessBoard"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "ujgp0d"
+              },
+              "activity": "${SendActivity_ujgp0d()}"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "yKwPeJ"
+              },
+              "activity": "${SendActivity_yKwPeJ()}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "OY8vB4",
+        "name": "nextPage"
+      },
+      "intent": "nextPage",
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "wX8hUW"
+          },
+          "condition": "user.page == null || user.totalPages == null",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "TkQzQO"
+              },
+              "activity": "${SendActivity_TkQzQO()}"
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "iNHiDm"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "CoRUKg"
+          },
+          "condition": "int(user.page) < int(user.totalPages)",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "gQjVa9"
+              },
+              "activity": "${SendActivity_gQjVa9()}"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "LKlkzx"
+              },
+              "activity": "${SendActivity_LKlkzx()}"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "nOsFlP"
+              },
+              "property": "user.page",
+              "value": "= int(user.page) + 1"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "yhUa2v"
+              },
+              "activityProcessed": true,
+              "dialog": "printBusinessBoard"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "zenQol",
+        "name": "currentPage"
+      },
+      "intent": "currentPage",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "Nu3PaM"
+          },
+          "activityProcessed": true,
+          "dialog": "printBusinessBoard"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "0c6KSK",
+        "name": "go"
+      },
+      "intent": "go",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "lXBAj2"
+          },
+          "property": "dialog.targetPage",
+          "value": "= @targetPage"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "wKeMgO"
+          },
+          "condition": "= isMatch(dialog.targetPage , \"^[1-9]\\d*$\")",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "uizPTL"
+              },
+              "activity": "${SendActivity_uizPTL()}"
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "W6MpZx"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "rOxEt3"
+          },
+          "condition": "user.totalPages == null",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "UF27lG"
+              },
+              "activity": "${SendActivity_UF27lG()}"
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "123Gks"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "9dMZJH"
+          },
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "rPN4f1"
+              },
+              "property": "user.page",
+              "value": "= int(dialog.targetPage)"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "PmRTxd"
+              },
+              "activityProcessed": true,
+              "dialog": "printBusinessBoard"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "P09msO"
+              },
+              "activity": "${SendActivity_P09msO()}"
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "AKj89t"
+              }
+            }
+          ],
+          "condition": "= int(dialog.targetPage) <= int(user.totalPages) && int(dialog.targetPage) > 0"
+        }
+      ]
     }
   ],
   "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
@@ -230,6 +514,26 @@
       {
         "intent": "courierEmail",
         "pattern": "courierEmail (?<id>.*)"
+      },
+      {
+        "intent": "ask",
+        "pattern": "ask"
+      },
+      {
+        "intent": "previousPage",
+        "pattern": "previous page"
+      },
+      {
+        "intent": "nextPage",
+        "pattern": "next page"
+      },
+      {
+        "intent": "currentPage",
+        "pattern": "current page"
+      },
+      {
+        "intent": "go",
+        "pattern": "go (?<targetPage>.*)"
       }
     ]
   }

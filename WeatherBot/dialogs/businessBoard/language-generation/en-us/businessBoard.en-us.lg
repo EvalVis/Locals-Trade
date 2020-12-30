@@ -1,13 +1,5 @@
 [import](common.lg)
 
-# SendActivity_dlyXaQ()
-- Something went wrong when trying to retrieve business board.
-# SendActivity_TZaXTB()
-[HeroCard
-title = ${dialog.foreach.value.header}
-subtitle = ${dialog.foreach.value.user.name} ${dialog.foreach.value.user.surname}
-buttons = ${ImBackCardAction("Visit", "Visit " + turn.temp)} | ${ImBackCardAction("Write a feedback", "Feedback " + turn.temp)}
-]
 #ImBackCardAction (title, value)
 [CardAction
 Type = imBack

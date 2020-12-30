@@ -1,0 +1,26 @@
+[import](common.lg)
+
+#ImBackCardAction (title, value)
+[CardAction
+Type = imBack
+Title = ${title}
+Value = ${value}
+]
+
+# SendActivity_aZy24P()
+[HeroCard
+title = ${dialog.foreach.value.header}
+subtitle = ${dialog.foreach.value.user.name} ${dialog.foreach.value.user.surname}
+buttons = ${ImBackCardAction("Visit", "Visit " + turn.temp)} | ${ImBackCardAction("Write a feedback", "Feedback " + turn.temp)}
+]
+# SendActivity_ln7ZTs()
+- No matches found.
+# SendActivity_kzuMNE()
+- Something went wrong when trying to retrieve business board.
+
+# SendActivity_wvID07()
+[Activity
+Text = You can also type GO [page number] to go to page. \n\n Typing CURRENT PAGE is also a posibility. \n\n You are currently at page ${user.page}. There is a total of ${user.totalPages} pages.
+SuggestedActions = Previous page | Next page
+]
+
