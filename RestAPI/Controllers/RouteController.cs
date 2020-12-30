@@ -26,16 +26,16 @@ namespace RestAPI.Controllers
         [HttpGet("products")]
         public ActionResult ShortestRouteForProducts([FromQuery] OptimalRoute engine)
         {
-            if(engine.ProductNames.Count > 5)
+            if (engine.ProductNames.Count > 5)
             {
                 return BadRequest("Product list limit exceeded.");
             }
             List<Business> best = engine.FindBusinesses(repository);
-            foreach(var b in best)
+            foreach (var b in best)
             {
                 b.EliminateDepth();
             }
-            if(!best.Any())
+            if (!best.Any())
             {
                 return NoContent();
             }
