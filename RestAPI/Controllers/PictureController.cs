@@ -58,7 +58,7 @@ namespace RestAPI.Controllers
             {
                 return NotFound();
             }
-            byte[] b = product.PictureData ?? new byte[1];
+            byte[] b = product.PictureData ?? System.IO.File.ReadAllBytes("Pictures/noProductPicture.jpg");
             return File(b, "image/jpeg");
         }
 

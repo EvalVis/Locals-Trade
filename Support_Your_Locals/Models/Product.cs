@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 
 namespace Support_Your_Locals.Models
 {
@@ -16,7 +17,7 @@ namespace Support_Your_Locals.Models
         {
             get
             {
-                string imageBase64Data = Convert.ToBase64String(PictureData ?? new byte[1]);
+                string imageBase64Data = Convert.ToBase64String(PictureData ?? File.ReadAllBytes("Content/Images/noProductPicture.jpg"));
                 return string.Format("data:image/jpg;base64,{0}", imageBase64Data);
             }
         }
