@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.JsonPatch;
+using Support_Your_Locals.Models;
 
 namespace RestAPI.Models.Repositories
 {
@@ -12,6 +13,7 @@ namespace RestAPI.Models.Repositories
         public IQueryable<TimeSheet> Workdays { get; }
         public IQueryable<Product> Products { get; }
         public IQueryable<Feedback> Feedbacks { get; }
+        public IQueryable<Question> Questions { get; }
         public IQueryable<Order> Orders { get; }
         public Task SaveFeedbackAsync(Feedback feedback);
         public Task Patch<T>(JsonPatchDocument<T> document, T entity) where T : class;
@@ -21,5 +23,6 @@ namespace RestAPI.Models.Repositories
         public Task SaveUserAsync(User user);
         public Task RemoveFeedbacksAsync(IEnumerable<Feedback> feedbacks);
         public Task RemoveFeedbackAsync(Feedback feedback);
+        public Task AskForHelpAsync(Question question);
     }
 }

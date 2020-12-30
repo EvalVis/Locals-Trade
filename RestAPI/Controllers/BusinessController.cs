@@ -141,7 +141,6 @@ namespace RestAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> SaveBusiness(BusinessBindingTarget target)
         {
-            System.Diagnostics.Debug.WriteLine("Gavau " + JsonConvert.SerializeObject(target));
             await repository.SaveBusinessAsync(target.ToBusiness(claimedId));
             return Ok();
         }

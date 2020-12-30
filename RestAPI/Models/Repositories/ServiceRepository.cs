@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
+using Support_Your_Locals.Models;
 
 namespace RestAPI.Models.Repositories
 {
@@ -17,6 +18,7 @@ namespace RestAPI.Models.Repositories
 
         public IQueryable<Product> Products => context.Products;
         public IQueryable<Feedback> Feedbacks => context.Feedbacks;
+        public IQueryable<Question> Questions => context.Questions;
         public IQueryable<Order> Orders => context.Orders;
 
         public ServiceRepository(ServiceDbContext ctx)
@@ -85,6 +87,12 @@ namespace RestAPI.Models.Repositories
         public async Task RemoveFeedbackAsync(Feedback feedback)
         {
             context.Remove(feedback);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task AskForHelpAsync(Question question)
+        {
+            await context.Questions.AddAsync(question);
             await context.SaveChangesAsync();
         }
 

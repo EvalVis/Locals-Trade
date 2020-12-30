@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Support_Your_Locals.Models;
 
 namespace RestAPI.Models
 {
@@ -15,6 +16,7 @@ namespace RestAPI.Models
         public DbSet<TimeSheet> TimeSheets { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<Question> Questions { get; set; }
         public DbSet<Order> Orders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -32,6 +34,7 @@ namespace RestAPI.Models
                 .HasForeignKey(p => p.BusinessID).IsRequired().OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Feedback>().HasOne(f => f.Business).WithMany(b => b.Feedbacks)
                 .HasForeignKey(f => f.BusinessID).IsRequired().OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Question>();
             base.OnModelCreating(modelBuilder);
         }
 
