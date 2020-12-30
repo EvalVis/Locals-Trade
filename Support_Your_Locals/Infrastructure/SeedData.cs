@@ -94,19 +94,19 @@ namespace Support_Your_Locals.Infrastructure
             u5.Businesses.Add(b8);
             u6.Businesses.Add(b9);
 
-            Product p1 = CreateProduct("Traktorius", 10000, "vienetas", "Liko tik trys.");
-            Product p2 = CreateProduct("Daužtas BMW", 20000, "vienetas", "Jei netinka, galim dar padaužti prieš parduodant.");
-            Product p3 = CreateProduct("Nissan", 10000, "vienetas", "Sena gera mašina.");
-            Product p4 = CreateProduct("Saldainiai arbūzai", 3, "pakelis", "Tik močiutės pyragai skanesni.");
-            Product p5 = CreateProduct("Sproginėjantys čiulpinukai", 2, "čiulpinukas", "Suvalgius keisti garsai pilve girdisi.");
-            Product p6 = CreateProduct("Remonto paslauga", 350, "sutaisytas automobilis", "Paprastai sutaisai per valandą dvi.");
-            Product p7 = CreateProduct("Kontrolinių atsakymai", 20, "lapas", "Pametus garantija neteikiama.");
+            Product p1 = CreateProduct("Traktorius", 10000, "vienetas", "Liko tik trys.", null);
+            Product p2 = CreateProduct("Daužtas BMW", 20000, "vienetas", "Jei netinka, galim dar padaužti prieš parduodant.", null);
+            Product p3 = CreateProduct("Nissan", 10000, "vienetas", "Sena gera mašina.", null);
+            Product p4 = CreateProduct("Saldainiai arbūzai", 3, "pakelis", "Tik močiutės pyragai skanesni.", null);
+            Product p5 = CreateProduct("Sproginėjantys čiulpinukai", 2, "čiulpinukas", "Suvalgius keisti garsai pilve girdisi.", null);
+            Product p6 = CreateProduct("Remonto paslauga", 350, "sutaisytas automobilis", "Paprastai sutaisai per valandą dvi.", null);
+            Product p7 = CreateProduct("Kontrolinių atsakymai", 20, "lapas", "Pametus garantija neteikiama.", null);
             Product p8 = CreateProduct("Peisažas", 200, "piešinys",
-                "Perkant du ar daugiau, taikoma 20% nuolaida bendrai sumai");
+                "Perkant du ar daugiau, taikoma 20% nuolaida bendrai sumai", null);
             Product p9 = CreateProduct("Natiurmortas", 500, "piešinys",
-                "Perkant du ar daugiau, mokate 20% brangiau bendros sumos");
-            Product p10 = CreateProduct("Kvepiančios kojinės", 25.73M, "viena kojinė", "Išnešiojo srities specialistas");
-            Product p11 = CreateProduct("Pinigų aukojimas", 5, "kartas", "Jei norite, galite paaukoti ir daugiau.");
+                "Perkant du ar daugiau, mokate 20% brangiau bendros sumos", null);
+            Product p10 = CreateProduct("Kvepiančios kojinės", 25.73M, "viena kojinė", "Išnešiojo srities specialistas", null);
+            Product p11 = CreateProduct("Pinigų aukojimas", 5, "kartas", "Jei norite, galite paaukoti ir daugiau.", null);
 
             b1.Products.Add(p1);
             b1.Products.Add(p2);
