@@ -33,6 +33,13 @@
           "outputFormat": "=trim (this.value)"
         },
         {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "bcG0kq"
+          },
+          "property": "user.query"
+        },
+        {
           "$kind": "Microsoft.IfCondition",
           "$designer": {
             "id": "gegMQv"
