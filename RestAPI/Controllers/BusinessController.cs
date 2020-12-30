@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using RestAPI.Cryptography;
 using RestAPI.Models;
+using RestAPI.Models.Search;
 using RestAPI.Models.BindingTargets;
 using RestAPI.Models.Repositories;
 
