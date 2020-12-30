@@ -43,5 +43,24 @@ namespace RestAPI.Controllers
             return File(b, "image/jpeg");
         }
 
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpGet("product/{id}")]
+        public async Task<ActionResult> ProductImage(long id)
+        {
+            if (id < 1)
+            {
+                return BadRequest();
+            }
+            Product product = await repository.Products.FirstOrDefaultAsync(p => p.ProductID == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            byte[] b = product.PictureData;
+            return File(b, "image/jpeg");
+        }
+
     }
 }
