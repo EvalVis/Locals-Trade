@@ -10,7 +10,7 @@ using RestAPI.Models;
 namespace RestAPI.Migrations
 {
     [DbContext(typeof(ServiceDbContext))]
-    [Migration("20201230073641_Renewed")]
+    [Migration("20201230105132_Renewed")]
     partial class Renewed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -129,8 +129,8 @@ namespace RestAPI.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Picture")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("PictureData")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<decimal>("PricePerUnit")
                         .HasColumnType("decimal(18,2)");

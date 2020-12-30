@@ -80,7 +80,7 @@ namespace RestAPI.Migrations
                     PricePerUnit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Unit = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Picture = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PictureData = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     BusinessID = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
