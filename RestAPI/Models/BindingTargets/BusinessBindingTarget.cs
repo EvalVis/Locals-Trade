@@ -47,7 +47,7 @@ namespace RestAPI.Models.BindingTargets
         {
             foreach (var t in ProductTargets)
             {
-                yield return new Product { Name = t.Name, PricePerUnit = t.PricePerUnit, Unit = t.Unit, Comment = t.Comment, Picture = t.Picture };
+                yield return new Product { Name = t.Name, PricePerUnit = t.PricePerUnit, Unit = t.Unit, Comment = t.Comment };
             }
         }
 
