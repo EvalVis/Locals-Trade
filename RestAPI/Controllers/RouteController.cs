@@ -42,5 +42,19 @@ namespace RestAPI.Controllers
             return Ok(best);
         }
 
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpGet("courier")]
+        public ActionResult ShortestRouteForCourier([FromQuery] OptimalCourierRoute engine)
+        {
+            if(engine.OrdersCount > 5)
+            {
+                return BadRequest("Orders limit exceeded.");
+            }
+            //TODO: find best routes.
+            return null;
+        }
+
     }
 }

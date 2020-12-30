@@ -13,6 +13,7 @@ namespace RestAPI.Models.Search
         public double StartLongitude { get; set; }
         public double DestinationLatitude { get; set; }
         public double DestinationLongitude { get; set; }
+        public int OrdersCount { get; set; }
 
         private async Task<double> RouteCost(List<Order> orders)
         {
