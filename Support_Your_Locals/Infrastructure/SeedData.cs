@@ -148,9 +148,9 @@ namespace Support_Your_Locals.Infrastructure
             b8.Workdays.Add(t12);
             b8.Workdays.Add(t13);
 
-            Business b10 = CreateBusiness("Selling some kind of wild berries", "25.235131", "54.758748", "+37062199630", "Wild berries", null);
             Product p10_0 = CreateProduct("Blackberry", 15, "1 Kilo", "Fresh forest blackberries", null);
             Product p10_1 = CreateProduct("Fragaria", 8, "1 Kilo", "Sweet, medium sized fragarias", null);
+            Business b10 = CreateBusiness("Selling some kind of wild berries", "25.235131", "54.758748", "+37062199630", "Wild berries", imager.ByteMaker("10.jpg"));
             TimeSheet t10_0 = CreateWorkday(8, 0, 18, 0, 3);
 
             u6.Businesses.Add(b10);
@@ -158,9 +158,9 @@ namespace Support_Your_Locals.Infrastructure
             b10.Products.Add(p10_1);
             b10.Workdays.Add(t10_0);
 
-            Business b11 = CreateBusiness("Selling berries from my garden", "25.266962", "54.792729", "+37062199630", "Berries", null);
             Product p11_0 = CreateProduct("Strawberry", 4, "1 Kilo", "Frozen strawberries", null);
             Product p11_1 = CreateProduct("Raspberry", 7, "1 Kilo", "Juicy raspberries", null);
+            Business b11 = CreateBusiness("Selling berries from my garden", "25.266962", "54.792729", "+37062199630", "Berries", imager.ByteMaker("11.jpg"));
             TimeSheet t11_0 = CreateWorkday(10, 30, 17, 0, 2);
             TimeSheet t11_1 = CreateWorkday(8, 45, 18, 30, 4);
 
@@ -171,9 +171,9 @@ namespace Support_Your_Locals.Infrastructure
             b11.Workdays.Add(t11_0);
             b11.Workdays.Add(t11_1);
 
-            Business b12 = CreateBusiness("I can weld, electrical work", "25.298652", "54.783504", "+37062199111", "Services", null);
             Product p12_0 = CreateProduct("Welding", 20, "1 hour", "Can weld metal things", null);
             Product p12_1 = CreateProduct("Electrical work", 17, "1 hour", "All that connected to electrical work in home", null);
+            Business b12 = CreateBusiness("I can weld, electrical work", "25.298652", "54.783504", "+37062199111", "Services", imager.ByteMaker("12.jpg"));
             TimeSheet t12_0 = CreateWorkday(8, 30, 22, 0, 1);
 
             u10.Businesses.Add(b12);
@@ -181,41 +181,41 @@ namespace Support_Your_Locals.Infrastructure
             b12.Products.Add(p12_1);
             b12.Workdays.Add(t12_0);
 
-            Business b13 = CreateBusiness("I can plow", "25.298652", "54.783504", "+37062199111", "Farming work", null);
             Product p13_0 = CreateProduct("Plowing", 30, "1 ar", "Plow your ground", null);
+            Business b13 = CreateBusiness("I can plow", "25.298652", "54.783504", "+37062199111", "Farming work", imager.ByteMaker("13.jpg"));
             TimeSheet t13_0 = CreateWorkday(8, 30, 22, 0, 1);
 
             u10.Businesses.Add(b13);
             b13.Products.Add(p13_0);
             b13.Workdays.Add(t13_0);
 
-            Business b14 = CreateBusiness("You can order clothes to sew", "25.277352", "54.737149", "+37062199222", "Sewing", null);
             Product p14_0 = CreateProduct("Sewing", 18, "1 cm2", "Order unique clothes", null);
+            Business b14 = CreateBusiness("You can order clothes to sew", "25.277352", "54.737149", "+37062199222", "Sewing", imager.ByteMaker("14.jpg"));
             TimeSheet t14_0 = CreateWorkday(8, 30, 22, 0, 1);
 
             u9.Businesses.Add(b14);
             b14.Products.Add(p14_0);
             b14.Workdays.Add(t14_0);
 
-            Business b15 = CreateBusiness("You can order knited clothes", "25.277352", "54.737149", "+37062199222", "Knitting", null);
             Product p15_0 = CreateProduct("Knitting", 28, "1 cm2", "Order unique clothes", null);
+            Business b15 = CreateBusiness("You can order knited clothes", "25.277352", "54.737149", "+37062199222", "Knitting", imager.ByteMaker("15.jpg"));
             TimeSheet t15_0 = CreateWorkday(8, 30, 22, 0, 1);
 
             u9.Businesses.Add(b15);
             b15.Products.Add(p15_0);
             b15.Workdays.Add(t15_0);
 
-            Business b16 = CreateBusiness("Selling used clothes for symbolic price", "25.226498", "54.708795", "+37062199222", "Clothes", null);
             Product p16_0 = CreateProduct("Clothes", 1, "1 Clothe", "I can give some discount if you buy more", null);
+            Business b16 = CreateBusiness("Selling used clothes for symbolic price", "25.226498", "54.708795", "+37062199222", "Clothes", imager.ByteMaker("16.jpg"));
             TimeSheet t16_0 = CreateWorkday(8, 30, 22, 0, 1);
 
             u8.Businesses.Add(b16);
             b16.Products.Add(p16_0);
             b16.Workdays.Add(t16_0);
 
-            Business b17 = CreateBusiness("Selling home made dairy products", "25.506973", "54.676054", "+37062199333", "Dairy", null);
             Product p17_0 = CreateProduct("Milk", 1, "1 Liter", "Fresh cow milk", null);
             Product p17_1 = CreateProduct("Curd", 1, "200 Grams", "Loose curd", null);
+            Business b17 = CreateBusiness("Selling home made dairy products", "25.506973", "54.676054", "+37062199333", "Dairy", imager.ByteMaker("17.jpg"));
             TimeSheet t17_0 = CreateWorkday(8, 30, 12, 0, 1);
             TimeSheet t17_1 = CreateWorkday(8, 30, 12, 0, 2);
             TimeSheet t17_2 = CreateWorkday(8, 30, 12, 0, 3);
@@ -236,17 +236,17 @@ namespace Support_Your_Locals.Infrastructure
             b17.Workdays.Add(t17_5);
             b17.Workdays.Add(t17_6);
 
-            Business b18 = CreateBusiness("Selling chicken eggs", "25.326122", "54.638121", "+37062199222", "Eggs", null);
             Product p18_0 = CreateProduct("Chicken eggs", 3, "10 eggs", "Chickens were feeded without compound feedingstuffs", null);
+            Business b18 = CreateBusiness("Selling chicken eggs", "25.326122", "54.638121", "+37062199222", "Eggs", imager.ByteMaker("18.jpg"));
             TimeSheet t18_0 = CreateWorkday(8, 30, 22, 0, 1);
 
             u8.Businesses.Add(b18);
             b18.Products.Add(p18_0);
             b18.Workdays.Add(t18_0);
 
-            Business b19 = CreateBusiness("Selling home made goat dairy products", "25.506973", "54.676054", "+37062199333", "Dairy", null);
             Product p19_0 = CreateProduct("Milk", 4, "1 Liter", "Fresh goat milk", null);
             Product p19_1 = CreateProduct("Cheese", 5, "200 Grams", "Goat cheese. Good with bread", null);
+            Business b19 = CreateBusiness("Selling home made goat dairy products", "25.506973", "54.676054", "+37062199333", "Dairy", imager.ByteMaker("19.jpg"));
             TimeSheet t19_0 = CreateWorkday(9, 30, 12, 0, 1);
             TimeSheet t19_1 = CreateWorkday(9, 30, 12, 0, 2);
             TimeSheet t19_2 = CreateWorkday(9, 30, 12, 0, 3);
@@ -267,16 +267,16 @@ namespace Support_Your_Locals.Infrastructure
             b19.Workdays.Add(t19_5);
             b19.Workdays.Add(t19_6);
 
-            Business b20 = CreateBusiness("Selling home made bread from my own wheat", "25.301730", "54.636929", "+37062199333", "Bread", null);
             Product p20_0 = CreateProduct("Bread", 3, "500 Grams", "Rectangle shaped bread", null);
+            Business b20 = CreateBusiness("Selling home made bread from my own wheat", "25.301730", "54.636929", "+37062199333", "Bread", imager.ByteMaker("12.jpg"));
             TimeSheet t20_0 = CreateWorkday(8, 30, 22, 0, 1);
 
             u8.Businesses.Add(b20);
             b20.Products.Add(p20_0);
             b20.Workdays.Add(t20_0);
 
-            Business b21 = CreateBusiness("Selling 1 year old goat", "25.301730", "54.636929", "+37062199333", "Goat", null);
             Product p21_0 = CreateProduct("Goat", 50, "1 animal", "Gives 3liters of milk", null);
+            Business b21 = CreateBusiness("Selling 1 year old goat", "25.301730", "54.636929", "+37062199333", "Goat", imager.ByteMaker("21.jfif"));
             TimeSheet t21_0 = CreateWorkday(8, 30, 22, 0, 1);
 
             u8.Businesses.Add(b21);
