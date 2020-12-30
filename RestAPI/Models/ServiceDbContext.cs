@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Support_Your_Locals.Models;
 
 namespace RestAPI.Models
 {

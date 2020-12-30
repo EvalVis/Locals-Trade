@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestAPI.Models;
 using RestAPI.Models.Repositories;
-using Support_Your_Locals.Models;
 
 namespace RestAPI.Controllers
 {

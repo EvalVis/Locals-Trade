@@ -1,4 +1,4 @@
-﻿namespace Support_Your_Locals.Models
+﻿namespace RestAPI.Models
 {
     public class Question
     {
