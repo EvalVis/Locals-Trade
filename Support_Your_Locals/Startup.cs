@@ -30,6 +30,7 @@ namespace Support_Your_Locals
             services.AddDbContext<ServiceDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); 
             services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddScoped<HashCalculator>();
+            services.AddScoped<Imager>();
             services.AddScoped<ILegacyServiceRepository, LegacyServiceRepository>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
@@ -84,7 +85,7 @@ namespace Support_Your_Locals
                 endpoints.MapFallbackToPage("/orders/{*catchall}", "/Orders/Index");
                 endpoints.MapFallbackToPage("/user/{*catchall}", "/User/Index");
             });
-            SeedData.EnsurePopulated(app, new HashCalculator());
+            SeedData.EnsurePopulated(app, new HashCalculator(), new Imager());
             app.UseSwagger();
             app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "Support Your Locals"));
         }
