@@ -8,3 +8,27 @@
 
 # SendActivity_4PfcAF()
 - Got it
+# SendActivity_ujgp0d()
+- Cannot go to previous page. You are already at page 1.
+# SendActivity_gQjVa9()
+- Cannot go to next page. You are already at the maximum page. The page is ${user.page}.
+# SendActivity_LKlkzx()
+[Activity
+SuggestedActions = Previous page
+]
+
+# SendActivity_yKwPeJ()
+[Activity
+SuggestedActions = Next page
+]
+
+# SendActivity_UF27lG()
+- Please type SHOW first to search.
+# SendActivity_P09msO()
+- Cannot go to this page. There are a total of ${user.totalPages} pages.
+# SendActivity_uizPTL()
+- Incorrect usage. It must be like this: go 1.
+# SendActivity_TkQzQO()
+- Please type SHOW first to start searching.
+# SendActivity_eHyqZG()
+- Please type SHOW first to search searching.
