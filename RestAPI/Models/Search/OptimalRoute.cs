@@ -29,14 +29,37 @@ namespace RestAPI.Models.Search
                 return new List<Business>();
             }
             List<List<Business>> businessByProducts = new List<List<Business>>();
-            foreach(var pName in ProductNames)
+            foreach (var pName in ProductNames)
             {
                 businessByProducts.Add(repository.Business.Include(b => b.Products).Where(b => b.Products.Any(p => p.Name.Contains(pName))).ToList());
             }
-            businessByProducts.SelectMany(b => b);
-            var routed = new List<List<Business>>();
-            var found = routed.Min(r => RouteCost(r));
-            return null;
+            List<Business> tempBest = new List<Business>();
+            for(int i = 0; i < businessByProducts.Count; i++)
+            {
+                tempBest.Add(businessByProducts[i][0]);
+            }
+            List<Business> best = Combination(tempBest, new List<Business>(), businessByProducts, 0);
+            return best;
+        }
+
+        private List<Business> Combination(List<Business> best, List<Business> collected, List<List<Business>> grouped, int position)
+        {
+            if(position >= grouped.Count)
+            {
+                return collected;
+            }
+            List<Business> current = grouped[position];
+            foreach(var c in current)
+            {
+                Business business = c;
+                collected.Add(business);
+                List<Business> collection = Combination(best, collected, grouped, position + 1);
+                if(RouteCost(collection) < RouteCost(best))
+                {
+                    best = collection;
+                }
+            }
+            return best;
         }
 
         private double RouteCost(List<Business> business)
