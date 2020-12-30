@@ -33,8 +33,10 @@ namespace RestAPI.Models.Search
             {
                 businessByProducts.Add(repository.Business.Include(b => b.Products).Where(b => b.Products.Any(p => p.Name.Contains(pName))).ToList());
             }
+            businessByProducts.SelectMany(b => b);
             var routed = new List<List<Business>>();
             var found = routed.Min(r => RouteCost(r));
+            return null;
         }
 
         private double RouteCost(List<Business> business)
