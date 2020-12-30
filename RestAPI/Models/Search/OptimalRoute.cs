@@ -15,14 +15,7 @@ namespace RestAPI.Models.Search
         public double DestinationLongitude { get; set; }
         public List<string> ProductNames { get; set; } = new List<string>();
 
-        private IServiceRepository repository;
-
-        public OptimalRoute(IServiceRepository repo)
-        {
-            repository = repo;
-        }
-
-        public List<Business> FindBusinesses()
+        public List<Business> FindBusinesses(IServiceRepository repository)
         {
             if(ProductNames == null || ProductNames.Count == 0)
             {
