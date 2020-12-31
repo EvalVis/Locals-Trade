@@ -47,12 +47,29 @@ namespace RestAPI.Models.Search
                 Business business = c;
                 collected.Add(business);
                 List<Business> collection = Combination(best, collected, grouped, position + 1);
+                IEnumerable<IEnumerable<Business>> permutations = GetPermutations(collection, collection.Count);
+                foreach(var p in permutations)
+                {
+                    var list = p.ToList();
+                    if(RouteCost(list) < RouteCost(collection))
+                    {
+                        collection = list;
+                    }
+                }
                 if(RouteCost(collection) < RouteCost(best))
                 {
                     best = collection;
                 }
             }
             return best;
+        }
+
+        private IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> list, int length)
+        {
+            if (length == 1) return list.Select(t => new T[] { t });
+            return GetPermutations(list, length - 1)
+                .SelectMany(t => list.Where(e => !t.Contains(e)),
+                    (t1, t2) => t1.Concat(new T[] { t2 }));
         }
 
         private double RouteCost(List<Business> business)
