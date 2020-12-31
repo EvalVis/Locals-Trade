@@ -58,10 +58,11 @@
 
     protected override void OnParametersSet()
     {
-        Product = Repository.Products.Include(o => o.Orders.Where(o => !o.Resolved).OrderByDescending(o => o.DateAdded)).FirstOrDefault(p => p.ProductID == ProductId);
+        Product = Repository.Products.Include(o => o.Orders).FirstOrDefault(p => p.ProductID == ProductId);
         OrdersAndStatus = new List<Tuple<Order, bool, string>>();
         if (Product?.Orders != null)
         {
+            Product.Orders = Product.Orders.Where(o => !o.Resolved).OrderByDescending(o => o.DateAdded).ToList();
             foreach (var order in Product?.Orders)
             {
                 Tuple<Order, bool, string> element = Tuple.Create(order, true, "");

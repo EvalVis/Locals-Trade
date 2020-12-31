@@ -60,11 +60,12 @@ namespace RestAPI.Controllers
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders(long productId)
         {
             if (productId < 1) return BadRequest();
-            Product product = await repository.Products.Include(p => p.Orders.Where(o => !o.Resolved).OrderByDescending(o => o.DateAdded)).FirstOrDefaultAsync(p => p.ProductID == productId);
+            Product product = await repository.Products.Include(p => p.Orders).FirstOrDefaultAsync(p => p.ProductID == productId);
             if(product == null)
             {
                 return NotFound();
             }
+            product.Orders = product.Orders.Where(o => !o.Resolved).OrderByDescending(o => o.DateAdded).ToList();
             product.EliminateDepth();
             if (!product.Orders.Any()) return NoContent();
             return Ok(product);
