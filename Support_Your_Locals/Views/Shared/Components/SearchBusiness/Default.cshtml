@@ -1,5 +1,15 @@
 ﻿@model BusinessListViewModel
-
+<style>
+    input[type=checkbox] {
+        /* Double-sized Checkboxes */
+        -ms-transform: scale(1.25); /* IE */
+        -moz-transform: scale(1.25); /* FF */
+        -webkit-transform: scale(1.25); /* Safari and Chrome */
+        -o-transform: scale(1.25); /* Opera */
+        transform: scale(1.25);
+        padding: 10px;
+    }
+</style>
 <form>
     <h4 class="text-center">Search for a business</h4>
     <div class="form-group">
@@ -20,7 +30,7 @@
     </div>
     <div class="form-group">
         @for (var i = 0; i < 7; i++) {
-            <label style="border: 1px solid black;"><input asp-for="SearchResponse.WeekdaySelected[i]" />@DayNames.days[i]</label>
+            <label><input asp-for="SearchResponse.WeekdaySelected[i]" />@DayNames.days[i]</label>
         }
     </div>
     <div class="form-group">

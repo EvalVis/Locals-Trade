@@ -432,6 +432,52 @@ namespace Support_Your_Locals.Infrastructure
             b40.Products.Add(p40_0);
             b40.Workdays.Add(t21_0);
 
+            Product p41_0 = CreateProduct("Strawberry", 4, "1 Kilo", "My friend strawberries", null);
+            Business b41 = CreateBusiness("Selling berries from my friends garden", "25.274860", "54.790408", "+37062199630", "Berries", imager.ByteMaker("11.jpg"));
+            TimeSheet t41_0 = CreateWorkday(10, 30, 17, 0, 2);
+            TimeSheet t41_1 = CreateWorkday(8, 45, 18, 30, 4);
+
+
+            u1.Businesses.Add(b41);
+            b41.Products.Add(p41_0);
+            b41.Workdays.Add(t41_0);
+            b41.Workdays.Add(t41_1);
+
+            Product p42_0 = CreateProduct("Strawberry", 4, "1 Kilo", "Grandmas strawberries", null);
+            Business b42 = CreateBusiness("Selling berries from my grandmas garden", "25.335676", "54.776059", "+37062199630", "Berries", imager.ByteMaker("11.jpg"));
+            TimeSheet t42_0 = CreateWorkday(10, 30, 17, 0, 2);
+            TimeSheet t42_1 = CreateWorkday(8, 45, 18, 30, 4);
+
+
+            u2.Businesses.Add(b42);
+            b42.Products.Add(p42_0);
+            b42.Workdays.Add(t42_0);
+            b42.Workdays.Add(t42_1);
+
+            Product p43_0 = CreateProduct("Strawberry", 4, "1 Kilo", "Fresh strawberries", null);
+            Business b43 = CreateBusiness("Selling berries", "25.331598", "54.728784", "+37062199630", "Berries", imager.ByteMaker("11.jpg"));
+            TimeSheet t43_0 = CreateWorkday(10, 30, 17, 0, 2);
+            TimeSheet t43_1 = CreateWorkday(8, 45, 18, 30, 4);
+
+
+            u3.Businesses.Add(b43);
+            b43.Products.Add(p43_0);
+            b43.Workdays.Add(t43_0);
+            b43.Workdays.Add(t43_1);
+
+            Product p44_0 = CreateProduct("Strawberry", 4, "1 Kilo", "Regular strawberries", null);
+            Business b44 = CreateBusiness("Selling berries", "25.153845", "54.713634", "+37062199630", "Berries", imager.ByteMaker("11.jpg"));
+            TimeSheet t44_0 = CreateWorkday(10, 30, 17, 0, 2);
+            TimeSheet t44_1 = CreateWorkday(8, 45, 18, 30, 4);
+
+
+            u4.Businesses.Add(b44);
+            b44.Products.Add(p44_0);
+            b44.Workdays.Add(t44_0);
+            b44.Workdays.Add(t44_1);
+
+
+
             return new User[] { u1, u2, u3, u4, u5, u6, u7, u8, u9, u10, u11 };
         }
 
