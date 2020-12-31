@@ -34,6 +34,7 @@ namespace RestAPI.Controllers
             foreach (var b in best)
             {
                 b.EliminateDepth();
+                b.PictureData = null;
             }
             if (!best.Any())
             {
