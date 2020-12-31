@@ -14,6 +14,8 @@ namespace RestAPI.Models
         public string Address { get; set; }
         public string Comment { get; set; }
         public DateTime DateAdded { get; set; }
+        public bool Resolved { get; set; }
+        public DateTime? DateResolved { get; set; }
 
     }
 }

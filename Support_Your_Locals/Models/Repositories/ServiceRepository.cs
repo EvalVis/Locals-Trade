@@ -87,9 +87,8 @@ namespace Support_Your_Locals.Models.Repositories
             context.SaveChanges();
         }
 
-        public void RemoveOrder(Order order)
+        public void ResolveOrder(Order order)
         {
-            context.Remove(order);
             context.SaveChanges();
         }
 
