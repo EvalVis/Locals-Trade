@@ -1,6 +1,9 @@
 ﻿@page "/user/orders"
 @inherits OwningComponentBase<IServiceRepository>
 
+<OrderTable TableTitle="Standing orders" Orders="Standing" ButtonLabel="Resolve" ResolveOrder="Resolve" />
+<OrderTable TableTitle="Resolved orders" Orders="Resolved" ResolveOrder="Resolve" />
+
 @code {
 
     public IServiceRepository Repository => Service;
@@ -16,19 +19,19 @@
 
     public async Task UpdateData()
     {
-        Orders = await Repository.Orders.ToListAsync();
-        Resolved = Orders;
-        Standing = new List<Order>();
-        // Resolved = Orders.Where(o => !o.Shipped);
-        //Standing = Orders.Where(o => o.Shipped);
+        Orders = await Repository.Orders.Include(o => o.Product).ToListAsync();
+        Resolved = Orders.Where(o => o.Resolved).OrderByDescending(o => o.DateResolved);
+        Standing = Orders.Where(o => !o.Resolved).OrderBy(o => o.DateAdded);
     }
 
     public void Resolve(long id)
     {
         Order order = Repository.Orders.FirstOrDefault(o => o.Id == id);
-        if(order != null)
+        if (order != null)
         {
-
+            order.Resolved = true;
+            order.DateResolved = DateTime.Now;
+            Repository.ResolveOrder(order);
         }
     }
 
