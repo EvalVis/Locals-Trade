@@ -1,0 +1,35 @@
+﻿@page "/user/orders"
+@inherits OwningComponentBase<IServiceRepository>
+
+@code {
+
+    public IServiceRepository Repository => Service;
+
+    public IEnumerable<Order> Orders { get; set; }
+    public IEnumerable<Order> Resolved { get; set; }
+    public IEnumerable<Order> Standing { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await UpdateData();
+    }
+
+    public async Task UpdateData()
+    {
+        Orders = await Repository.Orders.ToListAsync();
+        Resolved = Orders;
+        Standing = new List<Order>();
+        // Resolved = Orders.Where(o => !o.Shipped);
+        //Standing = Orders.Where(o => o.Shipped);
+    }
+
+    public void Resolve(long id)
+    {
+        Order order = Repository.Orders.FirstOrDefault(o => o.Id == id);
+        if(order != null)
+        {
+
+        }
+    }
+
+}
