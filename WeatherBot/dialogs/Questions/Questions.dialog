@@ -1,9 +1,9 @@
 {
   "$kind": "Microsoft.AdaptiveDialog",
   "$designer": {
-    "id": "vHTmVY",
-    "name": "help",
-    "description": "global help"
+    "id": "QhdmiS",
+    "name": "Questions",
+    "description": ""
   },
   "autoEndDialog": true,
   "defaultResultProperty": "dialog.result",
@@ -13,27 +13,20 @@
       "$designer": {
         "name": "BeginDialog",
         "description": "",
-        "id": "uVhDm9"
+        "id": "4jrnxQ"
       },
       "actions": [
         {
           "$kind": "Microsoft.SendActivity",
           "$designer": {
-            "id": "jBbAFx"
+            "id": "R3w2mx"
           },
-          "activity": "${SendActivity_jBbAFx()}"
-        },
-        {
-          "$kind": "Microsoft.SendActivity",
-          "$designer": {
-            "id": "0S3XRj"
-          },
-          "activity": "${SendActivity_0S3XRj()}"
+          "activity": "${SendActivity_R3w2mx()}"
         }
       ]
     }
   ],
-  "generator": "help.lg",
-  "recognizer": "help.lu.qna",
-  "id": "help"
+  "generator": "Questions.lg",
+  "recognizer": "Questions.lu.qna",
+  "id": "Questions"
 }

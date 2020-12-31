@@ -32,3 +32,36 @@ SuggestedActions = Next page
 - Please type SHOW first to start searching.
 # SendActivity_eHyqZG()
 - Please type SHOW first to search searching.
+# SendActivity_O7FQ9W()
+- will not help
+# SendActivity_Yg1eG7()
+-What do you want to do?
+# SendActivity_onk3rd()
+- I'm sorry, I cant understand that. Try writing "help".
+- Could not understand. Try writing "help".
+-I do not understand that. Try writing "help"
+# TextInput_Prompt_MZtdBS()
+[Activity
+    Attachments = ${json(AdaptiveCardJson())}
+]
+
+# SendActivity_4WcGGm()
+- Sure, no worries.
+
+# TextInput_Prompt_flWpei()
+[Activity
+    Text = ${expandText(@answer)}
+    SuggestedActions = ${foreach(turn.recognized.answers[0].context.prompts, x, x.displayText)}
+]
+
+# SendActivity_KoLZuT()
+- ${expandText(@answer)}
+
+# SendActivity_KOsiiL()
+- To add advertisement you have firstly sign into our app. After that you will be able to add advertisement. If you are not our user, then you will have firstly sign up and only then sign in.  For more info, message us or visit FAQ page in our app.
+# SendActivity_s3cLgU()
+- Only the owner of advertisement can see feedbacks. Feedbacks are used for owner to understand what is wrong with their product and how to improve it. For more info, message us or visit FAQ page in our app.
+# SendActivity_zYoBYl()
+- oint at your name in navigation bar, click 'Your businesses', choose your advertisement and edit it.  For more info, message us or visit FAQ page in our app.
+# SendActivity_suKZtu()
+- To edit profile, point at your name in navigation bar, click 'User settings'.  For more info, message us or visit FAQ page in our app.
