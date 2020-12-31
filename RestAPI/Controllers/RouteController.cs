@@ -26,7 +26,7 @@ namespace RestAPI.Controllers
         [HttpGet("products")]
         public ActionResult ShortestRouteForProducts([FromQuery] OptimalRoute engine)
         {
-            if (engine.ProductNames.Count > 5)
+            if (engine.ProductNames.Count > 3)
             {
                 return BadRequest("Product list limit exceeded.");
             }
@@ -49,7 +49,7 @@ namespace RestAPI.Controllers
         [HttpGet("courier")]
         public ActionResult ShortestRouteForCourier([FromQuery] OptimalCourierRoute engine)
         {
-            if(engine.OrdersCount > 5)
+            if(engine.OrdersCount > 3)
             {
                 return BadRequest("Orders limit exceeded.");
             }
