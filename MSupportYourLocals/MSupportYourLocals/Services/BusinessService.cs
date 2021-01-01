@@ -93,7 +93,7 @@ namespace MSupportYourLocals.Services
         public async Task<bool> UpdateBusiness(string password, Business business)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.Token);
-            var updateBusiness = new { Password = password, BusinessBindingTarget = business };
+            var updateBusiness = new { Password = password, Business = business };
             HttpResponseMessage response = await httpClient.PutAsJsonAsync("/api/Business", updateBusiness);
             if (response.StatusCode == HttpStatusCode.OK)
             {
