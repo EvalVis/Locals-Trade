@@ -156,7 +156,7 @@ namespace RestAPI.Controllers
         [HttpPut]
         public async Task<ActionResult> UpdateBusiness(UpdateBusiness business)
         {
-            if (business.Business.BusinessID < 1) return BadRequest();
+            if (business.Business.BusinessID < 1 || business.Business == null || business.Business.Description.Length < 50 || business.Business.Description.Length > 1000) return BadRequest();
             business.Business.UserID = claimedId;
             business.Business.User = null;
             Business targetBusiness = await repository.Business.Include(b => b.User).FirstOrDefaultAsync(b => b.BusinessID == business.Business.BusinessID);
