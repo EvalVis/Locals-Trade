@@ -49,7 +49,7 @@ namespace RestAPI.Controllers
         [HttpGet("courier")]
         public ActionResult ShortestRouteForCourier([FromQuery] OptimalCourierRoute engine)
         {
-            if(engine.OrdersCount > 3)
+            if(engine.OrdersCount > 2)
             {
                 return BadRequest("Orders limit exceeded.");
             }
