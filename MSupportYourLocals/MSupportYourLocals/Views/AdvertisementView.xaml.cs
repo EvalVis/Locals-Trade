@@ -28,8 +28,11 @@ namespace MSupportYourLocals.Views
             {
                 SubmitButton.Text = "Change";
             }
+            else
+            {
+                renderProducts();
+            }
             renderWorkdays();
-            renderProducts();
         }
 
         private void renderWorkdays()
