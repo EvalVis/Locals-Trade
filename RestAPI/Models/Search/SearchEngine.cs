@@ -81,7 +81,7 @@ namespace RestAPI.Models.Search
                     else
                     {
                         if (OpenFrom == null || OpenTo == null) continue;
-                        if (OpenFrom.Value.TimeOfDay > day.From.TimeOfDay || OpenTo.Value.TimeOfDay < day.To.TimeOfDay) return false;
+                        if (day.From.TimeOfDay > OpenFrom.Value.TimeOfDay || day.To.TimeOfDay < OpenTo.Value.TimeOfDay) return false;
                     }
                 }
             }
