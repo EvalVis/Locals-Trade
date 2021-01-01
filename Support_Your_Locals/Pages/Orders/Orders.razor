@@ -9,15 +9,16 @@
         <tr><th colspan="5" class="text-center center">Product: (@Product.Name), unit price: (@Product.PricePerUnit), unit: (@Product.Unit)</th></tr>
     </thread>
     <tbody>
-        <tr>
-            <th>Amount ordered</th>
-            <th>Total sum for the amount</th>
-            <th>Address for delivery</th>
-            <th>Client's comment</th>
-            <th>Date ordered</th>
-            <th>Write an email to a client as a courier</th>
-        </tr>
-        @foreach (var element in OrdersAndStatus)
+    <tr style=" text-align: center; ">
+        <th>Product</th>
+        <th>Amount<br />  ordered</th>
+        <th>Total sum for<br /> the amount</th>
+        <th>Address for delivery</th>
+        <th>Client's comment</th>
+        <th>Date ordered</th>
+        <th>Write an email to a client</th>
+    </tr>
+        @foreach(var element in OrdersAndStatus)
         {
             Order order = element.Item1;
             bool status = element.Item2;
