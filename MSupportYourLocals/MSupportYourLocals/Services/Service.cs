@@ -36,7 +36,7 @@ namespace MSupportYourLocals.Services
 #else
             HttpClient httpClient = new HttpClient();
 #endif
-            httpClient.BaseAddress = new Uri("https://10.0.2.2:44311/");
+            httpClient.BaseAddress = new Uri("https://10.0.2.2:5001/");
             // httpClient.DefaultRequestHeaders.Accept.Clear();
             // httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             return httpClient;
