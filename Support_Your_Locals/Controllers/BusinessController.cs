@@ -53,7 +53,11 @@ namespace Support_Your_Locals.Controllers
         [HttpPost]
         public ActionResult AddOrder(int amount, string address, string comment, long productId)
         {
-            if(userID < 1)
+            if(amount < 1)
+            {
+                return BadRequest(" Invalid amount. Valid example: 5. ");
+            }
+            if (userID < 1)
             {
                 return Unauthorized();
             }

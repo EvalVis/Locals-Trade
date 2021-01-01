@@ -70,7 +70,7 @@
                 <button id="@sendButton" class="btn btn-primary">Submit</button>
             </form>
             <label id="@sentId" hidden style="color: rgb(51, 255, 162)">Order successfully added.</label>
-            <label id="@unsentId" hidden style="color: rgb(255, 0, 0)">Something went wrong. Failed to add an order.</label>
+            <label id="@unsentId" hidden style="color: rgb(255, 0, 0)">Failed to add an order.</label>
         </td>
                 orderPosition++;
             }
@@ -122,8 +122,10 @@
                 document.getElementById(form1).style.display = "none";
                 document.getElementById(form1).reset();
                 document.getElementById(sent).hidden = false;
+                document.getElementById(unsent).hidden = true;
             },
-            error: function () {
+            error: function (e) {
+                document.getElementById(unsent).innerText += e.responseText;
                 document.getElementById(unsent).hidden = false;
             }
         });
