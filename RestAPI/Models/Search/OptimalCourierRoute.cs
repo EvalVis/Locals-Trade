@@ -4,7 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using RestAPI.Models.Repositories;
 
 namespace RestAPI.Models.Search
 {
@@ -15,6 +17,21 @@ namespace RestAPI.Models.Search
         public double DestinationLatitude { get; set; }
         public double DestinationLongitude { get; set; }
         public int OrdersCount { get; set; }
+
+        public List<CourierTask> GetRoute(IServiceRepository repository)
+        {
+            List<Order> orders = repository.Orders.Include(o => o.Product).ToList();
+            List<Business> business = new List<Business>();
+            foreach(var order in orders)
+            {
+                Business b = repository.Business.FirstOrDefault(b => b.Products.Any(p => p.Orders.Any(o => o.Id == order.Id)));
+                if(b != null)
+                {
+                    business.Add(b);
+                }
+
+            }
+        }
 
         private async Task<double> RouteCost(List<Order> orders)
         {
