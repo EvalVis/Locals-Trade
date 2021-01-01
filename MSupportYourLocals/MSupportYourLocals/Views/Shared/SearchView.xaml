@@ -6,20 +6,21 @@
     <Entry x:Name="OwnerEntry" Placeholder="Owner's surname" />
     <Entry x:Name="SearchEntry" Placeholder="Text to search" />
     <Picker x:Name="SearchOptionsPicker"></Picker>
+    <Label Text="Must definitely work on:"></Label>
     <Label Text="Monday"></Label>
-    <CheckBox x:Name="Monday" IsChecked="true"></CheckBox>
+    <CheckBox x:Name="Monday" IsChecked="false"></CheckBox>
     <Label Text="Tuesday"></Label>
-    <CheckBox x:Name="Tuesday" IsChecked="true"></CheckBox>
+    <CheckBox x:Name="Tuesday" IsChecked="false"></CheckBox>
     <Label Text="Wednesday"></Label>
-    <CheckBox x:Name="Wednesday" IsChecked="true"></CheckBox>
+    <CheckBox x:Name="Wednesday" IsChecked="false"></CheckBox>
     <Label Text="Thursday"></Label>
-    <CheckBox x:Name="Thursday" IsChecked="true"></CheckBox>
+    <CheckBox x:Name="Thursday" IsChecked="false"></CheckBox>
     <Label Text="Friday"></Label>
-    <CheckBox x:Name="Friday" IsChecked="true"></CheckBox>
+    <CheckBox x:Name="Friday" IsChecked="false"></CheckBox>
     <Label Text="Saturday"></Label>
-    <CheckBox x:Name="Saturday" IsChecked="true"></CheckBox>
+    <CheckBox x:Name="Saturday" IsChecked="false"></CheckBox>
     <Label Text="Sunday"></Label>
-    <CheckBox x:Name="Sunday" IsChecked="true"></CheckBox>
+    <CheckBox x:Name="Sunday" IsChecked="false"></CheckBox>
     <TimePicker x:Name="FromPicker"></TimePicker>
     <TimePicker x:Name="ToPicker"></TimePicker>
     <Button Text="Search" BackgroundColor="Blue" TextColor="White" FontAttributes="Bold" Clicked="Search" />

@@ -39,9 +39,8 @@ namespace MSupportYourLocals.ViewModels
         public BusinessesViewModel(int currentPage)
         {
             CurrentPage = currentPage;
-            OpenFrom = new DateTime(2020, 10, 10, 7, 0, 0);
-            OpenTo = new DateTime(2020, 10, 10, 18, 30, 0);
-            for (int i = 0; i < 7; i++) WeekdaySelected[i] = true;
+            OpenFrom = new DateTime(2020, 10, 10, 16, 0, 0);
+            OpenTo = new DateTime(2020, 10, 10, 20, 0, 0);
             Task.Run(async () => await GetBusinesses()).Wait();
         }
 

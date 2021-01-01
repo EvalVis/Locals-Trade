@@ -44,7 +44,6 @@ namespace MSupportYourLocals.Views.Shared
         {
             Parse();
             int.TryParse(PageEntry.Text, out int targetPage);
-            if (targetPage == 0) targetPage = 1;
             if (targetPage < 1) targetPage = 1;
             else if (targetPage > totalPages) targetPage = totalPages;
             if (targetPage == currentPage) return;
