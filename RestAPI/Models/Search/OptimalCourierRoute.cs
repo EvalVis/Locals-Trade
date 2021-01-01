@@ -29,8 +29,10 @@ namespace RestAPI.Models.Search
                 CourierTask orderTask = new CourierTask { isBusiness = false, Object = order };
                 orderTask.Geocode = await AddressToCoordinates(order.Address);
                 Business b = repository.Business.FirstOrDefault(b => b.Products.Any(p => p.Orders.Any(o => o.Id == order.Id)));
-                if(b != null && b.Latitude != null && b.Longitude != null && !business.Contains(b))
+                if (b != null && b.Latitude != null && b.Longitude != null && !business.Contains(b))
                 {
+                    b.EliminateDepth();
+                    b.PictureData = null;
                     business.Add(b);
                     orderTask.parentBusiness = b;
                     double.TryParse(b.Latitude, NumberStyles.Any, CultureInfo.InvariantCulture, out double bLa);
@@ -146,20 +148,6 @@ namespace RestAPI.Models.Search
                     (t1, t2) => t1.Concat(new CourierTask[] { t2 }));
         }
 
-    }
-
-    class CourierTask
-    {
-        public Geocode Geocode { get; set; }
-        public bool isBusiness { get; set; }
-        public Business parentBusiness { get; set; }
-        public object Object { get; set; }
-    }
-
-    class Geocode
-    {
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
     }
 
 }

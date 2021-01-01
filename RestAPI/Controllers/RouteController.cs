@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestAPI.Models;
@@ -47,14 +48,18 @@ namespace RestAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("courier")]
-        public ActionResult ShortestRouteForCourier([FromQuery] OptimalCourierRoute engine)
+        public async Task<ActionResult> ShortestRouteForCourier([FromQuery] OptimalCourierRoute engine)
         {
             if(engine.OrdersCount > 2)
             {
                 return BadRequest("Orders limit exceeded.");
             }
-            //List<Business> best = engine.GetRoute(repository);
-            return null;
+            List<CourierTask> best = await engine.GetRoute(repository);
+            if(!best.Any())
+            {
+                return NoContent();
+            }
+            return Ok(best);
         }
 
     }
