@@ -56,7 +56,6 @@ namespace RestAPI.Models.Search
                 Route localBest = new Route { business = bestPermutation, distance = RouteCost(bestPermutation) };
                 if(localBest.distance < bestRoute.distance)
                 {
-                    System.Diagnostics.Debug.WriteLine(bestRoute.business[0].BusinessID + " " + bestRoute.distance + " " + localBest.business[0].BusinessID + " " + localBest.distance);
                     bestRoute = localBest;
                 }
             }

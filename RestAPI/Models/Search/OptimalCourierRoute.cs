@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -18,33 +19,63 @@ namespace RestAPI.Models.Search
         public double DestinationLongitude { get; set; }
         public int OrdersCount { get; set; }
 
-        public List<CourierTask> GetRoute(IServiceRepository repository)
+        public async Task<List<CourierTask>> GetRoute(IServiceRepository repository)
         {
-            List<Order> orders = repository.Orders.Include(o => o.Product).ToList();
+            List<Order> orders = repository.Orders.Include(o => o.Product).Where(o => o.Address != null).ToList();
             List<Business> business = new List<Business>();
-            foreach(var order in orders)
+            List<CourierTask> tasks = new List<CourierTask>();
+            foreach (var order in orders)
             {
+                CourierTask orderTask = new CourierTask { isBusiness = false, Object = order };
+                orderTask.Geocode = await AddressToCoordinates(order.Address);
                 Business b = repository.Business.FirstOrDefault(b => b.Products.Any(p => p.Orders.Any(o => o.Id == order.Id)));
-                if(b != null)
+                if(b != null && b.Latitude != null && b.Longitude != null && !business.Contains(b))
                 {
                     business.Add(b);
+                    orderTask.parentBusiness = b;
+                    double.TryParse(b.Latitude, NumberStyles.Any, CultureInfo.InvariantCulture, out double bLa);
+                    double.TryParse(b.Longitude, NumberStyles.Any, CultureInfo.InvariantCulture, out double bLo);
+                    CourierTask businessTask = new CourierTask { Geocode = new Geocode {Latitude = bLa, Longitude = bLo }, isBusiness = true, Object = order };
+                    tasks.Add(businessTask);
                 }
-
+                tasks.Add(orderTask);
             }
+            List<CourierTask> best = GetBest(tasks);
+            return best;
         }
 
-        private async Task<double> RouteCost(List<Order> orders)
+        private List<CourierTask> GetBest(IEnumerable<CourierTask> tasks)
+        {
+            IEnumerable<IEnumerable<CourierTask>> validPermutations = GetPermutations(tasks, tasks.Count());
+            if(validPermutations.Count() < 1)
+            {
+                return new List<CourierTask>();
+            }
+            IEnumerable<CourierTask> best = validPermutations.ElementAt(0);
+            double bestRouteCost = RouteCost(best.ToList());
+            foreach (var perm in validPermutations)
+            {
+                double localBestRouteCost = RouteCost(perm.ToList());
+                if(localBestRouteCost < bestRouteCost)
+                {
+                    best = perm;
+                    bestRouteCost = localBestRouteCost;
+                }
+            }
+            return best.ToList();
+        }
+
+        private double RouteCost(List<CourierTask> tasks)
         {
             double distance = 0;
             double lastLon = StartLongitude;
             double lastLat = StartLatitude;
-            foreach (var o in orders)
+            foreach (var t in tasks)
             {
-                Geocode coordinates = await AddressToCoordinates(o.Address);
-                if (coordinates != null)
+                if (t.Geocode != null)
                 {
-                    double cLat = coordinates.Latitude;
-                    double cLon = coordinates.Longitude;
+                    double cLat = t.Geocode.Latitude;
+                    double cLon = t.Geocode.Longitude;
                     distance += CalculateDistance(lastLat, lastLon, cLat, cLon);
                     lastLat = cLat;
                     lastLon = cLon;
@@ -90,12 +121,29 @@ namespace RestAPI.Models.Search
             return (deg * Math.PI) / 180;
         }
 
-        private IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> list, int length)
+        private IEnumerable<IEnumerable<CourierTask>> GetPermutations(IEnumerable<CourierTask> list, int length)
         {
-            if (length == 1) return list.Select(t => new T[] { t });
+            if (length == 1) return list.Select(t => new CourierTask[] { t });
             return GetPermutations(list, length - 1)
-                .SelectMany(t => list.Where(e => !t.Contains(e)),
-                    (t1, t2) => t1.Concat(new T[] { t2 }));
+                .SelectMany(t => list.Where(e => {
+                    if(t.Contains(e))
+                    {
+                        return false;
+                    }
+                    if(!e.isBusiness)
+                    {
+                        foreach(var element in t)
+                        {
+                            if(element.Object.Equals(e.Object))
+                            {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+                    throw new Exception("Nelabai");
+                    }),
+                    (t1, t2) => t1.Concat(new CourierTask[] { t2 }));
         }
 
     }
@@ -104,6 +152,7 @@ namespace RestAPI.Models.Search
     {
         public Geocode Geocode { get; set; }
         public bool isBusiness { get; set; }
+        public Business parentBusiness { get; set; }
         public object Object { get; set; }
     }
 
