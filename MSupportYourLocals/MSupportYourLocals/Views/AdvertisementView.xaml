@@ -12,7 +12,7 @@
                         <StackLayout>
                             <Label Text="Please enter your business header" FontAttributes="Bold" FontSize="Large" />
                             <Entry Text="{Binding Business.Header}" x:Name="HeaderEntry" Placeholder="Header" />
-                            <Label Text="Please enter your business description" FontAttributes="Bold" FontSize="Large" />
+                            <Label Text="Please enter your business description (from 50 to 1000 symbols)" FontAttributes="Bold" FontSize="Large" />
                             <Entry Text="{Binding Business.Description}" x:Name="DescriptionEntry" Placeholder="Description" />
                             <Label Text="Please enter your business phone number" FontAttributes="Bold" FontSize="Large" />
                             <Entry Text="{Binding Business.PhoneNumber}" x:Name="PhoneEntry" Placeholder="Phone number" />
