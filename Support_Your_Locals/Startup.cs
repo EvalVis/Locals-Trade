@@ -42,8 +42,6 @@ namespace Support_Your_Locals
                 {
                     options.LoginPath = "/Auth/SignIn";
                 });
-            services.AddSwaggerGen(s => s.SwaggerDoc("v1", new OpenApiInfo { Title = "Support Your Locals", Version = "v1" }));
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -85,8 +83,6 @@ namespace Support_Your_Locals
                 endpoints.MapFallbackToPage("/user/{*catchall}", "/User/Index");
             });
             SeedData.EnsurePopulated(app, new HashCalculator(), new Imager());
-            app.UseSwagger();
-            app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "Support Your Locals"));
         }
     }
 }

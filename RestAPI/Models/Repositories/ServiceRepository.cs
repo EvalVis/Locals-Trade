@@ -72,6 +72,7 @@ namespace RestAPI.Models.Repositories
             foreach(var w in business.Workdays)
             {
                 w.TimeSheetID = 0;
+                if (w.From.Equals(w.To)) business.Workdays.Remove(w);
             }
             dbBusiness.Workdays = business.Workdays;
             await context.SaveChangesAsync();

@@ -3,28 +3,30 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using RestAPI.Models;
+using Support_Your_Locals.Models;
 
-namespace RestAPI.Migrations
+namespace Support_Your_Locals.Migrations
 {
     [DbContext(typeof(ServiceDbContext))]
-    partial class ServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201231171724_ResolveOrders")]
+    partial class ResolveOrders
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
+                .HasAnnotation("ProductVersion", "3.1.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.0");
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("RestAPI.Models.Business", b =>
+            modelBuilder.Entity("Support_Your_Locals.Models.Business", b =>
                 {
                     b.Property<long>("BusinessID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -54,12 +56,12 @@ namespace RestAPI.Migrations
                     b.ToTable("Business");
                 });
 
-            modelBuilder.Entity("RestAPI.Models.Feedback", b =>
+            modelBuilder.Entity("Support_Your_Locals.Models.Feedback", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long>("BusinessID")
                         .HasColumnType("bigint");
@@ -77,12 +79,12 @@ namespace RestAPI.Migrations
                     b.ToTable("Feedbacks");
                 });
 
-            modelBuilder.Entity("RestAPI.Models.Order", b =>
+            modelBuilder.Entity("Support_Your_Locals.Models.Order", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
@@ -96,8 +98,14 @@ namespace RestAPI.Migrations
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("DateResolved")
+                        .HasColumnType("datetime2");
+
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
+
+                    b.Property<bool>("Resolved")
+                        .HasColumnType("bit");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
@@ -111,12 +119,12 @@ namespace RestAPI.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("RestAPI.Models.Product", b =>
+            modelBuilder.Entity("Support_Your_Locals.Models.Product", b =>
                 {
                     b.Property<long>("ProductID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long>("BusinessID")
                         .HasColumnType("bigint");
@@ -143,12 +151,36 @@ namespace RestAPI.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("RestAPI.Models.TimeSheet", b =>
+            modelBuilder.Entity("Support_Your_Locals.Models.Question", b =>
+                {
+                    b.Property<long>("QuestionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsAnswered")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Response")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("QuestionId");
+
+                    b.ToTable("Questions");
+                });
+
+            modelBuilder.Entity("Support_Your_Locals.Models.TimeSheet", b =>
                 {
                     b.Property<long>("TimeSheetID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long>("BusinessID")
                         .HasColumnType("bigint");
@@ -169,12 +201,12 @@ namespace RestAPI.Migrations
                     b.ToTable("TimeSheets");
                 });
 
-            modelBuilder.Entity("RestAPI.Models.User", b =>
+            modelBuilder.Entity("Support_Your_Locals.Models.User", b =>
                 {
                     b.Property<long>("UserID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
@@ -200,112 +232,55 @@ namespace RestAPI.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Support_Your_Locals.Models.Question", b =>
+            modelBuilder.Entity("Support_Your_Locals.Models.Business", b =>
                 {
-                    b.Property<long>("QuestionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsAnswered")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Response")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("QuestionId");
-
-                    b.ToTable("Questions");
-                });
-
-            modelBuilder.Entity("RestAPI.Models.Business", b =>
-                {
-                    b.HasOne("RestAPI.Models.User", "User")
+                    b.HasOne("Support_Your_Locals.Models.User", "User")
                         .WithMany("Businesses")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("RestAPI.Models.Feedback", b =>
+            modelBuilder.Entity("Support_Your_Locals.Models.Feedback", b =>
                 {
-                    b.HasOne("RestAPI.Models.Business", "Business")
+                    b.HasOne("Support_Your_Locals.Models.Business", "Business")
                         .WithMany("Feedbacks")
                         .HasForeignKey("BusinessID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Business");
                 });
 
-            modelBuilder.Entity("RestAPI.Models.Order", b =>
+            modelBuilder.Entity("Support_Your_Locals.Models.Order", b =>
                 {
-                    b.HasOne("RestAPI.Models.Product", "Product")
+                    b.HasOne("Support_Your_Locals.Models.Product", "Product")
                         .WithMany("Orders")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("RestAPI.Models.User", "User")
+                    b.HasOne("Support_Your_Locals.Models.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("RestAPI.Models.Product", b =>
+            modelBuilder.Entity("Support_Your_Locals.Models.Product", b =>
                 {
-                    b.HasOne("RestAPI.Models.Business", "Business")
+                    b.HasOne("Support_Your_Locals.Models.Business", "Business")
                         .WithMany("Products")
                         .HasForeignKey("BusinessID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Business");
                 });
 
-            modelBuilder.Entity("RestAPI.Models.TimeSheet", b =>
+            modelBuilder.Entity("Support_Your_Locals.Models.TimeSheet", b =>
                 {
-                    b.HasOne("RestAPI.Models.Business", "Business")
+                    b.HasOne("Support_Your_Locals.Models.Business", "Business")
                         .WithMany("Workdays")
                         .HasForeignKey("BusinessID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Business");
-                });
-
-            modelBuilder.Entity("RestAPI.Models.Business", b =>
-                {
-                    b.Navigation("Feedbacks");
-
-                    b.Navigation("Products");
-
-                    b.Navigation("Workdays");
-                });
-
-            modelBuilder.Entity("RestAPI.Models.Product", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("RestAPI.Models.User", b =>
-                {
-                    b.Navigation("Businesses");
-
-                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

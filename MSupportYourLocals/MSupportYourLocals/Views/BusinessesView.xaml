@@ -31,7 +31,6 @@
                     <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
                         <StackLayout
                             Orientation="Vertical">
-                            <Button Margin="20,20,20,0" Text="Edit" BackgroundColor="Gold" TextColor="White" FontAttributes="Bold" Clicked="EditBusiness" />
                             <Button Margin="20,0,20,0" Text="Delete" BackgroundColor="Red" TextColor="White" FontAttributes="Bold" Clicked="BusinessDelete"/>
                             <Button Margin="20,0,20,0" Text="Details" BackgroundColor="MediumTurquoise" TextColor="White" FontAttributes="Bold" Clicked="BusinessDetails" />
                             <Button Margin="20,0,20,0" Text="Feedbacks" BackgroundColor="LawnGreen" TextColor="White" FontAttributes="Bold" Clicked="BusinessFeedbacks" />

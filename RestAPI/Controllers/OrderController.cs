@@ -35,7 +35,7 @@ namespace RestAPI.Controllers
             {
                 return BadRequest();
             }
-            Order order = await repository.Orders.Include(o => o.User).FirstOrDefaultAsync(o => o.Id == deliverySuggestion.OrderId);
+            Order order = await repository.Orders.Include(o => o.User).FirstOrDefaultAsync(o => o.Id == deliverySuggestion.OrderId && !o.Resolved);
             if(order != null)
             {
                 User user = order.User;
@@ -65,6 +65,7 @@ namespace RestAPI.Controllers
             {
                 return NotFound();
             }
+            product.Orders = product.Orders.Where(o => !o.Resolved).OrderByDescending(o => o.DateAdded).ToList();
             product.EliminateDepth();
             if (!product.Orders.Any()) return NoContent();
             return Ok(product);

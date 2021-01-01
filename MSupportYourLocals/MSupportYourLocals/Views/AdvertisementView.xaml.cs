@@ -18,6 +18,7 @@ namespace MSupportYourLocals.Views
         private Business business;
         public ObservableCollection<Workday> Workdays = new ObservableCollection<Workday>();
         public ObservableCollection<Product> Products = new ObservableCollection<Product>();
+        private bool create;
 
         public AdvertisementView(BusinessViewModel businessViewModel)
         {
@@ -27,9 +28,15 @@ namespace MSupportYourLocals.Views
             if (business != null)
             {
                 SubmitButton.Text = "Change";
+                ProductButton.IsVisible = false;
+                ProductCollection.IsVisible = false;
+            }
+            else
+            {
+                create = true;
+                renderProducts();
             }
             renderWorkdays();
-            renderProducts();
         }
 
         private void renderWorkdays()
@@ -60,7 +67,7 @@ namespace MSupportYourLocals.Views
 
         public async void Submit(object sender, EventArgs e)
         {
-            if (business == null)
+            if (create)
             {
                 business = new Business { Header = HeaderEntry.Text, Description = DescriptionEntry.Text, PhoneNumber = PhoneEntry.Text, Products = Products, Workdays = Workdays };
                 bool success = await businessService.CreateBusiness(business);

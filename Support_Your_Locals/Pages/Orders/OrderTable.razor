@@ -1,0 +1,68 @@
+﻿<table class="table table-sm table-striped table-bordered">
+    <thread>
+        <tr><th colspan="5" class="text-center">@TableTitle</th></tr>
+    </thread>
+    <tbody>
+        @if (Orders?.Count() > 0)
+        {
+            <tr>
+                <th>Product</th>
+                <th>Date ordered</th>
+                <th>Date resolved</th>
+                <th>Amount ordered</th>
+                <th>Total price</th>
+                <th>Delivery address</th>
+                <th>Your comment</th>
+                @if (!string.IsNullOrWhiteSpace(ButtonLabel))
+                {
+                    <th>Resolve</th>
+                }
+            </tr>
+            foreach(var order in Orders)
+            {
+                <tr>
+                    <td>@(order.Product?.Name ?? "The product you ordered is unknown. Perhaps the business from where you ordered it was deleted.")</td>
+                    <td>@order.DateAdded</td>
+                    <td>@order.DateResolved</td>
+                    <td>@order.Amount</td>
+                    @if (order.Product != null)
+                    {
+                    <td>@(order.Product?.PricePerUnit * order.Amount)</td>
+                    }
+                    else
+                    {
+                        <td>Unknown</td>
+                    }
+                    <td>@order.Address</td>
+                    <td>@order.Comment</td>
+                    @if(!string.IsNullOrWhiteSpace(ButtonLabel))
+                    {
+                        <td>
+                            <button class="btn btn-sm btn-danger" @onclick="@(e => ResolveOrder.InvokeAsync(order.Id))">@ButtonLabel</button>
+                        </td>
+                    }
+                </tr>
+            }
+        }
+        else
+        {
+            <tr><td colspan="5" class="text-center">No @TableTitle</td></tr>
+        }
+    </tbody>
+</table>
+
+@code {
+
+    [Parameter]
+    public string TableTitle { get; set; }
+
+    [Parameter]
+    public IEnumerable<Order> Orders { get; set; }
+
+    [Parameter]
+    public string ButtonLabel { get; set; }
+
+    [Parameter]
+    public EventCallback<long> ResolveOrder { get; set; }
+
+}

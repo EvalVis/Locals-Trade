@@ -6,7 +6,7 @@ namespace MSupportYourLocals.ViewModels
     public class FeedbackViewModel
     {
 
-        public ObservableCollection<Feedback> Feedbacks { get; set; }
+        public ObservableCollection<Feedback> Feedbacks { get; set; } = new ObservableCollection<Feedback>();
 
         public FeedbackViewModel(ObservableCollection<Feedback> feedbacks)
         {

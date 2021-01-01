@@ -97,7 +97,7 @@ namespace MSupportYourLocals.Views
 
         public void FeedbackSelected(object sender, SelectionChangedEventArgs e)
         {
-            Object chosen = e.CurrentSelection.FirstOrDefault();
+            object chosen = e.CurrentSelection.FirstOrDefault();
             if (chosen is Feedback)
             {
                 chosenFeedback = chosen as Feedback;

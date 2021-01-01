@@ -134,14 +134,6 @@ namespace MSupportYourLocals.Views
             }
         }
 
-        private async void EditBusiness(object sender, EventArgs e)
-        {
-            BusinessList.SelectedItem = null;
-            PasswordEntry.Text = "";
-            Controls.IsVisible = false;
-            await Navigation.PushAsync(new AdvertisementView(new BusinessViewModel(chosenBusiness)));
-        }
-
         private async Task GetFeedbacks()
         {
             ObservableCollection<Feedback> feedbacks = await feedbackService.GetFeedbacks(chosenBusiness.BusinessId);

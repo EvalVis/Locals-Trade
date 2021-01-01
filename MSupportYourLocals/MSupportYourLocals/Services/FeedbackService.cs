@@ -21,7 +21,7 @@ namespace MSupportYourLocals.Services
                 ObservableCollection<Feedback> feedbacks = JsonConvert.DeserializeObject<ObservableCollection<Feedback>>(result);
                 return feedbacks;
             }
-            return null;
+            return new ObservableCollection<Feedback>();
         }
 
         public async Task<bool> SendFeedback(string senderName, string text, long businessId)

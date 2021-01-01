@@ -15,53 +15,68 @@ namespace RestAPI.Models.Search
         public double DestinationLongitude { get; set; }
         public List<string> ProductNames { get; set; } = new List<string>();
 
+        private List<List<Business>> businessByProducts = new List<List<Business>>();
+        private Route bestRoute = new Route { business = new List<Business>() };
+
         public List<Business> FindBusinesses(IServiceRepository repository)
         {
-            if(ProductNames == null || ProductNames.Count == 0)
+            if (ProductNames == null || ProductNames.Count == 0)
             {
                 return new List<Business>();
             }
-            List<List<Business>> businessByProducts = new List<List<Business>>();
             foreach (var pName in ProductNames)
             {
                 businessByProducts.Add(repository.Business.Include(b => b.Products).Where(b => b.Products.Any(p => p.Name.Contains(pName))).ToList());
             }
-            List<Business> tempBest = new List<Business>();
-            for(int i = 0; i < businessByProducts.Count; i++)
+            foreach(var pack in businessByProducts)
             {
-                tempBest.Add(businessByProducts[i][0]);
+                if(pack.Count < 1)
+                {
+                    return new List<Business>();
+                }
+                bestRoute.business.Add(pack[0]);
             }
-            List<Business> best = Combination(tempBest, new List<Business>(), businessByProducts, 0);
+            bestRoute.distance = RouteCost(bestRoute.business);
+            List<Business> best = GetBest(new List<Business>(), 0);
             return best;
         }
 
-        private List<Business> Combination(List<Business> best, List<Business> collected, List<List<Business>> grouped, int position)
+        private List<Business> GetBest(List<Business> current, int position)
         {
-            if(position >= grouped.Count)
+            if(position >= businessByProducts.Count)
             {
-                return collected;
+                return GetBestPermutation(current);
             }
-            List<Business> current = grouped[position];
-            foreach(var c in current)
+            foreach (var b in businessByProducts.ElementAt(position))
             {
-                Business business = c;
-                collected.Add(business);
-                List<Business> collection = Combination(best, collected, grouped, position + 1);
-                IEnumerable<IEnumerable<Business>> permutations = GetPermutations(collection, collection.Count);
-                foreach(var p in permutations)
+                List<Business> newCurrent = new List<Business>();
+                newCurrent.AddRange(current);
+                newCurrent.Add(b);
+                List<Business> bestPermutation = GetBest(newCurrent, position + 1);
+                Route localBest = new Route { business = bestPermutation, distance = RouteCost(bestPermutation) };
+                if(localBest.distance < bestRoute.distance)
                 {
-                    var list = p.ToList();
-                    if(RouteCost(list) < RouteCost(collection))
-                    {
-                        collection = list;
-                    }
-                }
-                if(RouteCost(collection) < RouteCost(best))
-                {
-                    best = collection;
+                    System.Diagnostics.Debug.WriteLine(bestRoute.business[0].BusinessID + " " + bestRoute.distance + " " + localBest.business[0].BusinessID + " " + localBest.distance);
+                    bestRoute = localBest;
                 }
             }
-            return best;
+            return bestRoute.business;
+        }
+
+        private List<Business> GetBestPermutation(List<Business> list)
+        {
+            Route best = new Route { business = list, distance = RouteCost(list) };
+            IEnumerable<IEnumerable<Business>> permutations = GetPermutations(list, list.Count());
+            foreach(var p in permutations)
+            {
+                List<Business> pList = p.ToList();
+                Route candidate = new Route { business = pList, distance = RouteCost(pList) };
+                if(candidate.distance < best.distance)
+                {
+                    best = candidate;
+                }
+            }
+            return best.business;
         }
 
         private IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> list, int length)
@@ -91,8 +106,8 @@ namespace RestAPI.Models.Search
 
         private double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
         {
-            double radLat1 = ToRadians(lon1);
-            double radLon1 = ToRadians(lat1);
+            double radLat1 = ToRadians(lat1);
+            double radLon1 = ToRadians(lon1);
             double radLat2 = ToRadians(lat2);
             double radLon2 = ToRadians(lon2);
             double difLon = radLon1 - radLon2;
@@ -109,4 +124,5 @@ namespace RestAPI.Models.Search
         }
 
     }
+
 }

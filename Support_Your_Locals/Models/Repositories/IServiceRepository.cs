@@ -16,6 +16,6 @@ namespace Support_Your_Locals.Models.Repositories
         public void DeleteBusiness(Business business);
         public void SaveUser(User user);
         public void AddOrder(Order order);
-        public void RemoveOrder(Order order);
+        public void ResolveOrder(Order order);
     }
 }
