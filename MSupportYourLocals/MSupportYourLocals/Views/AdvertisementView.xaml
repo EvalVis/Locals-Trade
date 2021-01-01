@@ -44,7 +44,7 @@
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
                         </ContentView>
-                        <Button Text="Add product" BackgroundColor="Blue" TextColor="White" FontAttributes="Bold" Clicked="AddProduct"></Button>
+                        <Button x:Name="ProductButton" Text="Add product" BackgroundColor="Blue" TextColor="White" FontAttributes="Bold" Clicked="AddProduct"></Button>
                         <Button x:Name="SubmitButton" Text="Submit" BackgroundColor="Gold" TextColor="White" FontAttributes="Bold" Clicked="Submit" />
                     </StackLayout>
                 </Grid>

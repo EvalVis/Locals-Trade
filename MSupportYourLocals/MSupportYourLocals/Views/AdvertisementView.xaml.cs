@@ -27,6 +27,8 @@ namespace MSupportYourLocals.Views
             if (business != null)
             {
                 SubmitButton.Text = "Change";
+                ProductButton.IsVisible = false;
+                ProductCollection.IsVisible = false;
             }
             else
             {
