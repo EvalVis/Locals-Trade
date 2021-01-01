@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using RestAPI.Models.Repositories;
+using RestAPI.Infrastructure;
 
 namespace RestAPI.Models.Search
 {
@@ -93,16 +94,7 @@ namespace RestAPI.Models.Search
             if (Latitude == null || Longitude == null || DistanceKM == null) return true;
             double.TryParse(business.Longitude, NumberStyles.Any, CultureInfo.InvariantCulture, out double bLo);
             double.TryParse(business.Latitude, NumberStyles.Any, CultureInfo.InvariantCulture, out double bLa);
-            double bLon = ToRadians(bLo);
-            double bLat = ToRadians(bLa);
-            double requesterLat = ToRadians(Latitude.Value);
-            double requesterLon = ToRadians(Longitude.Value);
-            double difLon = bLon - requesterLon;
-            double difLat = bLat - requesterLat;
-            double calc = Math.Pow(Math.Sin(difLat / 2), 2) + Math.Cos(requesterLat) * Math.Cos(bLat) * Math.Pow(Math.Sin(difLon / 2), 2);
-            double calculated = 2 * Math.Asin(Math.Sqrt(calc));
-            double r = 6371;
-            return (calculated * r) <= DistanceKM.Value;
+            return RouteMath.CalculateDistance(Latitude.Value, Longitude.Value, bLa, bLo) <= DistanceKM.Value;
         }
 
         private bool BusinessConditionsMet(Business business)
@@ -130,11 +122,6 @@ namespace RestAPI.Models.Search
         private bool ChosenDescription(Business business)
         {
             return business.Description.ToLower().Contains(BusinessInfo.ToLower());
-        }
-
-        private double ToRadians(double deg)
-        {
-            return (deg * Math.PI) / 180;
         }
 
     }

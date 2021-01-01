@@ -1,10 +1,17 @@
 ﻿@model Business
 
-@using Microsoft.Extensions.Configuration
 @inject IConfiguration Configuration
 
 @{
     Layout = "_BusinessPageLayout";
+    bool validCoordinates = false;
+    if(Model.Longitude != null && Model.Latitude != null)
+    {
+        if(double.TryParse(Model.Latitude, NumberStyles.Any, CultureInfo.InvariantCulture, out double _) && double.TryParse(Model.Longitude, NumberStyles.Any, CultureInfo.InvariantCulture, out double _))
+        {
+            validCoordinates = true;
+        }
+    }
 }
 
 <div class="login-page">
@@ -64,8 +71,14 @@
         </div>
 
         <partial name="ProductSummary" for="Products" />
-
-        <div id="mapid"></div>
+        @if (validCoordinates)
+        {
+            <div id="mapid"></div>
+        }
+        else
+        {
+            <div><h5>The business owner did not provide any coordinates.</h5></div>
+        }
     </div>
 </div>
 

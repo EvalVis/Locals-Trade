@@ -48,7 +48,7 @@ namespace MSupportYourLocals.Views
 
         public async void BusinessSelected(object sender, SelectionChangedEventArgs e)
         {
-            Object chosen = e.CurrentSelection.FirstOrDefault();
+            object chosen = e.CurrentSelection.FirstOrDefault();
             if (chosen is Business)
             {
                 chosenBusiness = chosen as Business;
