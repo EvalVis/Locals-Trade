@@ -40,6 +40,13 @@
                     "name": "Send a response"
                   },
                   "activity": "${SendActivity_Welcome()}"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "Yg1eG7"
+                  },
+                  "activity": "${SendActivity_Yg1eG7()}"
                 }
               ]
             }
@@ -81,7 +88,8 @@
           "activityProcessed": true,
           "dialog": "help"
         }
-      ]
+      ],
+      "condition": "#Help.Score >= 0.5"
     },
     {
       "$kind": "Microsoft.OnIntent",
@@ -99,7 +107,8 @@
           "activityProcessed": true,
           "dialog": "cancel"
         }
-      ]
+      ],
+      "condition": "#Cancel.Score >= 0.5"
     },
     {
       "$kind": "Microsoft.OnIntent",
@@ -117,7 +126,8 @@
           "activityProcessed": true,
           "dialog": "businessBoard"
         }
-      ]
+      ],
+      "condition": "#Show.Score >= 0.6"
     },
     {
       "$kind": "Microsoft.OnIntent",
@@ -136,7 +146,8 @@
           "dialog": "businessSite"
         }
       ],
-      "entities": []
+      "entities": [],
+      "condition": "#visit.Score >= 0.5"
     },
     {
       "$kind": "Microsoft.OnIntent",
@@ -154,7 +165,8 @@
           "activityProcessed": true,
           "dialog": "writeFeedback"
         }
-      ]
+      ],
+      "condition": "#feedback.Score >= 0.5"
     },
     {
       "$kind": "Microsoft.OnIntent",
@@ -172,7 +184,8 @@
           "activityProcessed": true,
           "dialog": "Orders"
         }
-      ]
+      ],
+      "condition": "#Orders.Score >= 0.4"
     },
     {
       "$kind": "Microsoft.OnIntent",
@@ -190,7 +203,8 @@
           "activityProcessed": true,
           "dialog": "writeCourierEmail"
         }
-      ]
+      ],
+      "condition": "#courieremail.Score >= 0.5"
     },
     {
       "$kind": "Microsoft.OnIntent",
@@ -208,7 +222,8 @@
           "activityProcessed": true,
           "dialog": "emailsForHelp"
         }
-      ]
+      ],
+      "condition": "#ask.Score >= 0.6"
     },
     {
       "$kind": "Microsoft.OnIntent",
@@ -474,67 +489,105 @@
           ],
           "condition": "= int(dialog.targetPage) <= int(user.totalPages) && int(dialog.targetPage) > 0"
         }
+      ],
+      "condition": "#go.Score >= 0.6"
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "sqMwcm"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "onk3rd"
+          },
+          "activity": "${SendActivity_onk3rd()}"
+        }
       ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "nWyrgg",
+        "name": "How-add-add"
+      },
+      "intent": "How-add-add",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "KOsiiL"
+          },
+          "activity": "${SendActivity_KOsiiL()}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "v25Iml",
+        "name": "see-feedbacks"
+      },
+      "intent": "see-feedbacks",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "s3cLgU"
+          },
+          "activity": "${SendActivity_s3cLgU()}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "fcdNPK",
+        "name": "howto-edit"
+      },
+      "intent": "howto-edit",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "zYoBYl"
+          },
+          "activity": "${SendActivity_zYoBYl()}"
+        }
+      ],
+      "condition": "#howto-edit.Score >= 0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "cwMiQP",
+        "name": "change-profile"
+      },
+      "intent": "change-profile",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "suKZtu"
+          },
+          "activity": "${SendActivity_suKZtu()}"
+        }
+      ],
+      "condition": "#change-profile.Score >= 0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "FlECSn",
+        "name": "Questions"
+      },
+      "intent": "Questions"
     }
   ],
   "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
   "generator": "WeatherBot.lg",
   "id": "WeatherBot",
-  "recognizer": {
-    "$kind": "Microsoft.RegexRecognizer",
-    "intents": [
-      {
-        "intent": "feedback",
-        "pattern": "feedback (?<id>.*)"
-      },
-      {
-        "intent": "visit",
-        "pattern": "visit (?<id>.*)"
-      },
-      {
-        "intent": "cancel",
-        "pattern": "cancel"
-      },
-      {
-        "intent": "help",
-        "pattern": "help"
-      },
-      {
-        "intent": "show",
-        "pattern": "show"
-      },
-      {
-        "intent": "weather",
-        "pattern": "weather"
-      },
-      {
-        "intent": "orders",
-        "pattern": "orders (?<id>.*)"
-      },
-      {
-        "intent": "courierEmail",
-        "pattern": "courierEmail (?<id>.*)"
-      },
-      {
-        "intent": "ask",
-        "pattern": "ask"
-      },
-      {
-        "intent": "previousPage",
-        "pattern": "previous page"
-      },
-      {
-        "intent": "nextPage",
-        "pattern": "next page"
-      },
-      {
-        "intent": "currentPage",
-        "pattern": "current page"
-      },
-      {
-        "intent": "go",
-        "pattern": "go (?<targetPage>.*)"
-      }
-    ]
-  }
+  "recognizer": "WeatherBot.lu.qna"
 }
