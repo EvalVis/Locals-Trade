@@ -82,4 +82,18 @@ namespace RestAPI.Models.Search
         }
 
     }
+
+    class CourierTask
+    {
+        public Geocode Geocode { get; set; }
+        public bool isBusiness { get; set; }
+        public object Object { get; set; }
+    }
+
+    class Geocode
+    {
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+    }
+
 }
