@@ -49,7 +49,7 @@ namespace MSupportYourLocals.ViewModels
         {
             CurrentPage = currentPage;
             OwnersSurname = ownersSurname;
-            businessInfo = BusinessInfo;
+            BusinessInfo = businessInfo;
             SearchIn = searchIn;
             WeekdaySelected = weekdaySelected;
             OpenFrom = openFrom;
