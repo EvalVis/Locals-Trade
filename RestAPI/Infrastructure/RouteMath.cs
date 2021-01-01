@@ -39,23 +39,5 @@ namespace RestAPI.Infrastructure
                     (t1, t2) => t1.Concat(new T[] { t2 }));
         }
 
-
-        public static async Task<Geocode> AddressToCoordinates(string address)
-        {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://api.positionstack.com/v1/forward");
-            HttpResponseMessage response = await client.GetAsync($"?access_key=92989511fc17d3b311e63a098337a457&query={address}");
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                var result = await response.Content.ReadAsStringAsync();
-                List<Geocode> data = JsonConvert.DeserializeObject<List<Geocode>>(result);
-                if (data.Count > 0)
-                {
-                    return data[0];
-                }
-            }
-            return null;
-        }
-
     }
 }
