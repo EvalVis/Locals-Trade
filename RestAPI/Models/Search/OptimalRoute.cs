@@ -45,8 +45,7 @@ namespace RestAPI.Models.Search
         {
             if(position >= businessByProducts.Count)
             {
-                List<List<Business>> permutations = (List<List<Business>>)GetPermutations(current, current.Count);
-                return permutations.FirstOrDefault(list => RouteCost(list) == permutations.Min(x => RouteCost(x)));
+                return GetBestPermutation(current);
             }
             foreach (var b in businessByProducts.ElementAt(position))
             {
@@ -57,10 +56,27 @@ namespace RestAPI.Models.Search
                 Route localBest = new Route { business = bestPermutation, distance = RouteCost(bestPermutation) };
                 if(localBest.distance < bestRoute.distance)
                 {
+                    System.Diagnostics.Debug.WriteLine(bestRoute.business[0].BusinessID + " " + bestRoute.distance + " " + localBest.business[0].BusinessID + " " + localBest.distance);
                     bestRoute = localBest;
                 }
             }
             return bestRoute.business;
+        }
+
+        private List<Business> GetBestPermutation(List<Business> list)
+        {
+            Route best = new Route { business = list, distance = RouteCost(list) };
+            IEnumerable<IEnumerable<Business>> permutations = GetPermutations(list, list.Count());
+            foreach(var p in permutations)
+            {
+                List<Business> pList = p.ToList();
+                Route candidate = new Route { business = pList, distance = RouteCost(pList) };
+                if(candidate.distance < best.distance)
+                {
+                    best = candidate;
+                }
+            }
+            return best.business;
         }
 
         private IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> list, int length)

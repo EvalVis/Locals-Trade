@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,15 +26,11 @@ namespace RestAPI.Controllers
         [HttpGet("products")]
         public ActionResult ShortestRouteForProducts([FromQuery] OptimalRoute engine)
         {
-            Stopwatch watch = new Stopwatch();
-            if (engine.ProductNames.Count > 4)
+            if (engine.ProductNames.Count > 3)
             {
                 return BadRequest("Product list limit exceeded.");
             }
-            watch.Start();
             List<Business> best = engine.FindBusinesses(repository);
-            watch.Stop();
-            System.Diagnostics.Debug.WriteLine(watch.Elapsed);
             foreach (var b in best)
             {
                 b.EliminateDepth();
