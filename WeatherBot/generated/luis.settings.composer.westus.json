@@ -2,7 +2,7 @@
     "luis": {
         "WeatherBot_en_us_lu": {
             "appId": "2a303034-d981-4a8d-8582-922a7c66030e",
-            "version": "1.0"
+            "version": "1.3"
         }
     }
 }

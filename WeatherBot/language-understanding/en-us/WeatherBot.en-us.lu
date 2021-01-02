@@ -1,6 +1,5 @@
 
 # help
-- \#help 
 -help
 -need help
 -please help
@@ -17,8 +16,6 @@
 -show
 -find business
 -search
--news
--latest
 -shops
 -find shops
 -buy
@@ -43,7 +40,6 @@
 -i want to review
 -i want to complain
 -i want to complain about
-
 
 
 
@@ -95,3 +91,5 @@
 -contact support
 -ask a question
 -have a question
+
+$ id :/[0,9]./

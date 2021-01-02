@@ -27,8 +27,6 @@
 - show
 - find business
 - search
-- news
-- latest
 - shops
 - find shops
 - buy
@@ -128,4 +126,5 @@
 
 > # RegEx entities
 
+@ regex id = /[0,9]./
 

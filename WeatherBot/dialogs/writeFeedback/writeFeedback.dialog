@@ -19,9 +19,9 @@
         {
           "$kind": "Microsoft.SetProperty",
           "$designer": {
-            "id": "v0p3MU"
+            "id": "gzaJrm"
           },
-          "property": "dialog.bId",
+          "property": "user.id",
           "value": "=@id"
         },
         {
