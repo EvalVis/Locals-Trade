@@ -476,7 +476,140 @@ namespace Support_Your_Locals.Infrastructure
             b44.Workdays.Add(t44_0);
             b44.Workdays.Add(t44_1);
 
+            Product p45_0 = CreateProduct("Švarkas", 11, "vienetas", "Raudonas švarkas", imager.ByteMaker("45.jpg"));
+            Business b45 = CreateBusiness("Parduodami raudoni švarkai", "25.279652", "54.687157", "+37062169600", "Kokybiški švarkai", imager.ByteMaker("45.jpg"));
+            TimeSheet t45_0 = CreateWorkday(10, 30, 17, 0, 2);
+            TimeSheet t45_1 = CreateWorkday(8, 45, 18, 30, 4);
 
+
+            u11.Businesses.Add(b45);
+            b45.Products.Add(p45_0);
+            b45.Workdays.Add(t45_0);
+            b45.Workdays.Add(t45_1);
+
+            Product p46_0 = CreateProduct("Švarkas", 9, "vienetas", "Pilkas švarkas", imager.ByteMaker("47.jpg"));
+            Business b46 = CreateBusiness("Parduodami pilki švarkai", "25.252259", "54.690940", "+37062899030", "Iš Kinijos", imager.ByteMaker("47.jpg"));
+
+
+            u10.Businesses.Add(b46);
+            b46.Products.Add(p46_0);
+            b46.Workdays.Add(t45_0);
+            b46.Workdays.Add(t45_1);
+
+            Product p47_0 = CreateProduct("Švarkas", 20, "vienetas", "Mėlynas švarkas", imager.ByteMaker("46.jpg"));
+            Business b47 = CreateBusiness("Parduodami mėlyni švarkai", "25.350161", "54.741906", "+37062799630", "Pagaminti Lietuvoje", imager.ByteMaker("46.jpg"));
+
+
+            u9.Businesses.Add(b47);
+            b47.Products.Add(p47_0);
+            b47.Workdays.Add(t45_0);
+            b47.Workdays.Add(t45_1);
+
+            Product p48_0 = CreateProduct("Švarkas", 12, "vienetas", "Įvairių spalvų švarkai", imager.ByteMaker("48.jpg"));
+            Business b48 = CreateBusiness("Parduodami įvairių spalvų švarkai", "25.375241", "54.732590", "+37062699630", "Geros kokybės", imager.ByteMaker("48.jpg"));
+
+
+            u7.Businesses.Add(b48);
+            b48.Products.Add(p48_0);
+            b48.Workdays.Add(t45_0);
+            b48.Workdays.Add(t45_1);
+
+            Product p49_0 = CreateProduct("Švarkas", 5, "vienetas", "Neblogos kokybės", imager.ByteMaker("49.jpg"));
+            Business b49 = CreateBusiness("Parduodami devėti švarkai", "25.309607", "54.703836", "+37062599630", "Gana geros kokybės", imager.ByteMaker("49.jpg"));
+
+
+            u8.Businesses.Add(b49);
+            b49.Products.Add(p49_0);
+            b49.Workdays.Add(t45_0);
+            b49.Workdays.Add(t45_1);
+            //---------------
+            Product p50_0 = CreateProduct("Padangos", 80, "4x komplektas", "Naujos žieminės Continental padangos", imager.ByteMaker("50.jpg"));
+            Business b50 = CreateBusiness("Parduodamos žieminės padangos", "25.276903", "54.668113", "+37061299630", "Puikus sukibimas", imager.ByteMaker("50.jpg"));
+
+            u7.Businesses.Add(b50);
+            b50.Products.Add(p50_0);
+            b50.Workdays.Add(t45_0);
+            b50.Workdays.Add(t45_1);
+
+            Product p51_0 = CreateProduct("Padangos", 60, "4x komplektas", "Naujos žieminės ir vasarinės Viking padangos", imager.ByteMaker("51.jpg"));
+            Business b51 = CreateBusiness("Parduodamos žieminės ir vasarinės padangos", "25.211628", "54.669304", "+37062009630", "Ilgaamžės ir patikimos", imager.ByteMaker("51.jpg"));
+
+
+            u6.Businesses.Add(b51);
+            b51.Products.Add(p51_0);
+            b51.Workdays.Add(t45_0);
+            b51.Workdays.Add(t45_1);
+
+            Product p52_0 = CreateProduct("Padangos", 65, "4x komplektas", "Michelin universalios padangos", imager.ByteMaker("52.jpg"));
+            Business b52 = CreateBusiness("Parduodamos naujos Michelin universalios padangos ", "25.170265", "54.788730", "+37062119630", "Geros ir žiema ir vasara", imager.ByteMaker("52.jpg"));
+
+
+            u5.Businesses.Add(b52);
+            b52.Products.Add(p52_0);
+            b52.Workdays.Add(t45_0);
+            b52.Workdays.Add(t45_1);
+
+            Product p53_0 = CreateProduct("Padangos", 20, "2x komplektas", "Naudotos padangos", imager.ByteMaker("53.jpg"));
+            Business b53 = CreateBusiness("Parduodamos naudotos padangos", "25.247907", "54.805355", "+37062229630", "Dar patikimos", imager.ByteMaker("53.jpg"));
+
+
+            u4.Businesses.Add(b53);
+            b53.Products.Add(p53_0);
+            b53.Workdays.Add(t45_0);
+            b53.Workdays.Add(t45_1);
+
+            Product p54_0 = CreateProduct("Padangos", 45, "2x komplektas", "Naujos įviarių tipų padangos", imager.ByteMaker("54.jpg"));
+            Business b54 = CreateBusiness("Parduodamos naujos įviarių tipų padangos", "25.215422", "54.769088", "+37062339630", "Nemokamas ir greitas montavimas", imager.ByteMaker("54.jpg"));
+
+
+            u3.Businesses.Add(b54);
+            b54.Products.Add(p54_0);
+            b54.Workdays.Add(t45_0);
+            b54.Workdays.Add(t45_1);
+            //--------
+            Product p55_0 = CreateProduct("Cepelinai", 3, "vienetas", "Skanūs su kiauliena", null);
+            Business b55 = CreateBusiness("Parduodami cepelinai", "25.182170", "54.715578", "+37062449630", "Cepelinai su kiauliena. Pridedame grietinės", imager.ByteMaker("cipakai.jpg"));
+
+            u2.Businesses.Add(b55);
+            b55.Products.Add(p55_0);
+            b55.Workdays.Add(t45_0);
+            b55.Workdays.Add(t45_1);
+
+            Product p56_0 = CreateProduct("Cepelinai", 4, "vienetas", "Su jautiena", null);
+            Business b56 = CreateBusiness("Parduodami naminiai cepelinai", "25.232329", "54.721924", "+37062559630", "Su jautiena.", imager.ByteMaker("cipakai.jpg"));
+
+
+            u1.Businesses.Add(b56);
+            b56.Products.Add(p56_0);
+            b56.Workdays.Add(t45_0);
+            b56.Workdays.Add(t45_1);
+
+            Product p57_0 = CreateProduct("Cepelinai", 4, "vienetas", "Skanus močiutės cepelinai su varške", null);
+            Business b57 = CreateBusiness("Parduodami cepelinai su varške", "25.292794", "54.722320", "+37062669630", "Pridedame grietinės", imager.ByteMaker("cipakai.jpg"));
+
+
+            u9.Businesses.Add(b57);
+            b57.Products.Add(p57_0);
+            b57.Workdays.Add(t45_0);
+            b57.Workdays.Add(t45_1);
+
+            Product p58_0 = CreateProduct("Cepelinai", 9, "2 vienetai", "Dideli cepelinai", null);
+            Business b58 = CreateBusiness("Dideli cepelinai", "25.153845", "54.713634", "+37062179630", "Pridedame spirgučius su grietine", imager.ByteMaker("cipakai.jpg"));
+
+
+            u7.Businesses.Add(b58);
+            b58.Products.Add(p58_0);
+            b58.Workdays.Add(t45_0);
+            b58.Workdays.Add(t45_1);
+
+            Product p59_0 = CreateProduct("Cepelinai", 2, "vienetas", "Užšaldyti -15 laipniu pagal Celsijų cepelinai", null);
+            Business b59 = CreateBusiness("Parduodami šaldyti cepelinai", "25.306674", "54.624966", "+37062189630", "Galime vietoje pašildyti", imager.ByteMaker("cipakai.jpg"));
+
+
+            u8.Businesses.Add(b59);
+            b59.Products.Add(p59_0);
+            b59.Workdays.Add(t45_0);
+            b59.Workdays.Add(t45_1);
 
             return new User[] { u1, u2, u3, u4, u5, u6, u7, u8, u9, u10, u11 };
         }
