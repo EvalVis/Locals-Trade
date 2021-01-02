@@ -4,29 +4,32 @@
 
 <table class="table table-sm table-striped table-bordered">
     <thead>
-    <tr>
-        <th>Header</th>
-    </tr>
+        <tr>
+            <th>Header</th>
+        </tr>
     </thead>
     <tbody>
-    @if (UserBusinesses?.Count() > 0) {
-        @foreach (Business b in UserBusinesses) {
+        @if (UserBusinesses?.Count() > 0)
+        {
+            @foreach (Business b in UserBusinesses)
+            {
+                <tr>
+                    <td>@b.Header</td>
+                    <td>
+                        <NavLink class="btn btn-info btn-sm" href="@GetDetailsUrl(b.BusinessID)">Advertisement page</NavLink>
+                        <NavLink class="btn btn-warning btn-sm" href="@GetEditUrl(b.BusinessID)">Edit</NavLink>
+                        <NavLink class="btn btn-light btm-sm" href="@GetFeedbackUrl(b.BusinessID)">Business feedbacks</NavLink>
+                        <NavLink class="btn btn-danger btn-sm" @onclick="@(e => DeleteBusiness(b))">Delete</NavLink>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
             <tr>
-                <td>@b.Header</td>
-                <td>
-                    <NavLink class="btn btn-info btn-sm" href="@GetDetailsUrl(b.BusinessID)">Advertisement page</NavLink>
-                    <NavLink class="btn btn-warning btn-sm" href="@GetEditUrl(b.BusinessID)">Edit</NavLink>
-                    <NavLink class="btn btn-light btm-sm" href="@GetFeedbackUrl(b.BusinessID)">Business feedbacks</NavLink>
-                    <button class="btn btn-danger btn-sm" @onclick="@(e => DeleteBusiness(b))">Delete</button>
-                </td>
+                <td colspan="5" class="text-center">No businesses being advertised.</td>
             </tr>
         }
-    }
-    else {
-        <tr>
-            <td colspan="5" class="text-center">No businesses being advertised.</td>
-        </tr>
-    }
     </tbody>
 </table>
 

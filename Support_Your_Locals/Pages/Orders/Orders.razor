@@ -5,7 +5,8 @@
 @if (Product != null)
 {
 <div class="login-page">
-    <table class="table table-sm table-bordered table-striped">
+    <div class="form" style="max-width: 1080px;">
+        <table class="table table-sm table-bordered table-striped">
             <tr><th colspan="5" class="text-center center">Product: (@Product.Name), unit price: (@Product.PricePerUnit), unit: (@Product.Unit)</th></tr>
             <tr style=" text-align: center; ">
                 <th>Product</th>
@@ -47,22 +48,23 @@
                     </td>
                 </tr>
             }
-    </table>
-</div>
-}
-else
-{
+        </table>
+    </div>
+    </div>
+    }
+    else
+    {
     <h1>Product does not exist</h1>
-}
+    }
 
-@code {
+    @code {
 
-    [Inject]
-    public IServiceRepository Repository { get; set; }
-    [Inject]
-    public IConfiguration Configuration { get; set; }
+        [Inject]
+        public IServiceRepository Repository { get; set; }
+        [Inject]
+        public IConfiguration Configuration { get; set; }
 
-    public Product Product { get; set; }
+public Product Product { get; set; }
 
     public List<Tuple<Order, bool, string>> OrdersAndStatus { get; set; }
 
@@ -102,4 +104,4 @@ else
         OrdersAndStatus[index] = Tuple.Create(element.Item1, status, letter);
     }
 
-}
+    }
