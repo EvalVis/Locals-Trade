@@ -1,5 +1,6 @@
 ﻿@page "/user/orders"
 @inherits OwningComponentBase<IServiceRepository>
+@inject IHttpContextAccessor context
 
 <OrderTable TableTitle="Standing orders" Orders="Standing" ButtonLabel="Resolve" ResolveOrder="Resolve" />
 <OrderTable TableTitle="Resolved orders" Orders="Resolved" ResolveOrder="Resolve" />
@@ -19,7 +20,8 @@
 
     public async Task UpdateData()
     {
-        Orders = await Repository.Orders.Include(o => o.Product).ToListAsync();
+        long.TryParse(context.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value ?? "0", out long userID);
+        Orders = await Repository.Orders.Include(o => o.Product).Where(o => o.UserId == userID).ToListAsync();
         Resolved = Orders.Where(o => o.Resolved).OrderByDescending(o => o.DateResolved);
         Standing = Orders.Where(o => !o.Resolved).OrderBy(o => o.DateAdded);
     }
