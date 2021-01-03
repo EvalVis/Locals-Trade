@@ -77,4 +77,6 @@ _[Ss]cripts
 *.nupkg
 *.ncrunchsolution
 *.dot[Cc]over
-/Support_Your_Locals.Tests
+/RestAPI/Dockerfile
+/RestAPI/docker-compose.yml
+/RestAPI/appsettings.Production.json
