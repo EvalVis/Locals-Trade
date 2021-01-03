@@ -2,12 +2,14 @@
 {
     public class Imager
     {
-        public byte[] ByteMaker (string file)
+
+        public byte[] ByteMaker(string file)
         {
-            byte[] imgdata = System.IO.File.ReadAllBytes($"Infrastructure/Images/{file}");
-            return imgdata;
+            //string path = Path.GetFullPath(Directory.GetCurrentDirectory() + @"/Infrastructure/Images/" + file);
+           // byte[] imgdata = File.ReadAllBytes(path);
+            return null;
         }
-        
+
     }
 
     
