@@ -4,11 +4,11 @@
     @(Model.Item1 ?? "Products")
 </button>
 <div class="dropdown-menu">
-    <a class="btn btn-block btn-outline-secondary" asp-action="Index" asp-controller="Home" asp-route-product=""><b>Home</b></a>
+    <a class="btn btn-block btn-outline-secondary" asp-action="Index" asp-controller="Home" asp-route-page="1" asp-route-product=""><b>Home</b></a>
     @foreach (string product in Model.Item2)
     {
         <a class="btn btn-block @(product == Model.Item1 ? "btn-primary" : "btn-outline-secondary")"
-           asp-action="Index" asp-controller="Home" asp-route-product="@product">@product</a>
+           asp-action="Index" asp-controller="Home" asp-route-page="1" asp-route-product="@product">@product</a>
     }
 </div>
 
