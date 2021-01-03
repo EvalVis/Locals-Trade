@@ -2,12 +2,31 @@
 
 @layout EmptyLayout
 
+<div class="bg-info text-white p-2">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <a style="color:white;" class="navbar-brand ml-2" href="/">Locals Trade</a>
+                @if (Product != null)
+                {
+                <div style="text-align: center; word-wrap: break-word;">
+                <b>@Product.Name: @Product.PricePerUnit per @Product.Unit</b>
+                </div>
+                }
+            </div>
+            <div class="col-2 text-right">
+                @if (LoggedIn)
+                {
+                    <a class="btn btn-sm btn-primary" href="/auth/signout">Logout</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
 @if (Product != null)
 {
 <table class="table table-sm table-bordered table-striped">
-    <thread>
-        <tr><th colspan="5" class="text-center center">Product: (@Product.Name), unit price: (@Product.PricePerUnit), unit: (@Product.Unit)</th></tr>
-    </thread>
     <tbody>
     <tr style=" text-align: center; ">
         <th>Product</th>
@@ -63,16 +82,25 @@ else
     public IServiceRepository Repository { get; set; }
     [Inject]
     public IConfiguration Configuration { get; set; }
+    [Inject]
+    public IHttpContextAccessor Context { get; set; }
 
     public Product Product { get; set; }
 
     public List<Tuple<Order, bool, string>> OrdersAndStatus { get; set; }
+
+    public bool LoggedIn { get; set; }
 
     [Parameter]
     public long ProductId { get; set; }
 
     protected override void OnParametersSet()
     {
+        long.TryParse(Context.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value ?? "0", out long userID);
+        if(userID > 0)
+        {
+            LoggedIn = true;
+        }
         Product = Repository.Products.Include(o => o.Orders).FirstOrDefault(p => p.ProductID == ProductId);
         OrdersAndStatus = new List<Tuple<Order, bool, string>>();
         if (Product?.Orders != null)
