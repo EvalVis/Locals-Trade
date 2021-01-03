@@ -14,6 +14,10 @@ namespace Support_Your_Locals.Infrastructure
         {
             ServiceDbContext context = app.ApplicationServices.CreateScope().ServiceProvider
                 .GetRequiredService<ServiceDbContext>();
+           /* if (context.Database.GetPendingMigrations().Any())
+            {
+                context.Database.Migrate();
+            }*/
             if (!context.Users.Any())
             {
                 context.Users.AddRange(CreateTestMaterial(hashCalculator, imager));
