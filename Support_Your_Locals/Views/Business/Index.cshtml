@@ -3,16 +3,19 @@
 @inject IConfiguration Configuration
 
 @{
-    Layout = "_BusinessPageLayout";
+    Layout = "_NoNavLayout";
     bool validCoordinates = false;
-    if(Model.Longitude != null && Model.Latitude != null)
+    if (Model.Longitude != null && Model.Latitude != null)
     {
-        if(double.TryParse(Model.Latitude, NumberStyles.Any, CultureInfo.InvariantCulture, out double _) && double.TryParse(Model.Longitude, NumberStyles.Any, CultureInfo.InvariantCulture, out double _))
+        if (double.TryParse(Model.Latitude, NumberStyles.Any, CultureInfo.InvariantCulture, out double _) && double.TryParse(Model.Longitude, NumberStyles.Any, CultureInfo.InvariantCulture, out double _))
         {
             validCoordinates = true;
         }
     }
 }
+
+<link rel="stylesheet" href="~/css/style.css" />
+<link rel="stylesheet" href="~/css/imagedes.css" />
 
 <div class="login-page">
     <div class="form">
