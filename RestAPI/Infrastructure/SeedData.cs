@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using RestAPI.Cryptography;
 using RestAPI.Models;
@@ -14,6 +15,10 @@ namespace RestAPI.Infrastructure
         {
             ServiceDbContext context = app.ApplicationServices.CreateScope().ServiceProvider
                 .GetRequiredService<ServiceDbContext>();
+            if (context.Database.GetPendingMigrations().Any())
+            {
+                context.Database.Migrate();
+            }
             if (!context.Users.Any())
             {
                 context.Users.AddRange(CreateTestMaterial(hashCalculator, imager));
