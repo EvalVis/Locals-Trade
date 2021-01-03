@@ -4,51 +4,53 @@
 
 @if (Product != null)
 {
-<div class="login-page">
-    <table class="table table-sm table-bordered table-striped">
-            <tr><th colspan="5" class="text-center center">Product: (@Product.Name), unit price: (@Product.PricePerUnit), unit: (@Product.Unit)</th></tr>
-            <tr style=" text-align: center; ">
-                <th>Product</th>
-                <th>Amount<br />  ordered</th>
-                <th>Total sum for<br /> the amount</th>
-                <th>Address for delivery</th>
-                <th>Client's comment</th>
-                <th>Date ordered</th>
-                <th>Write an email to a client</th>
-            </tr>
-            @foreach (var element in OrdersAndStatus)
-            {
-                Order order = element.Item1;
-                bool status = element.Item2;
-                int index = OrdersAndStatus.FindIndex(ind => ind.Equals(element));
-                decimal sum = order.Amount * Product.PricePerUnit;
-                <tr>
-                    <td>@order.Amount</td>
-                    <td>@sum</td>
-                    <td>@order.Address</td>
-                    <td>@order.Comment</td>
-                    <td>@order.DateAdded</td>
-                    <td>
-                        @if (status)
-                        {
-                            <textarea @onchange="@(e => replaceTuple(element, true, e.Value.ToString()))" />
-                            <button type="button" class="btn btn-secondary" @onclick="@(args =>
+<table class="table table-sm table-bordered table-striped">
+    <thread>
+        <tr><th colspan="5" class="text-center center">Product: (@Product.Name), unit price: (@Product.PricePerUnit), unit: (@Product.Unit)</th></tr>
+    </thread>
+    <tbody>
+    <tr style=" text-align: center; ">
+        <th>Product</th>
+        <th>Amount<br />  ordered</th>
+        <th>Total sum for<br /> the amount</th>
+        <th>Address for delivery</th>
+        <th>Client's comment</th>
+        <th>Date ordered</th>
+        <th>Write an email to a client</th>
+    </tr>
+        @foreach(var element in OrdersAndStatus)
+        {
+            Order order = element.Item1;
+            bool status = element.Item2;
+            int index = OrdersAndStatus.FindIndex(ind => ind.Equals(element));
+            decimal sum = order.Amount * Product.PricePerUnit;
+            <tr>
+                <td>@order.Amount</td>
+                <td>@sum</td>
+                <td>@order.Address</td>
+                <td>@order.Comment</td>
+                <td>@order.DateAdded</td>
+                <td>
+                    @if (status)
+                    {
+                        <textarea @onchange="@(e => replaceTuple(element, true, e.Value.ToString()))" />
+                        <button type="button" class="btn btn-secondary" @onclick="@(args =>
                                                                                     {
                                                                                         Send(order.UserId, OrdersAndStatus[index].Item3);
                                                                                         replaceTuple(element, false, "");
                                                                                     })">
-                                Send email
-                            </button>
-                        }
-                        else
-                        {
-                            <label>Email sent</label>
-                        }
-                    </td>
-                </tr>
-            }
-    </table>
-</div>
+                            Send email
+                        </button>
+                    }
+                    else
+                    {
+                        <label>Email sent</label>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+</table>
 }
 else
 {
