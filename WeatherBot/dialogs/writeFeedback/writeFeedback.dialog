@@ -69,7 +69,7 @@
             "id": "Ke1Myb"
           },
           "method": "POST",
-          "url": "https://localhost:5001/api/Feedback",
+          "url": "https://sylrestapi.azurewebsites.net/api/Feedback",
           "body": {
             "senderName": "${dialog.senderName}",
             "text": "${dialog.text}",

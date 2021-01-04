@@ -30,7 +30,7 @@
             "id": "G6eaF9"
           },
           "method": "GET",
-          "url": "https://localhost:5001/api/Order/${dialog.pId}",
+          "url": "https://sylrestapi.azurewebsites.net/api/Order/${dialog.pId}",
           "responseType": "json",
           "resultProperty": "dialog.api_response"
         },

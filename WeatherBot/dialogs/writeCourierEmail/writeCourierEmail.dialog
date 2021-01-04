@@ -45,7 +45,7 @@
             "id": "Bl9Ple"
           },
           "method": "POST",
-          "url": "https://localhost:5001/api/Order",
+          "url": "https://sylrestapi.azurewebsites.net/api/Order",
           "body": {
             "letter": "${dialog.email}",
             "orderId": "${dialog.oId}"

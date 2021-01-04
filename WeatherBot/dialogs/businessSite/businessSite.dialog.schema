@@ -1,0 +1,50 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/botframework-sdk/master/schemas/component/component.schema",
+  "$role": "implements(Microsoft.IDialog)",
+  "title": "businessSite",
+  "type": "object",
+  "properties": {
+    "id": {
+      "$ref": "#/definitions/numberExpression",
+      "title": "Id"
+    }
+  },
+  "$result": {
+    "type": "object",
+    "properties": {}
+  },
+  "definitions": {
+    "equalsExpression": {
+      "$role": "expression",
+      "type": "string",
+      "title": "Equals Expression",
+      "description": "Expression starting with =.",
+      "pattern": "^=.*\\S.*",
+      "examples": [
+        "=user.name"
+      ]
+    },
+    "numberExpression": {
+      "$role": "expression",
+      "title": "Number or expression",
+      "description": "Number constant or expression to evaluate.",
+      "oneOf": [
+        {
+          "type": "number",
+          "title": "Number",
+          "description": "Number constant.",
+          "default": 0,
+          "examples": [
+            15.5
+          ]
+        },
+        {
+          "$ref": "#/definitions/equalsExpression",
+          "examples": [
+            "=dialog.quantity"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -22,7 +22,7 @@
             "id": "Mnvn8Q"
           },
           "method": "GET",
-          "url": "https://localhost:5001/api/Business/${@id}",
+          "url": "https://sylrestapi.azurewebsites.net/api/Business/${@id}",
           "resultProperty": "dialog.api_response",
           "responseType": "json"
         },

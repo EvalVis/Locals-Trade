@@ -36,21 +36,21 @@
                 {
                   "$kind": "Microsoft.SendActivity",
                   "$designer": {
-                    "id": "859266",
-                    "name": "Send a response"
+                    "id": "0ahUng"
                   },
-                  "activity": "${SendActivity_Welcome()}"
+                  "activity": "${SendActivity_0ahUng()}"
                 },
                 {
                   "$kind": "Microsoft.SendActivity",
                   "$designer": {
-                    "id": "Yg1eG7"
+                    "id": "VWztRB"
                   },
-                  "activity": "${SendActivity_Yg1eG7()}"
+                  "activity": "${SendActivity_VWztRB()}"
                 }
               ]
             }
-          ]
+          ],
+          "value": "dialog.foreach.value"
         }
       ]
     },
@@ -89,7 +89,7 @@
           "dialog": "help"
         }
       ],
-      "condition": "#Help.Score >= 0.5"
+      "condition": "=#help.Score >= 0.5"
     },
     {
       "$kind": "Microsoft.OnIntent",
@@ -108,7 +108,7 @@
           "dialog": "cancel"
         }
       ],
-      "condition": "#Cancel.Score >= 0.5"
+      "condition": "#cancel.Score >= 0.5"
     },
     {
       "$kind": "Microsoft.OnIntent",
@@ -127,7 +127,7 @@
           "dialog": "businessBoard"
         }
       ],
-      "condition": "#Show.Score >= 0.6"
+      "condition": "#show.Score >= 0.5"
     },
     {
       "$kind": "Microsoft.OnIntent",
@@ -143,7 +143,8 @@
             "id": "xXT4Jt"
           },
           "activityProcessed": true,
-          "dialog": "businessSite"
+          "dialog": "businessSite",
+          "options": {}
         }
       ],
       "entities": [],
@@ -163,7 +164,8 @@
             "id": "8KEwFK"
           },
           "activityProcessed": true,
-          "dialog": "writeFeedback"
+          "dialog": "writeFeedback",
+          "options": {}
         }
       ],
       "condition": "#feedback.Score >= 0.5"
@@ -184,8 +186,7 @@
           "activityProcessed": true,
           "dialog": "Orders"
         }
-      ],
-      "condition": "#Orders.Score >= 0.4"
+      ]
     },
     {
       "$kind": "Microsoft.OnIntent",
@@ -283,13 +284,6 @@
             {
               "$kind": "Microsoft.SendActivity",
               "$designer": {
-                "id": "ujgp0d"
-              },
-              "activity": "${SendActivity_ujgp0d()}"
-            },
-            {
-              "$kind": "Microsoft.SendActivity",
-              "$designer": {
                 "id": "yKwPeJ"
               },
               "activity": "${SendActivity_yKwPeJ()}"
@@ -335,13 +329,6 @@
           },
           "condition": "int(user.page) < int(user.totalPages)",
           "elseActions": [
-            {
-              "$kind": "Microsoft.SendActivity",
-              "$designer": {
-                "id": "gQjVa9"
-              },
-              "activity": "${SendActivity_gQjVa9()}"
-            },
             {
               "$kind": "Microsoft.SendActivity",
               "$designer": {
@@ -556,8 +543,7 @@
           },
           "activity": "${SendActivity_zYoBYl()}"
         }
-      ],
-      "condition": "#howto-edit.Score >= 0.5"
+      ]
     },
     {
       "$kind": "Microsoft.OnIntent",
@@ -574,20 +560,131 @@
           },
           "activity": "${SendActivity_suKZtu()}"
         }
-      ],
-      "condition": "#change-profile.Score >= 0.5"
+      ]
     },
     {
       "$kind": "Microsoft.OnIntent",
       "$designer": {
-        "id": "FlECSn",
-        "name": "Questions"
+        "id": "96YBuE",
+        "name": "restart"
       },
-      "intent": "Questions"
+      "intent": "restart",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "ZJRx86"
+          },
+          "activity": "${SendActivity_ZJRx86()}"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "rciNKB"
+          },
+          "activity": "${SendActivity_rciNKB()}"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "OCqAVo"
+          },
+          "activityProcessed": true
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "5Gt6MU",
+        "name": "faq"
+      },
+      "intent": "faq",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "i59SJj"
+          },
+          "activity": "${SendActivity_i59SJj()}"
+        }
+      ]
     }
   ],
   "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
   "generator": "WeatherBot.lg",
   "id": "WeatherBot",
-  "recognizer": "WeatherBot.lu.qna"
+  "recognizer": {
+    "$kind": "Microsoft.RegexRecognizer",
+    "intents": [
+      {
+        "intent": "cancel",
+        "pattern": "cancel"
+      },
+      {
+        "intent": "show",
+        "pattern": "Display available businesses"
+      },
+      {
+        "intent": "help",
+        "pattern": "help"
+      },
+      {
+        "intent": "courierEmail",
+        "pattern": "courier  (?<id>.*)"
+      },
+      {
+        "intent": "ask",
+        "pattern": "Contact Us"
+      },
+      {
+        "intent": "howto-edit",
+        "pattern": "how to edit your business"
+      },
+      {
+        "intent": "visit",
+        "pattern": "visit (?<id>.*)"
+      },
+      {
+        "intent": "feedback",
+        "pattern": "feedback (?<id>.*)"
+      },
+      {
+        "intent": "orders",
+        "pattern": "Orders (?<id>.*)"
+      },
+      {
+        "intent": "previousPage",
+        "pattern": "previous"
+      },
+      {
+        "intent": "nextPage",
+        "pattern": "next"
+      },
+      {
+        "intent": "go",
+        "pattern": "go (?<targetPage>.*)"
+      },
+      {
+        "intent": "How-add-add",
+        "pattern": "How to add your business"
+      },
+      {
+        "intent": "see-feedbacks",
+        "pattern": "how to see business feedbacks"
+      },
+      {
+        "intent": "change-profile",
+        "pattern": "how to edit user profile"
+      },
+      {
+        "intent": "restart",
+        "pattern": "Restart"
+      },
+      {
+        "intent": "faq",
+        "pattern": "FAQ"
+      }
+    ]
+  }
 }

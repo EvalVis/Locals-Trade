@@ -42,10 +42,54 @@
         {
           "$kind": "Microsoft.IfCondition",
           "$designer": {
+            "id": "jGAsqf"
+          },
+          "condition": "dialog.choice == \"Nearby\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "M5irMT"
+              },
+              "disabled": false,
+              "maxTurnCount": 3,
+              "alwaysPrompt": false,
+              "allowInterruptions": true,
+              "prompt": "${TextInput_Prompt_M5irMT()}",
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "defaultValueResponse": "",
+              "property": "dialog.location",
+              "outputFormat": "=trim (this.value)"
+            },
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "WwczmS"
+              },
+              "method": "GET",
+              "url": "http://api.positionstack.com/v1/forward?access_key=92989511fc17d3b311e63a098337a457&query=${dialog.location}",
+              "responseType": "json",
+              "resultProperty": "dialog.http.response"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "CbDpzO"
+              },
+              "property": "user.query",
+              "value": "Latitude=${dialog.http.response.content.data[0].latitude}&Longitude=${dialog.http.response.content.data[0].longitude}&DistanceKm=5"
+            }
+          ],
+          "elseActions": []
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
             "id": "gegMQv"
           },
-          "condition": "dialog.choice == \"Latest\"",
-          "elseActions": [
+          "condition": "dialog.choice == \"Search\"",
+          "actions": [
             {
               "$kind": "Microsoft.TextInput",
               "$designer": {

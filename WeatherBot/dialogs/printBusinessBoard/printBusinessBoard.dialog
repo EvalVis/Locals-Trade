@@ -22,7 +22,7 @@
             "id": "bSVmUu"
           },
           "method": "GET",
-          "url": "https://localhost:5001/api/Business/Filtered/${user.page}?${user.query}",
+          "url": "https://sylrestapi.azurewebsites.net/api/Business/Filtered/${user.page}?${user.query}",
           "resultProperty": "dialog.api_response",
           "responseType": "json"
         },
@@ -64,6 +64,14 @@
                   },
                   "property": "turn.temp",
                   "value": "=string(dialog.foreach.value.businessID)"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "XCawMs"
+                  },
+                  "property": " turn.googleLink",
+                  "value": "https://www.google.com/maps/dir/?api=1&destination=${dialog.foreach.value.latitude},${dialog.foreach.value.longitude}"
                 },
                 {
                   "$kind": "Microsoft.SendActivity",

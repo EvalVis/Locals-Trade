@@ -7,32 +7,35 @@ Title = ${title}
 Value = ${value}
 ]
 # TextInput_Prompt_OzQVGg()
-[Activity
-Text = Do you want to search, or just check the latest news?
-SuggestedActions = Search | Latest
+[HeroCard
+    text = What businesses are you looking for?
+    buttons = Latest | Nearby | Search
 ]
-
 # TextInput_Prompt_vB9Ixn()
-[Activity
-Text = Please enter business owner's surname:
-SuggestedActions = Skip
+[HeroCard
+    text = Please enter business owner's surname:
+    buttons =  Skip
 ]
 # TextInput_Prompt_bzEqVh()
-[Activity
-Text = Please enter the text you are searching for
-SuggestedActions = Skip
+[HeroCard
+    text =  Please enter the text you are searching for
+    buttons =  Skip
 ]
 # TextInput_Prompt_wJgf6P()
-[Activity
-Text = Where to search?
-SuggestedActions = ${ImBackCardAction("In header", "0")} | ${ImBackCardAction("In description", "1")} | ${ImBackCardAction("In header and description", "2")}
+[HeroCard
+    text =  Where to search?
+    buttons =  ${ImBackCardAction("In header", "0")} | ${ImBackCardAction("In description", "1")} | ${ImBackCardAction("In header and description", "2")}
 ]
+ 
 # TextInput_Prompt_IGbGGr()
-[Activity
-Text = Please enter the product you are searching for
-SuggestedActions = Skip
+[HeroCard
+    text =  Please enter the product you are searching for
+    buttons =  Skip
 ]
 # NumberInput_Prompt_JO7Qrx()
 - Please enter your product's minimal price
 # NumberInput_Prompt_uDB3WE()
 - Please enter your product's maximum price
+
+# TextInput_Prompt_M5irMT()
+- Please enter your current location

@@ -610,6 +610,41 @@ namespace RestAPI.Infrastructure
             b59.Workdays.Add(t45_0);
             b59.Workdays.Add(t45_1);
 
+            Order o1 = new Order { UserId = u2.UserID, ProductId = p1.ProductID, Address = "V. Kudirkos g.", Amount = 1, Comment = "Išsiderėkit 20% nuolaidą dėl žieminių padangų.", DateAdded = DateTime.Now.AddDays(-10) };
+            Order o2 = new Order { UserId = u3.UserID, ProductId = p1.ProductID, Address = "Pamėnkalnio g.", Amount = 1, Comment = "Išsiderėkit parduot už dyką...", DateAdded = DateTime.Now.AddDays(-8) };
+            Order o3 = new Order { UserId = u4.UserID, ProductId = p1.ProductID, Address = "A. Smetonos g.", Amount = 1, Comment = "Noriu gauti 2 už vieno kainą.", DateAdded = DateTime.Now.AddDays(-3) };
+            Order o4 = new Order { UserId = u5.UserID, ProductId = p6.ProductID, Address = "Žolyno g.", Amount = 10, Comment = "Mano telefono numeris: +37064214253.", DateAdded = DateTime.Now.AddDays(-1) };
+            Order o5 = new Order { UserId = u6.UserID, ProductId = p6.ProductID, Address = "Bistryčios g.", Amount = 5, Comment = "Mano paštas: lapinas3456@gmail.com.", DateAdded = DateTime.Now.AddDays(-5) };
+            Order o6 = new Order { UserId = u2.UserID, ProductId = p7.ProductID, Address = "Šilo g.", Amount = 4, Comment = "Bėgdamas nuo policijos pradūriau 4. Todėl ir reikia keturių. Mano paštas:testinis1422@gmail.com, mano telefonas: +37064124357.", DateAdded = DateTime.Now.AddDays(-5) };
+            Order o7 = new Order { UserId = u3.UserID, ProductId = p11.ProductID, Address = "Įsruties g. 05-13", Amount = 1, Comment = "Mano paštas:testinis1422@gmail.com, mano telefonas: +37064124357.", DateAdded = DateTime.Now.AddDays(-7) };
+            Order o8 = new Order { UserId = u4.UserID, ProductId = p11.ProductID, Address = "Kalno g. 13-10", Amount = 3, Comment = "Atvežkit per 3 dienas arba man bus labai pikta.", DateAdded = DateTime.Now.AddDays(-8) };
+            Order o9 = new Order { UserId = u5.UserID, ProductId = p11.ProductID, Address = "Kalno g. 02-03", Amount = 5, Comment = "Užsakau visai šeimynai. Nenoriu atskleisti savo pašto. Prašau susisiekit.", DateAdded = DateTime.Now.AddDays(-10) };
+            Order o10 = new Order { UserId = u8.UserID, ProductId = p11.ProductID, Address = "Kalno g. 01-07", Amount = 10, Comment = "Pas mus tradicija. Kasmet visas daugiabutis užsisako cepelinų ir kartu su šeima valgo.", DateAdded = DateTime.Now.AddHours(-26) };
+            u2.Orders.Add(o1);
+            u3.Orders.Add(o2);
+            u4.Orders.Add(o3);
+            u5.Orders.Add(o4);
+            u6.Orders.Add(o5);
+            u2.Orders.Add(o6);
+            u3.Orders.Add(o7);
+            u4.Orders.Add(o8);
+            u5.Orders.Add(o9);
+            u8.Orders.Add(o10);
+
+            p1.Orders.Add(o1);
+            p1.Orders.Add(o2);
+            p1.Orders.Add(o3);
+            p6.Orders.Add(o4);
+            p6.Orders.Add(o5);
+            p7.Orders.Add(o6);
+            p11.Orders.Add(o7);
+            p11.Orders.Add(o8);
+            p11.Orders.Add(o9);
+            p11.Orders.Add(o10);
+
+
+
+
             return new User[] { u1, u2, u3, u4, u5, u6, u7, u8, u9, u10, u11 };
         }
 

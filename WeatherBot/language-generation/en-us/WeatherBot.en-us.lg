@@ -1,27 +1,17 @@
 [import](common.lg)
 
-# SendActivity_Welcome()
-- Hi.
-- What's up.
-- Hello.
-
-
 # SendActivity_4PfcAF()
 - Got it
-# SendActivity_ujgp0d()
-- Cannot go to previous page. You are already at page 1.
-# SendActivity_gQjVa9()
-- Cannot go to next page. You are already at the maximum page. The page is ${user.page}.
 # SendActivity_LKlkzx()
-[Activity
-SuggestedActions = Previous page
+[HeroCard
+    text = Cannot go to next page. You are already at the maximum page. The page is ${user.page}.
+    buttons =  Previous page
 ]
-
 # SendActivity_yKwPeJ()
-[Activity
-SuggestedActions = Next page
+[HeroCard
+    text = Cannot go to previous page. You are already at page 1.
+    buttons =  Next page
 ]
-
 # SendActivity_UF27lG()
 - Please type SHOW first to search.
 # SendActivity_P09msO()
@@ -34,12 +24,10 @@ SuggestedActions = Next page
 - Please type SHOW first to search searching.
 # SendActivity_O7FQ9W()
 - will not help
-# SendActivity_Yg1eG7()
--What do you want to do?
 # SendActivity_onk3rd()
-- I'm sorry, I cant understand that. Try writing "help".
-- Could not understand. Try writing "help".
--I do not understand that. Try writing "help"
+- I'm sorry, I cant understand that. Try writing "help" or get prompts by texting 'Restart'.
+- Could not understand. Try writing "help" or get prompts by texting 'Restart'.
+-I do not understand that. Try writing "help" or get prompts by texting 'Restart'.
 # TextInput_Prompt_MZtdBS()
 [Activity
     Attachments = ${json(AdaptiveCardJson())}
@@ -60,8 +48,34 @@ SuggestedActions = Next page
 # SendActivity_KOsiiL()
 - To add advertisement you have firstly sign into our app. After that you will be able to add advertisement. If you are not our user, then you will have firstly sign up and only then sign in.  For more info, message us or visit FAQ page in our app.
 # SendActivity_s3cLgU()
-- Only the owner of advertisement can see feedbacks. Feedbacks are used for owner to understand what is wrong with their product and how to improve it. For more info, message us or visit FAQ page in our app.
+- Only the owner of business can see feedbacks. Feedbacks are used for owner to understand what is wrong with their product and how to improve it. For more info, message us or visit FAQ page in our app.
 # SendActivity_zYoBYl()
-- oint at your name in navigation bar, click 'Your businesses', choose your advertisement and edit it.  For more info, message us or visit FAQ page in our app.
+- In our app, point at your name in navigation bar, click 'Your businesses', choose your business and edit it.  For more info, message us or visit FAQ page in our app.
 # SendActivity_suKZtu()
 - To edit profile, point at your name in navigation bar, click 'User settings'.  For more info, message us or visit FAQ page in our app.
+# SendActivity_0ahUng()
+[HeroCard
+title = Greetings!
+text = How can I help you? 
+buttons = Display available businesses | FAQ | Contact Us 
+]
+
+# SendActivity_VWztRB()
+- Write 'restart' to start over
+# SendActivity_ZJRx86()
+[HeroCard
+title = Greetings!
+text = How can I help you? 
+buttons = Display available businesses | Contact Us | FAQ 
+]
+
+# SendActivity_rciNKB()
+- Write 'restart' to start over
+# SendActivity_i59SJj()
+[HeroCard
+title = Frequently Asked Questions
+buttons = How to add your business | How to edit your business | How to see business feedbacks  | How to edit user profile 
+]
+
+
+

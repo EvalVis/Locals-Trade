@@ -53,7 +53,7 @@
             "id": "ZMIYEG"
           },
           "method": "POST",
-          "url": "https://localhost:5001/api/help",
+          "url": "https://sylrestapi.azurewebsites.net/api/help",
           "resultProperty": "dialog.api_response",
           "body": {
             "email": "${dialog.email}",

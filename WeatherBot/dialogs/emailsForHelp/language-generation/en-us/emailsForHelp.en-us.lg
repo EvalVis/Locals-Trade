@@ -1,10 +1,16 @@
 [import](common.lg)
 
 # TextInput_Prompt_HGaVls()
-- Please ask a question:
+[HeroCard
+    text = What question do you want to ask?
+    buttons =  Cancel
+]
 # TextInput_Prompt_Fdm6xP()
-- Please enter your email, so we could reply:
+[HeroCard
+    text = Please enter an email to which we will send a response:
+    buttons =  Cancel
+]
 # SendActivity_WQMK5W()
-- Successfully sent.
+- Thank you for your question. Administrators will respond to you as soon as possible.
 # SendActivity_BjNYL4()
 - Something went wrong. Maybe you did not provide your email or sent a blank message?

@@ -10,8 +10,8 @@ Value = ${value}
 # SendActivity_aZy24P()
 [HeroCard
 title = ${dialog.foreach.value.header}
-subtitle = ${dialog.foreach.value.user.name} ${dialog.foreach.value.user.surname}
-buttons = ${ImBackCardAction("Visit", "Visit " + turn.temp)} | ${ImBackCardAction("Write a feedback", "Feedback " + turn.temp)}
+subtitle = ${dialog.foreach.value.description} 
+buttons = ${ImBackCardAction("Visit", "Visit " + turn.temp)} | ${ImBackCardAction("Write a feedback", "Feedback " + turn.temp)} | ${UrlTemplate("Directions In google", turn.googleLink)}
 ]
 # SendActivity_ln7ZTs()
 - No matches found.
@@ -19,8 +19,13 @@ buttons = ${ImBackCardAction("Visit", "Visit " + turn.temp)} | ${ImBackCardActio
 - Something went wrong when trying to retrieve business board.
 
 # SendActivity_wvID07()
-[Activity
-Text = You can also type GO [page number] to go to page. \n\n Typing CURRENT PAGE is also a posibility. \n\n You are currently at page ${user.page}. There is a total of ${user.totalPages} pages.
-SuggestedActions = Previous page | Next page
+[HeroCard
+    text = You can also type GO [page number] to go to page. \n\n Typing CURRENT PAGE is also a posibility. \n\n You are currently at page ${user.page}. There is a total of ${user.totalPages} pages.
+    buttons =  Previous page | Next page
 ]
-
+# UrlTemplate(title, value)
+[CardAction
+    Title = ${title}
+    Value = ${value}
+    type = openUrl
+]
